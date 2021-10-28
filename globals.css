@@ -1,0 +1,29 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,700,500|Quattrocento+Sans:700|Inter:300|Nunito:400,700,600|Overpass:800");
+
+.screen a {
+  display: contents;
+  text-decoration: none;
+}
+
+.PageCenter{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  pointer-events: none;
+  width: 100%;
+}
+
+.PageCenter> * {
+  flex-shrink: 0;
+  pointer-events: auto;
+}
+
+input:focus {
+  outline: none;
+}
+
+* {
+  box-sizing: border-box;
+}
