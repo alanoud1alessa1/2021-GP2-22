@@ -1,0 +1,38 @@
+.create {
+  align-items: flex-start;
+  cursor: pointer;
+  display: flex;
+  height: 61px;
+  left: 1260px;
+  min-width: 445px;
+  position: absolute;
+  top: 1080px;
+  transition: all 0.2s ease;
+}
+
+.create:hover {
+  transform: translate(0, -5px);
+}
+
+
+
+.overlap-group4 {
+  align-items: flex-end;
+  background-color: var(--cardinal);
+  border-radius: 10px;
+  display: flex;
+  height: 61px;
+  justify-content: flex-end;
+  min-width: 443px;
+  padding: 14.7px 171.4px;
+  padding: 14.7px 169.4px;
+
+}
+
+
+.create-1 {
+  letter-spacing: 0;
+  min-height: 31px;
+  width: 95px;
+}
+

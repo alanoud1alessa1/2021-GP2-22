@@ -1,0 +1,90 @@
+
+.gender {
+    align-items: flex-end;
+    display: flex;
+    height: 79px;
+    left: 1195px;
+    min-width: 509px;
+    position: absolute;
+    top: 710px;
+  }
+  
+  .flex-col {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    min-height: 79px;
+    width: 275px;
+  }
+  
+  .title-3 {
+    letter-spacing: 0;
+    min-height: 26px;
+    width: 207px;
+  }
+  
+  
+  .overlap-group7 {
+    align-items: flex-start;
+    align-self: flex-end;
+    background-color: var(--white);
+    border-radius: 4px;
+    display: flex;
+    height: 43px;
+    margin-top: 10px;
+    min-width: 200px;
+    padding: 5px 15px;
+  }
+  
+  .ellipse-5 {
+    align-self: center;
+    border-radius: 10px/8.91px;
+    height: 21px;
+    margin-bottom: 4.96px;
+    width: 20px;
+  }
+  
+  .title-4 {
+    letter-spacing: 0;
+    margin-left: 25px;
+    min-height: 5px;
+    width: 111px;
+    position: absolute;
+    margin-top: 5px;
+  }
+  
+  
+  .overlap-group6 {
+    margin-left: 28px;
+    align-items: flex-start;
+    align-self: flex-end;
+    background-color: var(--white);
+    border-radius: 4px;
+    display: flex;
+    height: 43px;
+    margin-top: 10px;
+    min-width: 200px;
+    padding: 5px 15px;
+  }
+  
+  
+  .title-5 {
+    letter-spacing: 0;
+    margin-left: 10px;
+    min-height: 5px;
+    width: 111px;
+    position: absolute;
+    margin-top: 5px;
+    align-self: center;
+  
+  }
+  
+  .ellipse-6 {
+    align-self: center;
+    border-radius: 10px/8.91px;
+    border-color: red;
+    height: 21px;
+    margin-bottom: 4.96px;
+    width: 20px;
+  }
+  

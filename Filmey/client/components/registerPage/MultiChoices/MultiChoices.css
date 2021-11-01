@@ -1,0 +1,24 @@
+
+
+.react-select
+  .react-select__control--is-focused.react-select__control--menu-is-open {
+  border-color: red;
+  
+}
+
+.lol{
+  align-items: flex-end;
+  background-color: var(--baby-powder);
+  border-radius: 5px;
+  box-shadow: 0px 4px 4px #00000040;
+  display: flex;
+  height: 56px;
+  margin-top: 7px;
+  min-width: 580px;
+  padding: 4px 11px;
+}
+
+.react-select{
+left:0px;
+}
+  
