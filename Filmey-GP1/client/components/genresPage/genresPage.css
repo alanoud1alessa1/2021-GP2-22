@@ -1,0 +1,464 @@
+.genresPage {
+    align-items: flex-start;
+    background-color: var(--white);
+    display: flex;
+    min-height: 1366px;
+    width: 1912px;
+  }
+
+  .genresPageContainer {
+    height: 1373px;
+    margin-left: -47px;
+    position: relative;
+    width: 100%;
+  }
+  
+  /* header */
+.header {
+  background-color: var(--black);
+  height: 130px;
+  top:0px;
+  left: 47px;
+  position: absolute;
+  width: 1920px;
+}
+
+.headerLogo {
+  height: 87px;
+  left: 20px;
+  object-fit: cover;
+  position: absolute;
+  top: 24px;
+  width: 190px;
+}
+
+.homeText{
+  cursor: pointer;
+  left: 298px;
+  letter-spacing: 0;
+  position: absolute;
+  top: 43px;
+  transition: all 0.2s ease;
+  width: 111px;
+}
+
+.clickable{
+  cursor: pointer;
+}
+
+.loginIcon {
+  height: 40px;
+  left: 1750px;
+  position: absolute;
+  top: 37px;
+  width: 44px;
+}
+
+.loginText {
+  left: 1750px;
+  letter-spacing: 0;
+  line-height: 16px;
+  position: absolute;
+  top: 79px;
+  white-space: nowrap;
+  width: 52px;
+}
+
+.registerIcon {
+  height: 40px;
+  left: 1837px;
+  position: absolute;
+  top: 36px;
+  width: 44px;
+}
+
+  
+.registerText {
+  left: 1830px;
+  letter-spacing: 0;
+  line-height: 16px;
+  position: absolute;
+  top: 80px;
+  white-space: nowrap;
+  width: 75px;
+}
+
+  
+.body {
+  background-color: var(--eerie-black);
+  height: 1000px;
+  left: 47px;
+  position:absolute;
+  top: 130px;
+  width: 1920px;
+}
+
+.genreTypeTitle,
+.genreTypeTitle.animate-enter {
+  color: var(--white);
+  font-family: var(--font-family-roboto);
+  font-size: 50px;
+  font-weight: 400;
+  left: 140px;
+  letter-spacing: 0;
+  position: absolute;
+  top: 185px;
+  width: 878px;
+transform: scale(1.1);
+}
+
+.goToGenreTypePage{
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+.goToGenreTypePage:hover{
+    transform: translate(0, -5px);
+
+  }
+  
+  
+.genresExpandMoviesRight {
+    cursor: pointer;
+    height: 67px;
+    left: 1860px;
+    position: absolute;
+    top: 435px;
+    transition: all 0.2s ease;
+    width: 51px;  
+}
+  
+.genresExpandMoviesLeft {
+    cursor: pointer;
+    height: 85px;
+    left: 95px;
+    position: absolute;
+    top: 419px;
+    transition: all 0.2s ease;
+    width: 51px;  
+
+}
+
+.genresExpandMoviesRight:hover,
+.genresExpandMoviesLeft:hover {
+  transform: scale(1.1);
+}
+  
+
+.arrowIcon {
+    height: 37px;
+    /* left: 242px; */
+    left: 300px;
+    position: absolute;
+    /* top: 250px; */
+    top: 200px;
+    transition: all 0.2s ease;
+    width: 45px;
+}
+  
+  .footerLogo {
+    height: 139px;
+    left: 736px;
+    object-fit: cover;
+    position: absolute;
+    top: 1971px;
+    width: 410px;
+  }
+
+.movies{
+top:0px;
+position: absolute;
+}
+
+  .Movie1{
+    left: 172px; 
+    cursor: pointer;
+    position: relative;
+    top: 360px;
+  }
+
+  .Movie2{
+    cursor: pointer;
+    left: 630px; 
+    position: relative;
+    top: 345px;
+  }
+
+  .Movie3{
+    cursor: pointer;
+    left: 1070px; 
+    position: relative;
+    top: 330px;
+  }
+
+  .Movie4{
+    cursor: pointer;
+    left: 1510px; 
+    position: relative;
+    top: 310px;
+  }
+
+  .Movie1:hover,
+  .Movie2:hover,
+  .Movie3:hover,
+  .Movie4:hover
+  {
+  transform: translate(0, -5px);
+  }
+
+  .genresMoviePoster1 {
+    height: 209px;
+    left: 0px; 
+    position: absolute;
+    top: 0px;
+    width: 332px;
+  }
+  
+  .genresMovieName1 {
+    left: 40px;
+    letter-spacing: 0;
+    line-height: 40px;
+    position: absolute;
+    top: 162px;
+    white-space: nowrap;
+    width: 456px;
+  }
+  
+  .genresRating1 {
+    left: 60px;
+    letter-spacing: 0.36px;
+    position: absolute;
+    text-align: right;
+    top: 135px;
+    transform: rotate(-0.94deg);
+    width: 32px;
+  }
+  
+  .genresMoviePoster2 {
+    position: absolute;
+    height: 209px;
+    left: 0px;
+    top: 0px;
+    width: 332px;
+  }
+  
+  .genresMovieName2 {
+    left: 588px;
+    letter-spacing: 0;
+    line-height: 40px;
+    position: absolute;
+    top: 516px;
+    white-space: nowrap;
+    width: 456px;
+  }
+  
+  .genresRating2 {
+    left: 614px;
+    letter-spacing: 0.36px;
+    position: absolute;
+    text-align: right;
+    top: 487px;
+    transform: rotate(-0.94deg);
+    width: 32px;
+  }
+  
+  .genresMoviePoster3 {
+    height: 209px;
+    left: 1018px;
+    position: absolute;
+    top: 354px;
+    width: 332px;
+  }
+
+  
+  .genresMovieName3{
+    left: 1068px;
+    letter-spacing: 0;
+    line-height: 40px;
+    position: absolute;
+    top: 516px;
+    white-space: nowrap;
+    width: 456px;
+  }
+  
+  .genresRating3 {
+    left: 1096px;
+    letter-spacing: 0.36px;
+    position: absolute;
+    text-align: right;
+    top: 487px;
+    transform: rotate(-0.94deg);
+    width: 32px;
+  }
+  
+  .genresMoviePoster4 {
+    height: 209px;
+    left: 1524px;
+    position: absolute;
+    top: 354px;
+    width: 332px;
+  }
+  
+  .genresMovieName4 {
+    left: 1567px;
+    letter-spacing: 0;
+    line-height: 40px;
+    position: absolute;
+    top: 516px;
+    white-space: nowrap;
+    width: 456px;
+  }
+  
+  .genresRating4 {
+    left: 1596px;
+    letter-spacing: 0.36px;
+    position: absolute;
+    text-align: right;
+    top: 488px;
+    transform: rotate(-0.94deg);
+    width: 32px;
+  }
+  
+  .genresGenreType1 {
+    background-color: var(--white-2);
+    border-radius: 6px;
+    height: 21px;
+    left: 40px;
+    position: relative;
+    top: 120px;
+    width: 113px;
+  }
+  
+  .genresGenreTypeText1 {
+    padding: 3px 10px ;
+    line-height: 16px;
+    position: absolute;
+    white-space: nowrap;
+  }
+  
+  .genresGenreType2 {
+    background-color: var(--white-2);
+    border-radius: 6px;
+    height: 21px;
+    left: 588px;
+    position: absolute;
+    top: 470px;
+    width: 113px;
+  }
+  
+  .genresGenreTypeText2 {
+    left: 601px;
+    letter-spacing: 0;
+    line-height: 16px;
+    position: absolute;
+    top: 473px;
+    white-space: nowrap;
+  }
+  
+  .genresGenreType3 {
+    background-color: var(--white-2);
+    border-radius: 6px;
+    height: 21px;
+    left: 1056px;
+    position: absolute;
+    top: 470px;
+    width: 113px;
+  }
+  
+  .genresGenreTypeText3 {
+    left: 1069px;
+    letter-spacing: 0;
+    line-height: 16px;
+    position: absolute;
+    top: 473px;
+    white-space: nowrap;
+  }
+  
+  .genresGenreType4 {
+    background-color: var(--white-2);
+    border-radius: 6px;
+    height: 21px;
+    left: 1567px;
+    position: absolute;
+    top: 470px;
+    width: 113px;
+  }
+  
+  .genresGenreTypeText4 {
+    left: 1580px;
+    letter-spacing: 0;
+    line-height: 16px;
+    position: absolute;
+    top: 473px;
+    white-space: nowrap;
+  }
+  
+  .genresStar1 {
+    height: 20px;
+    left: 50px;
+    position: absolute;
+    top: 145px;
+    width: 20px;
+  }
+  
+  .genresStar2 {
+    height: 20px;
+    left: 604px;
+    position: absolute;
+    top: 499px;
+    width: 20px;
+  }
+  
+  .genresStar3 {
+    height: 20px;
+    left: 1087px;
+    position: absolute;
+    top: 499px;
+    width: 20px;
+  }
+  
+  .genresStar4 {
+    height: 20px;
+    left: 1589px;
+    position: absolute;
+    top: 499px;
+    width: 20px;
+  }
+  
+  .footer {
+    background-color: var(--black);
+    height: 293px;
+    left: 47px;
+    position: absolute;
+    top: 1099px;
+    width: 1920px;
+  }
+
+  .footerLogo {
+    height: 139px;
+    left: 775px;
+    object-fit: cover;
+    position: absolute;
+    top: 1133px;
+    width: 410px;
+  }
+
+  .footerText1 {
+    color: var(--white);
+    font-family: var(--font-family-neuton);
+    font-size: var(--font-size-xl2);
+    font-weight: 700;
+    left: 867px;
+    letter-spacing: 0;
+    position: absolute;
+    top: 1286px;
+  }
+
+  .footerText2 {
+    left: 68px;
+    letter-spacing: 0;
+    position: absolute;
+    top: 1302px;
+    width: 344px;
+  }
+  
