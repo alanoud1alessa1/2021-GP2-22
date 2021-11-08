@@ -28,7 +28,7 @@ exports.up = async (knex) => {
       table.string("username", 30).unique().notNullable();
       table.string("password", 100).notNullable();
       table.date("date_of_birth", 30).notNullable();
-      table.string("gender", 1).notNullable();
+      table.string("gender", 6).notNullable();
       table.string("location", 15).notNullable();
     }),
     await knex.schema.createTable("Movie", (table) => {

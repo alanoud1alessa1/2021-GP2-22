@@ -3,32 +3,11 @@ import { Link } from "react-router-dom";
 import "./homePage.css";
 import Axios from "axios";
 import { useState } from "react";
-// import { MDBDropdown, MDBDropdownMenu, MDBDropdownToggle, MDBDropdownItem, MDBDropdownLink } from 'mdb-react-ui-kit';
-// import ScriptTag from 'react-script-tag';
-// import {Helmet} from "react-helmet";
-import {
-  MDBCarousel,
-  MDBCarouselInner,
-  MDBCarouselItem,
-  MDBCarouselElement,
-} from 'mdb-react-ui-kit';
+
 
 
 function homePage(props) {
 
-  // const Demo = props => (
-  //   <ScriptTag type="text/javascript" src="./dropdown.js" />
-  //   )
-
-  // const Demo = props => (
-  //   <div className="application">
-  //               <Helmet>
-  //                 <script src="/dropdown.js" type="text/javascript" />
-  //               </Helmet>
-  //               ...
-  //           </div>
-      
-  //   );
 
   var myFunction = function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");
@@ -52,14 +31,11 @@ function homePage(props) {
     registerText,
     loginText,
     genresText,
-    languageText,
     homeText,
     top10Text,
     icon,
-    homeMoviePoster,
   } = props;
 
-  // const token = '';
   const api = Axios.create({
     baseURL: "http://localhost:3000/api/v1",
     // headers :{
@@ -195,10 +171,6 @@ const [poster10,setPoster10]=useState('');
             <header>
               <div className="header"> 
                 <img className="headerLogo" src={logo} />
-                <div className="clickable">
-                  <div className="languageContainer"></div>
-                  <div className="languageText">{languageText}</div>
-                </div>
                 <div>
                   <Link to="/home-page">
                     <div className="homeText darkergrotesque-medium-white-35px2">{homeText}</div>
@@ -270,7 +242,6 @@ const [poster10,setPoster10]=useState('');
                   <Link to="/movieInfoPage/ViewMovie/6">
                       <img className="homeMoviePoster" src={poster6}  height="652"  width="512"/>
                   </Link>
-
                 
                 {/* Movie7 */}
                 <Link to="/movieInfoPage/ViewMovie/7">
