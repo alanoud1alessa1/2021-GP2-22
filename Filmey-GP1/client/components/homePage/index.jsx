@@ -3,23 +3,15 @@ import { Link } from "react-router-dom";
 import "./homePage.css";
 import Axios from "axios";
 import { useState } from "react";
+// import Loop from "../loop";
 
 
 
 function homePage(props) {
 
 
-  var myFunction = function myFunction() {
-    document.getElementById("myDropdown").classList.toggle("show");
-    window.onclick = function(e) {
-    if (!e.target.matches('.dropbtn')) {
-    var myDropdown = document.getElementById("myDropdown");
-      if (myDropdown.classList.contains('show')) {
-        myDropdown.classList.remove('show');
-      }
-    }
-  }
-    
+  const runCallback = (cb) => {
+    return cb();
   };
 
   
@@ -56,7 +48,8 @@ const [poster10,setPoster10]=useState('');
 
 
 
-
+const posters = [poster1 , poster2 , poster3, poster4 , poster5,
+  poster6 , poster7 , poster8 , poster9 , poster10]
   
 
   const getMovie1 = () =>{
@@ -205,70 +198,44 @@ const [poster10,setPoster10]=useState('');
             </header>
           
             {/* main */}
-            <div className="body"></div>
+            <div className="body">
+            </div>
+
               {/* Title */}
               <div>
                 <img className="fireIcon" src={fireIcon} />
                 <h1 className="top10Text animate-enter">{top10Text}</h1>
               </div>
   
-              <marquee behavior="alternate" direction="left" className="top10Movies">		
-                {/* Movie1 */}
-                  <Link to="/movieInfoPage/ViewMovie/1">
-                      <img className="homeMoviePoster" src={poster1}  height="652"  width="512"/>
-                  </Link>
-
-                {/* Movie2 */}
-                  <Link to="/movieInfoPage/ViewMovie/2">
-                      <img className="homeMoviePoster" src={poster2}  height="652"  width="512"/>
-                  </Link>                 
-
-                {/* Movie3 */}
-                  <Link to="/movieInfoPage/ViewMovie/3">
-                      <img className="homeMoviePoster" src={poster3}  height="652"  width="512"/>
-                  </Link>
-
-                {/* Movie4 */}
-                <Link to="/movieInfoPage/ViewMovie/4">
-                  <img className="homeMoviePoster" src={poster4}  height="652"  width="512"/>
-                </Link>
-
-                {/* Movie5 */}
-                <Link to="/movieInfoPage/ViewMovie/5">
-                      <img className="homeMoviePoster" src={poster5}  height="652"  width="512"/>
-                </Link>
-
-                {/* Movie6 */}        
-                  <Link to="/movieInfoPage/ViewMovie/6">
-                      <img className="homeMoviePoster" src={poster6}  height="652"  width="512"/>
-                  </Link>
-                
-                {/* Movie7 */}
-                <Link to="/movieInfoPage/ViewMovie/7">
-                  <img className="homeMoviePoster" src={poster7}  height="652"  width="512"/>
-                </Link>                
-
-                {/* Movie8 */}
-                <Link to="/movieInfoPage/ViewMovie/8">
-                  <img className="homeMoviePoster" src={poster8}  height="652"  width="512"/>
-                </Link>
-  
-                {/* Movie9 */}
-                <Link to="/movieInfoPage/ViewMovie/9">
-                  <img className="homeMoviePoster" src={poster9}  height="652"  width="512"/>
-                </Link>
-
-                {/* Movie10 */}
-                <Link to="/movieInfoPage/ViewMovie/10">
-                  <img className="homeMoviePoster" src={poster10}  height="652"  width="512"/>
-                </Link>
+              <marquee behavior="alternate" direction="left"  scrollamount="12" className="top10Movies" >	
+                {/* movies loop	 */}
+                {runCallback(() => {
+                const row = [];
+              
+                for (var i = 1; i <= 10; i++) {
+                  const url = `/movieInfoPage/ViewMovie/${i}`;
+                  const poster = posters[i-1];
+                  row.push(
+                  <div key={i}>
+                  {
+                  <div className="moviesLoop">  
+                  <Link to={url}>
+                  <img className="homeMoviePoster" src={poster}  height="652"  width="512"/>
+                  </Link> 
+                  </div>
+                  }
+                  </div>
+                  );
+                }
+                return row;
+              })}
               </marquee>
 
             {/* footer */}
             <footer>
               <div className="footer"> </div>
                 <img className="footerLogo" src={logo} />
-                <div className="footerText1">{footerText1}</div>
+                <div className="footerText1"> {footerText1}</div>
                 <div className="copyRightText inter-light-bon-jour-35px2">
                   <span>{footerText2}</span>
                 </div>

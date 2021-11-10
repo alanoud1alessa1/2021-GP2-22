@@ -53,8 +53,9 @@
   }
   
   .top10Movies{
-    top: 300px;
+    top: 310px;
     position: absolute;
+    min-width:1000px;
   }
 
   .moviePoster3 {
@@ -63,10 +64,25 @@
     margin-right: 30px;
   }
 
+  .moviesLoop{
+    width: 5340px;
+  }
+  
   .homeMoviePoster{
     cursor: pointer;
     transition: all 0.2s ease;
-    margin-right: 30px;
+    /* margin-right: 30px; */
+    border-radius:50px;
+    /* display:ruby; */
+    /* margin-right: 30px; */
+    /* display: inline-block; 
+    margin:10px; */
+    margin:10px;
+    float:left;
+  }
+
+  .homeMoviePoster:hover{
+    transform: translate(0, -5px);
   }
   
   .moviePoster3:hover,
@@ -224,7 +240,7 @@
     position: absolute;
     top: 1286px;
   }
-  
+
   .copyRightText {
     left: 68px;
     letter-spacing: 0;

@@ -44632,19 +44632,10 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+// import Loop from "../loop";
 function homePage(props) {
-  var myFunction = function myFunction() {
-    document.getElementById("myDropdown").classList.toggle("show");
-
-    window.onclick = function (e) {
-      if (!e.target.matches('.dropbtn')) {
-        var myDropdown = document.getElementById("myDropdown");
-
-        if (myDropdown.classList.contains('show')) {
-          myDropdown.classList.remove('show');
-        }
-      }
-    };
+  var runCallback = function runCallback(cb) {
+    return cb();
   };
 
   var fireIcon = props.fireIcon,
@@ -44713,6 +44704,8 @@ function homePage(props) {
       _useState20 = _slicedToArray(_useState19, 2),
       poster10 = _useState20[0],
       setPoster10 = _useState20[1];
+
+  var posters = [poster1, poster2, poster3, poster4, poster5, poster6, poster7, poster8, poster9, poster10];
 
   var getMovie1 = function getMovie1() {
     api.get("/movies/1").then(function (response) {
@@ -44850,85 +44843,37 @@ function homePage(props) {
   }, top10Text)), /*#__PURE__*/_react.default.createElement("marquee", {
     behavior: "alternate",
     direction: "left",
+    scrollamount: "12",
     className: "top10Movies"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/movieInfoPage/ViewMovie/1"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "homeMoviePoster",
-    src: poster1,
-    height: "652",
-    width: "512"
-  })), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/movieInfoPage/ViewMovie/2"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "homeMoviePoster",
-    src: poster2,
-    height: "652",
-    width: "512"
-  })), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/movieInfoPage/ViewMovie/3"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "homeMoviePoster",
-    src: poster3,
-    height: "652",
-    width: "512"
-  })), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/movieInfoPage/ViewMovie/4"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "homeMoviePoster",
-    src: poster4,
-    height: "652",
-    width: "512"
-  })), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/movieInfoPage/ViewMovie/5"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "homeMoviePoster",
-    src: poster5,
-    height: "652",
-    width: "512"
-  })), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/movieInfoPage/ViewMovie/6"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "homeMoviePoster",
-    src: poster6,
-    height: "652",
-    width: "512"
-  })), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/movieInfoPage/ViewMovie/7"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "homeMoviePoster",
-    src: poster7,
-    height: "652",
-    width: "512"
-  })), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/movieInfoPage/ViewMovie/8"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "homeMoviePoster",
-    src: poster8,
-    height: "652",
-    width: "512"
-  })), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/movieInfoPage/ViewMovie/9"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "homeMoviePoster",
-    src: poster9,
-    height: "652",
-    width: "512"
-  })), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/movieInfoPage/ViewMovie/10"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "homeMoviePoster",
-    src: poster10,
-    height: "652",
-    width: "512"
-  }))), /*#__PURE__*/_react.default.createElement("footer", null, /*#__PURE__*/_react.default.createElement("div", {
+  }, runCallback(function () {
+    var row = [];
+
+    for (var i = 1; i <= 10; i++) {
+      var url = "/movieInfoPage/ViewMovie/".concat(i);
+      var poster = posters[i - 1];
+      row.push( /*#__PURE__*/_react.default.createElement("div", {
+        key: i
+      }, /*#__PURE__*/_react.default.createElement("div", {
+        className: "moviesLoop"
+      }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+        to: url
+      }, /*#__PURE__*/_react.default.createElement("img", {
+        className: "homeMoviePoster",
+        src: poster,
+        height: "652",
+        width: "512"
+      })))));
+    }
+
+    return row;
+  })), /*#__PURE__*/_react.default.createElement("footer", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "footer"
   }, " "), /*#__PURE__*/_react.default.createElement("img", {
     className: "footerLogo",
     src: logo
   }), /*#__PURE__*/_react.default.createElement("div", {
     className: "footerText1"
-  }, footerText1), /*#__PURE__*/_react.default.createElement("div", {
+  }, " ", footerText1), /*#__PURE__*/_react.default.createElement("div", {
     className: "copyRightText inter-light-bon-jour-35px2"
   }, /*#__PURE__*/_react.default.createElement("span", null, footerText2)))))));
 }
@@ -45327,6 +45272,14 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -45340,6 +45293,10 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function ViewMovie(props) {
+  var runCallback = function runCallback(cb) {
+    return cb();
+  };
+
   var rateItText = props.rateItText,
       movieRating = props.movieRating,
       directorText = props.directorText,
@@ -45452,13 +45409,53 @@ function ViewMovie(props) {
       trailer_url = _useState18[0],
       setTrailer_url = _useState18[1];
 
+  var _useState19 = (0, _react.useState)([""]),
+      _useState20 = _slicedToArray(_useState19, 2),
+      genre = _useState20[0],
+      setGenre = _useState20[1];
+
+  var _useState21 = (0, _react.useState)([""]),
+      _useState22 = _slicedToArray(_useState21, 2),
+      directors = _useState22[0],
+      setDirectors = _useState22[1];
+
+  var _useState23 = (0, _react.useState)([""]),
+      _useState24 = _slicedToArray(_useState23, 2),
+      writers = _useState24[0],
+      setWriters = _useState24[1];
+
+  var _useState25 = (0, _react.useState)([""]),
+      _useState26 = _slicedToArray(_useState25, 2),
+      languages = _useState26[0],
+      setLanguages = _useState26[1];
+
+  var _useState27 = (0, _react.useState)([""]),
+      _useState28 = _slicedToArray(_useState27, 2),
+      castNames = _useState28[0],
+      setCastNames = _useState28[1];
+
+  var _useState29 = (0, _react.useState)([""]),
+      _useState30 = _slicedToArray(_useState29, 2),
+      castImgs = _useState30[0],
+      setCastImgs = _useState30[1];
+
+  var _useState31 = (0, _react.useState)([""]),
+      _useState32 = _slicedToArray(_useState31, 2),
+      castRoles = _useState32[0],
+      setCastRoles = _useState32[1];
+
+  var _useState33 = (0, _react.useState)(0),
+      _useState34 = _slicedToArray(_useState33, 2),
+      numOfCasts = _useState34[0],
+      setNumOfCasts = _useState34[1];
+
   var _useParams = (0, _reactRouterDom.useParams)(),
       id = _useParams.id;
 
   id = parseInt(id);
   console.log(id);
 
-  var getMovie = function getMovie(id) {
+  _react.default.useEffect(function () {
     api.get("/movies/".concat(id)).then(function (response) {
       console.log(response);
       setMid(response.data[0].movie_id);
@@ -45471,9 +45468,104 @@ function ViewMovie(props) {
       setPoster(response.data[0].poster);
       setTrailer_url(response.data[0].trailer_url);
     });
-  };
+    api.get("/movies/genre/".concat(id)).then(function (response) {
+      var numOfGenres = response.data.length;
 
-  getMovie(id);
+      var newArr = _toConsumableArray(genre);
+
+      for (var i = 0; i < numOfGenres; i++) {
+        if (i < numOfGenres - 1) {
+          newArr[i] = response.data[i].genre + ",";
+        } else {
+          newArr[i] = response.data[i].genre;
+        }
+      }
+
+      setGenre(newArr);
+    });
+    api.get("/movies/directors/".concat(id)).then(function (response) {
+      var numOfDirectors = response.data.length;
+
+      var newArr = _toConsumableArray(directors);
+
+      for (var i = 0; i < numOfDirectors; i++) {
+        if (i < numOfDirectors - 1) {
+          newArr[i] = response.data[i].director + ",";
+        } else {
+          newArr[i] = response.data[i].director;
+        }
+      }
+
+      setDirectors(newArr);
+    });
+    api.get("/movies/writers/".concat(id)).then(function (response) {
+      var numOfWriters = response.data.length;
+
+      var newArr = _toConsumableArray(writers);
+
+      for (var i = 0; i < numOfWriters; i++) {
+        if (i < numOfWriters - 1) {
+          newArr[i] = response.data[i].writer + ",";
+        } else {
+          newArr[i] = response.data[i].writer;
+        }
+      }
+
+      setWriters(newArr);
+    });
+    api.get("/movies/languages/".concat(id)).then(function (response) {
+      var numOfLanguages = response.data.length;
+
+      var newArr = _toConsumableArray(languages);
+
+      for (var i = 0; i < numOfLanguages; i++) {
+        if (i < numOfLanguages - 1) {
+          newArr[i] = response.data[i].language + ",";
+        } else {
+          newArr[i] = response.data[i].language;
+        }
+      }
+
+      setLanguages(newArr);
+    });
+    api.get("/movies/casts/".concat(id)).then(function (response) {
+      setNumOfCasts(response.data.length);
+      var numCasts = response.data.length;
+
+      var newArr1 = _toConsumableArray(castNames);
+
+      var newArr2 = _toConsumableArray(castImgs);
+
+      var newArr3 = _toConsumableArray(castRoles);
+
+      for (var i = 0; i < numCasts; i++) {
+        newArr1[i] = response.data[i].actor;
+        newArr2[i] = response.data[i].actor_image_url;
+        newArr3[i] = response.data[i].role;
+      }
+
+      setCastNames(newArr1);
+      setCastImgs(newArr2);
+      setCastRoles(newArr3);
+    });
+  }, []);
+
+  console.log(castNames); // const getMovie = (id) =>{
+  // api.get(`/movies/${id}`).then((response)=>{
+  //  console.log(response);
+  //  setMid(response.data[0].movie_id);
+  //  setImdb_id(response.data[0].imdb_id);
+  //  setTitle(response.data[0].title);
+  //  setYear(response.data[0].year);
+  //  setLength(response.data[0].length);
+  //  setAge_guide(response.data[0].age_guide);
+  //  setDescription(response.data[0].description);
+  //  setPoster(response.data[0].poster);
+  //  setTrailer_url(response.data[0].trailer_url);
+  //   })
+  // }
+  // getMovie(id);
+
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "PageCenter"
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -45493,30 +45585,38 @@ function ViewMovie(props) {
     to: "/genresPage"
   }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "genresText darkergrotesque-medium-white-35px2"
-  }, genresText)))), /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("img", {
-    className: "regUserIcon",
-    src: "/img/regUser.png"
-  }), /*#__PURE__*/_react.default.createElement("li", {
-    className: "dropdown"
-  }, /*#__PURE__*/_react.default.createElement("a", {
-    className: "dropbtn "
-  }, "Username"), /*#__PURE__*/_react.default.createElement("div", {
-    className: "dropdownContent"
-  }, /*#__PURE__*/_react.default.createElement("a", {
-    className: "logout"
-  }, "Logout")))))), /*#__PURE__*/_react.default.createElement("main", null, /*#__PURE__*/_react.default.createElement("div", {
+  }, genresText)))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "clickable"
+  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+    to: "/login-page"
+  }, /*#__PURE__*/_react.default.createElement("img", {
+    className: "loginIcon",
+    src: icon
+  }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "loginText roboto-normal-white-18px2"
+  }, loginText)))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "clickable"
+  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+    to: "/registerPage/reg-page"
+  }, /*#__PURE__*/_react.default.createElement("img", {
+    className: "registerIcon",
+    src: icon
+  }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "registerText roboto-normal-white-18px2"
+  }, registerText)))))), /*#__PURE__*/_react.default.createElement("main", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "body"
   }), /*#__PURE__*/_react.default.createElement("img", {
     className: "moviePoster",
     src: poster
   }), /*#__PURE__*/_react.default.createElement("div", {
     className: "trailer"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "playTrailerText"
-  }, playTrailerText), /*#__PURE__*/_react.default.createElement("img", {
-    className: "trailerIcon",
-    src: trailerIcon
-  })), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("a", {
+    className: "playTrailerText",
+    href: trailer_url,
+    target: "_blank"
+  }, playTrailerText, "  "), /*#__PURE__*/_react.default.createElement("i", {
+    className: "fa fa-play-circle"
+  }, " ")), /*#__PURE__*/_react.default.createElement("div", {
     className: "addRating"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "rateItText neuton-normal-white-30px"
@@ -45594,113 +45694,111 @@ function ViewMovie(props) {
   }), /*#__PURE__*/_react.default.createElement("label", {
     for: "rating10",
     class: "fa fa-star"
-  }))))), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h1", {
+  })))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "movieInfo"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "movieTitle"
+  }, /*#__PURE__*/_react.default.createElement("div", {
     className: "movieName"
-  }, title), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("img", {
+  }, title), /*#__PURE__*/_react.default.createElement("div", {
+    className: "movieRatingContainer"
+  }, /*#__PURE__*/_react.default.createElement("img", {
     className: "star",
     src: "/img/star-2@2x.svg"
   }), /*#__PURE__*/_react.default.createElement("div", {
     className: "movieRatingText"
-  }, movieRating))), /*#__PURE__*/_react.default.createElement("div", {
+  }, movieRating), /*#__PURE__*/_react.default.createElement("div", {
+    className: "tenText"
+  }, "/ 10")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "pgContainer"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "moviepg neuton-bold-white-20px"
+  }, age_guide)), /*#__PURE__*/_react.default.createElement("div", {
+    className: "timeContainer"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "movieTime neuton-bold-white-20px"
+  }, length))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "movieGenreContainer"
+  }, /*#__PURE__*/_react.default.createElement("div", {
     className: "movieInfoGenre neuton-bold-white-24px"
   }, genreText), /*#__PURE__*/_react.default.createElement("div", {
     className: "movieInfoGenreType roboto-normal-baby-powder-25px"
-  }, movieGenreType), /*#__PURE__*/_react.default.createElement("img", {
+  }, genre)), /*#__PURE__*/_react.default.createElement("div", {
+    className: "movieDesContainer"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "line1Container"
+  }, /*#__PURE__*/_react.default.createElement("img", {
     className: "line1",
     src: "/img/line-5@1x.svg"
-  }), /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react.default.createElement("div", {
     className: "descriptionText neuton-bold-white-24px"
   }, descriptionText), /*#__PURE__*/_react.default.createElement("div", {
     className: "movieDes roboto-normal-baby-powder-25px"
-  }, description), /*#__PURE__*/_react.default.createElement("img", {
+  }, description)), /*#__PURE__*/_react.default.createElement("div", {
+    className: "movieDirectorContainer"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "line2Container"
+  }, /*#__PURE__*/_react.default.createElement("img", {
     className: "line2",
     src: "/img/line-5@1x.svg"
-  }), /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react.default.createElement("div", {
     className: "directorText neuton-bold-white-24px"
   }, directorText), /*#__PURE__*/_react.default.createElement("div", {
-    className: "directorName roboto-normal-white-25px"
-  }, directorName), /*#__PURE__*/_react.default.createElement("img", {
+    className: "directorName roboto-normal-baby-powder-25px"
+  }, directors)), /*#__PURE__*/_react.default.createElement("div", {
+    className: "movieWritersContainer"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "line3Container"
+  }, " ", /*#__PURE__*/_react.default.createElement("img", {
     className: "line3",
     src: "/img/line-5@1x.svg"
-  }), /*#__PURE__*/_react.default.createElement("div", {
+  }), " "), /*#__PURE__*/_react.default.createElement("div", {
     className: "writersText neuton-bold-white-24px"
   }, writersText), /*#__PURE__*/_react.default.createElement("div", {
-    className: "writersName roboto-normal-white-25px"
-  }, writersName), /*#__PURE__*/_react.default.createElement("img", {
+    className: "writersName roboto-normal-baby-powder-25px"
+  }, writers)), /*#__PURE__*/_react.default.createElement("div", {
+    className: "movielanguageContainer"
+  }, /*#__PURE__*/_react.default.createElement("img", {
     className: "line4",
     src: "/img/line-5@1x.svg"
-  }), /*#__PURE__*/_react.default.createElement("img", {
-    className: "timeContainer",
-    src: container
-  }), /*#__PURE__*/_react.default.createElement("img", {
-    className: "languageContainer2",
-    src: container
-  }), /*#__PURE__*/_react.default.createElement("img", {
-    className: "pgContainer",
-    src: container
   }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "timeText neuton-bold-white-20px"
-  }, timeText), /*#__PURE__*/_react.default.createElement("div", {
-    className: "movieTime neuton-normal-white-20px"
-  }, length), /*#__PURE__*/_react.default.createElement("div", {
-    className: "movieLanguage neuton-normal-white-20px"
-  }, movieLanguage), /*#__PURE__*/_react.default.createElement("div", {
-    className: "moviepg neuton-normal-white-20px"
-  }, age_guide), /*#__PURE__*/_react.default.createElement("div", {
-    className: "languageText2 neuton-bold-white-20px"
+    className: "languageText2 neuton-bold-white-24px"
   }, languageText2), /*#__PURE__*/_react.default.createElement("div", {
-    className: "pgText neuton-bold-white-20px"
-  }, pgText)), /*#__PURE__*/_react.default.createElement("div", {
+    className: "movieLanguage roboto-normal-baby-powder-25px"
+  }, languages))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "topCast"
+  }, /*#__PURE__*/_react.default.createElement("div", {
     className: "topCastText neuton-normal-white-60px5"
   }, topCastText), /*#__PURE__*/_react.default.createElement("img", {
     className: "topCastLine",
     src: redLine
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "cast1"
+  }), runCallback(function () {
+    var row = [];
+
+    for (var i = 0; i < numOfCasts; i++) {
+      var castImg = castImgs[i];
+      var castName = castNames[i];
+      var castRole = castRoles[i];
+      row.push( /*#__PURE__*/_react.default.createElement("div", {
+        key: i
+      }, /*#__PURE__*/_react.default.createElement("div", {
+        className: "castLoop"
+      }, /*#__PURE__*/_react.default.createElement("div", {
+        className: "cast1"
+      }, /*#__PURE__*/_react.default.createElement("img", {
+        className: "castImage1",
+        src: castImg
+      }), /*#__PURE__*/_react.default.createElement("div", {
+        className: "castName1 neuton-bold-white-20px"
+      }, castName), /*#__PURE__*/_react.default.createElement("div", {
+        className: "castRole1 roboto-normal-white-15px"
+      }, castRole)))));
+    }
+
+    return row;
+  })), /*#__PURE__*/_react.default.createElement("div", {
+    className: "reviewsContainer"
   }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "castImage1",
-    src: castImage1
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "castName1 neuton-bold-white-20px"
-  }, castName1), /*#__PURE__*/_react.default.createElement("div", {
-    className: "castRole1 roboto-normal-white-15px"
-  }, castRole1)), /*#__PURE__*/_react.default.createElement("div", {
-    className: "cast2"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "castImage2",
-    src: castImage2
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "castName2 neuton-bold-white-20px"
-  }, castName2), /*#__PURE__*/_react.default.createElement("div", {
-    className: "castRole2 roboto-normal-white-15px"
-  }, castRole2)), /*#__PURE__*/_react.default.createElement("div", {
-    className: "cast3"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "castImage3",
-    src: castImage3
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "castName3 neuton-bold-white-20px"
-  }, castName3), /*#__PURE__*/_react.default.createElement("div", {
-    className: "castRole3 roboto-normal-white-15px"
-  }, castRole3)), /*#__PURE__*/_react.default.createElement("div", {
-    className: "cast4"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "castImage4",
-    src: castImage4
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "castName4 neuton-bold-white-20px"
-  }, castName4), /*#__PURE__*/_react.default.createElement("div", {
-    className: "castRole4 roboto-normal-white-15px"
-  }, castRole4)), /*#__PURE__*/_react.default.createElement("div", {
-    className: "cast5"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "castImage5",
-    src: castImage5
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "castName5 neuton-bold-white-20px"
-  }, castName5), /*#__PURE__*/_react.default.createElement("div", {
-    className: "castRole5 roboto-normal-white-15px"
-  }, castRole5)), /*#__PURE__*/_react.default.createElement("img", {
     className: "reviewsLine",
     src: redLine
   }), /*#__PURE__*/_react.default.createElement("div", {
@@ -45741,7 +45839,9 @@ function ViewMovie(props) {
     className: "userReview3 roboto-bold-celeste-16px"
   }, userReview3), /*#__PURE__*/_react.default.createElement("div", {
     className: "username3 roboto-bold-celeste-18px"
-  }, username3))), /*#__PURE__*/_react.default.createElement("footer", null, /*#__PURE__*/_react.default.createElement("div", {
+  }, username3)))), /*#__PURE__*/_react.default.createElement("footer", {
+    className: "footer"
+  }, /*#__PURE__*/_react.default.createElement("div", {
     className: "movieInfofooter"
   }, " "), /*#__PURE__*/_react.default.createElement("img", {
     className: "movieInfofooterLogo",
@@ -46050,7 +46150,7 @@ var viewMovieData = {
   redLine: "/img/line-12@2x.svg",
   playTrailerText: "Play Trailer",
   rateItText: "Rate It!",
-  movieRating: "0 / 10",
+  movieRating: "0",
   movieGenreType: "Comedy , Crime",
   movieDes: "In 1970s London amidst the punk rock revolution, a young grifter named Estella is determined to make a name for herself with her designs <br /> She befriends a pair of young thieves who appreciate her appetite for mischief",
   genreText: "Genre",
@@ -46167,7 +46267,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58391" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55199" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

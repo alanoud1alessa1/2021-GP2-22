@@ -207,7 +207,7 @@ const viewMovieData = {
   redLine: "/img/line-12@2x.svg",
   playTrailerText: "Play Trailer",
   rateItText: "Rate It!",
-  movieRating: "0 / 10",
+  movieRating: "0",
   movieGenreType: "Comedy , Crime",
   movieDes: "In 1970s London amidst the punk rock revolution, a young grifter named Estella is determined to make a name for herself with her designs <br /> She befriends a pair of young thieves who appreciate her appetite for mischief",
   genreText: "Genre",

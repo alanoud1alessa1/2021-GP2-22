@@ -37,6 +37,12 @@ router.get("/:id", isAuth, async (req, res, next) => {
 
 router.post("/register", async (req, res, next) => {
   const { email, username, password , date_of_birth ,gender, location} = req.body;
+  if (username.substring(0,5)=="admin")
+  {
+    token='';
+    //res.status(401);
+    return res.json(token);
+  }
   try {
     const token = await queries.signup(email, username, password , date_of_birth ,gender, location);
     if (token) {

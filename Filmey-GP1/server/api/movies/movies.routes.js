@@ -9,7 +9,9 @@ router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
   try {
     // TODO: should we validate the ID?
-    const movies = await queries.get(id);
+    // const movies = await queries.get(id);
+        const movies = await queries.get(id);
+
     if (movies) {
       return res.json(movies);
     }
@@ -19,6 +21,80 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
+router.get("/genre/:id", async (req, res, next) => {
+  const { id } = req.params;
+  try {
+
+        const movies = await queries.getGenre(id);
+
+    if (movies) {
+      return res.json(movies);
+    }
+    return next();
+  } catch (error) {
+    return next(error);
+  }
+});
+
+router.get("/directors/:id", async (req, res, next) => {
+  const { id } = req.params;
+  try {
+
+        const movies = await queries.getDirectors(id);
+
+    if (movies) {
+      return res.json(movies);
+    }
+    return next();
+  } catch (error) {
+    return next(error);
+  }
+});
+
+router.get("/writers/:id", async (req, res, next) => {
+  const { id } = req.params;
+  try {
+
+        const movies = await queries.getWriters(id);
+
+    if (movies) {
+      return res.json(movies);
+    }
+    return next();
+  } catch (error) {
+    return next(error);
+  }
+});
+
+router.get("/languages/:id", async (req, res, next) => {
+  const { id } = req.params;
+  try {
+
+        const movies = await queries.getLanguages(id);
+
+    if (movies) {
+      return res.json(movies);
+    }
+    return next();
+  } catch (error) {
+    return next(error);
+  }
+});
+
+router.get("/casts/:id", async (req, res, next) => {
+  const { id } = req.params;
+  try {
+
+        const movies = await queries.getCasts(id);
+
+    if (movies) {
+      return res.json(movies);
+    }
+    return next();
+  } catch (error) {
+    return next(error);
+  }
+});
 
 
 // router.put("/", async (req, res, next) => {
