@@ -44082,7 +44082,436 @@ function o(e, r) {
 n.prototype = new Error(), n.prototype.name = "InvalidTokenError";
 var _default = o;
 exports.default = _default;
-},{}],"components/registerPage/regPage/index.jsx":[function(require,module,exports) {
+},{}],"node_modules/cookie/index.js":[function(require,module,exports) {
+/*!
+ * cookie
+ * Copyright(c) 2012-2014 Roman Shtylman
+ * Copyright(c) 2015 Douglas Christopher Wilson
+ * MIT Licensed
+ */
+'use strict';
+/**
+ * Module exports.
+ * @public
+ */
+
+exports.parse = parse;
+exports.serialize = serialize;
+/**
+ * Module variables.
+ * @private
+ */
+
+var decode = decodeURIComponent;
+var encode = encodeURIComponent;
+var pairSplitRegExp = /; */;
+/**
+ * RegExp to match field-content in RFC 7230 sec 3.2
+ *
+ * field-content = field-vchar [ 1*( SP / HTAB ) field-vchar ]
+ * field-vchar   = VCHAR / obs-text
+ * obs-text      = %x80-FF
+ */
+
+var fieldContentRegExp = /^[\u0009\u0020-\u007e\u0080-\u00ff]+$/;
+/**
+ * Parse a cookie header.
+ *
+ * Parse the given cookie header string into an object
+ * The object has the various cookies as keys(names) => values
+ *
+ * @param {string} str
+ * @param {object} [options]
+ * @return {object}
+ * @public
+ */
+
+function parse(str, options) {
+  if (typeof str !== 'string') {
+    throw new TypeError('argument str must be a string');
+  }
+
+  var obj = {};
+  var opt = options || {};
+  var pairs = str.split(pairSplitRegExp);
+  var dec = opt.decode || decode;
+
+  for (var i = 0; i < pairs.length; i++) {
+    var pair = pairs[i];
+    var eq_idx = pair.indexOf('='); // skip things that don't look like key=value
+
+    if (eq_idx < 0) {
+      continue;
+    }
+
+    var key = pair.substr(0, eq_idx).trim();
+    var val = pair.substr(++eq_idx, pair.length).trim(); // quoted values
+
+    if ('"' == val[0]) {
+      val = val.slice(1, -1);
+    } // only assign once
+
+
+    if (undefined == obj[key]) {
+      obj[key] = tryDecode(val, dec);
+    }
+  }
+
+  return obj;
+}
+/**
+ * Serialize data into a cookie header.
+ *
+ * Serialize the a name value pair into a cookie string suitable for
+ * http headers. An optional options object specified cookie parameters.
+ *
+ * serialize('foo', 'bar', { httpOnly: true })
+ *   => "foo=bar; httpOnly"
+ *
+ * @param {string} name
+ * @param {string} val
+ * @param {object} [options]
+ * @return {string}
+ * @public
+ */
+
+
+function serialize(name, val, options) {
+  var opt = options || {};
+  var enc = opt.encode || encode;
+
+  if (typeof enc !== 'function') {
+    throw new TypeError('option encode is invalid');
+  }
+
+  if (!fieldContentRegExp.test(name)) {
+    throw new TypeError('argument name is invalid');
+  }
+
+  var value = enc(val);
+
+  if (value && !fieldContentRegExp.test(value)) {
+    throw new TypeError('argument val is invalid');
+  }
+
+  var str = name + '=' + value;
+
+  if (null != opt.maxAge) {
+    var maxAge = opt.maxAge - 0;
+
+    if (isNaN(maxAge) || !isFinite(maxAge)) {
+      throw new TypeError('option maxAge is invalid');
+    }
+
+    str += '; Max-Age=' + Math.floor(maxAge);
+  }
+
+  if (opt.domain) {
+    if (!fieldContentRegExp.test(opt.domain)) {
+      throw new TypeError('option domain is invalid');
+    }
+
+    str += '; Domain=' + opt.domain;
+  }
+
+  if (opt.path) {
+    if (!fieldContentRegExp.test(opt.path)) {
+      throw new TypeError('option path is invalid');
+    }
+
+    str += '; Path=' + opt.path;
+  }
+
+  if (opt.expires) {
+    if (typeof opt.expires.toUTCString !== 'function') {
+      throw new TypeError('option expires is invalid');
+    }
+
+    str += '; Expires=' + opt.expires.toUTCString();
+  }
+
+  if (opt.httpOnly) {
+    str += '; HttpOnly';
+  }
+
+  if (opt.secure) {
+    str += '; Secure';
+  }
+
+  if (opt.sameSite) {
+    var sameSite = typeof opt.sameSite === 'string' ? opt.sameSite.toLowerCase() : opt.sameSite;
+
+    switch (sameSite) {
+      case true:
+        str += '; SameSite=Strict';
+        break;
+
+      case 'lax':
+        str += '; SameSite=Lax';
+        break;
+
+      case 'strict':
+        str += '; SameSite=Strict';
+        break;
+
+      case 'none':
+        str += '; SameSite=None';
+        break;
+
+      default:
+        throw new TypeError('option sameSite is invalid');
+    }
+  }
+
+  return str;
+}
+/**
+ * Try decoding a string using a decoding function.
+ *
+ * @param {string} str
+ * @param {function} decode
+ * @private
+ */
+
+
+function tryDecode(str, decode) {
+  try {
+    return decode(str);
+  } catch (e) {
+    return str;
+  }
+}
+},{}],"node_modules/universal-cookie/es6/utils.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.cleanCookies = cleanCookies;
+exports.hasDocumentCookie = hasDocumentCookie;
+exports.isParsingCookie = isParsingCookie;
+exports.parseCookies = parseCookies;
+exports.readCookie = readCookie;
+
+var cookie = _interopRequireWildcard(require("cookie"));
+
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function hasDocumentCookie() {
+  // Can we get/set cookies on document.cookie?
+  return typeof document === 'object' && typeof document.cookie === 'string';
+}
+
+function cleanCookies() {
+  document.cookie.split(';').forEach(function (c) {
+    document.cookie = c.replace(/^ +/, '').replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
+  });
+}
+
+function parseCookies(cookies, options) {
+  if (typeof cookies === 'string') {
+    return cookie.parse(cookies, options);
+  } else if (typeof cookies === 'object' && cookies !== null) {
+    return cookies;
+  } else {
+    return {};
+  }
+}
+
+function isParsingCookie(value, doNotParse) {
+  if (typeof doNotParse === 'undefined') {
+    // We guess if the cookie start with { or [, it has been serialized
+    doNotParse = !value || value[0] !== '{' && value[0] !== '[' && value[0] !== '"';
+  }
+
+  return !doNotParse;
+}
+
+function readCookie(value, options) {
+  if (options === void 0) {
+    options = {};
+  }
+
+  var cleanValue = cleanupCookieValue(value);
+
+  if (isParsingCookie(cleanValue, options.doNotParse)) {
+    try {
+      return JSON.parse(cleanValue);
+    } catch (e) {// At least we tried
+    }
+  } // Ignore clean value if we failed the deserialization
+  // It is not relevant anymore to trim those values
+
+
+  return value;
+}
+
+function cleanupCookieValue(value) {
+  // express prepend j: before serializing a cookie
+  if (value && value[0] === 'j' && value[1] === ':') {
+    return value.substr(2);
+  }
+
+  return value;
+}
+},{"cookie":"node_modules/cookie/index.js"}],"node_modules/universal-cookie/es6/Cookies.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var cookie = _interopRequireWildcard(require("cookie"));
+
+var _utils = require("./utils");
+
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+var __assign = void 0 && (void 0).__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+var Cookies =
+/** @class */
+function () {
+  function Cookies(cookies, options) {
+    var _this = this;
+
+    this.changeListeners = [];
+    this.HAS_DOCUMENT_COOKIE = false;
+    this.cookies = (0, _utils.parseCookies)(cookies, options);
+    new Promise(function () {
+      _this.HAS_DOCUMENT_COOKIE = (0, _utils.hasDocumentCookie)();
+    }).catch(function () {});
+  }
+
+  Cookies.prototype._updateBrowserValues = function (parseOptions) {
+    if (!this.HAS_DOCUMENT_COOKIE) {
+      return;
+    }
+
+    this.cookies = cookie.parse(document.cookie, parseOptions);
+  };
+
+  Cookies.prototype._emitChange = function (params) {
+    for (var i = 0; i < this.changeListeners.length; ++i) {
+      this.changeListeners[i](params);
+    }
+  };
+
+  Cookies.prototype.get = function (name, options, parseOptions) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    this._updateBrowserValues(parseOptions);
+
+    return (0, _utils.readCookie)(this.cookies[name], options);
+  };
+
+  Cookies.prototype.getAll = function (options, parseOptions) {
+    if (options === void 0) {
+      options = {};
+    }
+
+    this._updateBrowserValues(parseOptions);
+
+    var result = {};
+
+    for (var name_1 in this.cookies) {
+      result[name_1] = (0, _utils.readCookie)(this.cookies[name_1], options);
+    }
+
+    return result;
+  };
+
+  Cookies.prototype.set = function (name, value, options) {
+    var _a;
+
+    if (typeof value === 'object') {
+      value = JSON.stringify(value);
+    }
+
+    this.cookies = __assign(__assign({}, this.cookies), (_a = {}, _a[name] = value, _a));
+
+    if (this.HAS_DOCUMENT_COOKIE) {
+      document.cookie = cookie.serialize(name, value, options);
+    }
+
+    this._emitChange({
+      name: name,
+      value: value,
+      options: options
+    });
+  };
+
+  Cookies.prototype.remove = function (name, options) {
+    var finalOptions = options = __assign(__assign({}, options), {
+      expires: new Date(1970, 1, 1, 0, 0, 1),
+      maxAge: 0
+    });
+
+    this.cookies = __assign({}, this.cookies);
+    delete this.cookies[name];
+
+    if (this.HAS_DOCUMENT_COOKIE) {
+      document.cookie = cookie.serialize(name, '', finalOptions);
+    }
+
+    this._emitChange({
+      name: name,
+      value: undefined,
+      options: options
+    });
+  };
+
+  Cookies.prototype.addChangeListener = function (callback) {
+    this.changeListeners.push(callback);
+  };
+
+  Cookies.prototype.removeChangeListener = function (callback) {
+    var idx = this.changeListeners.indexOf(callback);
+
+    if (idx >= 0) {
+      this.changeListeners.splice(idx, 1);
+    }
+  };
+
+  return Cookies;
+}();
+
+var _default = Cookies;
+exports.default = _default;
+},{"cookie":"node_modules/cookie/index.js","./utils":"node_modules/universal-cookie/es6/utils.js"}],"node_modules/universal-cookie/es6/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _Cookies = _interopRequireDefault(require("./Cookies"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _default = _Cookies.default;
+exports.default = _default;
+},{"./Cookies":"node_modules/universal-cookie/es6/Cookies.js"}],"components/registerPage/regPage/index.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -44101,6 +44530,8 @@ require("./regPage.css");
 var _axios = _interopRequireDefault(require("axios"));
 
 var _jwtDecode = _interopRequireDefault(require("jwt-decode"));
+
+var _universalCookie = _interopRequireDefault(require("universal-cookie"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -44196,10 +44627,10 @@ function regPage(props) {
       // console.log(decoded);
       // console.log(JSON.stringify(res.data));
       if (res.data) {
-        var token = JSON.stringify(res.data);
-        console.log(token);
-        var decoded = (0, _jwtDecode.default)(token);
-        console.log(decoded);
+        var cookies = new _universalCookie.default();
+        cookies.set('token', res.data, {
+          path: '/'
+        });
         alert("You have successfully registerd");
         window.location = '/home-page';
       } else {
@@ -44404,7 +44835,7 @@ function regPage(props) {
 
 var _default = regPage;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","react-date-picker":"node_modules/react-date-picker/dist/entry.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./regPage.css":"components/registerPage/regPage/regPage.css","axios":"node_modules/axios/index.js","jwt-decode":"node_modules/jwt-decode/build/jwt-decode.esm.js"}],"components/loginPage/loginPage.css":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-date-picker":"node_modules/react-date-picker/dist/entry.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./regPage.css":"components/registerPage/regPage/regPage.css","axios":"node_modules/axios/index.js","jwt-decode":"node_modules/jwt-decode/build/jwt-decode.esm.js","universal-cookie":"node_modules/universal-cookie/es6/index.js"}],"components/loginPage/loginPage.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -44426,6 +44857,8 @@ require("./loginPage.css");
 var _jwtDecode = _interopRequireDefault(require("jwt-decode"));
 
 var _axios = _interopRequireDefault(require("axios"));
+
+var _universalCookie = _interopRequireDefault(require("universal-cookie"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -44488,10 +44921,10 @@ function loginPage(props) {
         password: userPassword
       }).then(function (res) {
         if (res.data) {
-          var token = JSON.stringify(res.data);
-          console.log(token);
-          var decoded = (0, _jwtDecode.default)(token);
-          console.log(decoded);
+          var cookies = new _universalCookie.default();
+          cookies.set('token', res.data, {
+            path: '/'
+          });
           window.location = '/home-page';
         } else {
           setError_message("* Incorrect username or password");
@@ -44506,10 +44939,10 @@ function loginPage(props) {
         password: userPassword
       }).then(function (res) {
         if (res.data) {
-          var token = JSON.stringify(res.data);
-          console.log(token);
-          var decoded = (0, _jwtDecode.default)(token);
-          console.log(decoded);
+          var cookies = new _universalCookie.default();
+          cookies.set('token', res.data, {
+            path: '/'
+          });
           window.location = '/home-page';
         } else {
           setError_message("incorrect email/username or password");
@@ -44593,7 +45026,7 @@ function loginPage(props) {
 
 var _default = loginPage;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./loginPage.css":"components/loginPage/loginPage.css","jwt-decode":"node_modules/jwt-decode/build/jwt-decode.esm.js","axios":"node_modules/axios/index.js"}],"components/homePage/homePage.css":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./loginPage.css":"components/loginPage/loginPage.css","jwt-decode":"node_modules/jwt-decode/build/jwt-decode.esm.js","axios":"node_modules/axios/index.js","universal-cookie":"node_modules/universal-cookie/es6/index.js"}],"components/homePage/homePage.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -44613,6 +45046,10 @@ var _reactRouterDom = require("react-router-dom");
 require("./homePage.css");
 
 var _axios = _interopRequireDefault(require("axios"));
+
+var _universalCookie = _interopRequireDefault(require("universal-cookie"));
+
+var _jwtDecode = _interopRequireDefault(require("jwt-decode"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -44648,6 +45085,26 @@ function homePage(props) {
       homeText = props.homeText,
       top10Text = props.top10Text,
       icon = props.icon;
+  var registered = false;
+  var username = "";
+  var cookies = new _universalCookie.default();
+
+  try {
+    var token = cookies.get('token');
+    var decoded = (0, _jwtDecode.default)(token);
+    username = decoded.username;
+    registered = true;
+  } catch (_unused) {
+    registered = false;
+    console.log("guest user");
+  }
+
+  var logOut = function logOut() {
+    cookies.remove('token', {
+      path: '/'
+    });
+    window.location.reload();
+  };
 
   var api = _axios.default.create({
     baseURL: "http://localhost:3000/api/v1" // headers :{
@@ -44815,7 +45272,7 @@ function homePage(props) {
     to: "/genresPage"
   }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "genresText darkergrotesque-medium-white-35px2"
-  }, genresText)))), /*#__PURE__*/_react.default.createElement("div", {
+  }, genresText)))), !registered && /*#__PURE__*/_react.default.createElement("div", {
     className: "clickable"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: "/login-page"
@@ -44824,7 +45281,7 @@ function homePage(props) {
     src: icon
   }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "loginText roboto-normal-white-18px2"
-  }, loginText)))), /*#__PURE__*/_react.default.createElement("div", {
+  }, loginText)))), !registered && /*#__PURE__*/_react.default.createElement("div", {
     className: "clickable"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: "/registerPage/reg-page"
@@ -44833,7 +45290,19 @@ function homePage(props) {
     src: icon
   }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "registerText roboto-normal-white-18px2"
-  }, registerText)))))), /*#__PURE__*/_react.default.createElement("div", {
+  }, registerText)))), registered && /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("img", {
+    className: "regUserIcon",
+    src: "/img/regUser.png"
+  }), /*#__PURE__*/_react.default.createElement("li", {
+    className: "dropdown"
+  }, /*#__PURE__*/_react.default.createElement("a", {
+    className: "dropbtn "
+  }, username), /*#__PURE__*/_react.default.createElement("div", {
+    className: "dropdownContent"
+  }, /*#__PURE__*/_react.default.createElement("button", {
+    className: "logout",
+    onClick: logOut
+  }, "Logout")))))), /*#__PURE__*/_react.default.createElement("div", {
     className: "body"
   }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("img", {
     className: "fireIcon",
@@ -44880,7 +45349,7 @@ function homePage(props) {
 
 var _default = homePage;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./homePage.css":"components/homePage/homePage.css","axios":"node_modules/axios/index.js"}],"components/genresPage/genresPage.css":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./homePage.css":"components/homePage/homePage.css","axios":"node_modules/axios/index.js","universal-cookie":"node_modules/universal-cookie/es6/index.js","jwt-decode":"node_modules/jwt-decode/build/jwt-decode.esm.js"}],"components/genresPage/genresPage.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -44898,6 +45367,10 @@ var _react = _interopRequireDefault(require("react"));
 var _reactRouterDom = require("react-router-dom");
 
 require("./genresPage.css");
+
+var _universalCookie = _interopRequireDefault(require("universal-cookie"));
+
+var _jwtDecode = _interopRequireDefault(require("jwt-decode"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -44929,6 +45402,27 @@ function genresPage(props) {
       star = props.star,
       leftArrowIcon = props.leftArrowIcon,
       rightArrowIcon = props.rightArrowIcon;
+  var registered = false;
+  var username = "";
+  var cookies = new _universalCookie.default();
+
+  try {
+    var token = cookies.get('token');
+    var decoded = (0, _jwtDecode.default)(token);
+    username = decoded.username;
+    registered = true;
+  } catch (_unused) {
+    registered = false;
+    console.log("guest user");
+  }
+
+  var logOut = function logOut() {
+    cookies.remove('token', {
+      path: '/'
+    });
+    window.location.reload();
+  };
+
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "PageCenter"
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -44948,17 +45442,35 @@ function genresPage(props) {
     to: "/genresPage"
   }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "genresText darkergrotesque-medium-white-35px2"
-  }, genresText)))), /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("img", {
+  }, genresText)))), !registered && /*#__PURE__*/_react.default.createElement("div", {
+    className: "clickable"
+  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+    to: "/login-page"
+  }, /*#__PURE__*/_react.default.createElement("img", {
+    className: "loginIcon",
+    src: icon
+  }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "loginText roboto-normal-white-18px2"
+  }, loginText)))), !registered && /*#__PURE__*/_react.default.createElement("div", {
+    className: "clickable"
+  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+    to: "/registerPage/reg-page"
+  }, /*#__PURE__*/_react.default.createElement("img", {
+    className: "registerIcon",
+    src: icon
+  }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "registerText roboto-normal-white-18px2"
+  }, registerText)))), registered && /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("img", {
     className: "regUserIcon",
     src: "/img/regUser.png"
   }), /*#__PURE__*/_react.default.createElement("li", {
     className: "dropdown"
   }, /*#__PURE__*/_react.default.createElement("a", {
     className: "dropbtn "
-  }, "Username"), /*#__PURE__*/_react.default.createElement("div", {
+  }, username), /*#__PURE__*/_react.default.createElement("div", {
     className: "dropdownContent"
-  }, /*#__PURE__*/_react.default.createElement("a", {
-    className: "logout"
+  }, /*#__PURE__*/_react.default.createElement("button", {
+    onClick: logOut
   }, "Logout")))))), /*#__PURE__*/_react.default.createElement("main", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "body"
   }), /*#__PURE__*/_react.default.createElement("div", {
@@ -45064,7 +45576,7 @@ function genresPage(props) {
 
 var _default = genresPage;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./genresPage.css":"components/genresPage/genresPage.css"}],"components/genreTypePage/genreTypePage.css":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./genresPage.css":"components/genresPage/genresPage.css","universal-cookie":"node_modules/universal-cookie/es6/index.js","jwt-decode":"node_modules/jwt-decode/build/jwt-decode.esm.js"}],"components/genreTypePage/genreTypePage.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -45266,6 +45778,10 @@ require("./ViewMovie.css");
 
 var _axios = _interopRequireDefault(require("axios"));
 
+var _universalCookie = _interopRequireDefault(require("universal-cookie"));
+
+var _jwtDecode = _interopRequireDefault(require("jwt-decode"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -45357,6 +45873,26 @@ function ViewMovie(props) {
       rightArrow = props.rightArrow,
       leftArrow = props.leftArrow,
       reviewIcon = props.reviewIcon;
+  var registered = false;
+  var username = "";
+  var cookies = new _universalCookie.default();
+
+  try {
+    var token = cookies.get('token');
+    var decoded = (0, _jwtDecode.default)(token);
+    username = decoded.username;
+    registered = true;
+  } catch (_unused) {
+    registered = false;
+    console.log("guest user");
+  }
+
+  var logOut = function logOut() {
+    cookies.remove('token', {
+      path: '/'
+    });
+    window.location.reload();
+  };
 
   var api = _axios.default.create({
     baseURL: "http://localhost:3000/api/v1" // headers :{
@@ -45585,7 +46121,7 @@ function ViewMovie(props) {
     to: "/genresPage"
   }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "genresText darkergrotesque-medium-white-35px2"
-  }, genresText)))), /*#__PURE__*/_react.default.createElement("div", {
+  }, genresText)))), !registered && /*#__PURE__*/_react.default.createElement("div", {
     className: "clickable"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: "/login-page"
@@ -45594,7 +46130,7 @@ function ViewMovie(props) {
     src: icon
   }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "loginText roboto-normal-white-18px2"
-  }, loginText)))), /*#__PURE__*/_react.default.createElement("div", {
+  }, loginText)))), !registered && /*#__PURE__*/_react.default.createElement("div", {
     className: "clickable"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: "/registerPage/reg-page"
@@ -45603,7 +46139,19 @@ function ViewMovie(props) {
     src: icon
   }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "registerText roboto-normal-white-18px2"
-  }, registerText)))))), /*#__PURE__*/_react.default.createElement("main", null, /*#__PURE__*/_react.default.createElement("div", {
+  }, registerText)))), registered && /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("img", {
+    className: "regUserIcon",
+    src: "/img/regUser.png"
+  }), /*#__PURE__*/_react.default.createElement("li", {
+    className: "dropdown"
+  }, /*#__PURE__*/_react.default.createElement("a", {
+    className: "dropbtn "
+  }, username), /*#__PURE__*/_react.default.createElement("div", {
+    className: "dropdownContent"
+  }, /*#__PURE__*/_react.default.createElement("button", {
+    className: "logout",
+    onClick: logOut
+  }, "Logout")))))), /*#__PURE__*/_react.default.createElement("main", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "body"
   }), /*#__PURE__*/_react.default.createElement("img", {
     className: "moviePoster",
@@ -45855,7 +46403,7 @@ function ViewMovie(props) {
 
 var _default = ViewMovie;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./ViewMovie.css":"components/movieInfoPage/ViewMovie/ViewMovie.css","axios":"node_modules/axios/index.js"}],"components/reviewPage/reviewPage.css":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./ViewMovie.css":"components/movieInfoPage/ViewMovie/ViewMovie.css","axios":"node_modules/axios/index.js","universal-cookie":"node_modules/universal-cookie/es6/index.js","jwt-decode":"node_modules/jwt-decode/build/jwt-decode.esm.js"}],"components/reviewPage/reviewPage.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -46267,7 +46815,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55199" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63775" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

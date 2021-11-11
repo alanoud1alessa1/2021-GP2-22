@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import "./homePage.css";
 import Axios from "axios";
 import { useState } from "react";
+import Cookies from 'universal-cookie';
+import jwt_decode from "jwt-decode";
 // import Loop from "../loop";
 
 
@@ -27,6 +29,28 @@ function homePage(props) {
     top10Text,
     icon,
   } = props;
+
+  var registered =false;
+  var username="";
+
+  const cookies = new Cookies();
+  try{
+    const token=cookies.get('token');
+    var decoded = jwt_decode(token);
+    username=decoded.username;
+    registered=true;
+
+  }
+  catch{
+    registered=false;
+    console.log("guest user");}
+    
+  const logOut=()=>
+  {
+   cookies.remove('token', { path: '/' });
+    window.location.reload();
+   }
+   
 
   const api = Axios.create({
     baseURL: "http://localhost:3000/api/v1",
@@ -178,6 +202,7 @@ const posters = [poster1 , poster2 , poster3, poster4 , poster5,
                 </div>
 
                 {/* unregisterd user */}
+                {(!registered) && (
                 <div className="clickable">
                   <Link to="/login-page">
                     <img className="loginIcon" src={icon} />
@@ -185,7 +210,9 @@ const posters = [poster1 , poster2 , poster3, poster4 , poster5,
                       <div className="loginText roboto-normal-white-18px2">{loginText}</div>
                     </div>
                   </Link>
-                </div>
+                </div>)}
+
+                 {(!registered) && (
                 <div className="clickable">
                   <Link to="/registerPage/reg-page">
                     <img className="registerIcon" src={icon} /> 
@@ -193,7 +220,20 @@ const posters = [poster1 , poster2 , poster3, poster4 , poster5,
                       <div className="registerText roboto-normal-white-18px2">{registerText}</div>
                     </div>
                   </Link>     
-                </div>
+                </div>)}
+                 {/* registerd user */}
+                 {(registered) && (
+                <ul>
+                    <img  className="regUserIcon" src="/img/regUser.png"/>
+                    <li className="dropdown">
+                        <a className="dropbtn ">{username}</a>
+                        <div className="dropdownContent">
+                        <button className="logout" onClick={logOut}>Logout</button>
+                        {/* <button className="logout" onClick={logOut}>Logout</button> */}
+                        </div>
+                    </li>
+                </ul>)}    
+                
               </div>
             </header>
           

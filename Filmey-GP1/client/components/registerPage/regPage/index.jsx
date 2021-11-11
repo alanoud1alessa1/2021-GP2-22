@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import "./regPage.css";
 import Axios from "axios";
 import jwt_decode from "jwt-decode";
+import Cookies from 'universal-cookie';
 
 
 function regPage(props) {
@@ -64,10 +65,8 @@ function regPage(props) {
       // console.log(JSON.stringify(res.data));
       if(res.data)
           {
-          const token = JSON.stringify(res.data);
-          console.log(token);
-          const decoded = jwt_decode(token);
-           console.log(decoded);
+           const cookies = new Cookies();
+            cookies.set('token', res.data, { path: '/' });
            alert("You have successfully registerd");
            window.location = '/home-page';
           }

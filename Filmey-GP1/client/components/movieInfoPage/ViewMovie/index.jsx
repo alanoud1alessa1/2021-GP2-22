@@ -4,6 +4,8 @@ import "./ViewMovie.css";
 import Axios from 'axios';
 import {useState  } from "react";
 import { useParams } from "react-router-dom";
+import Cookies from 'universal-cookie';
+import jwt_decode from "jwt-decode";
 
 function ViewMovie(props) {
 
@@ -73,6 +75,27 @@ function ViewMovie(props) {
     leftArrow,
     reviewIcon,
   } = props;
+
+  var registered =false;
+  var username="";
+
+  const cookies = new Cookies();
+  try{
+    const token=cookies.get('token');
+    var decoded = jwt_decode(token);
+    username=decoded.username;
+    registered=true;
+
+  }
+  catch{
+    registered=false;
+    console.log("guest user");}
+
+  const logOut=()=>
+  {
+   cookies.remove('token', { path: '/' });
+    window.location.reload();
+   }
 
 
   const api = Axios.create({
@@ -274,36 +297,40 @@ console.log(castNames);
                   </div>
 
               {/* unregisterd user */}
-              <div className="clickable">
-                <Link to="/login-page">
-                  <img className="loginIcon" src={icon} />
-                  <div>
-                    <div className="loginText roboto-normal-white-18px2">{loginText}</div>
-                  </div>
-                </Link>
-              </div>
-              <div className="clickable">
-                <Link to="/registerPage/reg-page">
-                  <img className="registerIcon" src={icon} /> 
-                  <div>
-                    <div className="registerText roboto-normal-white-18px2">{registerText}</div>
-                  </div>
-                </Link>     
-              </div>
+             {(!registered) && (
+                <div className="clickable">
+                  <Link to="/login-page">
+                    <img className="loginIcon" src={icon} />
+                    <div>
+                      <div className="loginText roboto-normal-white-18px2">{loginText}</div>
+                    </div>
+                  </Link>
+                </div>)}
 
-              {/* registerd user */}
-                 {/* <ul>
+                 {(!registered) && (
+                <div className="clickable">
+                  <Link to="/registerPage/reg-page">
+                    <img className="registerIcon" src={icon} /> 
+                    <div>
+                      <div className="registerText roboto-normal-white-18px2">{registerText}</div>
+                    </div>
+                  </Link>     
+                </div>)}
+                 {/* registerd user */}
+                 {(registered) && (
+                <ul>
                     <img  className="regUserIcon" src="/img/regUser.png"/>
                     <li className="dropdown">
-                        <a className="dropbtn ">Username</a>
+                        <a className="dropbtn ">{username}</a>
                         <div className="dropdownContent">
-                        <a className="logout">Logout</a>
+                        <button className="logout" onClick={logOut}>Logout</button> 
+                        {/* <button className="logout" onClick={logOut}>Logout</button> */}
                         </div>
                     </li>
-                </ul>   */}
-
-            </div>
-          </header>
+                </ul>)}    
+                    
+              </div>
+            </header>
 
 
             {/* main  */}

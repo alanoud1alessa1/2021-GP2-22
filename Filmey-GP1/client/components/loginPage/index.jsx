@@ -4,6 +4,7 @@ import "./loginPage.css";
 import jwt_decode from "jwt-decode";
 import {useState } from "react";
 import Axios from "axios";
+import Cookies from 'universal-cookie';
 
 function loginPage(props) {
   const {
@@ -44,11 +45,9 @@ function loginPage(props) {
       .then((res)=>{
         if(res.data)
           {
-          const token = JSON.stringify(res.data);
-          console.log(token);
-          const decoded = jwt_decode(token);
-          console.log(decoded);
-          window.location = '/home-page';
+            const cookies = new Cookies();
+            cookies.set('token', res.data, { path: '/' });
+            window.location = '/home-page';
           }
           else
           {
@@ -68,11 +67,9 @@ function loginPage(props) {
         .then((res)=>{
           if(res.data)
           {
-          const token = JSON.stringify(res.data);
-          console.log(token);
-          const decoded = jwt_decode(token);
-          console.log(decoded);
-          window.location = '/home-page';
+            const cookies = new Cookies();
+            cookies.set('token', res.data, { path: '/' });
+            window.location = '/home-page';
           }
           else
           {
