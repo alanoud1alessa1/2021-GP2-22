@@ -23,17 +23,27 @@ module.exports = {
         .first()
         .returning("*");
           // return console.log(user);
+          var message="";
   
-      if (!user) throw new Error("username is not registered");
-
-  
-      // compare pass
-      isAuth = await bcrypt.compare(password, user.password);
-      // console.log(isAuth);
-      if (!isAuth) throw new Error("Pass is incorrect");
-  
-  
-      // sign token
-      return auth.createAccessToken(user);
+          if (!user)
+          {
+             message = { 'emailOrUsernameMessage' : "Email / Username incorrect"};
+      
+            return message;
+          }
+      
+          // // compare pass
+          isAuth = await bcrypt.compare(password, user.password);
+          // console.log(isAuth);
+          if (!isAuth)
+          {
+          
+            message = { 'passwordMessage' : "Password incorrect"};
+      
+            return message;
+      
+          } 
+          return "";
+      
     },
 };

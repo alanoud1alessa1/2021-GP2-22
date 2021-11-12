@@ -44604,6 +44604,8 @@ function regPage(props) {
       error_message = _useState16[0],
       setError_message = _useState16[1];
 
+  var usernameMessage = "";
+  var passwordMessage = "";
   var API_URL = "http://localhost:3000/api/v1/";
 
   var Register = function Register() {
@@ -44622,22 +44624,21 @@ function regPage(props) {
       gender: userGender,
       location: userRegion
     }).then(function (res) {
-      // const token = JSON.stringify(res.data);
-      // const decoded = jwt_decode(token);
-      // console.log(decoded);
-      // console.log(JSON.stringify(res.data));
-      if (res.data) {
-        var cookies = new _universalCookie.default();
-        cookies.set('token', res.data, {
-          path: '/'
-        });
-        alert("You have successfully registerd");
-        window.location = '/home-page';
-      } else {
-        //setError_message("user name or email already taken");
-        console.log("user name or email already taken");
-        setError_message("* Username or email already taken");
+      if (res.data.usernameMessage.usernameMessage || res.data.emailMessage.emailMessage) {
+        usernameMessage = res.data.usernameMessage.usernameMessage;
+        console.log(res.data.usernameMessage.usernameMessage);
+        passwordMessage = res.data.emailMessage.emailMessage;
+        console.log(res.data.emailMessage.emailMessage);
+        exit();
       }
+
+      console.log("inside res data");
+      var cookies = new _universalCookie.default();
+      cookies.set('token', res.data, {
+        path: '/'
+      });
+      alert("You have successfully registerd");
+      window.location = '/home-page';
     });
   };
 
@@ -44907,6 +44908,8 @@ function loginPage(props) {
       error_message = _useState6[0],
       setError_message = _useState6[1];
 
+  var emailOrUsernameMessage = "";
+  var passwordMessage = "";
   var API_URL = "http://localhost:3000/api/v1/";
 
   var SpecifyUserType = function SpecifyUserType() {
@@ -44921,13 +44924,24 @@ function loginPage(props) {
         password: userPassword
       }).then(function (res) {
         if (res.data) {
+          if (res.data.emailOrUsernameMessage) {
+            emailOrUsernameMessage = res.data.emailOrUsernameMessage;
+            console.log(res.data.emailOrUsernameMessage);
+            exit();
+          }
+
+          if (res.data.passwordMessage) {
+            passwordMessage = res.data.passwordMessage;
+            console.log(res.data.passwordMessage);
+            exit();
+          }
+
           var cookies = new _universalCookie.default();
           cookies.set('token', res.data, {
             path: '/'
           });
+          ;
           window.location = '/home-page';
-        } else {
-          setError_message("* Incorrect username or password");
         }
       });
     } else {
@@ -44938,14 +44952,27 @@ function loginPage(props) {
         username: username,
         password: userPassword
       }).then(function (res) {
+        console.log("res");
+        console.log(res);
+
         if (res.data) {
+          if (res.data.emailOrUsernameMessage) {
+            console.log(res.data.emailOrUsernameMessage);
+            exit();
+          }
+
+          if (res.data.passwordMessage) {
+            console.log(res.data.passwordMessage);
+            exit();
+          }
+
+          console.log("cookies");
           var cookies = new _universalCookie.default();
           cookies.set('token', res.data, {
             path: '/'
           });
+          console.log(res.data);
           window.location = '/home-page';
-        } else {
-          setError_message("incorrect email/username or password");
         }
       });
     }
@@ -46815,7 +46842,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63775" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61961" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

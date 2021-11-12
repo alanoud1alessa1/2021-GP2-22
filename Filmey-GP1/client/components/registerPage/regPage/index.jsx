@@ -33,6 +33,9 @@ function regPage(props) {
   const [userBirthDate,setUserBirthDate]=useState('');
   const [error_message,setError_message]=useState('');
 
+  var usernameMessage="";
+  var passwordMessage="";
+
 
 
   const API_URL = "http://localhost:3000/api/v1/";
@@ -57,25 +60,20 @@ function regPage(props) {
     }
     )
     .then((res)=>{
-
-      // const token = JSON.stringify(res.data);
-      // const decoded = jwt_decode(token);
- 
-      // console.log(decoded);
-      // console.log(JSON.stringify(res.data));
-      if(res.data)
-          {
+      if(res.data.usernameMessage.usernameMessage||res.data.emailMessage.emailMessage)
+      {
+        usernameMessage=res.data.usernameMessage.usernameMessage;
+        console.log(res.data.usernameMessage.usernameMessage);
+        passwordMessage=res.data.emailMessage.emailMessage;
+       console.log(res.data.emailMessage.emailMessage);
+       exit();
+      }
+            console.log("inside res data");
            const cookies = new Cookies();
             cookies.set('token', res.data, { path: '/' });
            alert("You have successfully registerd");
            window.location = '/home-page';
-          }
-          else
-          {
-            //setError_message("user name or email already taken");
-            console.log("user name or email already taken");
-            setError_message("* Username or email already taken");
-          }
+    
       })
     }
 

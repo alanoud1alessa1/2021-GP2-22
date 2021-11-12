@@ -27,6 +27,9 @@ function loginPage(props) {
   const [userPassword,setuserPassword]=useState('');
   const [error_message,setError_message]=useState('');
 
+  var emailOrUsernameMessage="";
+  var passwordMessage="";
+
 
   const API_URL = "http://localhost:3000/api/v1/";
 
@@ -43,41 +46,58 @@ function loginPage(props) {
       }
       )
       .then((res)=>{
-        if(res.data)
+        if(res.data){
+          if(res.data.emailOrUsernameMessage)
+            {
+              emailOrUsernameMessage=res.data.emailOrUsernameMessage;
+              console.log(res.data.emailOrUsernameMessage);
+              exit();
+            }
+          if(res.data.passwordMessage)
           {
-            const cookies = new Cookies();
-            cookies.set('token', res.data, { path: '/' });
-            window.location = '/home-page';
+            passwordMessage=res.data.passwordMessage;
+            console.log(res.data.passwordMessage);
+            exit();
           }
-          else
-          {
-            setError_message("* Incorrect username or password");
-          }
-        })
-    }
-    else
-    {
-      console.log("this is user");
-        console.log(username);
-        const res =  Axios.post(API_URL + "users/login",{
-          username :username,
-          password:userPassword
+
+              const cookies = new Cookies();
+              cookies.set('token', res.data, { path: '/' });;
+              window.location = '/home-page';
+            
+          }})}
+      else
+      {
+        console.log("this is user");
+          console.log(username);
+          const res =  Axios.post(API_URL + "users/login",{
+            username :username,
+            password:userPassword
         }
-        )
-        .then((res)=>{
-          if(res.data)
+      )
+          .then((res)=>{
+            console.log("res");
+            console.log(res);
+            if(res.data)
+            {
+            if(res.data.emailOrUsernameMessage)
+            {
+              console.log(res.data.emailOrUsernameMessage);
+              exit();
+            }
+            if(res.data.passwordMessage)
           {
-            const cookies = new Cookies();
-            cookies.set('token', res.data, { path: '/' });
-            window.location = '/home-page';
+            console.log(res.data.passwordMessage);
+            exit();
           }
-          else
-          {
-            setError_message("incorrect email/username or password");
-          }
-          })
-        }
-  }
+               console.log("cookies");
+              const cookies = new Cookies();
+              cookies.set('token', res.data, { path: '/' });
+              console.log(res.data);
+             window.location = '/home-page';
+            
+          }})
+          
+  }}
 
   return (
     <div className="PageCenter">
