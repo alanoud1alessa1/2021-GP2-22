@@ -68,7 +68,7 @@ module.exports = {
     // sign token
    // return auth.createAccessToken(user);
   },
-  async signup(email ,username, password , date_of_birth , gender , location) {
+  async signup(email ,username, password , date_of_birth , gender , location,genres) {
    
     // let dupliacte=db(tableNames.user).where('email', email);
     // console.log(dupliacte);
@@ -76,6 +76,43 @@ module.exports = {
     const [created] = await db(tableNames.user)
       .insert({email ,username, password , date_of_birth , gender , location})
       .returning("*");
+
+    //get user id
+    let user = await db(tableNames.user)
+      .where({
+        username: username,
+      })
+      .returning("*").pluck('user_id');
+   const userID=user[0];
+    
+
+   //get genresID
+    var arrayofGenreID = new Array();
+     for (const genre of genres)
+    {
+      console.log(genre);
+
+    let genreID= await db("Genre")
+    .where({
+      genre: genre,
+    })
+    .returning("*").pluck('genre_id');
+    arrayofGenreID.push(genreID[0]);
+   
+    }
+
+   
+   //insert user id with favorite genre id
+    for (const id of arrayofGenreID)
+    {
+      let genreID= await db('User_Genre')
+     .insert({
+      user_id: userID,
+       genre_id: id,
+     })}
+    
+
+    
 
     return auth.createAccessToken(created);
   },

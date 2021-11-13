@@ -37,7 +37,7 @@ router.get("/:id", isAuth, async (req, res, next) => {
 
 
 router.post("/register", async (req, res, next) => {
-  const { email, username, password , date_of_birth ,gender, location} = req.body;
+  const { email, username, password , date_of_birth ,gender, location,genres} = req.body;
   if (username.substring(0,5)=="admin")
   {
     const usernameMessage = { 'usernameMessage' : "Username already taken"};
@@ -53,7 +53,7 @@ router.post("/register", async (req, res, next) => {
   // try
   // {
    
-    const token = await queries.signup(email, username, password , date_of_birth ,gender, location);
+    const token = await queries.signup(email, username, password , date_of_birth ,gender, location, genres);
     if (token)
     {
       console.log("inside token");

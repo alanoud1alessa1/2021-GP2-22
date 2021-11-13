@@ -866,7 +866,7 @@ input:focus {
   left: 1195px;
   min-height: 171px;
   position: absolute;
-  top: 960px;
+  top: 955px;
   width: 573px;
 }
 
@@ -885,6 +885,13 @@ input:focus {
   letter-spacing: 2.40px;
   margin-left: 6px;
   min-height: 33px;
+}
+
+.usernameText:after,
+.emailText:after,
+.passwordText:after {
+  content:" *";
+  color: var(--cardinal);
 }
 
 .usernameContainer {
@@ -1007,6 +1014,13 @@ input:focus {
   padding: 12px 13px;
 }
 
+.passError{
+  margin-top: 90px;
+  position: absolute;
+  color: var(--cardinal);
+}
+
+
 .password {
   background-color: transparent;
   border: 0;
@@ -1017,6 +1031,7 @@ input:focus {
   top: 45px;
   width: 540px;
 }
+
 
 .password::placeholder {
   color: #b8b5b599;
@@ -1091,6 +1106,10 @@ input:focus {
   width: 207px;
 }
 
+[type="radio"]:checked{
+  -webkit-appearance: none;
+  background-color: var(--cardinal);
+}
 
 .femalBox {
   align-items: flex-start;
@@ -1155,11 +1174,10 @@ input:focus {
   min-width: 580px;
   background-color: var(--baby-powder);
   height: 56px;
-  border: 1px solid white ;
 }
 
 
-.createButton {
+/* .createButton {
   align-items: flex-start;
   display: flex;
   height: 61px;
@@ -1168,12 +1186,13 @@ input:focus {
   min-width: 445px;
   position: absolute;
   transition: all 0.2s ease;
-}
+} */
 
-.createButton:hover {
+/* .createButton:hover {
   transform: translate(0, -5px);
-}
+} */
 
+/* .createButton  */
 .creatButtonBox {
   align-items:center;
   background-color: var(--cardinal);
@@ -1183,7 +1202,27 @@ input:focus {
   min-width: 443px;
   padding: 9px 169.4px;
   border-width: 0px;
+  align-items: flex-start;
+  display: flex;
+  height: 61px;
+  margin-left: 1260px;
+  margin-top: 1100px;
+  min-width: 445px;
+  position: absolute;
+  transition: all 0.2s ease;
 }
+
+.creatButtonBox:hover {
+  transform: translate(0, -5px);
+}
+
+
+button:disabled{
+  background-color: var(--cardinal);
+  opacity: 40%;
+  cursor: not-allowed;
+}
+
 
 .creatText{
   letter-spacing: 0;
@@ -1202,10 +1241,23 @@ input:focus {
   color: var(--cardinal);
 }
 
+.multiSelect{
+  top: 40px;
+  left: 20px;
+  position: absolute;
+  
+}
 
+.optionContainer :hover {
+background: red;
+color: #fff;
+}
 
-
-
+.multiselect__placeholder {
+  display: inline-block !important;
+  margin-bottom: 0px !important;
+  padding-top: 0px !important;
+}
 
 .loginPage {
   align-items: flex-start;
