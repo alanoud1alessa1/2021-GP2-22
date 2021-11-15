@@ -1,18 +1,17 @@
-// const Knex = require("knex");
 const tableNames = require("../../constents/tableNames")
+
+
 
 function references(
   table,
   tableName,
   columnName,
-  OnDelete = "CASCADE",
-  OnUpdate ="CASCADE"
 ) {
   const definition = table
     .integer(`${columnName}_id`)
     .references(`${columnName}_id`)
     .inTable(tableName)
-    // .OnDelete('CASCADE')
+    // .OnDelete("CASCADE")
     // .OnUpdate(OnUpdate)
     .notNullable();
 
@@ -34,11 +33,11 @@ exports.up = async (knex) => {
     await knex.schema.createTable("Movie", (table) => {
       table.increments("movie_id").notNullable();
       table.integer("imdb_id").notNullable();
-      table.string("title", 50).notNullable();
+      table.string("title", 100).notNullable();
       table.integer("year").notNullable();
       table.string("length", 10).notNullable();
       table.string("age_guide", 10).notNullable();
-      table.string("description", 1000).notNullable();
+      table.text('description','longtext').notNullable();
       table.string("poster", 255).notNullable();
       table.string("trailer_url", 255).notNullable();
     }),
@@ -46,31 +45,29 @@ exports.up = async (knex) => {
         table.increments("admin_id").notNullable();
         table.string("username", 30).unique().notNullable();
         table.string("password", 100).notNullable();
-      })
-      ,
+      }),
     await knex.schema.createTable("Genre", (table) => {
       table.increments("genre_id").notNullable();
-      table.string("genre", 10).notNullable();
+      table.string("genre", 12).notNullable();
     }),
     await knex.schema.createTable("Language", (table) => {
         table.increments("language_id").notNullable();
-        table.string("language", 12).notNullable();
+        table.string("language", 25).notNullable();
     }),
     await knex.schema.createTable("Director", (table) => {
         table.increments("director_id").notNullable();
-        table.string("director", 20).notNullable();
+        table.string("director", 40).notNullable();
     }),
     await knex.schema.createTable("Writer", (table) => {
         table.increments("writer_id").notNullable();
-        table.string("writer", 50).notNullable();
+        table.string("writer", 30).notNullable();
     }),
     await knex.schema.createTable("Actor", (table) => {
         table.increments("actor_id").notNullable();
-        table.string("actor", 20).notNullable();
+        table.string("actor", 40).notNullable();
         table.string("actor_image_url", 255);
 
-    })
-    ,
+    }) ,
     await knex.schema.createTable("Movie_Genre", (table) => {
         references(table, "Movie" , "movie");
         references(table, "Genre" , 'genre');
@@ -94,7 +91,7 @@ exports.up = async (knex) => {
     await knex.schema.createTable("Role", (table) => {
         references(table, "Movie" , "movie");
         references(table, "Actor" , 'actor');
-        table.string("role", 15).notNullable();
+        table.string("role", 35);
         table.primary(["movie_id", "actor_id"]);
     }),
     await knex.schema.createTable("User_Genre", (table) => {
@@ -138,6 +135,8 @@ exports.up = async (knex) => {
         .dropTable("Actor")
         .dropTable("User")
         .dropTable("Movie");
-
   };
+
+
+
 
