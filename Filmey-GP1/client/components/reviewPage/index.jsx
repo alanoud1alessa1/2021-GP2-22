@@ -71,10 +71,10 @@ function reviewPage(props) {
 
             {/* footer */}
             <footer>
-            <div className="footer"> </div>
-                <img className="footerLogo" src={logo} />
-                <div className="footerText1">{footerText1}</div>
-                <div className="copyRightText inter-light-bon-jour-35px2">
+            <div className="reviewFooter"> </div>
+                <img className="reviewFooterLogo" src={logo} />
+                <div className="reviewfooterText1">{footerText1}</div>
+                <div className="reviewcopyRightText inter-light-bon-jour-35px2">
                 <span>{footerText2}</span>
                 </div>
             </footer>
