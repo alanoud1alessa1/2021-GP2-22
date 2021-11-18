@@ -264,12 +264,6 @@
   transform: scale(1.1);
 }
 
-.movieRatingText2{
-  top: 75px;
-  left:30px;
-  position: absolute;
-  white-space:nowrap;
-}
 
 .movieRatingText {
   color: var(--white);
@@ -278,6 +272,7 @@
   font-weight: 700;
   /* left: 635px; */
   left:80px;
+  top: 4px;
   /* top: 229px; */
   /* top:103px; */
   letter-spacing: 0.36px;
@@ -292,6 +287,7 @@
   font-weight: 700;
   /* left: 635px; */
   left:100px;
+  top: 4px;
   /* top: 229px; */
   /* top:103px; */
   letter-spacing: 0.36px;
@@ -313,6 +309,7 @@
   left: 601px;
   top: 395px;
   position: absolute;
+  white-space: nowrap;
 }
 
 .movieInfoGenre {
@@ -521,8 +518,17 @@
 
 .movieRatingContainer{
   position: absolute;
-  top: 105px;
+  top: 100px;
   left: -20px;
+  display: inline-block;
+}
+
+.pgAndTime{
+  top:170px;
+  left: 10px;
+  position: relative;
+  display : flex;
+  flex-direction : row;
 }
 
 .pgContainer {
@@ -530,26 +536,19 @@
   border-radius: 50%;
   min-height: 50px;
   min-width: 50px;
-  position:absolute;
-  top:170px;
-  left: 10px;
 }
 
 .moviepg {
-  /* position: relative; */
   text-align: center;
-  /* display: flex; */
   justify-content: center;
   align-items: center;
   padding: 5px 5px;
-  white-space: nowrap;
 }
 
 
 .timeContainer {
-  left: 80px;
   position: relative;
-  top: 180px;
+  top: 10px;
 }
 
 .movieTime {
@@ -623,6 +622,7 @@
   position: absolute;
   top: 0px;
   width: 169px;
+  border-radius: 10%;
 }
 
 .castImage4 {
@@ -673,7 +673,6 @@
   text-align: center;
   letter-spacing: 0;
   position: absolute;
-  text-align: center;
   text-shadow: 0px 4px 4px #00000040;
   top: 220px;
   width: 157px;
@@ -681,11 +680,13 @@
 
 .castRole1 {
   letter-spacing: 0;
-  position: absolute;
-  text-align: center;
   text-shadow: 0px 4px 4px #00000040;
   top: 280px;
-  width: 157px;
+  left:0px;
+  position: absolute;
+  width: 150px;
+  overflow-wrap: break-word;
+  text-align: center;
 }
 
 .castRole2 {
@@ -902,13 +903,16 @@
 
 
 .cast1{
-  height: 211px;
+  /* height: 211px; */
+  min-height: 211px;
   width: 169px;
   top: 1050px;
   left: 100px;
   position: relative;
   float:left;
   margin-left:100px;
+  text-align: center;
+  align-content: center;
 }
 
 .cast2{
@@ -1126,7 +1130,7 @@ card
   }
 
   .reviewsContainer{
-    top: 110px;
+    top: 150px;
     position: absolute;
   }
 
@@ -1176,3 +1180,13 @@ card
   top: 200px;
   width: 344px;
 }
+
+.movieYear{
+  color: #fbfbfb;
+  font-family: var(--font-family-roboto);
+  font-size: 40px;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+

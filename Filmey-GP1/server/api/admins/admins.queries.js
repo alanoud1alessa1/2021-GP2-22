@@ -27,7 +27,7 @@ module.exports = {
   
           if (!user)
           {
-             message = { 'emailOrUsernameMessage' : "Email / Username incorrect"};
+             message = { 'emailOrUsernameMessage' : "Sorry, email / username is not exists."};
       
             return message;
           }
@@ -38,7 +38,7 @@ module.exports = {
           if (!isAuth)
           {
           
-            message = { 'passwordMessage' : "Password incorrect"};
+            message = { 'passwordMessage' : "Password is incorrect."};
       
             return message;
       

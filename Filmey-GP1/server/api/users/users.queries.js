@@ -47,7 +47,7 @@ module.exports = {
 
     if (!user)
     {
-      message = { 'emailOrUsernameMessage' : "Email / Username incorrect"};
+      message = { 'emailOrUsernameMessage' : "Sorry, email / username  is not exists."};
 
       return message;
     }
@@ -58,7 +58,7 @@ module.exports = {
     if (!isAuth)
     {
     
-      message = { 'passwordMessage' : "Password incorrect"};
+      message = { 'passwordMessage' : "Password is incorrect."};
 
       return message;
 
@@ -122,7 +122,7 @@ module.exports = {
     //console.log(validators.mx.valid);
     if(!validators.mx.valid)
     {
-      const message = { 'emailMessage' : "Email incorrect"};
+      const message = { 'emailMessage' : "Please enter a valid email."};
 
       return message;
     }
@@ -131,7 +131,7 @@ module.exports = {
     if (result)
     {
       console.log("inside results");
-      const message = { 'emailMessage' : "Email already taken"};
+      const message = { 'emailMessage' : "Email is already registered."};
 
       return message;
     }
@@ -143,7 +143,7 @@ module.exports = {
     let result= await db("User").where({username: username}).first().returning("*");
     if (result)
     {
-      const message =  { 'usernameMessage' : "Username already taken"};
+      const message =  { 'usernameMessage' : "Username is already taken."};
 
       return message;
     }

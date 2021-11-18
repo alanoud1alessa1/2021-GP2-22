@@ -155,7 +155,7 @@ const [numOfCasts,setNumOfCasts]=useState(0);
 
         for (var i = 0; i < numOfGenres; i++) {
           if(i < numOfGenres -1 ){
-          newArr[i] = response.data[i].genre +",";
+          newArr[i] = response.data[i].genre +", ";
           }
           else{
             newArr[i] = response.data[i].genre ;}
@@ -172,7 +172,7 @@ const [numOfCasts,setNumOfCasts]=useState(0);
 
       for (var i = 0; i < numOfDirectors; i++) {
         if(i < numOfDirectors -1 ){
-        newArr[i] = response.data[i].director +",";
+        newArr[i] = response.data[i].director +", ";
         }
         else{
           newArr[i] = response.data[i].director ;}
@@ -188,7 +188,7 @@ const [numOfCasts,setNumOfCasts]=useState(0);
 
     for (var i = 0; i < numOfWriters; i++) {
       if(i < numOfWriters -1 ){
-      newArr[i] = response.data[i].writer +",";
+      newArr[i] = response.data[i].writer +", ";
       }
       else{
         newArr[i] = response.data[i].writer ;}
@@ -205,7 +205,7 @@ api.get(`/movies/languages/${id}`).then((response)=>{
 
   for (var i = 0; i < numOfLanguages; i++) {
     if(i < numOfLanguages -1 ){
-    newArr[i] = response.data[i].language +",";
+    newArr[i] = response.data[i].language +", ";
     }
     else{
       newArr[i] = response.data[i].language ;}
@@ -282,7 +282,9 @@ console.log(castNames);
             <header>
               {/* Header */}
                 <div className="header"> 
-                  <img className="headerLogo" src={logo} />
+                  <Link to="/home-page">
+                    <img className="headerLogo" src={logo} />
+                  </Link>    
                   <div>
                     <Link to="/home-page">
                       <div className="homeText darkergrotesque-medium-white-35px2">{homeText}</div>
@@ -372,18 +374,20 @@ console.log(castNames);
 
                 <div className="movieInfo">
                   <div className="movieTitle">
-                    <div className="movieName">{title}</div>
+                    <div className="movieName">{title} <span className="movieYear"> ({year})</span></div>
                     <div className="movieRatingContainer">
                       {/* <div className="movieRatingText2 neuton-bold-white-24px"> Movie Rating </div> */}
                       <img className="star" src="/img/star-2@2x.svg" />
                       <div className="movieRatingText">{movieRating}</div> 
                       <div className="tenText">/ 10</div> 
                     </div>
-                    <div className="pgContainer"> 
-                        <div className="moviepg neuton-bold-white-20px">{age_guide}</div>
-                    </div>
-                    <div className="timeContainer">
-                    <div className="movieTime neuton-bold-white-20px">{length}</div>
+                    <div className="pgAndTime">
+                      <div className="pgContainer"> 
+                          <div className="moviepg neuton-bold-white-20px">{age_guide}</div>
+                      </div>
+                      <div className="timeContainer">
+                      <div className="movieTime neuton-bold-white-20px">{length}</div>
+                      </div>
                     </div>
                   </div>
 

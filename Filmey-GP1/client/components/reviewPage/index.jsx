@@ -23,8 +23,9 @@ function reviewPage(props) {
             {/* Header */}
             <header>
                 <div className="header"> 
-                    <img className="headerLogo" src={logo} />
-
+                    <Link to="/home-page">
+                        <img className="headerLogo" src={logo} />
+                    </Link>
                     <div>
                     <Link to="/home-page">
                         <div className="homeText darkergrotesque-medium-white-35px2">{homeText}</div>

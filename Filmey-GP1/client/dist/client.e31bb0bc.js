@@ -44082,894 +44082,7 @@ function o(e, r) {
 n.prototype = new Error(), n.prototype.name = "InvalidTokenError";
 var _default = o;
 exports.default = _default;
-},{}],"node_modules/multiselect-react-dropdown/dist/multiselect-react-dropdown.cjs.development.js":[function(require,module,exports) {
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-
-var React = require('react');
-var React__default = _interopDefault(React);
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (typeof call === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
-}
-
-function styleInject(css, ref) {
-  if ( ref === void 0 ) ref = {};
-  var insertAt = ref.insertAt;
-
-  if (!css || typeof document === 'undefined') { return; }
-
-  var head = document.head || document.getElementsByTagName('head')[0];
-  var style = document.createElement('style');
-  style.type = 'text/css';
-
-  if (insertAt === 'top') {
-    if (head.firstChild) {
-      head.insertBefore(style, head.firstChild);
-    } else {
-      head.appendChild(style);
-    }
-  } else {
-    head.appendChild(style);
-  }
-
-  if (style.styleSheet) {
-    style.styleSheet.cssText = css;
-  } else {
-    style.appendChild(document.createTextNode(css));
-  }
-}
-
-var css_248z = "*,:after,:before{box-sizing:border-box}.multiSelectContainer{position:relative;text-align:left;width:100%}.disable_ms{pointer-events:none;opacity:.5}.searchWrapper{border:1px solid #ccc;border-radius:4px;padding:5px;min-height:22px;position:relative}.multiSelectContainer input{border:none;margin-top:3px;background:transparent}.multiSelectContainer input:focus{outline:none}.chip{padding:4px 10px;background:#0096fb;margin-right:5px;margin-bottom:5px;border-radius:11px;display:inline-flex;align-items:center;font-size:13px;line-height:19px;color:#fff}.chip,.singleChip{white-space:nowrap}.singleChip{background:none;border-radius:none;color:inherit}.singleChip i{display:none}.closeIcon{height:13px;width:13px;float:right;margin-left:5px;cursor:pointer}.optionListContainer{position:absolute;width:100%;background:#fff;border-radius:4px;margin-top:1px;z-index:2}.multiSelectContainer ul{display:block;padding:0;margin:0;border:1px solid #ccc;border-radius:4px;max-height:250px;overflow-y:auto}.multiSelectContainer li{padding:10px}.multiSelectContainer li:hover{background:#0096fb;color:#fff;cursor:pointer}.checkbox{margin-right:10px}.disableSelection{pointer-events:none;opacity:.5}.highlightOption{background:#0096fb;color:#fff}.displayBlock{display:block}.displayNone{display:none}.notFound{padding:10px;display:block}.singleSelect{padding-right:20px}li.groupHeading{color:#908e8e;pointer-events:none;padding:5px 15px}li.groupChildEle{padding-left:30px}.icon_down_dir{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:14px}.icon_down_dir:before{content:\"\\e803\"}.custom-close{display:flex}";
-styleInject(css_248z);
-
-var CloseCircle = "data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2096%2096%22%20%20%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%20%20%20%20%3Cstyle%20type%3D%22text%2Fcss%22%3E%20%20%20%20%20%20%20%20.st0%7B%20%20%20%20%20%20%20%20%20%20%20%20fill%3A%23fff%3B%20%20%20%20%20%20%20%20%7D%20%3C%2Fstyle%3E%20%20%20%20%3Cg%3E%20%20%20%20%20%20%20%20%3Cpath%20class%3D%22st0%22%20d%3D%22M48%2C0A48%2C48%2C0%2C1%2C0%2C96%2C48%2C48.0512%2C48.0512%2C0%2C0%2C0%2C48%2C0Zm0%2C84A36%2C36%2C0%2C1%2C1%2C84%2C48%2C36.0393%2C36.0393%2C0%2C0%2C1%2C48%2C84Z%22%2F%3E%20%20%20%20%20%20%20%20%3Cpath%20class%3D%22st0%22%20d%3D%22M64.2422%2C31.7578a5.9979%2C5.9979%2C0%2C0%2C0-8.4844%2C0L48%2C39.5156l-7.7578-7.7578a5.9994%2C5.9994%2C0%2C0%2C0-8.4844%2C8.4844L39.5156%2C48l-7.7578%2C7.7578a5.9994%2C5.9994%2C0%2C1%2C0%2C8.4844%2C8.4844L48%2C56.4844l7.7578%2C7.7578a5.9994%2C5.9994%2C0%2C0%2C0%2C8.4844-8.4844L56.4844%2C48l7.7578-7.7578A5.9979%2C5.9979%2C0%2C0%2C0%2C64.2422%2C31.7578Z%22%2F%3E%20%20%20%20%3C%2Fg%3E%3C%2Fsvg%3E";
-
-var CloseCircleDark = "data:image/svg+xml,%3Csvg%20height%3D%22512px%22%20id%3D%22Layer_1%22%20style%3D%22enable-background%3Anew%200%200%20512%20512%3B%22%20version%3D%221.1%22%20viewBox%3D%220%200%20512%20512%22%20width%3D%22512px%22%20xml%3Aspace%3D%22preserve%22%20%20%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20%20%20%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E%20%20%20%20%3Cstyle%20type%3D%22text%2Fcss%22%3E%20%20%20%20%20%20%20%20.st0%7B%20%20%20%20%20%20%20%20%20%20%20%20fill%3A%23fff%3B%20%20%20%20%20%20%20%20%7D%20%3C%2Fstyle%3E%20%20%20%20%3Cg%3E%20%20%20%20%20%20%20%20%3Cpath%20class%3D%22st0%22%20d%3D%22M256%2C33C132.3%2C33%2C32%2C133.3%2C32%2C257c0%2C123.7%2C100.3%2C224%2C224%2C224c123.7%2C0%2C224-100.3%2C224-224C480%2C133.3%2C379.7%2C33%2C256%2C33z%20%20%20%20M364.3%2C332.5c1.5%2C1.5%2C2.3%2C3.5%2C2.3%2C5.6c0%2C2.1-0.8%2C4.2-2.3%2C5.6l-21.6%2C21.7c-1.6%2C1.6-3.6%2C2.3-5.6%2C2.3c-2%2C0-4.1-0.8-5.6-2.3L256%2C289.8%20%20%20l-75.4%2C75.7c-1.5%2C1.6-3.6%2C2.3-5.6%2C2.3c-2%2C0-4.1-0.8-5.6-2.3l-21.6-21.7c-1.5-1.5-2.3-3.5-2.3-5.6c0-2.1%2C0.8-4.2%2C2.3-5.6l75.7-76%20%20%20l-75.9-75c-3.1-3.1-3.1-8.2%2C0-11.3l21.6-21.7c1.5-1.5%2C3.5-2.3%2C5.6-2.3c2.1%2C0%2C4.1%2C0.8%2C5.6%2C2.3l75.7%2C74.7l75.7-74.7%20%20%20c1.5-1.5%2C3.5-2.3%2C5.6-2.3c2.1%2C0%2C4.1%2C0.8%2C5.6%2C2.3l21.6%2C21.7c3.1%2C3.1%2C3.1%2C8.2%2C0%2C11.3l-75.9%2C75L364.3%2C332.5z%22%2F%3E%20%20%20%20%3C%2Fg%3E%3C%2Fsvg%3E";
-
-var CloseLine = "data:image/svg+xml,%3Csvg%20height%3D%22512px%22%20id%3D%22Layer_1%22%20style%3D%22enable-background%3Anew%200%200%20512%20512%3B%22%20version%3D%221.1%22%20viewBox%3D%220%200%20512%20512%22%20width%3D%22512px%22%20xml%3Aspace%3D%22preserve%22%20%20%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20%20%20%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E%20%20%20%20%3Cstyle%20type%3D%22text%2Fcss%22%3E%20%20%20%20%20%20%20%20.st0%7B%20%20%20%20%20%20%20%20%20%20%20%20fill%3A%23fff%3B%20%20%20%20%20%20%20%20%7D%20%3C%2Fstyle%3E%20%20%20%20%3Cpath%20class%3D%22st0%22%20d%3D%22M443.6%2C387.1L312.4%2C255.4l131.5-130c5.4-5.4%2C5.4-14.2%2C0-19.6l-37.4-37.6c-2.6-2.6-6.1-4-9.8-4c-3.7%2C0-7.2%2C1.5-9.8%2C4%20%20L256%2C197.8L124.9%2C68.3c-2.6-2.6-6.1-4-9.8-4c-3.7%2C0-7.2%2C1.5-9.8%2C4L68%2C105.9c-5.4%2C5.4-5.4%2C14.2%2C0%2C19.6l131.5%2C130L68.4%2C387.1%20%20c-2.6%2C2.6-4.1%2C6.1-4.1%2C9.8c0%2C3.7%2C1.4%2C7.2%2C4.1%2C9.8l37.4%2C37.6c2.7%2C2.7%2C6.2%2C4.1%2C9.8%2C4.1c3.5%2C0%2C7.1-1.3%2C9.8-4.1L256%2C313.1l130.7%2C131.1%20%20c2.7%2C2.7%2C6.2%2C4.1%2C9.8%2C4.1c3.5%2C0%2C7.1-1.3%2C9.8-4.1l37.4-37.6c2.6-2.6%2C4.1-6.1%2C4.1-9.8C447.7%2C393.2%2C446.2%2C389.7%2C443.6%2C387.1z%22%2F%3E%3C%2Fsvg%3E";
-
-var CloseSquare = "data:image/svg+xml,%3Csvg%20height%3D%22135.467mm%22%20style%3D%22shape-rendering%3AgeometricPrecision%3B%20text-rendering%3AgeometricPrecision%3B%20image-rendering%3AoptimizeQuality%3B%20fill-rule%3Aevenodd%3B%20clip-rule%3Aevenodd%22%20viewBox%3D%220%200%2013547%2013547%22%20width%3D%22135.467mm%22%20xml%3Aspace%3D%22preserve%22%20%20%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20%20%20%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%3E%20%20%20%20%3Cdefs%3E%20%20%20%20%20%20%20%20%3Cstyle%20type%3D%22text%2Fcss%22%3E%20%20%20%20%20%20%20%20%20%20%20%20.fil0%20%7Bfill%3Anone%7D%20%20%20%20%20%20%20%20%20%20%20%20.fil1%20%7Bfill%3A%23fff%7D%20%20%20%20%20%20%20%20%3C%2Fstyle%3E%20%20%20%20%3C%2Fdefs%3E%20%20%20%20%3Cg%20id%3D%22Ebene_x0020_1%22%3E%20%20%20%20%20%20%20%20%3Cpolygon%20class%3D%22fil0%22%20points%3D%220%2C0%2013547%2C0%2013547%2C13547%200%2C13547%20%22%2F%3E%20%20%20%20%20%20%20%20%3Cpath%20class%3D%22fil1%22%20d%3D%22M714%2012832l12118%200%200%20-12117%20-12118%200%200%2012117zm4188%20-2990l1871%20-1871%201871%201871%201197%20-1197%20-1871%20-1871%201871%20-1871%20-1197%20-1197%20-1871%201871%20-1871%20-1871%20-1197%201197%201871%201871%20-1871%201871%201197%201197z%22%2F%3E%20%20%20%20%3C%2Fg%3E%3C%2Fsvg%3E";
-
-var DownArrow = "data:image/svg+xml,%3Csvg%20height%3D%2232%22%20viewBox%3D%220%200%2032%2032%22%20width%3D%2232%22%20%20%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%20%20%20%20%3Cg%20id%3D%22background%22%3E%20%20%20%20%20%20%20%20%3Crect%20fill%3D%22none%22%20height%3D%2232%22%20width%3D%2232%22%2F%3E%20%20%20%20%3C%2Fg%3E%20%20%20%20%3Cg%20id%3D%22arrow_x5F_down%22%3E%20%20%20%20%20%20%20%20%3Cpolygon%20points%3D%222.002%2C10%2016.001%2C24%2030.002%2C10%20%20%22%2F%3E%20%20%20%20%3C%2Fg%3E%3C%2Fsvg%3E";
-
-var closeIconTypes = {
-  circle: CloseCircleDark,
-  circle2: CloseCircle,
-  close: CloseSquare,
-  cancel: CloseLine
-};
-var Multiselect = /*#__PURE__*/function (_React$Component) {
-  _inherits(Multiselect, _React$Component);
-
-  function Multiselect(props) {
-    var _this;
-
-    _classCallCheck(this, Multiselect);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Multiselect).call(this, props));
-    _this.state = {
-      inputValue: "",
-      options: props.options,
-      filteredOptions: props.options,
-      unfilteredOptions: props.options,
-      selectedValues: Object.assign([], props.selectedValues),
-      preSelectedValues: Object.assign([], props.selectedValues),
-      toggleOptionsList: false,
-      highlightOption: props.avoidHighlightFirstOption ? -1 : 0,
-      showCheckbox: props.showCheckbox,
-      keepSearchTerm: props.keepSearchTerm,
-      groupedObject: [],
-      closeIconType: closeIconTypes[props.closeIcon] || closeIconTypes['circle']
-    }; // @ts-ignore
-
-    _this.optionTimeout = null; // @ts-ignore
-
-    _this.searchWrapper = React__default.createRef(); // @ts-ignore
-
-    _this.searchBox = React__default.createRef();
-    _this.onChange = _this.onChange.bind(_assertThisInitialized(_this));
-    _this.onFocus = _this.onFocus.bind(_assertThisInitialized(_this));
-    _this.onBlur = _this.onBlur.bind(_assertThisInitialized(_this));
-    _this.renderMultiselectContainer = _this.renderMultiselectContainer.bind(_assertThisInitialized(_this));
-    _this.renderSelectedList = _this.renderSelectedList.bind(_assertThisInitialized(_this));
-    _this.onRemoveSelectedItem = _this.onRemoveSelectedItem.bind(_assertThisInitialized(_this));
-    _this.toggelOptionList = _this.toggelOptionList.bind(_assertThisInitialized(_this));
-    _this.onArrowKeyNavigation = _this.onArrowKeyNavigation.bind(_assertThisInitialized(_this));
-    _this.onSelectItem = _this.onSelectItem.bind(_assertThisInitialized(_this));
-    _this.filterOptionsByInput = _this.filterOptionsByInput.bind(_assertThisInitialized(_this));
-    _this.removeSelectedValuesFromOptions = _this.removeSelectedValuesFromOptions.bind(_assertThisInitialized(_this));
-    _this.isSelectedValue = _this.isSelectedValue.bind(_assertThisInitialized(_this));
-    _this.fadeOutSelection = _this.fadeOutSelection.bind(_assertThisInitialized(_this));
-    _this.isDisablePreSelectedValues = _this.isDisablePreSelectedValues.bind(_assertThisInitialized(_this));
-    _this.renderGroupByOptions = _this.renderGroupByOptions.bind(_assertThisInitialized(_this));
-    _this.renderNormalOption = _this.renderNormalOption.bind(_assertThisInitialized(_this));
-    _this.listenerCallback = _this.listenerCallback.bind(_assertThisInitialized(_this));
-    _this.resetSelectedValues = _this.resetSelectedValues.bind(_assertThisInitialized(_this));
-    _this.getSelectedItems = _this.getSelectedItems.bind(_assertThisInitialized(_this));
-    _this.getSelectedItemsCount = _this.getSelectedItemsCount.bind(_assertThisInitialized(_this));
-    _this.hideOnClickOutside = _this.hideOnClickOutside.bind(_assertThisInitialized(_this));
-    _this.isVisible = _this.isVisible.bind(_assertThisInitialized(_this));
-    return _this;
-  }
-
-  _createClass(Multiselect, [{
-    key: "initialSetValue",
-    value: function initialSetValue() {
-      var _this$props = this.props,
-          showCheckbox = _this$props.showCheckbox,
-          groupBy = _this$props.groupBy,
-          singleSelect = _this$props.singleSelect;
-      var options = this.state.options;
-
-      if (!showCheckbox && !singleSelect) {
-        this.removeSelectedValuesFromOptions(false);
-      } // if (singleSelect) {
-      //   this.hideOnClickOutside();
-      // }
-
-
-      if (groupBy) {
-        this.groupByOptions(options);
-      }
-    }
-  }, {
-    key: "resetSelectedValues",
-    value: function resetSelectedValues() {
-      var _this2 = this;
-
-      var unfilteredOptions = this.state.unfilteredOptions;
-      return new Promise(function (resolve) {
-        _this2.setState({
-          selectedValues: [],
-          preSelectedValues: [],
-          options: unfilteredOptions,
-          filteredOptions: unfilteredOptions
-        }, function () {
-          // @ts-ignore
-          resolve();
-
-          _this2.initialSetValue();
-        });
-      });
-    }
-  }, {
-    key: "getSelectedItems",
-    value: function getSelectedItems() {
-      return this.state.selectedValues;
-    }
-  }, {
-    key: "getSelectedItemsCount",
-    value: function getSelectedItemsCount() {
-      return this.state.selectedValues.length;
-    }
-  }, {
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this.initialSetValue(); // @ts-ignore
-
-      this.searchWrapper.current.addEventListener("click", this.listenerCallback);
-    }
-  }, {
-    key: "componentDidUpdate",
-    value: function componentDidUpdate(prevProps) {
-      var _this$props2 = this.props,
-          options = _this$props2.options,
-          selectedValues = _this$props2.selectedValues;
-      var prevOptions = prevProps.options,
-          prevSelectedvalues = prevProps.selectedValues;
-
-      if (JSON.stringify(prevOptions) !== JSON.stringify(options)) {
-        this.setState({
-          options: options,
-          filteredOptions: options,
-          unfilteredOptions: options
-        }, this.initialSetValue);
-      }
-
-      if (JSON.stringify(prevSelectedvalues) !== JSON.stringify(selectedValues)) {
-        this.setState({
-          selectedValues: Object.assign([], selectedValues),
-          preSelectedValues: Object.assign([], selectedValues)
-        }, this.initialSetValue);
-      }
-    }
-  }, {
-    key: "listenerCallback",
-    value: function listenerCallback() {
-      // @ts-ignore
-      this.searchBox.current.focus();
-    }
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      // @ts-ignore
-      if (this.optionTimeout) {
-        // @ts-ignore
-        clearTimeout(this.optionTimeout);
-      } // @ts-ignore
-
-
-      this.searchWrapper.current.removeEventListener('click', this.listenerCallback);
-    } // Skipcheck flag - value will be true when the func called from on deselect anything.
-
-  }, {
-    key: "removeSelectedValuesFromOptions",
-    value: function removeSelectedValuesFromOptions(skipCheck) {
-      var _this$props3 = this.props,
-          isObject = _this$props3.isObject,
-          displayValue = _this$props3.displayValue,
-          groupBy = _this$props3.groupBy;
-      var _this$state = this.state,
-          _this$state$selectedV = _this$state.selectedValues,
-          selectedValues = _this$state$selectedV === void 0 ? [] : _this$state$selectedV,
-          unfilteredOptions = _this$state.unfilteredOptions,
-          options = _this$state.options;
-
-      if (!skipCheck && groupBy) {
-        this.groupByOptions(options);
-      }
-
-      if (!selectedValues.length && !skipCheck) {
-        return;
-      }
-
-      if (isObject) {
-        var _optionList = unfilteredOptions.filter(function (item) {
-          return selectedValues.findIndex(function (v) {
-            return v[displayValue] === item[displayValue];
-          }) === -1 ? true : false;
-        });
-
-        if (groupBy) {
-          this.groupByOptions(_optionList);
-        }
-
-        this.setState({
-          options: _optionList,
-          filteredOptions: _optionList
-        }, this.filterOptionsByInput);
-        return;
-      }
-
-      var optionList = unfilteredOptions.filter(function (item) {
-        return selectedValues.indexOf(item) === -1;
-      });
-      this.setState({
-        options: optionList,
-        filteredOptions: optionList
-      }, this.filterOptionsByInput);
-    }
-  }, {
-    key: "groupByOptions",
-    value: function groupByOptions(options) {
-      var groupBy = this.props.groupBy;
-      var groupedObject = options.reduce(function (r, a) {
-        var key = a[groupBy] || "Others";
-        r[key] = r[key] || [];
-        r[key].push(a);
-        return r;
-      }, Object.create({}));
-      this.setState({
-        groupedObject: groupedObject
-      });
-    }
-  }, {
-    key: "onChange",
-    value: function onChange(event) {
-      var onSearch = this.props.onSearch;
-      this.setState({
-        inputValue: event.target.value
-      }, this.filterOptionsByInput);
-
-      if (onSearch) {
-        onSearch(event.target.value);
-      }
-    }
-  }, {
-    key: "filterOptionsByInput",
-    value: function filterOptionsByInput() {
-      var _this3 = this;
-
-      var _this$state2 = this.state,
-          options = _this$state2.options,
-          filteredOptions = _this$state2.filteredOptions,
-          inputValue = _this$state2.inputValue;
-      var _this$props4 = this.props,
-          isObject = _this$props4.isObject,
-          displayValue = _this$props4.displayValue;
-
-      if (isObject) {
-        options = filteredOptions.filter(function (i) {
-          return _this3.matchValues(i[displayValue], inputValue);
-        });
-      } else {
-        options = filteredOptions.filter(function (i) {
-          return _this3.matchValues(i, inputValue);
-        });
-      }
-
-      this.groupByOptions(options);
-      this.setState({
-        options: options
-      });
-    }
-  }, {
-    key: "matchValues",
-    value: function matchValues(value, search) {
-      if (this.props.caseSensitiveSearch) {
-        return value.indexOf(search) > -1;
-      }
-
-      if (value.toLowerCase) {
-        return value.toLowerCase().indexOf(search.toLowerCase()) > -1;
-      }
-
-      return value.toString().indexOf(search) > -1;
-    }
-  }, {
-    key: "onArrowKeyNavigation",
-    value: function onArrowKeyNavigation(e) {
-      var _this$state3 = this.state,
-          options = _this$state3.options,
-          highlightOption = _this$state3.highlightOption,
-          toggleOptionsList = _this$state3.toggleOptionsList,
-          inputValue = _this$state3.inputValue,
-          selectedValues = _this$state3.selectedValues;
-      var disablePreSelectedValues = this.props.disablePreSelectedValues;
-
-      if (e.keyCode === 8 && !inputValue && !disablePreSelectedValues && selectedValues.length) {
-        this.onRemoveSelectedItem(selectedValues.length - 1);
-      }
-
-      if (!options.length) {
-        return;
-      }
-
-      if (e.keyCode === 38) {
-        if (highlightOption > 0) {
-          this.setState(function (previousState) {
-            return {
-              highlightOption: previousState.highlightOption - 1
-            };
-          });
-        } else {
-          this.setState({
-            highlightOption: options.length - 1
-          });
-        }
-      } else if (e.keyCode === 40) {
-        if (highlightOption < options.length - 1) {
-          this.setState(function (previousState) {
-            return {
-              highlightOption: previousState.highlightOption + 1
-            };
-          });
-        } else {
-          this.setState({
-            highlightOption: 0
-          });
-        }
-      } else if (e.key === "Enter" && options.length && toggleOptionsList) {
-        if (highlightOption === -1) {
-          return;
-        }
-
-        this.onSelectItem(options[highlightOption]);
-      } // TODO: Instead of scrollIntoView need to find better soln for scroll the dropwdown container.
-      // setTimeout(() => {
-      //   const element = document.querySelector("ul.optionContainer .highlight");
-      //   if (element) {
-      //     element.scrollIntoView();
-      //   }
-      // });
-
-    }
-  }, {
-    key: "onRemoveSelectedItem",
-    value: function onRemoveSelectedItem(item) {
-      var _this4 = this;
-
-      var _this$state4 = this.state,
-          selectedValues = _this$state4.selectedValues,
-          _this$state4$index = _this$state4.index,
-          index = _this$state4$index === void 0 ? 0 : _this$state4$index;
-      var _this$props5 = this.props,
-          onRemove = _this$props5.onRemove,
-          showCheckbox = _this$props5.showCheckbox,
-          displayValue = _this$props5.displayValue,
-          isObject = _this$props5.isObject;
-
-      if (isObject) {
-        index = selectedValues.findIndex(function (i) {
-          return i[displayValue] === item[displayValue];
-        });
-      } else {
-        index = selectedValues.indexOf(item);
-      }
-
-      selectedValues.splice(index, 1);
-      onRemove(selectedValues, item);
-      this.setState({
-        selectedValues: selectedValues
-      }, function () {
-        if (!showCheckbox) {
-          _this4.removeSelectedValuesFromOptions(true);
-        }
-      });
-
-      if (!this.props.closeOnSelect) {
-        // @ts-ignore
-        this.searchBox.current.focus();
-      }
-    }
-  }, {
-    key: "onSelectItem",
-    value: function onSelectItem(item) {
-      var _this5 = this;
-
-      var selectedValues = this.state.selectedValues;
-      var _this$props6 = this.props,
-          selectionLimit = _this$props6.selectionLimit,
-          onSelect = _this$props6.onSelect,
-          singleSelect = _this$props6.singleSelect,
-          showCheckbox = _this$props6.showCheckbox;
-
-      if (!this.state.keepSearchTerm) {
-        this.setState({
-          inputValue: ''
-        });
-      }
-
-      if (singleSelect) {
-        this.onSingleSelect(item);
-        onSelect([item], item);
-        return;
-      }
-
-      if (this.isSelectedValue(item)) {
-        this.onRemoveSelectedItem(item);
-        return;
-      }
-
-      if (selectionLimit == selectedValues.length) {
-        return;
-      }
-
-      selectedValues.push(item);
-      onSelect(selectedValues, item);
-      this.setState({
-        selectedValues: selectedValues
-      }, function () {
-        if (!showCheckbox) {
-          _this5.removeSelectedValuesFromOptions(true);
-        } else {
-          _this5.filterOptionsByInput();
-        }
-      });
-
-      if (!this.props.closeOnSelect) {
-        // @ts-ignore
-        this.searchBox.current.focus();
-      }
-    }
-  }, {
-    key: "onSingleSelect",
-    value: function onSingleSelect(item) {
-      this.setState({
-        selectedValues: [item],
-        toggleOptionsList: false
-      });
-    }
-  }, {
-    key: "isSelectedValue",
-    value: function isSelectedValue(item) {
-      var _this$props7 = this.props,
-          isObject = _this$props7.isObject,
-          displayValue = _this$props7.displayValue;
-      var selectedValues = this.state.selectedValues;
-
-      if (isObject) {
-        return selectedValues.filter(function (i) {
-          return i[displayValue] === item[displayValue];
-        }).length > 0;
-      }
-
-      return selectedValues.filter(function (i) {
-        return i === item;
-      }).length > 0;
-    }
-  }, {
-    key: "renderOptionList",
-    value: function renderOptionList() {
-      var _this$props8 = this.props,
-          groupBy = _this$props8.groupBy,
-          style = _this$props8.style,
-          emptyRecordMsg = _this$props8.emptyRecordMsg,
-          loading = _this$props8.loading,
-          _this$props8$loadingM = _this$props8.loadingMessage,
-          loadingMessage = _this$props8$loadingM === void 0 ? 'loading...' : _this$props8$loadingM;
-      var options = this.state.options;
-
-      if (loading) {
-        return React__default.createElement("ul", {
-          className: "optionContainer",
-          style: style['optionContainer']
-        }, typeof loadingMessage === 'string' && React__default.createElement("span", {
-          style: style['loadingMessage'],
-          className: "notFound"
-        }, loadingMessage), typeof loadingMessage !== 'string' && loadingMessage);
-      }
-
-      return React__default.createElement("ul", {
-        className: "optionContainer",
-        style: style['optionContainer']
-      }, options.length === 0 && React__default.createElement("span", {
-        style: style['notFound'],
-        className: "notFound"
-      }, emptyRecordMsg), !groupBy ? this.renderNormalOption() : this.renderGroupByOptions());
-    }
-  }, {
-    key: "renderGroupByOptions",
-    value: function renderGroupByOptions() {
-      var _this6 = this;
-
-      var _this$props9 = this.props,
-          _this$props9$isObject = _this$props9.isObject,
-          isObject = _this$props9$isObject === void 0 ? false : _this$props9$isObject,
-          displayValue = _this$props9.displayValue,
-          showCheckbox = _this$props9.showCheckbox,
-          style = _this$props9.style,
-          singleSelect = _this$props9.singleSelect;
-      var groupedObject = this.state.groupedObject;
-      return Object.keys(groupedObject).map(function (obj) {
-        return React__default.createElement(React__default.Fragment, {
-          key: obj
-        }, React__default.createElement("li", {
-          className: "groupHeading",
-          style: style['groupHeading']
-        }, obj), groupedObject[obj].map(function (option, i) {
-          return React__default.createElement("li", {
-            key: "option".concat(i),
-            style: style['option'],
-            className: "\n               groupChildEle ".concat(_this6.fadeOutSelection(option) && 'disableSelection', "\n                ").concat(_this6.isDisablePreSelectedValues(option) && 'disableSelection', " option\n              "),
-            onClick: function onClick() {
-              return _this6.onSelectItem(option);
-            }
-          }, showCheckbox && !singleSelect && React__default.createElement("input", {
-            type: "checkbox",
-            className: 'checkbox',
-            readOnly: true,
-            checked: _this6.isSelectedValue(option)
-          }), isObject ? option[displayValue] : (option || '').toString());
-        }));
-      });
-    }
-  }, {
-    key: "renderNormalOption",
-    value: function renderNormalOption() {
-      var _this7 = this;
-
-      var _this$props10 = this.props,
-          _this$props10$isObjec = _this$props10.isObject,
-          isObject = _this$props10$isObjec === void 0 ? false : _this$props10$isObjec,
-          displayValue = _this$props10.displayValue,
-          showCheckbox = _this$props10.showCheckbox,
-          style = _this$props10.style,
-          singleSelect = _this$props10.singleSelect;
-      var highlightOption = this.state.highlightOption;
-      return this.state.options.map(function (option, i) {
-        return React__default.createElement("li", {
-          key: "option".concat(i),
-          style: style['option'],
-          className: "\n              ".concat(highlightOption === i ? "highlightOption highlight" : "", " \n              ").concat(_this7.fadeOutSelection(option) && 'disableSelection', " \n              ").concat(_this7.isDisablePreSelectedValues(option) && 'disableSelection', " option\n            "),
-          onClick: function onClick() {
-            return _this7.onSelectItem(option);
-          }
-        }, showCheckbox && !singleSelect && React__default.createElement("input", {
-          type: "checkbox",
-          readOnly: true,
-          className: "checkbox",
-          checked: _this7.isSelectedValue(option)
-        }), isObject ? option[displayValue] : (option || '').toString());
-      });
-    }
-  }, {
-    key: "renderSelectedList",
-    value: function renderSelectedList() {
-      var _this8 = this;
-
-      var _this$props11 = this.props,
-          _this$props11$isObjec = _this$props11.isObject,
-          isObject = _this$props11$isObjec === void 0 ? false : _this$props11$isObjec,
-          displayValue = _this$props11.displayValue,
-          style = _this$props11.style,
-          singleSelect = _this$props11.singleSelect,
-          customCloseIcon = _this$props11.customCloseIcon;
-      var _this$state5 = this.state,
-          selectedValues = _this$state5.selectedValues,
-          closeIconType = _this$state5.closeIconType;
-      return selectedValues.map(function (value, index) {
-        return React__default.createElement("span", {
-          className: "chip  ".concat(singleSelect && 'singleChip', " ").concat(_this8.isDisablePreSelectedValues(value) && 'disableSelection'),
-          key: index,
-          style: style['chips']
-        }, !isObject ? (value || '').toString() : value[displayValue], !_this8.isDisablePreSelectedValues(value) && (!customCloseIcon ? React__default.createElement("img", {
-          className: "icon_cancel closeIcon",
-          src: closeIconType,
-          onClick: function onClick() {
-            return _this8.onRemoveSelectedItem(value);
-          }
-        }) : React__default.createElement("i", {
-          className: "custom-close",
-          onClick: function onClick() {
-            return _this8.onRemoveSelectedItem(value);
-          }
-        }, customCloseIcon)));
-      });
-    }
-  }, {
-    key: "isDisablePreSelectedValues",
-    value: function isDisablePreSelectedValues(value) {
-      var _this$props12 = this.props,
-          isObject = _this$props12.isObject,
-          disablePreSelectedValues = _this$props12.disablePreSelectedValues,
-          displayValue = _this$props12.displayValue;
-      var preSelectedValues = this.state.preSelectedValues;
-
-      if (!disablePreSelectedValues || !preSelectedValues.length) {
-        return false;
-      }
-
-      if (isObject) {
-        return preSelectedValues.filter(function (i) {
-          return i[displayValue] === value[displayValue];
-        }).length > 0;
-      }
-
-      return preSelectedValues.filter(function (i) {
-        return i === value;
-      }).length > 0;
-    }
-  }, {
-    key: "fadeOutSelection",
-    value: function fadeOutSelection(item) {
-      var _this$props13 = this.props,
-          selectionLimit = _this$props13.selectionLimit,
-          showCheckbox = _this$props13.showCheckbox,
-          singleSelect = _this$props13.singleSelect;
-
-      if (singleSelect) {
-        return;
-      }
-
-      var selectedValues = this.state.selectedValues;
-
-      if (selectionLimit == -1) {
-        return false;
-      }
-
-      if (selectionLimit != selectedValues.length) {
-        return false;
-      }
-
-      if (selectionLimit == selectedValues.length) {
-        if (!showCheckbox) {
-          return true;
-        } else {
-          if (this.isSelectedValue(item)) {
-            return false;
-          }
-
-          return true;
-        }
-      }
-    }
-  }, {
-    key: "toggelOptionList",
-    value: function toggelOptionList() {
-      this.setState({
-        toggleOptionsList: !this.state.toggleOptionsList,
-        highlightOption: this.props.avoidHighlightFirstOption ? -1 : 0
-      });
-    }
-  }, {
-    key: "onFocus",
-    value: function onFocus() {
-      if (this.state.toggleOptionsList) {
-        // @ts-ignore
-        clearTimeout(this.optionTimeout);
-      } else {
-        this.toggelOptionList();
-      }
-    }
-  }, {
-    key: "onBlur",
-    value: function onBlur() {
-      // @ts-ignore
-      this.optionTimeout = setTimeout(this.toggelOptionList, 250);
-    }
-  }, {
-    key: "isVisible",
-    value: function isVisible(elem) {
-      return !!elem && !!(elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length);
-    }
-  }, {
-    key: "hideOnClickOutside",
-    value: function hideOnClickOutside() {
-      var _this9 = this;
-
-      var element = document.getElementsByClassName('multiselect-container')[0];
-
-      var outsideClickListener = function outsideClickListener(event) {
-        if (element && !element.contains(event.target) && _this9.isVisible(element)) {
-          _this9.toggelOptionList();
-        }
-      };
-
-      document.addEventListener('click', outsideClickListener);
-    }
-  }, {
-    key: "renderMultiselectContainer",
-    value: function renderMultiselectContainer() {
-      var _this$state6 = this.state,
-          inputValue = _this$state6.inputValue,
-          toggleOptionsList = _this$state6.toggleOptionsList,
-          selectedValues = _this$state6.selectedValues;
-      var _this$props14 = this.props,
-          placeholder = _this$props14.placeholder,
-          style = _this$props14.style,
-          singleSelect = _this$props14.singleSelect,
-          id = _this$props14.id,
-          hidePlaceholder = _this$props14.hidePlaceholder,
-          disable = _this$props14.disable,
-          showArrow = _this$props14.showArrow;
-      return React__default.createElement("div", {
-        className: "multiselect-container multiSelectContainer ".concat(disable ? "disable_ms" : ''),
-        id: id || 'multiselectContainerReact',
-        style: style['multiselectContainer']
-      }, React__default.createElement("div", {
-        className: "search-wrapper searchWrapper ".concat(singleSelect ? 'singleSelect' : ''),
-        ref: this.searchWrapper,
-        style: style['searchBox'],
-        onClick: singleSelect ? this.toggelOptionList : function () {}
-      }, this.renderSelectedList(), React__default.createElement("input", {
-        type: "text",
-        ref: this.searchBox,
-        className: "searchBox",
-        id: "".concat(id || 'search', "_input"),
-        onChange: this.onChange,
-        value: inputValue,
-        onFocus: this.onFocus,
-        onBlur: this.onBlur,
-        placeholder: singleSelect && selectedValues.length || hidePlaceholder && selectedValues.length ? '' : placeholder,
-        onKeyDown: this.onArrowKeyNavigation,
-        style: style['inputField'],
-        autoComplete: "off",
-        disabled: singleSelect || disable
-      }), (singleSelect || showArrow) && React__default.createElement("img", {
-        src: DownArrow,
-        className: "icon_cancel icon_down_dir"
-      })), React__default.createElement("div", {
-        className: "optionListContainer ".concat(toggleOptionsList ? 'displayBlock' : 'displayNone')
-      }, this.renderOptionList()));
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return this.renderMultiselectContainer();
-    }
-  }]);
-
-  return Multiselect;
-}(React__default.Component);
-Multiselect.defaultProps = {
-  options: [],
-  disablePreSelectedValues: false,
-  selectedValues: [],
-  isObject: true,
-  displayValue: "model",
-  showCheckbox: false,
-  selectionLimit: -1,
-  placeholder: "Select",
-  groupBy: "",
-  style: {},
-  emptyRecordMsg: "No Options Available",
-  onSelect: function onSelect() {},
-  onRemove: function onRemove() {},
-  closeIcon: 'circle2',
-  singleSelect: false,
-  caseSensitiveSearch: false,
-  id: '',
-  closeOnSelect: true,
-  avoidHighlightFirstOption: false,
-  hidePlaceholder: false,
-  showArrow: false,
-  keepSearchTerm: false,
-  customCloseIcon: ''
-};
-
-exports.Multiselect = Multiselect;
-exports.default = Multiselect;
-
-
-},{"react":"node_modules/react/index.js"}],"node_modules/multiselect-react-dropdown/dist/index.js":[function(require,module,exports) {
-'use strict';
-
-if ("development" === 'production') {
-  module.exports = require('./multiselect-react-dropdown.cjs.production.min.js');
-} else {
-  module.exports = require('./multiselect-react-dropdown.cjs.development.js');
-}
-},{"./multiselect-react-dropdown.cjs.development.js":"node_modules/multiselect-react-dropdown/dist/multiselect-react-dropdown.cjs.development.js"}],"node_modules/cookie/index.js":[function(require,module,exports) {
+},{}],"node_modules/cookie/index.js":[function(require,module,exports) {
 /*!
  * cookie
  * Copyright(c) 2012-2014 Roman Shtylman
@@ -53157,8 +52270,6 @@ var _axios = _interopRequireDefault(require("axios"));
 
 var _jwtDecode = _interopRequireDefault(require("jwt-decode"));
 
-var _multiselectReactDropdown = _interopRequireDefault(require("multiselect-react-dropdown"));
-
 var _universalCookie = _interopRequireDefault(require("universal-cookie"));
 
 var _reactSelect = _interopRequireDefault(require("react-select"));
@@ -53168,6 +52279,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -53181,13 +52298,9 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+// import { DatePicker } from 'react-nice-dates';
 function regPage(props) {
   var _this = this;
-
-  var _useState = (0, _react.useState)(new Date()),
-      _useState2 = _slicedToArray(_useState, 2),
-      value = _useState2[0],
-      onChange = _useState2[1];
 
   var backgroundImage = props.backgroundImage,
       logo = props.logo,
@@ -53199,49 +52312,64 @@ function regPage(props) {
       text6 = props.text6,
       text7 = props.text7;
 
+  var _useState = (0, _react.useState)(''),
+      _useState2 = _slicedToArray(_useState, 2),
+      username = _useState2[0],
+      setUsername = _useState2[1];
+
   var _useState3 = (0, _react.useState)(''),
       _useState4 = _slicedToArray(_useState3, 2),
-      username = _useState4[0],
-      setUsername = _useState4[1];
+      userEmail = _useState4[0],
+      setUserEmail = _useState4[1];
 
   var _useState5 = (0, _react.useState)(''),
       _useState6 = _slicedToArray(_useState5, 2),
-      userEmail = _useState6[0],
-      setUserEmail = _useState6[1];
+      userPassword = _useState6[0],
+      setUserPassword = _useState6[1];
 
   var _useState7 = (0, _react.useState)(''),
       _useState8 = _slicedToArray(_useState7, 2),
-      userPassword = _useState8[0],
-      setUserPassword = _useState8[1];
+      userRegion = _useState8[0],
+      setUserRegion = _useState8[1];
 
-  var _useState9 = (0, _react.useState)('Riyadh'),
+  var _useState9 = (0, _react.useState)(''),
       _useState10 = _slicedToArray(_useState9, 2),
-      userRegion = _useState10[0],
-      setUserRegion = _useState10[1];
+      userGender = _useState10[0],
+      setUserGender = _useState10[1];
 
-  var _useState11 = (0, _react.useState)('Female'),
+  var _useState11 = (0, _react.useState)(''),
       _useState12 = _slicedToArray(_useState11, 2),
-      userGender = _useState12[0],
-      setUserGender = _useState12[1];
+      userBirthDate = _useState12[0],
+      setUserBirthDate = _useState12[1];
 
   var _useState13 = (0, _react.useState)(''),
       _useState14 = _slicedToArray(_useState13, 2),
-      userBirthDate = _useState14[0],
-      setUserBirthDate = _useState14[1];
+      username_error_message = _useState14[0],
+      setUsername_Error_message = _useState14[1];
 
   var _useState15 = (0, _react.useState)(''),
       _useState16 = _slicedToArray(_useState15, 2),
-      error_message = _useState16[0],
-      setError_message = _useState16[1];
+      email_error_message = _useState16[0],
+      setEmail_Error_message = _useState16[1];
 
   var _useState17 = (0, _react.useState)(''),
       _useState18 = _slicedToArray(_useState17, 2),
       password_error_message = _useState18[0],
       setPassword_Error_message = _useState18[1];
 
+  var _useState19 = (0, _react.useState)(''),
+      _useState20 = _slicedToArray(_useState19, 2),
+      Displayvalue = _useState20[0],
+      getvalue = _useState20[1];
+
+  var _useState21 = (0, _react.useState)(new Date()),
+      _useState22 = _slicedToArray(_useState21, 2),
+      value = _useState22[0],
+      onChange = _useState22[1];
+
   var usernameMessage = "";
-  var passwordMessage = "";
-  var isEnabled = username.length > 0 && userEmail.length > 0 && userPassword.length > 0; // function Multiple()
+  var emailMessage = "";
+  var isEnabled = username.length > 0 && userEmail.length > 0 && userPassword.length > 0 && userGender != '' && userRegion != '' && Displayvalue != ''; // function Multiple()
   // {
 
   var genres = [{
@@ -53275,12 +52403,7 @@ function regPage(props) {
     value: 10,
     label: 'Western'
   }]; // }
-
-  var _useState19 = (0, _react.useState)(),
-      _useState20 = _slicedToArray(_useState19, 2),
-      Displayvalue = _useState20[0],
-      getvalue = _useState20[1]; //var a=[];
-
+  //var a=[];
 
   var getGenres = function getGenres(e) {
     console.log(Array.isArray(e) ? e.map(function (x) {
@@ -53304,13 +52427,6 @@ function regPage(props) {
     console.log(userRegion);
     console.log(value);
 
-    if (userPassword.length < 7) {
-      setPassword_Error_message("* Password length should be at least 8 characters");
-      exit();
-    } else {
-      setPassword_Error_message("");
-    }
-
     var res = _axios.default.post(API_URL + "users/register", {
       email: userEmail,
       username: username,
@@ -53323,12 +52439,26 @@ function regPage(props) {
       console.log("inside res");
 
       try {
-        if (res.data.usernameMessage.usernameMessage || res.data.emailMessage.emailMessage) {
+        if (res.data.usernameMessage.usernameMessage) {
           usernameMessage = res.data.usernameMessage.usernameMessage;
           console.log(res.data.usernameMessage.usernameMessage);
-          passwordMessage = res.data.emailMessage.emailMessage;
+          setUsername_Error_message(usernameMessage);
+        } else {
+          setUsername_Error_message("");
+        }
+
+        if (res.data.emailMessage.emailMessage) {
+          emailMessage = res.data.emailMessage.emailMessage;
           console.log(res.data.emailMessage.emailMessage);
-          return; //exit();
+          setEmail_Error_message(emailMessage);
+        } else {
+          setEmail_Error_message(emailMessage);
+        }
+
+        if (userPassword.length < 7) {
+          setPassword_Error_message("Password length must be at least 8 characters.");
+        } else {
+          setPassword_Error_message("");
         }
       } catch (_unused) {
         console.log("inside res data");
@@ -53336,7 +52466,7 @@ function regPage(props) {
         cookies.set('token', res.data, {
           path: '/'
         });
-        alert("You have successfully registerd");
+        alert("Welcome " + username + ", you have successfully registerd");
         window.location = '/home-page';
       }
     });
@@ -53353,10 +52483,12 @@ function regPage(props) {
   }), /*#__PURE__*/_react.default.createElement("img", {
     className: "regBackgroundImage",
     src: backgroundImage
-  }), /*#__PURE__*/_react.default.createElement("img", {
+  }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+    to: "/home-page"
+  }, /*#__PURE__*/_react.default.createElement("img", {
     className: "logo",
     src: logo
-  }), /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react.default.createElement("div", {
     className: "regText1"
   }, text1), /*#__PURE__*/_react.default.createElement("div", {
     className: "regText2 inter-light-bon-jour-35px1"
@@ -53366,7 +52498,7 @@ function regPage(props) {
     className: "regComponents"
   }, /*#__PURE__*/_react.default.createElement("h1", {
     className: "regText3"
-  }, text3), /*#__PURE__*/_react.default.createElement("div", {
+  }, " ", text3), /*#__PURE__*/_react.default.createElement("div", {
     className: "regText4"
   }, text4), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: "/login-page"
@@ -53374,13 +52506,15 @@ function regPage(props) {
     className: "gologinPage"
   }, /*#__PURE__*/_react.default.createElement("span", {
     className: "regText5"
-  }, text5))))), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "regErrorMessage roboto-normal-pink-swan-16px"
-  }, " ", error_message, "  ")), /*#__PURE__*/_react.default.createElement("form", {
+  }, " ", /*#__PURE__*/_react.default.createElement("strong", null, " ", text5, " "), " "))))), /*#__PURE__*/_react.default.createElement("form", {
     onSubmit: Register
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "usernameContainer"
   }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "regErrorMessage nunito-normal-river-bed-18px"
+  }, " ", /*#__PURE__*/_react.default.createElement("strong", null, "  ", username_error_message, "   "), "  "), /*#__PURE__*/_react.default.createElement("div", {
+    className: "usernameText nunito-normal-river-bed-18px"
+  }, "Username"), /*#__PURE__*/_react.default.createElement("div", {
     className: "usernameBox"
   }), /*#__PURE__*/_react.default.createElement("input", {
     className: "username roboto-normal-pink-swan-16px",
@@ -53391,9 +52525,7 @@ function regPage(props) {
     onChange: function onChange(e) {
       setUsername(e.target.value);
     }
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "usernameText nunito-normal-river-bed-18px"
-  }, "Username")), /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react.default.createElement("div", {
     className: "emailContainer"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "emailText nunito-normal-river-bed-18px"
@@ -53408,7 +52540,9 @@ function regPage(props) {
     onChange: function onChange(e) {
       setUserEmail(e.target.value);
     }
-  }))), /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react.default.createElement("div", {
+    className: "regErrorMessage nunito-normal-river-bed-18px"
+  }, "  ", /*#__PURE__*/_react.default.createElement("strong", null, "  ", email_error_message, "  "), "  ")), /*#__PURE__*/_react.default.createElement("div", {
     className: "passwordContainer"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "passwordText nunito-normal-river-bed-18px"
@@ -53425,8 +52559,8 @@ function regPage(props) {
     },
     minlength: "8"
   })), /*#__PURE__*/_react.default.createElement("div", {
-    className: "passError nunito-normal-river-bed-18px"
-  }, " ", password_error_message, " ")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "regErrorMessage nunito-normal-river-bed-18px"
+  }, " ", /*#__PURE__*/_react.default.createElement("strong", null, "  ", password_error_message, "  "), "  ")), /*#__PURE__*/_react.default.createElement("div", {
     className: "genderContainer"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "genderBoxes"
@@ -53441,7 +52575,6 @@ function regPage(props) {
     type: "radio",
     value: "Female",
     name: "gender",
-    checked: true,
     onChange: function onChange(e) {
       setUserGender(e.target.value);
     }
@@ -53472,6 +52605,12 @@ function regPage(props) {
       setUserRegion(e.target.value);
     }
   }, /*#__PURE__*/_react.default.createElement("option", {
+    selected: true,
+    disabled: true,
+    hidden: true,
+    className: "selectText roboto-normal-pink-swan-16px",
+    value: ""
+  }, " Select your region.."), /*#__PURE__*/_react.default.createElement("option", {
     className: "regionOption roboto-normal-pink-swan-16px",
     value: "Riyadh"
   }, "Riyadh"), /*#__PURE__*/_react.default.createElement("option", {
@@ -53514,7 +52653,8 @@ function regPage(props) {
     className: "bdContainer"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "regText6 nunito-normal-river-bed-18px"
-  }, text6), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactDatePicker.default, {
+  }, text6), /*#__PURE__*/_react.default.createElement(_reactDatePicker.default, {
+    valueDefault: "",
     onChange: onChange,
     value: value,
     dateFormat: "Pp",
@@ -53526,8 +52666,13 @@ function regPage(props) {
       _this.setState({
         date: date
       });
+    },
+    customStyles: {
+      dateInput: {
+        border: 'none'
+      }
     }
-  })))), /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react.default.createElement("div", {
     className: "genreContainer"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "regText7 nunito-normal-river-bed-18px"
@@ -53536,7 +52681,44 @@ function regPage(props) {
   }, /*#__PURE__*/_react.default.createElement(_reactSelect.default, {
     isMulti: true,
     options: genres,
-    onChange: getGenres
+    onChange: getGenres,
+    closeMenuOnSelect: false,
+    className: "favGenre",
+    placeholder: "Select your favorite movie genres..",
+    theme: function theme(_theme) {
+      return _objectSpread(_objectSpread({}, _theme), {}, {
+        borderRadius: 0,
+        colors: _objectSpread(_objectSpread({}, _theme.colors), {}, {
+          text: 'var(--cardinal)',
+          primary: 'var(--cardinal)'
+        })
+      });
+    },
+    styles: {
+      control: function control(provided, state) {
+        return _objectSpread(_objectSpread({}, provided), {}, {
+          minHeight: 56,
+          background: '#fcfcfc',
+          outline: 'none',
+          border: "0px solid black",
+          fontSize: "16px",
+          boxShadow: state.isFocused ? '0px 4px 4px red' : '0px 4px 4px #00000040',
+          borderRadius: 5
+        });
+      },
+      multiValueLabel: function multiValueLabel(base) {
+        return _objectSpread(_objectSpread({}, base), {}, {
+          backgroundColor: 'var(--white-3)',
+          color: 'black'
+        });
+      },
+      multiValueRemove: function multiValueRemove(base) {
+        return _objectSpread(_objectSpread({}, base), {}, {
+          backgroundColor: 'var(--cardinal)',
+          color: 'white'
+        });
+      }
+    }
   }))), /*#__PURE__*/_react.default.createElement("button", {
     type: "button",
     className: "creatButtonBox",
@@ -53549,7 +52731,7 @@ function regPage(props) {
 
 var _default = regPage;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","react-date-picker":"node_modules/react-date-picker/dist/entry.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./regPage.css":"components/registerPage/regPage/regPage.css","axios":"node_modules/axios/index.js","jwt-decode":"node_modules/jwt-decode/build/jwt-decode.esm.js","multiselect-react-dropdown":"node_modules/multiselect-react-dropdown/dist/index.js","universal-cookie":"node_modules/universal-cookie/es6/index.js","react-select":"node_modules/react-select/dist/react-select.esm.js"}],"components/loginPage/loginPage.css":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-date-picker":"node_modules/react-date-picker/dist/entry.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./regPage.css":"components/registerPage/regPage/regPage.css","axios":"node_modules/axios/index.js","jwt-decode":"node_modules/jwt-decode/build/jwt-decode.esm.js","universal-cookie":"node_modules/universal-cookie/es6/index.js","react-select":"node_modules/react-select/dist/react-select.esm.js"}],"components/loginPage/loginPage.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -53618,9 +52800,15 @@ function loginPage(props) {
 
   var _useState5 = (0, _react.useState)(''),
       _useState6 = _slicedToArray(_useState5, 2),
-      error_message = _useState6[0],
-      setError_message = _useState6[1];
+      EmailUsername_Error_message = _useState6[0],
+      setEmailUsername_Error_message = _useState6[1];
 
+  var _useState7 = (0, _react.useState)(''),
+      _useState8 = _slicedToArray(_useState7, 2),
+      password_error_message = _useState8[0],
+      setPassword_Error_message = _useState8[1];
+
+  var isEnabled = username.length > 0 && userPassword.length > 0;
   var emailOrUsernameMessage = "";
   var passwordMessage = "";
   var API_URL = "http://localhost:3000/api/v1/";
@@ -53639,14 +52827,21 @@ function loginPage(props) {
         if (res.data) {
           if (res.data.emailOrUsernameMessage) {
             emailOrUsernameMessage = res.data.emailOrUsernameMessage;
-            console.log(res.data.emailOrUsernameMessage);
-            exit();
+            console.log(emailOrUsernameMessage);
+            setEmailUsername_Error_message(emailOrUsernameMessage);
+            setPassword_Error_message("");
+            return;
+          } else {
+            setEmailUsername_Error_message("");
           }
 
           if (res.data.passwordMessage) {
             passwordMessage = res.data.passwordMessage;
-            console.log(res.data.passwordMessage);
-            exit();
+            console.log(passwordMessage);
+            setPassword_Error_message(passwordMessage);
+            return;
+          } else {
+            setPassword_Error_message("");
           }
 
           var cookies = new _universalCookie.default();
@@ -53654,6 +52849,7 @@ function loginPage(props) {
             path: '/'
           });
           ;
+          alert("Welcome " + username + "!");
           window.location = '/home-page';
         }
       });
@@ -53670,13 +52866,22 @@ function loginPage(props) {
 
         if (res.data) {
           if (res.data.emailOrUsernameMessage) {
+            emailOrUsernameMessage = res.data.emailOrUsernameMessage;
             console.log(res.data.emailOrUsernameMessage);
-            exit();
+            setEmailUsername_Error_message(emailOrUsernameMessage);
+            setPassword_Error_message("");
+            return;
+          } else {
+            setEmailUsername_Error_message("");
           }
 
           if (res.data.passwordMessage) {
+            passwordMessage = res.data.passwordMessage;
             console.log(res.data.passwordMessage);
-            exit();
+            setPassword_Error_message(passwordMessage);
+            return;
+          } else {
+            setPassword_Error_message("");
           }
 
           console.log("cookies");
@@ -53685,6 +52890,7 @@ function loginPage(props) {
             path: '/'
           });
           console.log(res.data);
+          alert("Welcome " + username + "!");
           window.location = '/home-page';
         }
       });
@@ -53702,10 +52908,12 @@ function loginPage(props) {
   }), /*#__PURE__*/_react.default.createElement("img", {
     className: "backgroundImage",
     src: backgroundImage
-  }), /*#__PURE__*/_react.default.createElement("img", {
+  }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+    to: "/home-page"
+  }, /*#__PURE__*/_react.default.createElement("img", {
     className: "logo",
     src: logo
-  }), /*#__PURE__*/_react.default.createElement("div", {
+  })), /*#__PURE__*/_react.default.createElement("div", {
     className: "loginComponents"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "text1"
@@ -53720,17 +52928,13 @@ function loginPage(props) {
   }, /*#__PURE__*/_react.default.createElement("span", {
     className: "text3"
   }, text3)))), /*#__PURE__*/_react.default.createElement("form", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "loginErrorMessage nunito-semi-bold-white-28px"
-  }, " ", error_message, " "), /*#__PURE__*/_react.default.createElement("div", {
     className: "inputFildes"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "emialUsernameContainer"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "emailUsername nunito-semi-bold-white-28px"
-  }, emailUsername), /*#__PURE__*/_react.default.createElement("div", {
-    className: "frame1 border-2px-chicago"
-  }, /*#__PURE__*/_react.default.createElement("input", {
-    className: "enterEmailUsername roboto-normal-pink-swan-16px",
+  }, emailUsername), /*#__PURE__*/_react.default.createElement("input", {
+    className: "enterEmailUsername border-2px-chicago roboto-normal-pink-swan-16px",
     name: "emailUsername",
     placeholder: emailUsernamePlaceholder,
     type: emailUsernameinputType,
@@ -53738,14 +52942,14 @@ function loginPage(props) {
     onChange: function onChange(e) {
       setUsername(e.target.value);
     }
-  }))), /*#__PURE__*/_react.default.createElement("div", {
+  }), /*#__PURE__*/_react.default.createElement("div", {
+    className: "loginErrorMessage nunito-semi-bold-white-28px"
+  }, EmailUsername_Error_message)), /*#__PURE__*/_react.default.createElement("div", {
     className: "loginPasswordContainer"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "password-2 nunito-semi-bold-white-28px"
-  }, password), /*#__PURE__*/_react.default.createElement("div", {
-    className: "frame1 border-2px-chicago"
-  }, /*#__PURE__*/_react.default.createElement("input", {
-    className: "enterPassword roboto-normal-pink-swan-16px",
+  }, password), /*#__PURE__*/_react.default.createElement("input", {
+    className: "enterPassword  roboto-normal-pink-swan-16px",
     name: "password",
     placeholder: passwordPlaceholder,
     type: passwordinputType,
@@ -53753,12 +52957,15 @@ function loginPage(props) {
     onChange: function onChange(e) {
       setuserPassword(e.target.value);
     }
-  }))), /*#__PURE__*/_react.default.createElement("div", {
+  }), /*#__PURE__*/_react.default.createElement("div", {
+    className: "loginErrorMessage nunito-semi-bold-white-28px"
+  }, password_error_message)), /*#__PURE__*/_react.default.createElement("div", {
     className: "buttonContainer"
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("button", {
     type: "button",
     className: "loginButton",
-    onClick: SpecifyUserType
+    onClick: SpecifyUserType,
+    disabled: !isEnabled
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "text4 roboto-bold-white-28px"
   }, text4)))))))));
@@ -54001,10 +53208,12 @@ function homePage(props) {
     className: "homePageContainer"
   }, /*#__PURE__*/_react.default.createElement("body", null, /*#__PURE__*/_react.default.createElement("header", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "header"
+  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+    to: "/home-page"
   }, /*#__PURE__*/_react.default.createElement("img", {
     className: "headerLogo",
     src: logo
-  }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+  })), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: "/home-page"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "homeText darkergrotesque-medium-white-35px2"
@@ -54171,10 +53380,12 @@ function genresPage(props) {
     className: "genresPageContainer"
   }, /*#__PURE__*/_react.default.createElement("body", null, /*#__PURE__*/_react.default.createElement("header", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "header"
+  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+    to: "/home-page"
   }, /*#__PURE__*/_react.default.createElement("img", {
     className: "headerLogo",
     src: logo
-  }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+  })), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: "/home-page"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "homeText darkergrotesque-medium-white-35px2"
@@ -54373,10 +53584,12 @@ function genreTypePage(props) {
     className: "genresPageContainer"
   }, /*#__PURE__*/_react.default.createElement("body", null, /*#__PURE__*/_react.default.createElement("header", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "header"
+  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+    to: "/home-page"
   }, /*#__PURE__*/_react.default.createElement("img", {
     className: "headerLogo",
     src: logo
-  }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+  })), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: "/home-page"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "homeText darkergrotesque-medium-white-35px2"
@@ -54751,7 +53964,7 @@ function ViewMovie(props) {
 
       for (var i = 0; i < numOfGenres; i++) {
         if (i < numOfGenres - 1) {
-          newArr[i] = response.data[i].genre + ",";
+          newArr[i] = response.data[i].genre + ", ";
         } else {
           newArr[i] = response.data[i].genre;
         }
@@ -54766,7 +53979,7 @@ function ViewMovie(props) {
 
       for (var i = 0; i < numOfDirectors; i++) {
         if (i < numOfDirectors - 1) {
-          newArr[i] = response.data[i].director + ",";
+          newArr[i] = response.data[i].director + ", ";
         } else {
           newArr[i] = response.data[i].director;
         }
@@ -54781,7 +53994,7 @@ function ViewMovie(props) {
 
       for (var i = 0; i < numOfWriters; i++) {
         if (i < numOfWriters - 1) {
-          newArr[i] = response.data[i].writer + ",";
+          newArr[i] = response.data[i].writer + ", ";
         } else {
           newArr[i] = response.data[i].writer;
         }
@@ -54796,7 +54009,7 @@ function ViewMovie(props) {
 
       for (var i = 0; i < numOfLanguages; i++) {
         if (i < numOfLanguages - 1) {
-          newArr[i] = response.data[i].language + ",";
+          newArr[i] = response.data[i].language + ", ";
         } else {
           newArr[i] = response.data[i].language;
         }
@@ -54850,10 +54063,12 @@ function ViewMovie(props) {
     className: "movieInfoContainer"
   }, /*#__PURE__*/_react.default.createElement("body", null, /*#__PURE__*/_react.default.createElement("header", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "header"
+  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+    to: "/home-page"
   }, /*#__PURE__*/_react.default.createElement("img", {
     className: "headerLogo",
     src: logo
-  }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+  })), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: "/home-page"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "homeText darkergrotesque-medium-white-35px2"
@@ -54988,7 +54203,9 @@ function ViewMovie(props) {
     className: "movieTitle"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "movieName"
-  }, title), /*#__PURE__*/_react.default.createElement("div", {
+  }, title, " ", /*#__PURE__*/_react.default.createElement("span", {
+    className: "movieYear"
+  }, " (", year, ")")), /*#__PURE__*/_react.default.createElement("div", {
     className: "movieRatingContainer"
   }, /*#__PURE__*/_react.default.createElement("img", {
     className: "star",
@@ -54998,6 +54215,8 @@ function ViewMovie(props) {
   }, movieRating), /*#__PURE__*/_react.default.createElement("div", {
     className: "tenText"
   }, "/ 10")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "pgAndTime"
+  }, /*#__PURE__*/_react.default.createElement("div", {
     className: "pgContainer"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "moviepg neuton-bold-white-20px"
@@ -55005,7 +54224,7 @@ function ViewMovie(props) {
     className: "timeContainer"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "movieTime neuton-bold-white-20px"
-  }, length))), /*#__PURE__*/_react.default.createElement("div", {
+  }, length)))), /*#__PURE__*/_react.default.createElement("div", {
     className: "movieGenreContainer"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "movieInfoGenre neuton-bold-white-24px"
@@ -55181,10 +54400,12 @@ function reviewPage(props) {
     className: "reviewPageContainer"
   }), /*#__PURE__*/_react.default.createElement("header", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "header"
+  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+    to: "/home-page"
   }, /*#__PURE__*/_react.default.createElement("img", {
     className: "headerLogo",
     src: logo
-  }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+  })), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: "/home-page"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "homeText darkergrotesque-medium-white-35px2"

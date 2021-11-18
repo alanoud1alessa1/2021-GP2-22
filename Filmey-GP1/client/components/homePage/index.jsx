@@ -187,7 +187,9 @@ const posters = [poster1 , poster2 , poster3, poster4 , poster5,
             {/* Header */}
             <header>
               <div className="header"> 
-                <img className="headerLogo" src={logo} />
+                <Link to="/home-page">
+                  <img className="headerLogo" src={logo} />
+                </Link>     
                 <div>
                   <Link to="/home-page">
                     <div className="homeText darkergrotesque-medium-white-35px2">{homeText}</div>

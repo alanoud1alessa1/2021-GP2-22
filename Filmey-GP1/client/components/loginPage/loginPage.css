@@ -72,7 +72,7 @@
   align-items: flex-start;
   display: flex;
   height: 33px;
-  margin-top: 12px;
+  margin-top: 20px;
   min-width: 403px;
 }
 
@@ -100,6 +100,8 @@
   color: #b62b2b;
   font-weight: 700;
   letter-spacing: 0.58px;
+  text-decoration:underline;
+  text-decoration-color: var(--cardinal);
 }
 
 
@@ -109,16 +111,18 @@
   display: flex;
   flex-direction: column;
   margin-left: 8.0px;
-  margin-top: 30px;
+  margin-top: 65px;
   min-height: 400px;
   width: 640px;
 }
 
 .loginErrorMessage{
-  margin-top: 50px;
-  margin-left: 8.0px;
+  margin-top: 140px;
+  margin-left: 20px;
+  position: absolute;
   color: var(--cardinal);
 }
+
 .emialUsernameContainer {
   align-items: flex-start;
   display: flex;
@@ -132,7 +136,7 @@
   letter-spacing: 2.80px;
 }
 
-.frame1 {
+/* .frame1 {
   align-items: flex-start;
   background-color: var(--white);
   border-radius: 80px;
@@ -141,47 +145,59 @@
   margin-top: 16px;
   min-width: 640px;
   padding: 24px 32px;
-}
+} */
 
 .enterEmailUsername {
-  background-color: transparent;
-  border: 0;
-  height: 30px;
-  letter-spacing: 0;
-  padding: 0;
-  width: 550px;
+  align-items: flex-start;
+  background-color: var(--white);
+  border-radius: 80px;
+  display: flex;
+  height: 78px;
+  margin-top: 16px;
+  min-width: 640px;
+  padding: 24px 32px;
+  border: 0px;
+}
+
+.enterEmailUsername:focus,
+.enterPassword:focus
+{
+box-shadow: 0px 5px 10px  var(--cardinal);
 }
 
 .enterEmailUsername::placeholder,
 .enterPassword::placeholder {
-  color: #b8b5b599;
+  color:  gray;
 }
 
 .loginPasswordContainer {
   align-items: flex-start;
   display: flex;
   flex-direction: column;
-  margin-top: 36px;
+  margin-top: 50px;
   min-height: 134px;
   width: 640px;
+  border:0px;
 }
 
 
 .enterPassword{
-  background-color: transparent;
-  border: 0;
-  height: 30px;
-  letter-spacing: 0;
-  padding: 0;
-  width: 550px;
+  align-items: flex-start;
+  background-color: var(--white);
+  border-radius: 80px;
+  display: flex;
+  height: 78px;
+  margin-top: 16px;
+  min-width: 640px;
+  padding: 24px 32px;
+  border: 0px;
 }
 
 .buttonContainer{
-  align-items: flex-start;
   cursor: pointer;
   display: flex;
   margin-left: 2.0px;
-  margin-top: 36px;
+  margin-top: 65px;
   min-width: 445px;
   transition: all 0.2s ease;
 }
@@ -191,20 +207,29 @@
 }
 
 .loginButton {
-  align-items: flex-end;
   background-color: var(--cardinal);
   border-radius: 10px;
   display: flex;
   height: 61px;
-  justify-content: flex-end;
   min-width: 443px;
-  padding: 10px 169.4px;
+  padding: 10px 180px;
   border-width: 0px;
+}
+
+.loginButton:disabled{
+  background-color: var(--cardinal);
+  opacity: 40%;
+  cursor: not-allowed;
 }
 
 .text4 {
   letter-spacing: 0;
   min-height: 31px;
-  width: 95px;
+}
+
+.emailUsername:after,
+.password-2:after {
+  content:" *";
+  color: var(--cardinal);
 }
 

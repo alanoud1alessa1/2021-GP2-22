@@ -40,7 +40,7 @@ router.post("/register", async (req, res, next) => {
   const { email, username, password , date_of_birth ,gender, location,genres} = req.body;
   if (username.substring(0,5)=="admin")
   {
-    const usernameMessage = { 'usernameMessage' : "Username already taken"};
+    const usernameMessage = { 'usernameMessage' : "Username is already taken."};
     return res.json({usernameMessage});
   }
   const emailMessage= await queries.checkEmail(email);

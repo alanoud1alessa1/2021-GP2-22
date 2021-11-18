@@ -784,7 +784,8 @@ input:focus {
   position: absolute;
   top: 94px;
   width: 117px;
-  
+  text-decoration:underline;
+  text-decoration-color: var(--cardinal);
 }
 
 
@@ -849,7 +850,7 @@ input:focus {
   left: 1191px;
   min-height: 88px;
   position: absolute;
-  top: 830px;
+  top: 820px;
   width: 584px;
 }
 
@@ -866,7 +867,7 @@ input:focus {
   left: 1195px;
   min-height: 171px;
   position: absolute;
-  top: 955px;
+  top: 940px;
   width: 573px;
 }
 
@@ -889,7 +890,11 @@ input:focus {
 
 .usernameText:after,
 .emailText:after,
-.passwordText:after {
+.passwordText:after,
+.regionText:after,
+.genderText:after,
+.regText7:after
+{
   content:" *";
   color: var(--cardinal);
 }
@@ -902,7 +907,7 @@ input:focus {
   width: 580px;
 }
 
-.usernameBox {
+/* .usernameBox {
   background-color: var(--baby-powder);
   border-radius: 5px;
   box-shadow: 0px 4px 4px #00000040;
@@ -911,23 +916,41 @@ input:focus {
   position: absolute;
   top: 30px;
   width: 580px;
-}
+} */
 
 .username {
-  background-color: transparent;
+  /* background-color: transparent; */
   border: 0;
-  height: 30px;
+  /* height: 30px;
   left: 11px;
   letter-spacing: 0;
   padding: 0;
   position: absolute;
   padding: 2px;
   top: 45px;
-  width: 540px;
+  width: 540px; */
+
+  /* background-color: var(--baby-powder);
+  border-radius: 5px;
+  box-shadow: 0px 4px 4px #00000040;
+  height: 56px;
+  position: absolute;
+  top: 30px;
+  width: 580px; */
+
+  align-items: flex-end;
+  background-color: var(--baby-powder);
+  border-radius: 5px;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  display: flex;
+  height: 56px;
+  margin-top: 30px;
+  min-width: 580px;
+  padding: 12px 13px;
 }
 
 .username::placeholder {
-  color: #b8b5b599;
+  color: gray;
 }
 
 .usernameText {
@@ -943,10 +966,10 @@ input:focus {
   display: flex;
   flex-direction: column;
   left: 1191px;
-  min-height: 89px;
+  min-height: 87px;
   position: absolute;
   top: 350px;
-  width: 584px;
+  width: 580px;
 }
 
 .emailText {
@@ -955,34 +978,55 @@ input:focus {
   width: 207px;
 }
 
-.emailBox {
+/* .emailBox {
   align-items: flex-end;
   background-color: var(--baby-powder);
   border-radius: 5px;
   box-shadow: 0px 4px 4px #00000040;
   display: flex;
   height: 56px;
-  margin-top: 7px;
+  margin-top: 2px;
   min-width: 580px;
-  padding: 4px 11px;
-}
+  padding: 12px 13px;
+} */
+
 
 .email {
-    background-color: transparent;
-    border: 0;
-    height: 30px;
-    left: 11px;
-    letter-spacing: 0;
-    padding: 0;
-    position: absolute;
-    padding: 2px;
-    top: 45px;
-    width: 540px;
-    
+      /* background-color: transparent; */
+      border: 0;
+      /* height: 30px; */
+      /* left: 11px; */
+      /* letter-spacing: 0;
+      padding: 0;
+      position: absolute;
+      padding: 2px;
+      top: 45px;
+      width: 540px; */
+
+      align-items: flex-end;
+      background-color: var(--baby-powder);
+      border-radius: 5px;
+      box-shadow: 0px 4px 4px #00000040;
+      display: flex;
+      height: 56px;
+      margin-top: 2px;
+      min-width: 580px;
+      padding: 12px 13px;
+}
+
+
+.username:focus ,
+.email:focus,
+.password:focus ,
+.regionBox:focus,
+.datePicker:hover,
+.favGenre:focus
+{
+  box-shadow: 0px 4px 4px var(--cardinal);
 }
 
 .email::placeholder {
-  color: #b8b5b599;
+  color:gray;
 }
 
 .passwordContainer {
@@ -1002,7 +1046,34 @@ input:focus {
   width: 207px;
 }
 
-.passwordBox {
+/* .passwordBox {
+  align-items: flex-end;
+  background-color: var(--baby-powder);
+  border-radius: 5px;
+  box-shadow: 0px 4px 4px #00000040;
+  display: flex;
+  height: 56px;
+  margin-top: 2px;
+  min-width: 580px;
+  padding: 12px 13px;
+} */
+
+.regErrorMessage{
+  margin-top: 90px;
+  position: absolute;
+  color: var(--cardinal);
+}
+
+.password {
+  /* background-color: transparent; */
+  border: 0;
+  /* height: 31px;
+  letter-spacing: 0;
+  padding: 0;
+  padding: 2px;
+  top: 45px;
+  width: 540px; */
+
   align-items: flex-end;
   background-color: var(--baby-powder);
   border-radius: 5px;
@@ -1014,27 +1085,9 @@ input:focus {
   padding: 12px 13px;
 }
 
-.passError{
-  margin-top: 90px;
-  position: absolute;
-  color: var(--cardinal);
-}
-
-
-.password {
-  background-color: transparent;
-  border: 0;
-  height: 31px;
-  letter-spacing: 0;
-  padding: 0;
-  padding: 2px;
-  top: 45px;
-  width: 540px;
-}
-
 
 .password::placeholder {
-  color: #b8b5b599;
+  color: gray;
 }
 
 
@@ -1045,8 +1098,9 @@ input:focus {
   left: 1191px;
   min-height: 87px;
   position: absolute;
-  top: 590px;
+  top: 595px;
   width: 584px;
+  border: 0px;  
 }
 
 .regionText {
@@ -1068,7 +1122,6 @@ input:focus {
   font-weight: 400;
 }
 
- 
 .regionBox {
   align-items: flex-start;
   background-color: var(--baby-powder);
@@ -1080,6 +1133,7 @@ input:focus {
   margin-top: 2px;
   min-width: 580px;
   padding: 15px 15px;
+  
 }
 
 .genderContainer {
@@ -1111,6 +1165,7 @@ input:focus {
   background-color: var(--cardinal);
 }
 
+
 .femalBox {
   align-items: flex-start;
   align-self: flex-end;
@@ -1133,8 +1188,7 @@ input:focus {
 
 .femaleText {
   letter-spacing: 0;
-  min-height: 5px;
-  width: 111px;
+  width: 130px;
   position: absolute;
   text-align: center;
 }
@@ -1150,14 +1204,14 @@ input:focus {
   height: 43px;
   margin-top: 10px;
   min-width: 200px;
-  padding: 7px 15px;
+  padding: 7.5px 15px;
 }
 
 
 .maleText {
   letter-spacing: 0;
   min-height: 5px;
-  width: 111px;
+  width: 130px;
   position: absolute;
   text-align: center;
 }
@@ -1171,9 +1225,20 @@ input:focus {
 }
 
 .datePicker{
-  min-width: 580px;
+  /* min-width: 580px;
   background-color: var(--baby-powder);
+  height: 56px; */
+
+  align-items: flex-start;
+  background-color: var(--baby-powder);
+  border-radius: 5px;
+  border-color: var(--baby-powder);
+  box-shadow: 0px 4px 4px #00000040;
+  display: flex;
   height: 56px;
+  margin-top: 2px;
+  min-width: 580px;
+  padding: 15px 15px;
 }
 
 
@@ -1230,17 +1295,6 @@ button:disabled{
   width: 95px;
 }
 
-.regErrorMessage{
-  height: 86px;
-  left: 1191px;
-  position: absolute;
-  top: 190px;
-  width: 580px;
-  /* margin-top: 50px;
-  margin-left: 8.0px; */
-  color: var(--cardinal);
-}
-
 .multiSelect{
   top: 40px;
   left: 20px;
@@ -1257,7 +1311,20 @@ color: #fff;
   display: inline-block !important;
   margin-bottom: 0px !important;
   padding-top: 0px !important;
+  color: gray;
 }
+  
+.favGenre{
+  margin-top: -5px;
+  left: -22px;
+  min-width: 580px;
+}
+
+.selectText{
+  color: gray;
+  opacity: 0.5; 
+}
+
 
 .loginPage {
   align-items: flex-start;
@@ -1333,7 +1400,7 @@ color: #fff;
   align-items: flex-start;
   display: flex;
   height: 33px;
-  margin-top: 12px;
+  margin-top: 20px;
   min-width: 403px;
 }
 
@@ -1361,6 +1428,8 @@ color: #fff;
   color: #b62b2b;
   font-weight: 700;
   letter-spacing: 0.58px;
+  text-decoration:underline;
+  text-decoration-color: var(--cardinal);
 }
 
 
@@ -1370,16 +1439,18 @@ color: #fff;
   display: flex;
   flex-direction: column;
   margin-left: 8.0px;
-  margin-top: 30px;
+  margin-top: 65px;
   min-height: 400px;
   width: 640px;
 }
 
 .loginErrorMessage{
-  margin-top: 50px;
-  margin-left: 8.0px;
+  margin-top: 140px;
+  margin-left: 20px;
+  position: absolute;
   color: var(--cardinal);
 }
+
 .emialUsernameContainer {
   align-items: flex-start;
   display: flex;
@@ -1393,7 +1464,7 @@ color: #fff;
   letter-spacing: 2.80px;
 }
 
-.frame1 {
+/* .frame1 {
   align-items: flex-start;
   background-color: var(--white);
   border-radius: 80px;
@@ -1402,47 +1473,59 @@ color: #fff;
   margin-top: 16px;
   min-width: 640px;
   padding: 24px 32px;
-}
+} */
 
 .enterEmailUsername {
-  background-color: transparent;
-  border: 0;
-  height: 30px;
-  letter-spacing: 0;
-  padding: 0;
-  width: 550px;
+  align-items: flex-start;
+  background-color: var(--white);
+  border-radius: 80px;
+  display: flex;
+  height: 78px;
+  margin-top: 16px;
+  min-width: 640px;
+  padding: 24px 32px;
+  border: 0px;
+}
+
+.enterEmailUsername:focus,
+.enterPassword:focus
+{
+box-shadow: 0px 5px 10px  var(--cardinal);
 }
 
 .enterEmailUsername::placeholder,
 .enterPassword::placeholder {
-  color: #b8b5b599;
+  color:  gray;
 }
 
 .loginPasswordContainer {
   align-items: flex-start;
   display: flex;
   flex-direction: column;
-  margin-top: 36px;
+  margin-top: 50px;
   min-height: 134px;
   width: 640px;
+  border:0px;
 }
 
 
 .enterPassword{
-  background-color: transparent;
-  border: 0;
-  height: 30px;
-  letter-spacing: 0;
-  padding: 0;
-  width: 550px;
+  align-items: flex-start;
+  background-color: var(--white);
+  border-radius: 80px;
+  display: flex;
+  height: 78px;
+  margin-top: 16px;
+  min-width: 640px;
+  padding: 24px 32px;
+  border: 0px;
 }
 
 .buttonContainer{
-  align-items: flex-start;
   cursor: pointer;
   display: flex;
   margin-left: 2.0px;
-  margin-top: 36px;
+  margin-top: 65px;
   min-width: 445px;
   transition: all 0.2s ease;
 }
@@ -1452,21 +1535,30 @@ color: #fff;
 }
 
 .loginButton {
-  align-items: flex-end;
   background-color: var(--cardinal);
   border-radius: 10px;
   display: flex;
   height: 61px;
-  justify-content: flex-end;
   min-width: 443px;
-  padding: 10px 169.4px;
+  padding: 10px 180px;
   border-width: 0px;
+}
+
+.loginButton:disabled{
+  background-color: var(--cardinal);
+  opacity: 40%;
+  cursor: not-allowed;
 }
 
 .text4 {
   letter-spacing: 0;
   min-height: 31px;
-  width: 95px;
+}
+
+.emailUsername:after,
+.password-2:after {
+  content:" *";
+  color: var(--cardinal);
 }
 
 
@@ -3146,12 +3238,6 @@ position: absolute;
   transform: scale(1.1);
 }
 
-.movieRatingText2{
-  top: 75px;
-  left:30px;
-  position: absolute;
-  white-space:nowrap;
-}
 
 .movieRatingText {
   color: var(--white);
@@ -3160,6 +3246,7 @@ position: absolute;
   font-weight: 700;
   /* left: 635px; */
   left:80px;
+  top: 4px;
   /* top: 229px; */
   /* top:103px; */
   letter-spacing: 0.36px;
@@ -3174,6 +3261,7 @@ position: absolute;
   font-weight: 700;
   /* left: 635px; */
   left:100px;
+  top: 4px;
   /* top: 229px; */
   /* top:103px; */
   letter-spacing: 0.36px;
@@ -3195,6 +3283,7 @@ position: absolute;
   left: 601px;
   top: 395px;
   position: absolute;
+  white-space: nowrap;
 }
 
 .movieInfoGenre {
@@ -3403,8 +3492,17 @@ position: absolute;
 
 .movieRatingContainer{
   position: absolute;
-  top: 105px;
+  top: 100px;
   left: -20px;
+  display: inline-block;
+}
+
+.pgAndTime{
+  top:170px;
+  left: 10px;
+  position: relative;
+  display : flex;
+  flex-direction : row;
 }
 
 .pgContainer {
@@ -3412,26 +3510,19 @@ position: absolute;
   border-radius: 50%;
   min-height: 50px;
   min-width: 50px;
-  position:absolute;
-  top:170px;
-  left: 10px;
 }
 
 .moviepg {
-  /* position: relative; */
   text-align: center;
-  /* display: flex; */
   justify-content: center;
   align-items: center;
   padding: 5px 5px;
-  white-space: nowrap;
 }
 
 
 .timeContainer {
-  left: 80px;
   position: relative;
-  top: 180px;
+  top: 10px;
 }
 
 .movieTime {
@@ -3505,6 +3596,7 @@ position: absolute;
   position: absolute;
   top: 0px;
   width: 169px;
+  border-radius: 10%;
 }
 
 .castImage4 {
@@ -3555,7 +3647,6 @@ position: absolute;
   text-align: center;
   letter-spacing: 0;
   position: absolute;
-  text-align: center;
   text-shadow: 0px 4px 4px #00000040;
   top: 220px;
   width: 157px;
@@ -3563,11 +3654,13 @@ position: absolute;
 
 .castRole1 {
   letter-spacing: 0;
-  position: absolute;
-  text-align: center;
   text-shadow: 0px 4px 4px #00000040;
   top: 280px;
-  width: 157px;
+  left:0px;
+  position: absolute;
+  width: 150px;
+  overflow-wrap: break-word;
+  text-align: center;
 }
 
 .castRole2 {
@@ -3784,13 +3877,16 @@ position: absolute;
 
 
 .cast1{
-  height: 211px;
+  /* height: 211px; */
+  min-height: 211px;
   width: 169px;
   top: 1050px;
   left: 100px;
   position: relative;
   float:left;
   margin-left:100px;
+  text-align: center;
+  align-content: center;
 }
 
 .cast2{
@@ -4008,7 +4104,7 @@ card
   }
 
   .reviewsContainer{
-    top: 110px;
+    top: 150px;
     position: absolute;
   }
 
@@ -4058,6 +4154,17 @@ card
   top: 200px;
   width: 344px;
 }
+
+.movieYear{
+  color: #fbfbfb;
+  font-family: var(--font-family-roboto);
+  font-size: 40px;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+
+
 .reviewPage {
   align-items: flex-start;
   background-color: var(--white);

@@ -25,7 +25,10 @@ function loginPage(props) {
   
   const [username,setUsername]=useState('');
   const [userPassword,setuserPassword]=useState('');
-  const [error_message,setError_message]=useState('');
+  const [EmailUsername_Error_message,setEmailUsername_Error_message]=useState('');
+  const [password_error_message,setPassword_Error_message]=useState('');
+
+  const isEnabled = username.length > 0 && userPassword.length >0;
 
   var emailOrUsernameMessage="";
   var passwordMessage="";
@@ -50,20 +53,31 @@ function loginPage(props) {
           if(res.data.emailOrUsernameMessage)
             {
               emailOrUsernameMessage=res.data.emailOrUsernameMessage;
-              console.log(res.data.emailOrUsernameMessage);
-              exit();
+              console.log(emailOrUsernameMessage);
+              setEmailUsername_Error_message(emailOrUsernameMessage);
+              setPassword_Error_message("");
+              return;
             }
+          else{
+              setEmailUsername_Error_message("");
+            }
+
           if(res.data.passwordMessage)
           {
             passwordMessage=res.data.passwordMessage;
-            console.log(res.data.passwordMessage);
-            exit();
+            console.log(passwordMessage);
+            setPassword_Error_message(passwordMessage);
+            return;
           }
-
+          else{
+            setPassword_Error_message("");
+          }
+          
               const cookies = new Cookies();
               cookies.set('token', res.data, { path: '/' });;
+              alert("Welcome "+username+"!");
               window.location = '/home-page';
-            
+
           }})}
       else
       {
@@ -81,18 +95,31 @@ function loginPage(props) {
             {
             if(res.data.emailOrUsernameMessage)
             {
+              emailOrUsernameMessage=res.data.emailOrUsernameMessage;
               console.log(res.data.emailOrUsernameMessage);
-              exit();
+              setEmailUsername_Error_message(emailOrUsernameMessage);
+              setPassword_Error_message("");
+              return;
             }
+            else{
+              setEmailUsername_Error_message("");
+            }
+
             if(res.data.passwordMessage)
           {
+            passwordMessage=res.data.passwordMessage;
             console.log(res.data.passwordMessage);
-            exit();
+            setPassword_Error_message(passwordMessage);
+            return;
+          }
+          else{
+            setPassword_Error_message("");
           }
                console.log("cookies");
               const cookies = new Cookies();
               cookies.set('token', res.data, { path: '/' });
               console.log(res.data);
+              alert("Welcome "+username+"!");
              window.location = '/home-page';
             
           }})
@@ -105,7 +132,9 @@ function loginPage(props) {
         <div className="pageContainer">
           <div className="pageBackground"></div>
           <img className="backgroundImage" src={backgroundImage} />
-          <img className="logo" src={logo} />
+          <Link to="/home-page">
+           <img className="logo" src={logo} />
+          </Link>
           <div className="loginComponents">
             <div className="text1">{text1}</div>
             <div className="regContainer">
@@ -119,15 +148,12 @@ function loginPage(props) {
 
             {/* login form */}
             <form>
-            {/* error message */}
-            <div className="loginErrorMessage nunito-semi-bold-white-28px"> {error_message} </div>
               <div className="inputFildes">
                 {/* username or password */}
                 <div className="emialUsernameContainer">
                   <div className="emailUsername nunito-semi-bold-white-28px">{emailUsername}</div>
-                  <div className="frame1 border-2px-chicago">
                     <input
-                      className="enterEmailUsername roboto-normal-pink-swan-16px"
+                      className="enterEmailUsername border-2px-chicago roboto-normal-pink-swan-16px"
                       name="emailUsername"
                       placeholder={emailUsernamePlaceholder}
                       type={emailUsernameinputType}
@@ -138,15 +164,15 @@ function loginPage(props) {
                         } 
                       }
                     />
-                  </div>
+                 <div  className="loginErrorMessage nunito-semi-bold-white-28px">{EmailUsername_Error_message}</div>
+
                 </div>
 
                 {/* password */}
                 <div className="loginPasswordContainer">
                   <div className="password-2 nunito-semi-bold-white-28px">{password}</div>
-                  <div className="frame1 border-2px-chicago">
                     <input
-                      className="enterPassword roboto-normal-pink-swan-16px"
+                      className="enterPassword  roboto-normal-pink-swan-16px"
                       name="password"
                       placeholder={passwordPlaceholder}
                       type={passwordinputType}
@@ -157,14 +183,14 @@ function loginPage(props) {
                         }  
                       }
                     />
-                  </div>
+                  <div  className="loginErrorMessage nunito-semi-bold-white-28px">{password_error_message}</div>
                 </div>
 
                 {/* login button */}
                 <div className="buttonContainer">
-                  <div type="button"  className="loginButton" onClick={SpecifyUserType}>
+                  <button type="button"  className="loginButton" onClick={SpecifyUserType}  disabled={!isEnabled}>
                     <div className="text4 roboto-bold-white-28px">{text4}</div>
-                  </div>
+                  </button>
                 </div>
               </div>
             </form>
