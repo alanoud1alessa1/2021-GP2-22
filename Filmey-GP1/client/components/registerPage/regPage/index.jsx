@@ -173,12 +173,12 @@ function regPage(props) {
 
     }
       catch{
-        // if (passwordMessage||emailMessage||usernameMessage){
-        //   return;
-        // }
-        if (password_error_message||email_error_message||username_error_message){
+         if (passwordMessage||emailMessage||usernameMessage){
           return;
         }
+        // if (password_error_message||email_error_message||username_error_message){
+        //   return;
+        // }
         else{
             console.log("inside res data");
            const cookies = new Cookies();

@@ -52474,12 +52474,12 @@ function regPage(props) {
           setPassword_Error_message("");
         }
       } catch (_unused) {
-        // if (passwordMessage||emailMessage||usernameMessage){
+        if (passwordMessage || emailMessage || usernameMessage) {
+          return;
+        } // if (password_error_message||email_error_message||username_error_message){
         //   return;
         // }
-        if (password_error_message || email_error_message || username_error_message) {
-          return;
-        } else {
+        else {
           console.log("inside res data");
           var cookies = new _universalCookie.default();
           cookies.set('token', res.data, {
@@ -54796,7 +54796,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64825" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "2890" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
