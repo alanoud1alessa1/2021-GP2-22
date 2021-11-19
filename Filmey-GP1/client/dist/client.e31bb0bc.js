@@ -52369,6 +52369,7 @@ function regPage(props) {
 
   var usernameMessage = "";
   var emailMessage = "";
+  var passwordMessage = "";
   var isEnabled = username.length > 0 && userEmail.length > 0 && userPassword.length > 0 && userGender != '' && userRegion != '' && Displayvalue != ''; // function Multiple()
   // {
 
@@ -52436,7 +52437,7 @@ function regPage(props) {
       location: userRegion,
       genres: Displayvalue
     }).then(function (res) {
-      console.log("inside res");
+      console.log("inside res"); //console.log(userPassword.length);
 
       try {
         if (res.data.usernameMessage.usernameMessage) {
@@ -52453,21 +52454,40 @@ function regPage(props) {
           setEmail_Error_message(emailMessage);
         } else {
           setEmail_Error_message(emailMessage);
-        }
+        } // if (userPassword.length <8){
+        //   console.log("inside password condition");
+        //   setPassword_Error_message("Password length must be at least 8 characters.");
+        //   //console.log(password_error_message);
+        //   //exit();
+        // }
+        // else {
+        //   setPassword_Error_message("");
+        // }
 
-        if (userPassword.length < 7) {
-          setPassword_Error_message("Password length must be at least 8 characters.");
+
+        if (res.data.passwordMessage.passwordMessage) {
+          console.log("inside password condition");
+          passwordMessage = res.data.passwordMessage.passwordMessage;
+          setPassword_Error_message(passwordMessage); //console.log(password_error_message);
+          //exit();
         } else {
           setPassword_Error_message("");
         }
       } catch (_unused) {
-        console.log("inside res data");
-        var cookies = new _universalCookie.default();
-        cookies.set('token', res.data, {
-          path: '/'
-        });
-        alert("Welcome " + username + ", you have successfully registerd");
-        window.location = '/home-page';
+        // if (passwordMessage||emailMessage||usernameMessage){
+        //   return;
+        // }
+        if (password_error_message || email_error_message || username_error_message) {
+          return;
+        } else {
+          console.log("inside res data");
+          var cookies = new _universalCookie.default();
+          cookies.set('token', res.data, {
+            path: '/'
+          });
+          alert("Welcome " + username + ", you have successfully registerd");
+          window.location = '/home-page';
+        }
       }
     });
   };
@@ -54776,7 +54796,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "4774" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64825" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
