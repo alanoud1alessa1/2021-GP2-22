@@ -14,35 +14,11 @@ function ViewMovie(props) {
   };
 
   const {
-    rateItText,
     movieRating,
     directorText,
     writersText,
-    directorName,
-    castName2,
     descriptionText,
-    timeText,
-    movieTime,
-    movieLanguage,
-    moviepg,
-    languageText,
-    pgText,
-    movieName,
     topCastText,
-    castImage3,
-    castImage2,
-    castImage5,
-    castImage1,
-    castImage4,
-    castName3,
-    castName4,
-    castName5,
-    castName1,
-    castRole1,
-    castRole2,
-    castRole3,
-    castRole4,
-    castRole5,
     reviewsText,
     reviewItText,
     userReview1,
@@ -51,8 +27,6 @@ function ViewMovie(props) {
     username2,
     userReview3,
     username3,
-    movieGenreType,
-    starProps,
     logo,
     homeText,
     genresText,
@@ -62,14 +36,9 @@ function ViewMovie(props) {
     icon,
     footerText1,
     footerText2,
-    moviePoster,
     playTrailerText,
-    trailerIcon,
     addIcon,
-    movieDes,
     genreText,
-    writersName,
-    container,
     redLine,
     rightArrow,
     leftArrow,
@@ -126,6 +95,8 @@ const [castRoles,setCastRoles]=useState([""]);
 
 const [numOfCasts,setNumOfCasts]=useState(0);
 
+const [reviews,setReviews]=useState([""]);
+const [userReviews,setUserReviews]=useState([""]);
 
 
 
@@ -133,6 +104,8 @@ const [numOfCasts,setNumOfCasts]=useState(0);
   id = parseInt(id);
   React.useEffect(() => {
 
+
+    //Get movie info
     api.get(`/movies/${id}`).then((response)=>{
       setMid(response.data[0].movie_id);
       setTitle(response.data[0].title);
@@ -145,7 +118,7 @@ const [numOfCasts,setNumOfCasts]=useState(0);
     });
   
 
-
+    //Get Genres
       api.get(`/movies/genre/${id}`).then((response)=>{
         const numOfGenres = response.data.length;
         const newArr = [...genre];
@@ -161,7 +134,7 @@ const [numOfCasts,setNumOfCasts]=useState(0);
         setGenre(newArr);   
     });
 
-
+    //Get Directors
     api.get(`/movies/directors/${id}`).then((response)=>{
 
       const numOfDirectors = response.data.length;
@@ -178,6 +151,8 @@ const [numOfCasts,setNumOfCasts]=useState(0);
       setDirectors(newArr);   
   });
 
+
+  //Get Writers
   api.get(`/movies/writers/${id}`).then((response)=>{
 
     const numOfWriters = response.data.length;
@@ -194,7 +169,7 @@ const [numOfCasts,setNumOfCasts]=useState(0);
     setWriters(newArr);   
 });
 
-
+  //Get Languages
 api.get(`/movies/languages/${id}`).then((response)=>{
 
   const numOfLanguages = response.data.length;
@@ -213,10 +188,7 @@ api.get(`/movies/languages/${id}`).then((response)=>{
 
       
 
-
-
-
-      
+//Get Casts      
 api.get(`/movies/casts/${id}`).then((response)=>{
 
 
@@ -236,16 +208,31 @@ api.get(`/movies/casts/${id}`).then((response)=>{
     newArr3[i] = response.data[i].role;
 
    
-
   } 
 setCastNames(newArr1);
 setCastImgs(newArr2);
 setCastRoles(newArr3);
 });
   
-    
+ 
+//Get Reviews
+api.get(`/movies/review/${id}`).then((response)=>{
 
+  const numOfReviews = response.data.length;
+  const reviewsArray = [...reviews];
+  const usersArray = [...userReviews];
 
+  console.log(response);
+
+  for (var i = 0; i < numOfReviews; i++) {
+    reviewsArray[i] = response.data[i].review ;
+    usersArray[i] = response.data[i].username ;
+
+  } 
+
+  setReviews(reviewsArray) ;
+  setUserReviews(usersArray);
+});
 
 }, []);
 
@@ -487,20 +474,20 @@ setCastRoles(newArr3);
                   </div>
                   {/* review1 */}
                   <div className="reviewContainer1">
-                    <p className="userReview1 roboto-bold-celeste-16px">{userReview1}</p>
-                    <div className="username1 roboto-bold-celeste-18px">{username1}</div>
+                    <p className="userReview1 roboto-bold-celeste-16px">{reviews[0]}</p>
+                    <div className="username1 roboto-bold-celeste-18px">{userReviews[0]}</div>
                   </div>
                   
                   {/* review2 */}
                   <div className="reviewContainer2">
-                    <p className="userReview2 roboto-bold-celeste-16px">{userReview2}</p>
-                    <div className="username2 roboto-bold-celeste-18px">{username2}</div>
+                    <p className="userReview2 roboto-bold-celeste-16px">{reviews[0]}</p>
+                    <div className="username2 roboto-bold-celeste-18px">{userReviews[0]}</div>
                   </div>
 
                   {/* review3 */}
                   <div className="reviewContainer3">
-                    <p className="userReview3 roboto-bold-celeste-16px">{userReview3}</p>
-                    <div className="username3 roboto-bold-celeste-18px">{username3}</div>
+                    <p className="userReview3 roboto-bold-celeste-16px">{reviews[0]}</p>
+                    <div className="username3 roboto-bold-celeste-18px">{userReviews[0]}</div>
                   </div>
                 </div>
             </main>

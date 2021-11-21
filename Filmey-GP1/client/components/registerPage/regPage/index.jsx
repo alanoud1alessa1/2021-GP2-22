@@ -37,6 +37,8 @@ function regPage(props) {
   var [Displayvalue,getvalue]=useState('');
   const [value, onChange] = useState(new Date());
 
+  const [allGenres,setAllGenres]=useState('');
+
 
   var usernameMessage="";
   var emailMessage="";
@@ -45,6 +47,9 @@ function regPage(props) {
 
   const isEnabled = username.length > 0 && userEmail.length > 0 && userPassword.length > 0 && userGender!='' 
   && userRegion!='' && Displayvalue!='' ;
+
+
+  
 
   // function Multiple()
   // {
@@ -105,6 +110,21 @@ function regPage(props) {
   //console.log(a[0]);
 
   const API_URL = "http://localhost:3000/api/v1/";
+
+  React.useEffect(() => {
+
+    Axios.get(API_URL + `/movies/allGenres/1`).then((response) => {
+      const genresArray = [...allGenres];
+
+      for (var i = 0; i < response.data.length; i++) {
+        genresArray[i] = response.data[i].genre;
+      }
+      console.log(genresArray)
+      setAllGenres(genresArray);
+    });
+  }, []);
+
+
 
   const  Register=()=>{
     console.log(userEmail);

@@ -34,6 +34,9 @@ function genresPage(props) {
     baseURL: "http://localhost:3000/api/v1",
   });
 
+
+
+  
   const [moviesId, setMoviesId] = useState([]);
   const [movieTitles, setmovieTitles] = useState([]);
   const [Allposters, setAllposters] = useState([]);

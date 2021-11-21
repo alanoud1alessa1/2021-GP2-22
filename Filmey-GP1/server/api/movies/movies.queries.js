@@ -1,14 +1,4 @@
 const db = require("../../db/db");
-const fields = [
-  "imdb_id",
-  "title",
-  "year",
-  "length",
-  "age_guide",
-  "description",
-  "poster",
-  "trailer_url",
-];
 
 // const bcrypt = require("bcrypt");
 const auth = require("../../auth");
@@ -90,9 +80,6 @@ module.exports = {
   },
 
   async getMovieReviews(movie_id) {
-    // return db('Review').select("*").where({
-    //   movie_id:movie_id,
-    // });
 
     return db("Review")
       .select("username" , 'review')
@@ -101,4 +88,21 @@ module.exports = {
         movie_id: movie_id,
       });
   },
+
+
+//   async addMovie(title, year, length , age_guide ,description, poster , trailer_url) {
+
+//  const [movie_id] = await db("Movie").select("movie_id").
+//     const [id] = await db("Movie")
+//     .insert({ title, year, length , age_guide ,description, poster , trailer_url })
+//     .returning("movie_id");
+
+//     return id ;
+//   },
+
+async getAllGenres() {
+return db('Genre').select("genre");
+},
+
+
 };

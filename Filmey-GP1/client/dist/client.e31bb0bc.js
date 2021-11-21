@@ -52286,6 +52286,14 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -52367,6 +52375,11 @@ function regPage(props) {
       value = _useState22[0],
       onChange = _useState22[1];
 
+  var _useState23 = (0, _react.useState)(''),
+      _useState24 = _slicedToArray(_useState23, 2),
+      allGenres = _useState24[0],
+      setAllGenres = _useState24[1];
+
   var usernameMessage = "";
   var emailMessage = "";
   var passwordMessage = "";
@@ -52419,6 +52432,19 @@ function regPage(props) {
   console.log(Displayvalue); //console.log(a[0]);
 
   var API_URL = "http://localhost:3000/api/v1/";
+
+  _react.default.useEffect(function () {
+    _axios.default.get(API_URL + "/movies/allGenres/1").then(function (response) {
+      var genresArray = _toConsumableArray(allGenres);
+
+      for (var i = 0; i < response.data.length; i++) {
+        genresArray[i] = response.data[i].genre;
+      }
+
+      console.log(genresArray);
+      setAllGenres(genresArray);
+    });
+  }, []);
 
   var Register = function Register() {
     console.log(userEmail);
@@ -53685,35 +53711,11 @@ function ViewMovie(props) {
     return cb();
   };
 
-  var rateItText = props.rateItText,
-      movieRating = props.movieRating,
+  var movieRating = props.movieRating,
       directorText = props.directorText,
       writersText = props.writersText,
-      directorName = props.directorName,
-      castName2 = props.castName2,
       descriptionText = props.descriptionText,
-      timeText = props.timeText,
-      movieTime = props.movieTime,
-      movieLanguage = props.movieLanguage,
-      moviepg = props.moviepg,
-      languageText = props.languageText,
-      pgText = props.pgText,
-      movieName = props.movieName,
       topCastText = props.topCastText,
-      castImage3 = props.castImage3,
-      castImage2 = props.castImage2,
-      castImage5 = props.castImage5,
-      castImage1 = props.castImage1,
-      castImage4 = props.castImage4,
-      castName3 = props.castName3,
-      castName4 = props.castName4,
-      castName5 = props.castName5,
-      castName1 = props.castName1,
-      castRole1 = props.castRole1,
-      castRole2 = props.castRole2,
-      castRole3 = props.castRole3,
-      castRole4 = props.castRole4,
-      castRole5 = props.castRole5,
       reviewsText = props.reviewsText,
       reviewItText = props.reviewItText,
       userReview1 = props.userReview1,
@@ -53722,8 +53724,6 @@ function ViewMovie(props) {
       username2 = props.username2,
       userReview3 = props.userReview3,
       username3 = props.username3,
-      movieGenreType = props.movieGenreType,
-      starProps = props.starProps,
       logo = props.logo,
       homeText = props.homeText,
       genresText = props.genresText,
@@ -53733,14 +53733,9 @@ function ViewMovie(props) {
       icon = props.icon,
       footerText1 = props.footerText1,
       footerText2 = props.footerText2,
-      moviePoster = props.moviePoster,
       playTrailerText = props.playTrailerText,
-      trailerIcon = props.trailerIcon,
       addIcon = props.addIcon,
-      movieDes = props.movieDes,
       genreText = props.genreText,
-      writersName = props.writersName,
-      container = props.container,
       redLine = props.redLine,
       rightArrow = props.rightArrow,
       leftArrow = props.leftArrow,
@@ -53853,12 +53848,23 @@ function ViewMovie(props) {
       numOfCasts = _useState32[0],
       setNumOfCasts = _useState32[1];
 
+  var _useState33 = (0, _react.useState)([""]),
+      _useState34 = _slicedToArray(_useState33, 2),
+      reviews = _useState34[0],
+      setReviews = _useState34[1];
+
+  var _useState35 = (0, _react.useState)([""]),
+      _useState36 = _slicedToArray(_useState35, 2),
+      userReviews = _useState36[0],
+      setUserReviews = _useState36[1];
+
   var _useParams = (0, _reactRouterDom.useParams)(),
       id = _useParams.id;
 
   id = parseInt(id);
 
   _react.default.useEffect(function () {
+    //Get movie info
     api.get("/movies/".concat(id)).then(function (response) {
       setMid(response.data[0].movie_id);
       setTitle(response.data[0].title);
@@ -53868,7 +53874,8 @@ function ViewMovie(props) {
       setDescription(response.data[0].description);
       setPoster(response.data[0].poster);
       setTrailer_url(response.data[0].trailer_url);
-    });
+    }); //Get Genres
+
     api.get("/movies/genre/".concat(id)).then(function (response) {
       var numOfGenres = response.data.length;
 
@@ -53883,7 +53890,8 @@ function ViewMovie(props) {
       }
 
       setGenre(newArr);
-    });
+    }); //Get Directors
+
     api.get("/movies/directors/".concat(id)).then(function (response) {
       var numOfDirectors = response.data.length;
 
@@ -53898,7 +53906,8 @@ function ViewMovie(props) {
       }
 
       setDirectors(newArr);
-    });
+    }); //Get Writers
+
     api.get("/movies/writers/".concat(id)).then(function (response) {
       var numOfWriters = response.data.length;
 
@@ -53913,7 +53922,8 @@ function ViewMovie(props) {
       }
 
       setWriters(newArr);
-    });
+    }); //Get Languages
+
     api.get("/movies/languages/".concat(id)).then(function (response) {
       var numOfLanguages = response.data.length;
 
@@ -53928,7 +53938,8 @@ function ViewMovie(props) {
       }
 
       setLanguages(newArr);
-    });
+    }); //Get Casts      
+
     api.get("/movies/casts/".concat(id)).then(function (response) {
       setNumOfCasts(response.data.length);
       var numCasts = response.data.length;
@@ -53948,6 +53959,24 @@ function ViewMovie(props) {
       setCastNames(newArr1);
       setCastImgs(newArr2);
       setCastRoles(newArr3);
+    }); //Get Reviews
+
+    api.get("/movies/review/".concat(id)).then(function (response) {
+      var numOfReviews = response.data.length;
+
+      var reviewsArray = _toConsumableArray(reviews);
+
+      var usersArray = _toConsumableArray(userReviews);
+
+      console.log(response);
+
+      for (var i = 0; i < numOfReviews; i++) {
+        reviewsArray[i] = response.data[i].review;
+        usersArray[i] = response.data[i].username;
+      }
+
+      setReviews(reviewsArray);
+      setUserReviews(usersArray);
     });
   }, []);
 
@@ -54165,21 +54194,21 @@ function ViewMovie(props) {
     className: "reviewContainer1"
   }, /*#__PURE__*/_react.default.createElement("p", {
     className: "userReview1 roboto-bold-celeste-16px"
-  }, userReview1), /*#__PURE__*/_react.default.createElement("div", {
+  }, reviews[0]), /*#__PURE__*/_react.default.createElement("div", {
     className: "username1 roboto-bold-celeste-18px"
-  }, username1)), /*#__PURE__*/_react.default.createElement("div", {
+  }, userReviews[0])), /*#__PURE__*/_react.default.createElement("div", {
     className: "reviewContainer2"
   }, /*#__PURE__*/_react.default.createElement("p", {
     className: "userReview2 roboto-bold-celeste-16px"
-  }, userReview2), /*#__PURE__*/_react.default.createElement("div", {
+  }, reviews[0]), /*#__PURE__*/_react.default.createElement("div", {
     className: "username2 roboto-bold-celeste-18px"
-  }, username2)), /*#__PURE__*/_react.default.createElement("div", {
+  }, userReviews[0])), /*#__PURE__*/_react.default.createElement("div", {
     className: "reviewContainer3"
   }, /*#__PURE__*/_react.default.createElement("p", {
     className: "userReview3 roboto-bold-celeste-16px"
-  }, userReview3), /*#__PURE__*/_react.default.createElement("div", {
+  }, reviews[0]), /*#__PURE__*/_react.default.createElement("div", {
     className: "username3 roboto-bold-celeste-18px"
-  }, username3)))), /*#__PURE__*/_react.default.createElement("footer", {
+  }, userReviews[0])))), /*#__PURE__*/_react.default.createElement("footer", {
     className: "footer"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "movieInfofooter"
