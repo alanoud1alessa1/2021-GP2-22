@@ -38,28 +38,17 @@ router.get("/:id", isAuth, async (req, res, next) => {
 
 router.post("/register", async (req, res, next) => {
   const { email, username, password , date_of_birth ,gender, location,genres} = req.body;
-  var passwordMessage="";
-
-  if(password.length<8)
+  if (username.substring(0,5)=="admin")
   {
-    passwordMessage= { 'passwordMessage' : "Password length must be at least 8 characters."};
+    const usernameMessage = { 'usernameMessage' : "Username is already taken."};
+    return res.json({usernameMessage});
   }
-  // else
-  // {
-  //   passwordMessage="";
-  // }
-
-  // if (username.substring(0,5)=="admin")
-  // {
-  //   const usernameMessage = { 'usernameMessage' : "Username is already taken."};
-  //   return res.json({usernameMessage});
-  // }
   const emailMessage= await queries.checkEmail(email);
-  const usernameMessage= await queries.checkUsername(username);
-  if(emailMessage||usernameMessage||passwordMessage)
+  usernameMessage= await queries.checkUsername(username);
+  if(emailMessage||usernameMessage)
   {
     console.log("emailMessage||usernameMessage");
-    return res.json({emailMessage,usernameMessage,passwordMessage});
+    return res.json({emailMessage,usernameMessage});
   }
   // try
   // {

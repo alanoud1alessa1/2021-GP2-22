@@ -53024,6 +53024,14 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -53057,7 +53065,7 @@ function homePage(props) {
   var cookies = new _universalCookie.default();
 
   try {
-    var token = cookies.get('token');
+    var token = cookies.get("token");
     var decoded = (0, _jwtDecode.default)(token);
     username = decoded.username;
     registered = true;
@@ -53067,8 +53075,8 @@ function homePage(props) {
   }
 
   var logOut = function logOut() {
-    cookies.remove('token', {
-      path: '/'
+    cookies.remove("token", {
+      path: "/"
     });
     window.location.reload();
   };
@@ -53079,147 +53087,24 @@ function homePage(props) {
 
   });
 
-  var _useState = (0, _react.useState)(''),
+  var _useState = (0, _react.useState)([]),
       _useState2 = _slicedToArray(_useState, 2),
-      poster1 = _useState2[0],
-      setPoster1 = _useState2[1];
+      Allposters = _useState2[0],
+      setAllposters = _useState2[1];
 
-  var _useState3 = (0, _react.useState)(''),
-      _useState4 = _slicedToArray(_useState3, 2),
-      poster2 = _useState4[0],
-      setPoster2 = _useState4[1];
+  _react.default.useEffect(function () {
+    var numOfTopMovies = 10;
+    api.get("/movies/topMovies/".concat(numOfTopMovies)).then(function (response) {
+      var postersArray = _toConsumableArray(Allposters);
 
-  var _useState5 = (0, _react.useState)(''),
-      _useState6 = _slicedToArray(_useState5, 2),
-      poster3 = _useState6[0],
-      setPoster3 = _useState6[1];
+      for (var i = 0; i < numOfTopMovies; i++) {
+        postersArray[i] = response.data[i].poster;
+      }
 
-  var _useState7 = (0, _react.useState)(''),
-      _useState8 = _slicedToArray(_useState7, 2),
-      poster4 = _useState8[0],
-      setPoster4 = _useState8[1];
-
-  var _useState9 = (0, _react.useState)(''),
-      _useState10 = _slicedToArray(_useState9, 2),
-      poster5 = _useState10[0],
-      setPoster5 = _useState10[1];
-
-  var _useState11 = (0, _react.useState)(''),
-      _useState12 = _slicedToArray(_useState11, 2),
-      poster6 = _useState12[0],
-      setPoster6 = _useState12[1];
-
-  var _useState13 = (0, _react.useState)(''),
-      _useState14 = _slicedToArray(_useState13, 2),
-      poster7 = _useState14[0],
-      setPoster7 = _useState14[1];
-
-  var _useState15 = (0, _react.useState)(''),
-      _useState16 = _slicedToArray(_useState15, 2),
-      poster8 = _useState16[0],
-      setPoster8 = _useState16[1];
-
-  var _useState17 = (0, _react.useState)(''),
-      _useState18 = _slicedToArray(_useState17, 2),
-      poster9 = _useState18[0],
-      setPoster9 = _useState18[1];
-
-  var _useState19 = (0, _react.useState)(''),
-      _useState20 = _slicedToArray(_useState19, 2),
-      poster10 = _useState20[0],
-      setPoster10 = _useState20[1];
-
-  var posters = [poster1, poster2, poster3, poster4, poster5, poster6, poster7, poster8, poster9, poster10];
-
-  var getMovie1 = function getMovie1() {
-    api.get("/movies/1").then(function (response) {
-      console.log(response);
-      setPoster1(response.data[0].poster);
+      setAllposters(postersArray);
     });
-  };
+  }, []);
 
-  getMovie1();
-
-  var getMovie2 = function getMovie2() {
-    api.get("/movies/2").then(function (response) {
-      console.log(response);
-      setPoster2(response.data[0].poster);
-    });
-  };
-
-  getMovie2();
-
-  var getMovie3 = function getMovie3() {
-    api.get("/movies/3").then(function (response) {
-      console.log(response);
-      setPoster3(response.data[0].poster);
-    });
-  };
-
-  getMovie3();
-
-  var getMovie4 = function getMovie4() {
-    api.get("/movies/4").then(function (response) {
-      console.log(response);
-      setPoster4(response.data[0].poster);
-    });
-  };
-
-  getMovie4();
-
-  var getMovie5 = function getMovie5() {
-    api.get("/movies/5").then(function (response) {
-      console.log(response);
-      setPoster5(response.data[0].poster);
-    });
-  };
-
-  getMovie5();
-
-  var getMovie6 = function getMovie6() {
-    api.get("/movies/6").then(function (response) {
-      console.log(response);
-      setPoster6(response.data[0].poster);
-    });
-  };
-
-  getMovie6();
-
-  var getMovie7 = function getMovie7() {
-    api.get("/movies/7").then(function (response) {
-      console.log(response);
-      setPoster7(response.data[0].poster);
-    });
-  };
-
-  getMovie7();
-
-  var getMovie8 = function getMovie8() {
-    api.get("/movies/8").then(function (response) {
-      console.log(response);
-      setPoster8(response.data[0].poster);
-    });
-  };
-
-  getMovie8();
-
-  var getMovie9 = function getMovie9() {
-    api.get("/movies/9").then(function (response) {
-      console.log(response);
-      setPoster9(response.data[0].poster);
-    });
-  };
-
-  getMovie9();
-
-  var getMovie10 = function getMovie10() {
-    api.get("/movies/10").then(function (response) {
-      console.log(response);
-      setPoster10(response.data[0].poster);
-    });
-  };
-
-  getMovie10();
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "PageCenter"
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -53288,7 +53173,7 @@ function homePage(props) {
 
     for (var i = 1; i <= 10; i++) {
       var url = "/movieInfoPage/ViewMovie/".concat(i);
-      var poster = posters[i - 1];
+      var poster = Allposters[i - 1];
       row.push( /*#__PURE__*/_react.default.createElement("div", {
         key: i
       }, /*#__PURE__*/_react.default.createElement("div", {
@@ -53331,7 +53216,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _react = _interopRequireDefault(require("react"));
+var _react = _interopRequireWildcard(require("react"));
 
 var _reactRouterDom = require("react-router-dom");
 
@@ -53341,42 +53226,45 @@ var _universalCookie = _interopRequireDefault(require("universal-cookie"));
 
 var _jwtDecode = _interopRequireDefault(require("jwt-decode"));
 
+var _axios = _interopRequireDefault(require("axios"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 function genresPage(props) {
-  var genreTitle = props.genreTitle,
-      movieName1 = props.movieName1,
-      movieName2 = props.movieName2,
-      movieName3 = props.movieName3,
-      movieName4 = props.movieName4,
-      logo = props.logo,
-      homeText = props.homeText,
-      genresText = props.genresText,
-      languageText = props.languageText,
-      loginText = props.loginText,
-      registerText = props.registerText,
-      icon = props.icon,
-      footerText2 = props.footerText2,
-      footerText1 = props.footerText1,
-      moviePoster = props.moviePoster,
-      rating1 = props.rating1,
-      rating2 = props.rating2,
-      rating3 = props.rating3,
-      rating4 = props.rating4,
-      arrowIcon = props.arrowIcon,
-      genresGenreTypeText1 = props.genresGenreTypeText1,
-      genresGenreTypeText2 = props.genresGenreTypeText2,
-      genresGenreTypeText3 = props.genresGenreTypeText3,
-      genresGenreTypeText4 = props.genresGenreTypeText4,
-      star = props.star,
-      leftArrowIcon = props.leftArrowIcon,
-      rightArrowIcon = props.rightArrowIcon;
+  var runCallback = function runCallback(cb) {
+    return cb();
+  };
+
   var registered = false;
   var username = "";
   var cookies = new _universalCookie.default();
 
   try {
-    var token = cookies.get('token');
+    var token = cookies.get("token");
     var decoded = (0, _jwtDecode.default)(token);
     username = decoded.username;
     registered = true;
@@ -53386,11 +53274,51 @@ function genresPage(props) {
   }
 
   var logOut = function logOut() {
-    cookies.remove('token', {
-      path: '/'
+    cookies.remove("token", {
+      path: "/"
     });
     window.location.reload();
   };
+
+  var api = _axios.default.create({
+    baseURL: "http://localhost:3000/api/v1"
+  });
+
+  var _useState = (0, _react.useState)([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      moviesId = _useState2[0],
+      setMoviesId = _useState2[1];
+
+  var _useState3 = (0, _react.useState)([]),
+      _useState4 = _slicedToArray(_useState3, 2),
+      movieTitles = _useState4[0],
+      setmovieTitles = _useState4[1];
+
+  var _useState5 = (0, _react.useState)([]),
+      _useState6 = _slicedToArray(_useState5, 2),
+      Allposters = _useState6[0],
+      setAllposters = _useState6[1];
+
+  _react.default.useEffect(function () {
+    var genreType = "Comedy";
+    api.get("/movies/genresFilter/".concat(genreType)).then(function (response) {
+      var moviesIdArray = _toConsumableArray(moviesId);
+
+      var movieTitlesArray = _toConsumableArray(movieTitles);
+
+      var postersArray = _toConsumableArray(Allposters);
+
+      for (var i = 0; i < response.data.length; i++) {
+        moviesIdArray[i] = response.data[i].movie_id;
+        movieTitlesArray[i] = response.data[i].title;
+        postersArray[i] = response.data[i].poster;
+      }
+
+      setMoviesId(moviesIdArray);
+      setmovieTitles(movieTitlesArray);
+      setAllposters(postersArray);
+    });
+  }, []);
 
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "PageCenter"
@@ -53404,41 +53332,41 @@ function genresPage(props) {
     to: "/home-page"
   }, /*#__PURE__*/_react.default.createElement("img", {
     className: "headerLogo",
-    src: logo
+    src: props.logo
   })), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: "/home-page"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "homeText darkergrotesque-medium-white-35px2"
-  }, homeText))), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+  }, props.homeText))), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: "/genresPage"
   }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "genresText darkergrotesque-medium-white-35px2"
-  }, genresText)))), !registered && /*#__PURE__*/_react.default.createElement("div", {
+  }, props.genresText)))), !registered && /*#__PURE__*/_react.default.createElement("div", {
     className: "clickable"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: "/login-page"
   }, /*#__PURE__*/_react.default.createElement("img", {
     className: "loginIcon",
-    src: icon
+    src: props.icon
   }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "loginText roboto-normal-white-18px2"
-  }, loginText)))), !registered && /*#__PURE__*/_react.default.createElement("div", {
+  }, props.loginText)))), !registered && /*#__PURE__*/_react.default.createElement("div", {
     className: "clickable"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
     to: "/registerPage/reg-page"
   }, /*#__PURE__*/_react.default.createElement("img", {
     className: "registerIcon",
-    src: icon
+    src: props.icon
   }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "registerText roboto-normal-white-18px2"
-  }, registerText)))), registered && /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("img", {
+  }, props.registerText)))), registered && /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("img", {
     className: "regUserIcon",
     src: "/img/regUser.png"
   }), /*#__PURE__*/_react.default.createElement("li", {
     className: "dropdown"
   }, /*#__PURE__*/_react.default.createElement("a", {
     className: "dropbtn "
-  }, username), /*#__PURE__*/_react.default.createElement("div", {
+  }, props.username), /*#__PURE__*/_react.default.createElement("div", {
     className: "dropdownContent"
   }, /*#__PURE__*/_react.default.createElement("button", {
     onClick: logOut
@@ -53450,104 +53378,75 @@ function genresPage(props) {
     to: "/genreTypePage"
   }, /*#__PURE__*/_react.default.createElement("img", {
     className: "arrowIcon",
-    src: arrowIcon
+    src: props.arrowIcon
   }), /*#__PURE__*/_react.default.createElement("h1", {
     className: "genreTypeTitle neuton-normal-white-60px3"
-  }, genreTitle))), /*#__PURE__*/_react.default.createElement("div", {
+  }, props.genreTitle))), /*#__PURE__*/_react.default.createElement("div", {
     className: "movies"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "Movie1"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/movieInfoPage/ViewMovie/2"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "genresMoviePoster1",
-    src: moviePoster
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresMovieName1 roboto-medium-white-15px"
-  }, movieName1), /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresRating1 neuton-bold-white-30px3"
-  }, rating1), /*#__PURE__*/_react.default.createElement("img", {
-    className: "genresStar1",
-    src: star
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresGenreType1"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresGenreTypeText1 roboto-normal-cardinal-12px3"
-  }, genresGenreTypeText1)))), /*#__PURE__*/_react.default.createElement("div", {
+  }, runCallback(function () {
+    var row = [];
+
+    for (var i = 5; i <= 8; i++) {
+      var id = moviesId[i - 1];
+      var url = "/movieInfoPage/ViewMovie/".concat(id);
+      var poster = Allposters[i - 1];
+      var title = movieTitles[i - 1];
+      var reminder = i % 4;
+
+      if (reminder == 0) {
+        reminder = 4;
+      }
+
+      var className1 = "Movie".concat(reminder);
+      row.push( /*#__PURE__*/_react.default.createElement("div", {
+        key: i
+      }, /*#__PURE__*/_react.default.createElement("div", {
+        className: className1
+      }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+        to: url
+      }, /*#__PURE__*/_react.default.createElement("img", {
+        className: "genresMoviePoster1",
+        src: poster
+      }), /*#__PURE__*/_react.default.createElement("div", {
+        className: "genresMovieName1 roboto-medium-white-15px"
+      }, title), /*#__PURE__*/_react.default.createElement("div", {
+        className: "genresRating1 neuton-bold-white-30px3"
+      }, props.rating1), /*#__PURE__*/_react.default.createElement("img", {
+        className: "genresStar1",
+        src: props.star
+      }), /*#__PURE__*/_react.default.createElement("div", {
+        className: "genresGenreType1"
+      }, /*#__PURE__*/_react.default.createElement("div", {
+        className: "genresGenreTypeText1 roboto-normal-cardinal-12px3"
+      }, props.genresGenreTypeText1))))));
+    }
+
+    return row;
+  })), /*#__PURE__*/_react.default.createElement("div", {
     className: "Movie2"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/movieInfoPage/ViewMovie/2"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "genresMoviePoster1",
-    src: moviePoster
   }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresMovieName1 roboto-medium-white-15px"
-  }, movieName2), /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresRating1 neuton-bold-white-30px3"
-  }, rating2), /*#__PURE__*/_react.default.createElement("img", {
-    className: "genresStar1",
-    src: star
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresGenreType1"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresGenreTypeText1 roboto-normal-cardinal-12px3"
-  }, genresGenreTypeText2)))), /*#__PURE__*/_react.default.createElement("div", {
-    className: "Movie3"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/movieInfoPage/ViewMovie/2"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "genresMoviePoster1",
-    src: moviePoster
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresMovieName1 roboto-medium-white-15px"
-  }, movieName3), /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresRating1 neuton-bold-white-30px3"
-  }, rating3), /*#__PURE__*/_react.default.createElement("img", {
-    className: "genresStar1",
-    src: star
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresGenreType1"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresGenreTypeText1  roboto-normal-cardinal-12px3"
-  }, genresGenreTypeText3)))), /*#__PURE__*/_react.default.createElement("div", {
     className: "Movie4"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/movieInfoPage/ViewMovie/2"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "genresMoviePoster1",
-    src: moviePoster
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresMovieName1 roboto-medium-white-15px"
-  }, movieName4), /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresRating1 neuton-bold-white-30px3"
-  }, rating4), /*#__PURE__*/_react.default.createElement("img", {
-    className: "genresStar1",
-    src: star
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresGenreType1"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresGenreTypeText1 roboto-normal-cardinal-12px3"
-  }, genresGenreTypeText4))))), /*#__PURE__*/_react.default.createElement("img", {
+  }), /*#__PURE__*/_react.default.createElement("img", {
     className: "genresExpandMoviesLeft",
-    src: leftArrowIcon
+    src: props.leftArrowIcon
   }), /*#__PURE__*/_react.default.createElement("img", {
     className: "genresExpandMoviesRight",
-    src: rightArrowIcon
+    src: props.rightArrowIcon
   })), /*#__PURE__*/_react.default.createElement("div", {
     className: "footer"
   }, " "), /*#__PURE__*/_react.default.createElement("img", {
     className: "footerLogo",
-    src: logo
+    src: props.logo
   }), /*#__PURE__*/_react.default.createElement("div", {
     className: "footerText1"
-  }, footerText1), /*#__PURE__*/_react.default.createElement("div", {
+  }, props.footerText1), /*#__PURE__*/_react.default.createElement("div", {
     className: "footerText2 inter-light-bon-jour-35px2"
-  }, /*#__PURE__*/_react.default.createElement("span", null, footerText2))))));
+  }, /*#__PURE__*/_react.default.createElement("span", null, props.footerText2))))));
 }
 
 var _default = genresPage;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./genresPage.css":"components/genresPage/genresPage.css","universal-cookie":"node_modules/universal-cookie/es6/index.js","jwt-decode":"node_modules/jwt-decode/build/jwt-decode.esm.js"}],"components/genreTypePage/genreTypePage.css":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./genresPage.css":"components/genresPage/genresPage.css","universal-cookie":"node_modules/universal-cookie/es6/index.js","jwt-decode":"node_modules/jwt-decode/build/jwt-decode.esm.js","axios":"node_modules/axios/index.js"}],"components/genreTypePage/genreTypePage.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -53881,95 +53780,87 @@ function ViewMovie(props) {
 
   var _useState3 = (0, _react.useState)(''),
       _useState4 = _slicedToArray(_useState3, 2),
-      imdb_id = _useState4[0],
-      setImdb_id = _useState4[1];
+      title = _useState4[0],
+      setTitle = _useState4[1];
 
   var _useState5 = (0, _react.useState)(''),
       _useState6 = _slicedToArray(_useState5, 2),
-      title = _useState6[0],
-      setTitle = _useState6[1];
+      year = _useState6[0],
+      setYear = _useState6[1];
 
   var _useState7 = (0, _react.useState)(''),
       _useState8 = _slicedToArray(_useState7, 2),
-      year = _useState8[0],
-      setYear = _useState8[1];
+      length = _useState8[0],
+      setLength = _useState8[1];
 
   var _useState9 = (0, _react.useState)(''),
       _useState10 = _slicedToArray(_useState9, 2),
-      length = _useState10[0],
-      setLength = _useState10[1];
+      age_guide = _useState10[0],
+      setAge_guide = _useState10[1];
 
   var _useState11 = (0, _react.useState)(''),
       _useState12 = _slicedToArray(_useState11, 2),
-      age_guide = _useState12[0],
-      setAge_guide = _useState12[1];
+      description = _useState12[0],
+      setDescription = _useState12[1];
 
   var _useState13 = (0, _react.useState)(''),
       _useState14 = _slicedToArray(_useState13, 2),
-      description = _useState14[0],
-      setDescription = _useState14[1];
+      poster = _useState14[0],
+      setPoster = _useState14[1];
 
   var _useState15 = (0, _react.useState)(''),
       _useState16 = _slicedToArray(_useState15, 2),
-      poster = _useState16[0],
-      setPoster = _useState16[1];
+      trailer_url = _useState16[0],
+      setTrailer_url = _useState16[1];
 
-  var _useState17 = (0, _react.useState)(''),
+  var _useState17 = (0, _react.useState)([""]),
       _useState18 = _slicedToArray(_useState17, 2),
-      trailer_url = _useState18[0],
-      setTrailer_url = _useState18[1];
+      genre = _useState18[0],
+      setGenre = _useState18[1];
 
   var _useState19 = (0, _react.useState)([""]),
       _useState20 = _slicedToArray(_useState19, 2),
-      genre = _useState20[0],
-      setGenre = _useState20[1];
+      directors = _useState20[0],
+      setDirectors = _useState20[1];
 
   var _useState21 = (0, _react.useState)([""]),
       _useState22 = _slicedToArray(_useState21, 2),
-      directors = _useState22[0],
-      setDirectors = _useState22[1];
+      writers = _useState22[0],
+      setWriters = _useState22[1];
 
   var _useState23 = (0, _react.useState)([""]),
       _useState24 = _slicedToArray(_useState23, 2),
-      writers = _useState24[0],
-      setWriters = _useState24[1];
+      languages = _useState24[0],
+      setLanguages = _useState24[1];
 
   var _useState25 = (0, _react.useState)([""]),
       _useState26 = _slicedToArray(_useState25, 2),
-      languages = _useState26[0],
-      setLanguages = _useState26[1];
+      castNames = _useState26[0],
+      setCastNames = _useState26[1];
 
   var _useState27 = (0, _react.useState)([""]),
       _useState28 = _slicedToArray(_useState27, 2),
-      castNames = _useState28[0],
-      setCastNames = _useState28[1];
+      castImgs = _useState28[0],
+      setCastImgs = _useState28[1];
 
   var _useState29 = (0, _react.useState)([""]),
       _useState30 = _slicedToArray(_useState29, 2),
-      castImgs = _useState30[0],
-      setCastImgs = _useState30[1];
+      castRoles = _useState30[0],
+      setCastRoles = _useState30[1];
 
-  var _useState31 = (0, _react.useState)([""]),
+  var _useState31 = (0, _react.useState)(0),
       _useState32 = _slicedToArray(_useState31, 2),
-      castRoles = _useState32[0],
-      setCastRoles = _useState32[1];
-
-  var _useState33 = (0, _react.useState)(0),
-      _useState34 = _slicedToArray(_useState33, 2),
-      numOfCasts = _useState34[0],
-      setNumOfCasts = _useState34[1];
+      numOfCasts = _useState32[0],
+      setNumOfCasts = _useState32[1];
 
   var _useParams = (0, _reactRouterDom.useParams)(),
       id = _useParams.id;
 
   id = parseInt(id);
-  console.log(id);
 
   _react.default.useEffect(function () {
     api.get("/movies/".concat(id)).then(function (response) {
-      console.log(response);
       setMid(response.data[0].movie_id);
-      setImdb_id(response.data[0].imdb_id);
       setTitle(response.data[0].title);
       setYear(response.data[0].year);
       setLength(response.data[0].length);
@@ -54059,22 +53950,6 @@ function ViewMovie(props) {
       setCastRoles(newArr3);
     });
   }, []);
-
-  console.log(castNames); // const getMovie = (id) =>{
-  // api.get(`/movies/${id}`).then((response)=>{
-  //  console.log(response);
-  //  setMid(response.data[0].movie_id);
-  //  setImdb_id(response.data[0].imdb_id);
-  //  setTitle(response.data[0].title);
-  //  setYear(response.data[0].year);
-  //  setLength(response.data[0].length);
-  //  setAge_guide(response.data[0].age_guide);
-  //  setDescription(response.data[0].description);
-  //  setPoster(response.data[0].poster);
-  //  setTrailer_url(response.data[0].trailer_url);
-  //   })
-  // }
-  // getMovie(id);
 
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "PageCenter"
@@ -54735,7 +54610,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "2890" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54653" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -32,7 +32,7 @@ exports.up = async (knex) => {
     }),
     await knex.schema.createTable("Movie", (table) => {
       table.increments("movie_id").notNullable();
-      table.integer("imdb_id").notNullable();
+      // table.integer("imdb_id").notNullable();
       table.string("title", 100).notNullable();
       table.integer("year").notNullable();
       table.string("length", 10).notNullable();
@@ -102,7 +102,7 @@ exports.up = async (knex) => {
     await knex.schema.createTable("Rating", (table) => {
         references(table, "Movie" , "movie");
         references(table, "User" , "user");
-        table.decimal("rating", 2, 1).notNullable();
+        table.integer("rating").notNullable();
         table.primary(["movie_id", "user_id"]);
       }),
       await knex.schema.createTable("Review", (table) => {

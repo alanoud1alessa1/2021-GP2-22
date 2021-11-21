@@ -8,8 +8,7 @@ const isAuth = require("../../isAuth");
 router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
   try {
-    // TODO: should we validate the ID?
-    // const movies = await queries.get(id);
+
         const movies = await queries.get(id);
 
     if (movies) {
@@ -89,6 +88,51 @@ router.get("/casts/:id", async (req, res, next) => {
 
     if (movies) {
       return res.json(movies);
+    }
+    return next();
+  } catch (error) {
+    return next(error);
+  }
+});
+
+router.get("/topMovies/:numberofmovies", async (req, res, next) => {
+  const { numberofmovies } = req.params;
+  try {
+
+        const movies = await queries.getTopMovies(numberofmovies);
+
+    if (movies) {
+      return res.json(movies);
+    }
+    return next();
+  } catch (error) {
+    return next(error);
+  }
+});
+
+router.get("/genresFilter/:genreType", async (req, res, next) => {
+  const { genreType } = req.params;
+  try {
+
+        const movies = await queries.getBasedOnGenre(genreType);
+
+    if (movies) {
+      return res.json(movies);
+    }
+    return next();
+  } catch (error) {
+    return next(error);
+  }
+});
+
+router.get("/review/:id", async (req, res, next) => {
+  const { id } = req.params;
+  try {
+
+        const reviews = await queries.getMovieReviews(id);
+
+    if (reviews) {
+      return res.json(reviews);
     }
     return next();
   } catch (error) {

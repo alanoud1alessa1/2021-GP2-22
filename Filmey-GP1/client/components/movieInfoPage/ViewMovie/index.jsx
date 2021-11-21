@@ -107,7 +107,6 @@ function ViewMovie(props) {
 
 
 const [mid,setMid]=useState('');
-const [imdb_id,setImdb_id]=useState('');
 const [title,setTitle]=useState('');
 const [year,setYear]=useState('');
 const [length,setLength]=useState('');
@@ -132,13 +131,10 @@ const [numOfCasts,setNumOfCasts]=useState(0);
 
   let {id} = useParams();
   id = parseInt(id);
-  console.log(id);
   React.useEffect(() => {
 
     api.get(`/movies/${id}`).then((response)=>{
-      console.log(response);
       setMid(response.data[0].movie_id);
-      setImdb_id(response.data[0].imdb_id);
       setTitle(response.data[0].title);
       setYear(response.data[0].year);
       setLength(response.data[0].length);
@@ -253,27 +249,7 @@ setCastRoles(newArr3);
 
 }, []);
 
-console.log(castNames);
 
-
-  // const getMovie = (id) =>{
-  // api.get(`/movies/${id}`).then((response)=>{
-
-  //  console.log(response);
-  //  setMid(response.data[0].movie_id);
-  //  setImdb_id(response.data[0].imdb_id);
-  //  setTitle(response.data[0].title);
-  //  setYear(response.data[0].year);
-  //  setLength(response.data[0].length);
-  //  setAge_guide(response.data[0].age_guide);
-  //  setDescription(response.data[0].description);
-  //  setPoster(response.data[0].poster);
-  //  setTrailer_url(response.data[0].trailer_url);
-
-  //   })
-  // }
-
-  // getMovie(id);
 
   return (
     <div className="PageCenter">

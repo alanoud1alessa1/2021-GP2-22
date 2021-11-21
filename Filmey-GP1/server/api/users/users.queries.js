@@ -140,11 +140,6 @@ module.exports = {
       return "";
   }},
   async checkUsername(username) {
-    if (username.substring(0,5)=="admin")
-  {
-    const message = { 'usernameMessage' : "Username is already taken."};
-    return message;
-  }
     let result= await db("User").where({username: username}).first().returning("*");
     if (result)
     {
