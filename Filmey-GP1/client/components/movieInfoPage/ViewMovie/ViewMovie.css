@@ -317,6 +317,21 @@
   width: 114px;
 }
 
+.fa-times-circle{
+  color: var(--white);
+  font-family: var(--font-family-neuton);
+  font-size: var(--font-size-xxxxl5);
+  font-weight: 700;
+  /* left: 635px; */
+  left:100px;
+  top: 4px;
+  /* top: 229px; */
+  /* top:103px; */
+  letter-spacing: 0.36px;
+  position: absolute;
+  transform: rotate(-0.42deg);
+  width: 114px;
+}
 
 .vector-11 {
   height: 1px;
@@ -1142,7 +1157,9 @@ card
     transition: all 0.2s ease;
     width: 230px;
     height: 130px;
+    padding: 10px;
   }
+
 
 .rateItText {
   letter-spacing: 0;
@@ -1254,4 +1271,19 @@ card
   opacity: 0.9;
 }
 
+.removeIcon{
+  color:var(--cardinal);
+  float: right;
+  margin-right: 10px;
+}
 
+.removeRatingText{
+  color: var(--cardinal);
+  position: absolute;
+  left: 1720px;
+  top: 420px;
+  text-decoration:underline;
+  text-decoration-color: var(--cardinal);
+  background-color: var(--eerie-black);
+  border: none;
+  }

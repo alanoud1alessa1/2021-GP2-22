@@ -340,12 +340,11 @@ console.log(castNames);
             <main>
               <div className="body"></div>
                 <img className="moviePoster" src={poster}/>
-                 <div className="trailer">
+                <div className="trailer">
                   <a className="playTrailerText" href={trailer_url} target="_blank">{playTrailerText}  </a>
                   <i  className="fa fa-play-circle"> </i>                  
                 </div>
                 
-
                   {/*  add rating */}
                   {/* <div className="addRating">
                     <div className="rateItText neuton-normal-white-30px">{rateItText}</div>
@@ -367,13 +366,14 @@ console.log(castNames);
                         <label for="rating7" class="fa fa-star"></label>
                         <input type="radio" name="rating1" id="rating8"/>
                         <label for="rating8" class="fa fa-star"></label>
-                        <input type="radio" name="rating1" id="rating9"/>
+                        <input type="radio" name="rating1" id="rating9"  onClick={() => alert.show('Oh look, an alert!')}/>
                         <label for="rating9" class="fa fa-star"></label>
-                        <input type="radio" name="rating1" id="rating10"/>
+                        <input type="radio" name="rating1" id="rating10" onClick={() => alert.show('Oh look, an alert!')}/>
                         <label for="rating10" class="fa fa-star"></label>
                       </div>
                     </div>   
-                    </div> 
+                    </div>  */}
+                    
                     
                     {/* after add rating */}
                     <div  className="afterRating">
@@ -383,7 +383,12 @@ console.log(castNames);
                         <div className="userRating">{movieRating}</div> 
                         <div className="tenText">/ 10</div> 
                       </div> 
-                    </div> 
+                    </div>  
+                    {/* remove rating */}
+                    <button className="removeRatingText neuton-normal-white-20px">Remove Rating</button>
+
+
+                    
                 
                 <div className="movieInfo">
                   <div className="movieTitle">

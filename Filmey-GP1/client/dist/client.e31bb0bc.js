@@ -54153,7 +54153,9 @@ function ViewMovie(props) {
     className: "userRating"
   }, movieRating), /*#__PURE__*/_react.default.createElement("div", {
     className: "tenText"
-  }, "/ 10"))), /*#__PURE__*/_react.default.createElement("div", {
+  }, "/ 10"))), /*#__PURE__*/_react.default.createElement("button", {
+    className: "removeRatingText neuton-normal-white-20px"
+  }, "Remove Rating"), /*#__PURE__*/_react.default.createElement("div", {
     className: "movieInfo"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "movieTitle"
