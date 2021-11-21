@@ -37,7 +37,7 @@ function regPage(props) {
   var [Displayvalue,getvalue]=useState('');
   const [value, onChange] = useState(new Date());
 
-  const [allGenres,setAllGenres]=useState('');
+  const [allGenres,setAllGenres]=useState([]);
 
 
   var usernameMessage="";
@@ -117,10 +117,12 @@ function regPage(props) {
       const genresArray = [...allGenres];
 
       for (var i = 0; i < response.data.length; i++) {
+
         genresArray[i] = response.data[i].genre;
       }
       console.log(genresArray)
       setAllGenres(genresArray);
+
     });
   }, []);
 

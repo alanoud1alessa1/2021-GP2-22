@@ -36,15 +36,38 @@ function genresPage(props) {
 
 
 
-  
+  const [allGenres,setAllGenres]=useState([]);
+  const [numOfGenres,setNumOfGenres]=useState();
+
   const [moviesId, setMoviesId] = useState([]);
   const [movieTitles, setmovieTitles] = useState([]);
   const [Allposters, setAllposters] = useState([]);
 
+
   React.useEffect(() => {
-    let genreType = "Comedy";
+    let genresArray = [...allGenres];
+
+
+    //Get All Genres
+    api.get(`/movies/allGenres/1`).then((response) => {
+
+      for (var i = 0; i < response.data.length; i++) {
+        genresArray[i] = response.data[i].genre;
+      }
+      // console.log(genresArray[4])
+      setAllGenres(genresArray);
+    });
+
+
+
+
+console.log(genresArray.length);
+
+
+    let genreType = 'Comedy';
 
     api.get(`/movies/genresFilter/${genreType}`).then((response) => {
+
       const moviesIdArray = [...moviesId];
       const movieTitlesArray = [...movieTitles];
       const postersArray = [...Allposters];
