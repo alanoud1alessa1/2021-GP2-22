@@ -53845,7 +53845,8 @@ function ViewMovie(props) {
       redLine = props.redLine,
       rightArrow = props.rightArrow,
       leftArrow = props.leftArrow,
-      reviewIcon = props.reviewIcon;
+      reviewIcon = props.reviewIcon,
+      yourRatingText = props.yourRatingText;
   var registered = false;
   var username = "";
   var cookies = new _universalCookie.default();
@@ -54140,84 +54141,19 @@ function ViewMovie(props) {
   }, playTrailerText, "  "), /*#__PURE__*/_react.default.createElement("i", {
     className: "fa fa-play-circle"
   }, " ")), /*#__PURE__*/_react.default.createElement("div", {
-    className: "addRating"
+    className: "afterRating"
   }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "rateItText neuton-normal-white-30px"
-  }, rateItText), /*#__PURE__*/_react.default.createElement("div", {
-    class: "rating-css"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    class: "star-icon"
-  }, /*#__PURE__*/_react.default.createElement("input", {
-    type: "radio",
-    name: "rating1",
-    id: "rating1"
-  }), /*#__PURE__*/_react.default.createElement("label", {
-    for: "rating1",
-    class: "fa fa-star"
-  }), /*#__PURE__*/_react.default.createElement("input", {
-    type: "radio",
-    name: "rating1",
-    id: "rating2"
-  }), /*#__PURE__*/_react.default.createElement("label", {
-    for: "rating2",
-    class: "fa fa-star"
-  }), /*#__PURE__*/_react.default.createElement("input", {
-    type: "radio",
-    name: "rating1",
-    id: "rating3"
-  }), /*#__PURE__*/_react.default.createElement("label", {
-    for: "rating3",
-    class: "fa fa-star"
-  }), /*#__PURE__*/_react.default.createElement("input", {
-    type: "radio",
-    name: "rating1",
-    id: "rating4"
-  }), /*#__PURE__*/_react.default.createElement("label", {
-    for: "rating4",
-    class: "fa fa-star"
-  }), /*#__PURE__*/_react.default.createElement("input", {
-    type: "radio",
-    name: "rating1",
-    id: "rating5"
-  }), /*#__PURE__*/_react.default.createElement("label", {
-    for: "rating5",
-    class: "fa fa-star"
-  }), /*#__PURE__*/_react.default.createElement("input", {
-    type: "radio",
-    name: "rating1",
-    id: "rating6"
-  }), /*#__PURE__*/_react.default.createElement("label", {
-    for: "rating6",
-    class: "fa fa-star"
-  }), /*#__PURE__*/_react.default.createElement("input", {
-    type: "radio",
-    name: "rating1",
-    id: "rating7"
-  }), /*#__PURE__*/_react.default.createElement("label", {
-    for: "rating7",
-    class: "fa fa-star"
-  }), /*#__PURE__*/_react.default.createElement("input", {
-    type: "radio",
-    name: "rating1",
-    id: "rating8"
-  }), /*#__PURE__*/_react.default.createElement("label", {
-    for: "rating8",
-    class: "fa fa-star"
-  }), /*#__PURE__*/_react.default.createElement("input", {
-    type: "radio",
-    name: "rating1",
-    id: "rating9"
-  }), /*#__PURE__*/_react.default.createElement("label", {
-    for: "rating9",
-    class: "fa fa-star"
-  }), /*#__PURE__*/_react.default.createElement("input", {
-    type: "radio",
-    name: "rating1",
-    id: "rating10"
-  }), /*#__PURE__*/_react.default.createElement("label", {
-    for: "rating10",
-    class: "fa fa-star"
-  })))), /*#__PURE__*/_react.default.createElement("div", {
+    className: "yourRatingText neuton-normal-white-30px"
+  }, yourRatingText), /*#__PURE__*/_react.default.createElement("div", {
+    className: "movieRatingContainer2"
+  }, /*#__PURE__*/_react.default.createElement("img", {
+    className: "afterRatingStar",
+    src: "/img/star-2@2x.svg"
+  }), /*#__PURE__*/_react.default.createElement("div", {
+    className: "userRating"
+  }, movieRating), /*#__PURE__*/_react.default.createElement("div", {
+    className: "tenText"
+  }, "/ 10"))), /*#__PURE__*/_react.default.createElement("div", {
     className: "movieInfo"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "movieTitle"
@@ -54231,7 +54167,7 @@ function ViewMovie(props) {
     className: "star",
     src: "/img/star-2@2x.svg"
   }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "movieRatingText"
+    className: "movieRating"
   }, movieRating), /*#__PURE__*/_react.default.createElement("div", {
     className: "tenText"
   }, "/ 10")), /*#__PURE__*/_react.default.createElement("div", {
@@ -54723,6 +54659,7 @@ var viewMovieData = {
   rightArrow: "/img/expand-right--review-@2x.svg",
   leftArrow: "/img/expand-left--review-@2x.svg",
   reviewIcon: "/img/icon-review@2x.svg",
+  yourRatingText: "Your Rating",
   // Footer
   footerText1: "WE MAKE YOUR DAY",
   footerText2: /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, "Filmey \xA9 2021", /*#__PURE__*/_react.default.createElement("br", null))

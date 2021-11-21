@@ -74,6 +74,7 @@ function ViewMovie(props) {
     rightArrow,
     leftArrow,
     reviewIcon,
+    yourRatingText,
   } = props;
 
   var registered =false;
@@ -344,7 +345,9 @@ console.log(castNames);
                   <i  className="fa fa-play-circle"> </i>                  
                 </div>
                 
-                <div className="addRating">
+
+                  {/*  add rating */}
+                  {/* <div className="addRating">
                     <div className="rateItText neuton-normal-white-30px">{rateItText}</div>
                     <div class="rating-css">
                       <div class="star-icon">
@@ -369,16 +372,25 @@ console.log(castNames);
                         <input type="radio" name="rating1" id="rating10"/>
                         <label for="rating10" class="fa fa-star"></label>
                       </div>
-                     </div>
-                </div>
-
+                    </div>   
+                    </div> 
+                    
+                    {/* after add rating */}
+                    <div  className="afterRating">
+                      <div className="yourRatingText neuton-normal-white-30px">{yourRatingText}</div>
+                      <div className="movieRatingContainer2">
+                        <img className="afterRatingStar" src="/img/star-2@2x.svg" />
+                        <div className="userRating">{movieRating}</div> 
+                        <div className="tenText">/ 10</div> 
+                      </div> 
+                    </div> 
+                
                 <div className="movieInfo">
                   <div className="movieTitle">
                     <div className="movieName">{title} <span className="movieYear"> ({year})</span></div>
                     <div className="movieRatingContainer">
-                      {/* <div className="movieRatingText2 neuton-bold-white-24px"> Movie Rating </div> */}
                       <img className="star" src="/img/star-2@2x.svg" />
-                      <div className="movieRatingText">{movieRating}</div> 
+                      <div className="movieRating">{movieRating}</div> 
                       <div className="tenText">/ 10</div> 
                     </div>
                     <div className="pgAndTime">

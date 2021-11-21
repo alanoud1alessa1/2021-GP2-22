@@ -254,18 +254,25 @@
   padding: 6.9px 7.0px;
   position: absolute;
   transition: all 0.2s ease;
-  /* left: 620px; */
-  left:30px;
-  /* top: 226px; */
-  /* top:100px; */
+  left:30px; 
 }
 
-.star:hover {
+.star:hover,
+.afterRatingStar:hover {
   transform: scale(1.1);
 }
 
+.afterRatingStar{
+  display: flex;
+  height: 56px;
+  width: 45px;
+  padding: 6.9px 7.0px;
+  transition: all 0.2s ease;
+  position: absolute;
+  left: 60px;
+}
 
-.movieRatingText {
+.movieRating {
   color: var(--white);
   font-family: var(--font-family-neuton);
   font-size: var(--font-size-xxxxl5);
@@ -278,6 +285,20 @@
   letter-spacing: 0.36px;
   position: absolute;
   transform: rotate(-0.42deg);
+}
+
+
+.userRating{
+  color: var(--white);
+  font-family: var(--font-family-neuton);
+  font-size: var(--font-size-xxxxl5);
+  font-weight: 700;
+  left:80px;
+  top: 4px;
+  letter-spacing: 0.36px;
+  position: absolute;
+  transform: rotate(-0.42deg);
+  width: 80px;
 }
 
 .tenText{
@@ -521,6 +542,15 @@
   top: 100px;
   left: -20px;
   display: inline-block;
+}
+
+.movieRatingContainer2{
+  position: absolute;
+  top: 60px;
+  left: -20px;
+  display: inline-block;
+  text-align: center;
+  align-items: center;
 }
 
 .pgAndTime{
@@ -1097,12 +1127,47 @@ card
     background-color: #35373B;
   }
 
+  .afterRating:hover{
+    background-color: #35373B;
+  }
+
+  .afterRating{
+    position:absolute;
+    left:1625px;
+    top: 280px;
+    background-color: var(--shark);
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 50pxss;
+    transition: all 0.2s ease;
+    width: 230px;
+    height: 130px;
+  }
+
 .rateItText {
   letter-spacing: 0;
   position: absolute;
-  width: 109px;
   left:20px;
   top:10px;
+  white-space: nowrap;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-shadow: 0px 4px 4px #00000040;
+  white-space: nowrap;
+  width: 291px;
+}
+
+.yourRatingText{
+  letter-spacing: 0;
+  position: absolute;
+  left:23px;
+  top:10px;
+  white-space: nowrap;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-shadow: 0px 4px 4px #00000040;
+  white-space: nowrap;
+  width: 291px;
 }
 
 .rating-css {

@@ -251,6 +251,7 @@ const viewMovieData = {
   rightArrow:"/img/expand-right--review-@2x.svg",
   leftArrow:"/img/expand-left--review-@2x.svg",
   reviewIcon:"/img/icon-review@2x.svg",
+  yourRatingText:"Your Rating",
 
   // Footer
   footerText1: "WE MAKE YOUR DAY",
