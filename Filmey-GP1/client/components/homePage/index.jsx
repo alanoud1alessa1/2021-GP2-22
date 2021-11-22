@@ -5,7 +5,8 @@ import Axios from "axios";
 import { useState } from "react";
 import Cookies from "universal-cookie";
 import jwt_decode from "jwt-decode";
-// import Loop from "../loop";
+import Header from "../header";
+
 
 function homePage(props) {
   const runCallback = (cb) => {
@@ -72,69 +73,7 @@ function homePage(props) {
           <body>
             {/* Header */}
             <header>
-              <div className="header">
-                <Link to="/home-page">
-                  <img className="headerLogo" src={logo} />
-                </Link>
-                <div>
-                  <Link to="/home-page">
-                    <div className="homeText darkergrotesque-medium-white-35px2">
-                      {homeText}
-                    </div>
-                  </Link>
-                </div>
-                <div>
-                  <Link to="/genresPage">
-                    <div>
-                      <div className="genresText darkergrotesque-medium-white-35px2">
-                        {genresText}
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-
-                {/* unregisterd user */}
-                {!registered && (
-                  <div className="clickable">
-                    <Link to="/login-page">
-                      <img className="loginIcon" src={icon} />
-                      <div>
-                        <div className="loginText roboto-normal-white-18px2">
-                          {loginText}
-                        </div>
-                      </div>
-                    </Link>
-                  </div>
-                )}
-
-                {!registered && (
-                  <div className="clickable">
-                    <Link to="/registerPage/reg-page">
-                      <img className="registerIcon" src={icon} />
-                      <div>
-                        <div className="registerText roboto-normal-white-18px2">
-                          {registerText}
-                        </div>
-                      </div>
-                    </Link>
-                  </div>
-                )}
-                {/* registerd user */}
-                {registered && (
-                  <ul>
-                    <img className="regUserIcon" src="/img/regUser.png" />
-                    <li className="dropdown">
-                      <a className="dropbtn ">{username}</a>
-                      <div className="dropdownContent">
-                        <button className="logout" onClick={logOut}>
-                          Logout
-                        </button>
-                        {/* <button className="logout" onClick={logOut}>Logout</button> */}
-                      </div>
-                    </li>
-                  </ul>
-                )}
-              </div>
+              <Header/> 
             </header>
 
             {/* main */}
@@ -157,7 +96,7 @@ function homePage(props) {
                 const row = [];
 
                 for (var i = 1; i <= 10; i++) {
-                  const url = `/movieInfoPage/ViewMovie/${i}`;
+                  const url = `/MovieInfoPage/${i}`;
                   const poster = Allposters[i - 1];
                   row.push(
                     <div key={i}>

@@ -6,7 +6,7 @@ import LoginPage from "./components/loginPage";
 import HomePage from "./components/homePage";
 import GenresPage from "./components/genresPage";
 import GenreTypePage from "./components/genreTypePage";
-import ViewMovie from "./components/movieInfoPage/ViewMovie";
+import MovieInfoPage from "./components/movieInfoPage";
 import ReviewPage from "./components/reviewPage";
 
 
@@ -29,8 +29,8 @@ function App() {
         <Route path="/genreTypePage">
           <GenreTypePage {...genreTypePageData} />
         </Route>
-        <Route path="/movieInfoPage/ViewMovie/:id">
-          <ViewMovie {...viewMovieData} />
+        <Route path="/movieInfoPage/:id">
+          <MovieInfoPage {...movieInfoPageData} />
         </Route>
         <Route path="/reviewPage">
           <ReviewPage {...reviewPageData} />
@@ -188,7 +188,7 @@ const genreTypePageData = {
   footerText2: <>Filmey © 2021<br /></>,
 };
 
-const viewMovieData = {
+const movieInfoPageData = {
   // Header
   logo: "/img/logo.png",
   homeText: "Home",
@@ -277,3 +277,4 @@ const reviewPageData= {
   footerText1: "WE MAKE YOUR DAY",
   footerText2: <>Filmey © 2021<br /></>,
 };
+

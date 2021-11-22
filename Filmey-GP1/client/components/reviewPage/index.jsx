@@ -1,6 +1,7 @@
 import React from "react";
 import "./reviewPage.css";
 import { Link } from "react-router-dom";
+import Header from "../header";
 
 
 function reviewPage(props) {
@@ -20,38 +21,10 @@ function reviewPage(props) {
       <div className="reviewPage screen">
         <div className="reviewPageContainer"></div>
         
-            {/* Header */}
+             {/* Header */}
             <header>
-                <div className="header"> 
-                    <Link to="/home-page">
-                        <img className="headerLogo" src={logo} />
-                    </Link>
-                    <div>
-                    <Link to="/home-page">
-                        <div className="homeText darkergrotesque-medium-white-35px2">{homeText}</div>
-                    </Link>
-                    </div>
-                    <div>
-                    <Link to="/genresPage">
-                        <div>
-                        <div className="genresText darkergrotesque-medium-white-35px2">{genresText}</div>
-                        </div>
-                    </Link>
-                    </div>
-
-                {/* registerd user */}
-                <ul>
-                    <img  className="regUserIcon" src="/img/regUser.png"/>
-                    <li className="dropdown">
-                        <a className="dropbtn">Username</a>
-                        <div className="dropdownContent">
-                        <a className="logout">Logout</a>
-                        </div>
-                    </li>
-                </ul>
-
-               </div>
-        </header>
+                <Header/> 
+            </header>
 
             {/* main */}
             <main>

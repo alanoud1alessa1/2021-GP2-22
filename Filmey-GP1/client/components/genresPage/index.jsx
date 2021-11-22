@@ -5,6 +5,7 @@ import Cookies from "universal-cookie";
 import jwt_decode from "jwt-decode";
 import Axios from "axios";
 import { useState } from "react";
+import Header from "../header";
 
 function genresPage(props) {
   const runCallback = (cb) => {
@@ -89,68 +90,8 @@ console.log(genresArray.length);
         <div className="genresPageContainer">
           <body>
             {/* Header */}
-            <header>
-              <div className="header">
-                <Link to="/home-page">
-                  <img className="headerLogo" src={props.logo} />
-                </Link>
-                <div>
-                  <Link to="/home-page">
-                    <div className="homeText darkergrotesque-medium-white-35px2">
-                      {props.homeText}
-                    </div>
-                  </Link>
-                </div>
-                <div>
-                  <Link to="/genresPage">
-                    <div>
-                      <div className="genresText darkergrotesque-medium-white-35px2">
-                        {props.genresText}
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-
-                {/* unregisterd user */}
-                {!registered && (
-                  <div className="clickable">
-                    <Link to="/login-page">
-                      <img className="loginIcon" src={props.icon} />
-                      <div>
-                        <div className="loginText roboto-normal-white-18px2">
-                          {props.loginText}
-                        </div>
-                      </div>
-                    </Link>
-                  </div>
-                )}
-
-                {!registered && (
-                  <div className="clickable">
-                    <Link to="/registerPage/reg-page">
-                      <img className="registerIcon" src={props.icon} />
-                      <div>
-                        <div className="registerText roboto-normal-white-18px2">
-                          {props.registerText}
-                        </div>
-                      </div>
-                    </Link>
-                  </div>
-                )}
-                {/* registerd user */}
-                {registered && (
-                  <ul>
-                    <img className="regUserIcon" src="/img/regUser.png" />
-                    <li className="dropdown">
-                      <a className="dropbtn ">{props.username}</a>
-                      <div className="dropdownContent">
-                        <button onClick={logOut}>Logout</button>
-                        {/* <button className="logout" onClick={logOut}>Logout</button> */}
-                      </div>
-                    </li>
-                  </ul>
-                )}
-              </div>
+             <header>
+                <Header/> 
             </header>
 
             {/* main */}
@@ -173,7 +114,7 @@ console.log(genresArray.length);
 
                   for (var i = 5; i <= 8; i++) {
                     const id = moviesId[i - 1];
-                    const url = `/movieInfoPage/ViewMovie/${id}`;
+                    const url = `/movieInfoPage/${id}`;
                     const poster = Allposters[i - 1];
                     const title = movieTitles[i - 1];
                     const reminder = i % 4;
@@ -227,7 +168,7 @@ console.log(genresArray.length);
               </div>
               {/* movie 2 */}
               <div className="Movie2">
-                {/* <Link to="/movieInfoPage/ViewMovie/2">
+                {/* <Link to="/movieInfoPage/2">
                 <img className="genresMoviePoster1" src={Allposters[1]} />
                 <div className="genresMovieName1 roboto-medium-white-15px">{props.movieName2}</div>
                 <div className="genresRating1 neuton-bold-white-30px3">{props.rating2}</div>
@@ -239,7 +180,7 @@ console.log(genresArray.length);
               </div>
               {/* movie 3 */}
               {/* <div className="Movie3">
-            <Link to="/movieInfoPage/ViewMovie/2">
+            <Link to="/movieInfoPage/2">
               <img className="genresMoviePoster1" src={Allposters[2]} />
               <div className="genresMovieName1 roboto-medium-white-15px">{props.movieName3}</div>
               <div className="genresRating1 neuton-bold-white-30px3">{props.rating3}</div>
@@ -251,7 +192,7 @@ console.log(genresArray.length);
             </div> */}
               {/* movie 4 */}
               <div className="Movie4">
-                {/* <Link to="/movieInfoPage/ViewMovie/2">
+                {/* <Link to="/movieInfoPage/2">
               <img className="genresMoviePoster1" src={Allposters[3]} />
               <div className="genresMovieName1 roboto-medium-white-15px">{props.movieName4}</div>
               <div className="genresRating1 neuton-bold-white-30px3">{props.rating4}</div>

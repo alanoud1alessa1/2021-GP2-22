@@ -553,8 +553,6 @@
     width: 1920px;
   }
 
-
-
   @keyframes animate-enter-frames {
     from{opacity: 0;
   transform: scale(1.1);

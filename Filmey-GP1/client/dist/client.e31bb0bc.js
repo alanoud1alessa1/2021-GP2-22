@@ -52511,7 +52511,7 @@ function regPage(props) {
           cookies.set('token', res.data, {
             path: '/'
           });
-          alert("Welcome " + username + ", you have successfully registerd");
+          alert("Welcome " + username + "! you have successfully registerd.");
           window.location = '/home-page';
         }
       }
@@ -52729,6 +52729,7 @@ function regPage(props) {
     options: genres,
     onChange: getGenres,
     closeMenuOnSelect: false,
+    isSearchable: true,
     className: "favGenre",
     placeholder: "Select your favorite movie genres..",
     theme: function theme(_theme) {
@@ -53025,7 +53026,12 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/homePage/index.jsx":[function(require,module,exports) {
+},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/header/header.css":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/header/index.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -53037,13 +53043,13 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _reactRouterDom = require("react-router-dom");
 
-require("./homePage.css");
-
 var _axios = _interopRequireDefault(require("axios"));
 
 var _universalCookie = _interopRequireDefault(require("universal-cookie"));
 
 var _jwtDecode = _interopRequireDefault(require("jwt-decode"));
+
+require("./header.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -53071,7 +53077,154 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-// import Loop from "../loop";
+function header(props) {
+  var registered = false;
+  var username = "";
+  var cookies = new _universalCookie.default();
+
+  try {
+    var token = cookies.get("token");
+    var decoded = (0, _jwtDecode.default)(token);
+    username = decoded.username;
+    registered = true;
+  } catch (_unused) {
+    registered = false;
+    console.log("guest user");
+  }
+
+  var logOut = function logOut() {
+    cookies.remove("token", {
+      path: "/"
+    }); // window.location.reload();
+
+    window.location = '/home-page';
+  };
+
+  var api = _axios.default.create({
+    baseURL: "http://localhost:3000/api/v1" // headers :{
+    //  // 'authorization' : token
+
+  });
+
+  var _useState = (0, _react.useState)([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      Allposters = _useState2[0],
+      setAllposters = _useState2[1];
+
+  _react.default.useEffect(function () {
+    var numOfTopMovies = 10;
+    api.get("/movies/topMovies/".concat(numOfTopMovies)).then(function (response) {
+      var postersArray = _toConsumableArray(Allposters);
+
+      for (var i = 0; i < numOfTopMovies; i++) {
+        postersArray[i] = response.data[i].poster;
+      }
+
+      setAllposters(postersArray);
+    });
+  }, []);
+
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "header"
+  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+    to: "/home-page"
+  }, /*#__PURE__*/_react.default.createElement("img", {
+    className: "headerLogo",
+    src: "/img/logo.png"
+  })), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+    to: "/home-page"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "homeText darkergrotesque-medium-white-35px2"
+  }, "Home"))), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+    to: "/genresPage"
+  }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "genresText darkergrotesque-medium-white-35px2"
+  }, "Genres")))), !registered && /*#__PURE__*/_react.default.createElement("div", {
+    className: "clickable"
+  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+    to: "/login-page"
+  }, /*#__PURE__*/_react.default.createElement("img", {
+    className: "loginIcon",
+    src: "/img/iconly-light-profile@2x.svg"
+  }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "loginText roboto-normal-white-18px2"
+  }, "Login")))), !registered && /*#__PURE__*/_react.default.createElement("div", {
+    className: "clickable"
+  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+    to: "/registerPage/reg-page"
+  }, /*#__PURE__*/_react.default.createElement("img", {
+    className: "registerIcon",
+    src: "/img/iconly-light-profile@2x.svg"
+  }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "registerText roboto-normal-white-18px2"
+  }, "Register")))), registered && /*#__PURE__*/_react.default.createElement("div", {
+    className: "registeredUser"
+  }, /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("img", {
+    className: "regUserIcon",
+    src: "/img/regUser.png"
+  }), /*#__PURE__*/_react.default.createElement("li", {
+    className: "dropdown"
+  }, /*#__PURE__*/_react.default.createElement("a", {
+    className: "dropbtn "
+  }, username), /*#__PURE__*/_react.default.createElement("div", {
+    className: "dropdownContent"
+  }, /*#__PURE__*/_react.default.createElement("a", {
+    className: "logout",
+    onClick: logOut
+  }, "Logout"))))));
+}
+
+;
+var _default = header;
+exports.default = _default;
+},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","axios":"node_modules/axios/index.js","universal-cookie":"node_modules/universal-cookie/es6/index.js","jwt-decode":"node_modules/jwt-decode/build/jwt-decode.esm.js","./header.css":"components/header/header.css"}],"components/homePage/index.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _reactRouterDom = require("react-router-dom");
+
+require("./homePage.css");
+
+var _axios = _interopRequireDefault(require("axios"));
+
+var _universalCookie = _interopRequireDefault(require("universal-cookie"));
+
+var _jwtDecode = _interopRequireDefault(require("jwt-decode"));
+
+var _header = _interopRequireDefault(require("../header"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 function homePage(props) {
   var runCallback = function runCallback(cb) {
     return cb();
@@ -53138,52 +53291,7 @@ function homePage(props) {
     className: "homePage screen"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "homePageContainer"
-  }, /*#__PURE__*/_react.default.createElement("body", null, /*#__PURE__*/_react.default.createElement("header", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "header"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/home-page"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "headerLogo",
-    src: logo
-  })), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/home-page"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "homeText darkergrotesque-medium-white-35px2"
-  }, homeText))), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/genresPage"
-  }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresText darkergrotesque-medium-white-35px2"
-  }, genresText)))), !registered && /*#__PURE__*/_react.default.createElement("div", {
-    className: "clickable"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/login-page"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "loginIcon",
-    src: icon
-  }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "loginText roboto-normal-white-18px2"
-  }, loginText)))), !registered && /*#__PURE__*/_react.default.createElement("div", {
-    className: "clickable"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/registerPage/reg-page"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "registerIcon",
-    src: icon
-  }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "registerText roboto-normal-white-18px2"
-  }, registerText)))), registered && /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("img", {
-    className: "regUserIcon",
-    src: "/img/regUser.png"
-  }), /*#__PURE__*/_react.default.createElement("li", {
-    className: "dropdown"
-  }, /*#__PURE__*/_react.default.createElement("a", {
-    className: "dropbtn "
-  }, username), /*#__PURE__*/_react.default.createElement("div", {
-    className: "dropdownContent"
-  }, /*#__PURE__*/_react.default.createElement("button", {
-    className: "logout",
-    onClick: logOut
-  }, "Logout")))))), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("body", null, /*#__PURE__*/_react.default.createElement("header", null, /*#__PURE__*/_react.default.createElement(_header.default, null)), /*#__PURE__*/_react.default.createElement("div", {
     className: "body"
   }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("img", {
     className: "fireIcon",
@@ -53199,7 +53307,7 @@ function homePage(props) {
     var row = [];
 
     for (var i = 1; i <= 10; i++) {
-      var url = "/movieInfoPage/ViewMovie/".concat(i);
+      var url = "/MovieInfoPage/".concat(i);
       var poster = Allposters[i - 1];
       row.push( /*#__PURE__*/_react.default.createElement("div", {
         key: i
@@ -53230,7 +53338,7 @@ function homePage(props) {
 
 var _default = homePage;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./homePage.css":"components/homePage/homePage.css","axios":"node_modules/axios/index.js","universal-cookie":"node_modules/universal-cookie/es6/index.js","jwt-decode":"node_modules/jwt-decode/build/jwt-decode.esm.js"}],"components/genresPage/genresPage.css":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./homePage.css":"components/homePage/homePage.css","axios":"node_modules/axios/index.js","universal-cookie":"node_modules/universal-cookie/es6/index.js","jwt-decode":"node_modules/jwt-decode/build/jwt-decode.esm.js","../header":"components/header/index.jsx"}],"components/genresPage/genresPage.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -53254,6 +53362,8 @@ var _universalCookie = _interopRequireDefault(require("universal-cookie"));
 var _jwtDecode = _interopRequireDefault(require("jwt-decode"));
 
 var _axios = _interopRequireDefault(require("axios"));
+
+var _header = _interopRequireDefault(require("../header"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -53375,51 +53485,7 @@ function genresPage(props) {
     className: "genresPage screen"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "genresPageContainer"
-  }, /*#__PURE__*/_react.default.createElement("body", null, /*#__PURE__*/_react.default.createElement("header", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "header"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/home-page"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "headerLogo",
-    src: props.logo
-  })), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/home-page"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "homeText darkergrotesque-medium-white-35px2"
-  }, props.homeText))), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/genresPage"
-  }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresText darkergrotesque-medium-white-35px2"
-  }, props.genresText)))), !registered && /*#__PURE__*/_react.default.createElement("div", {
-    className: "clickable"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/login-page"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "loginIcon",
-    src: props.icon
-  }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "loginText roboto-normal-white-18px2"
-  }, props.loginText)))), !registered && /*#__PURE__*/_react.default.createElement("div", {
-    className: "clickable"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/registerPage/reg-page"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "registerIcon",
-    src: props.icon
-  }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "registerText roboto-normal-white-18px2"
-  }, props.registerText)))), registered && /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("img", {
-    className: "regUserIcon",
-    src: "/img/regUser.png"
-  }), /*#__PURE__*/_react.default.createElement("li", {
-    className: "dropdown"
-  }, /*#__PURE__*/_react.default.createElement("a", {
-    className: "dropbtn "
-  }, props.username), /*#__PURE__*/_react.default.createElement("div", {
-    className: "dropdownContent"
-  }, /*#__PURE__*/_react.default.createElement("button", {
-    onClick: logOut
-  }, "Logout")))))), /*#__PURE__*/_react.default.createElement("main", null, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("body", null, /*#__PURE__*/_react.default.createElement("header", null, /*#__PURE__*/_react.default.createElement(_header.default, null)), /*#__PURE__*/_react.default.createElement("main", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "body"
   }), /*#__PURE__*/_react.default.createElement("div", {
     className: "goToGenreTypePage"
@@ -53437,7 +53503,7 @@ function genresPage(props) {
 
     for (var i = 5; i <= 8; i++) {
       var id = moviesId[i - 1];
-      var url = "/movieInfoPage/ViewMovie/".concat(id);
+      var url = "/movieInfoPage/".concat(id);
       var poster = Allposters[i - 1];
       var title = movieTitles[i - 1];
       var reminder = i % 4;
@@ -53495,7 +53561,7 @@ function genresPage(props) {
 
 var _default = genresPage;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./genresPage.css":"components/genresPage/genresPage.css","universal-cookie":"node_modules/universal-cookie/es6/index.js","jwt-decode":"node_modules/jwt-decode/build/jwt-decode.esm.js","axios":"node_modules/axios/index.js"}],"components/genreTypePage/genreTypePage.css":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./genresPage.css":"components/genresPage/genresPage.css","universal-cookie":"node_modules/universal-cookie/es6/index.js","jwt-decode":"node_modules/jwt-decode/build/jwt-decode.esm.js","axios":"node_modules/axios/index.js","../header":"components/header/index.jsx"}],"components/genreTypePage/genreTypePage.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -53513,6 +53579,8 @@ var _react = _interopRequireDefault(require("react"));
 var _reactRouterDom = require("react-router-dom");
 
 require("./genreTypePage.css");
+
+var _header = _interopRequireDefault(require("../header"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -53550,51 +53618,7 @@ function genreTypePage(props) {
     className: "genresPage screen"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "genresPageContainer"
-  }, /*#__PURE__*/_react.default.createElement("body", null, /*#__PURE__*/_react.default.createElement("header", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "header"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/home-page"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "headerLogo",
-    src: logo
-  })), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/home-page"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "homeText darkergrotesque-medium-white-35px2"
-  }, homeText))), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/genresPage"
-  }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresText darkergrotesque-medium-white-35px2"
-  }, genresText)))), /*#__PURE__*/_react.default.createElement("div", {
-    className: "clickable"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/login-page"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "loginIcon",
-    src: icon
-  }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "loginText roboto-normal-white-18px2"
-  }, loginText)))), /*#__PURE__*/_react.default.createElement("div", {
-    className: "clickable"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/registerPage/reg-page"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "registerIcon",
-    src: icon
-  }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "registerText roboto-normal-white-18px2"
-  }, registerText)))), /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("img", {
-    className: "regUserIcon",
-    src: "/img/regUser.png"
-  }), /*#__PURE__*/_react.default.createElement("li", {
-    className: "dropdown"
-  }, /*#__PURE__*/_react.default.createElement("a", {
-    className: "dropbtn "
-  }, "Username"), /*#__PURE__*/_react.default.createElement("div", {
-    className: "dropdownContent"
-  }, /*#__PURE__*/_react.default.createElement("a", {
-    className: "logout"
-  }, "Logout")))))), /*#__PURE__*/_react.default.createElement("main", null, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("body", null, /*#__PURE__*/_react.default.createElement("header", null, /*#__PURE__*/_react.default.createElement(_header.default, null)), /*#__PURE__*/_react.default.createElement("main", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "body"
   }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h1", {
     className: "genreTypeTitle neuton-normal-white-60px3"
@@ -53678,12 +53702,12 @@ function genreTypePage(props) {
 
 var _default = genreTypePage;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./genreTypePage.css":"components/genreTypePage/genreTypePage.css"}],"components/movieInfoPage/ViewMovie/ViewMovie.css":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./genreTypePage.css":"components/genreTypePage/genreTypePage.css","../header":"components/header/index.jsx"}],"components/movieInfoPage/movieInfoPage.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/movieInfoPage/ViewMovie/index.jsx":[function(require,module,exports) {
+},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/movieInfoPage/index.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -53695,13 +53719,15 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _reactRouterDom = require("react-router-dom");
 
-require("./ViewMovie.css");
+require("./movieInfoPage.css");
 
 var _axios = _interopRequireDefault(require("axios"));
 
 var _universalCookie = _interopRequireDefault(require("universal-cookie"));
 
 var _jwtDecode = _interopRequireDefault(require("jwt-decode"));
+
+var _header = _interopRequireDefault(require("../header"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -53729,7 +53755,7 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-function ViewMovie(props) {
+function MovieInfoPage(props) {
   var runCallback = function runCallback(cb) {
     return cb();
   };
@@ -53901,7 +53927,11 @@ function ViewMovie(props) {
 
   var addRating = function addRating(value) {
     if (!registered) {
-      alert("Sorry this function is for registered users only");
+      if (window.confirm('Sorry! you have to login.')) {
+        window.location.href = '/login-page';
+      }
+
+      ;
       return;
     }
 
@@ -53922,6 +53952,8 @@ function ViewMovie(props) {
       //rating=value;
       console.log(res.data);
     });
+
+    alert("Thank u! your rating has been saved successfully.");
   }; // React.useEffect(() => { setuserRating(rating) }, [])
   // React.useEffect(() => { setuserRating(rating);
   // console.log(userRating)})
@@ -53939,6 +53971,8 @@ function ViewMovie(props) {
         sethaveRated(false);
       }
     });
+
+    alert("Your rating has been deleted successfully.");
   };
 
   _react.default.useEffect(function () {
@@ -54081,52 +54115,7 @@ function ViewMovie(props) {
     className: "movieInfo screen"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "movieInfoContainer"
-  }, /*#__PURE__*/_react.default.createElement("body", null, /*#__PURE__*/_react.default.createElement("header", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "header"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/home-page"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "headerLogo",
-    src: logo
-  })), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/home-page"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "homeText darkergrotesque-medium-white-35px2"
-  }, homeText))), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/genresPage"
-  }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresText darkergrotesque-medium-white-35px2"
-  }, genresText)))), !registered && /*#__PURE__*/_react.default.createElement("div", {
-    className: "clickable"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/login-page"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "loginIcon",
-    src: icon
-  }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "loginText roboto-normal-white-18px2"
-  }, loginText)))), !registered && /*#__PURE__*/_react.default.createElement("div", {
-    className: "clickable"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/registerPage/reg-page"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "registerIcon",
-    src: icon
-  }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "registerText roboto-normal-white-18px2"
-  }, registerText)))), registered && /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("img", {
-    className: "regUserIcon",
-    src: "/img/regUser.png"
-  }), /*#__PURE__*/_react.default.createElement("li", {
-    className: "dropdown"
-  }, /*#__PURE__*/_react.default.createElement("a", {
-    className: "dropbtn "
-  }, username), /*#__PURE__*/_react.default.createElement("div", {
-    className: "dropdownContent"
-  }, /*#__PURE__*/_react.default.createElement("button", {
-    className: "logout",
-    onClick: logOut
-  }, "Logout")))))), /*#__PURE__*/_react.default.createElement("main", null, /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("body", null, /*#__PURE__*/_react.default.createElement("header", null, /*#__PURE__*/_react.default.createElement(_header.default, null)), /*#__PURE__*/_react.default.createElement("main", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "body"
   }), /*#__PURE__*/_react.default.createElement("img", {
     className: "moviePoster",
@@ -54154,18 +54143,18 @@ function ViewMovie(props) {
     type: "radio",
     name: "rating1",
     id: "rating1",
-    value: "1"
+    value: "5"
   }), /*#__PURE__*/_react.default.createElement("label", {
     for: "rating1",
-    class: "fa fa-star"
+    className: "fas fa-star"
   }), /*#__PURE__*/_react.default.createElement("input", {
     type: "radio",
     name: "rating1",
     id: "rating2",
-    value: "2"
+    value: "4"
   }), /*#__PURE__*/_react.default.createElement("label", {
     for: "rating2",
-    class: "fa fa-star"
+    className: "fas fa-star"
   }), /*#__PURE__*/_react.default.createElement("input", {
     type: "radio",
     name: "rating1",
@@ -54173,69 +54162,23 @@ function ViewMovie(props) {
     value: "3"
   }), /*#__PURE__*/_react.default.createElement("label", {
     for: "rating3",
-    class: "fa fa-star"
+    className: "fas fa-star"
   }), /*#__PURE__*/_react.default.createElement("input", {
     type: "radio",
     name: "rating1",
     id: "rating4",
-    value: "4"
+    value: "2"
   }), /*#__PURE__*/_react.default.createElement("label", {
     for: "rating4",
-    class: "fa fa-star"
+    className: "fas fa-star"
   }), /*#__PURE__*/_react.default.createElement("input", {
     type: "radio",
     name: "rating1",
     id: "rating5",
-    value: "5"
+    value: "1"
   }), /*#__PURE__*/_react.default.createElement("label", {
     for: "rating5",
-    class: "fa fa-star"
-  }), /*#__PURE__*/_react.default.createElement("input", {
-    type: "radio",
-    name: "rating1",
-    id: "rating6",
-    value: "6"
-  }), /*#__PURE__*/_react.default.createElement("label", {
-    for: "rating6",
-    class: "fa fa-star"
-  }), /*#__PURE__*/_react.default.createElement("input", {
-    type: "radio",
-    name: "rating1",
-    id: "rating7",
-    value: "7"
-  }), /*#__PURE__*/_react.default.createElement("label", {
-    for: "rating7",
-    class: "fa fa-star"
-  }), /*#__PURE__*/_react.default.createElement("input", {
-    type: "radio",
-    name: "rating1",
-    id: "rating8",
-    value: "8"
-  }), /*#__PURE__*/_react.default.createElement("label", {
-    for: "rating8",
-    class: "fa fa-star"
-  }), /*#__PURE__*/_react.default.createElement("input", {
-    type: "radio",
-    name: "rating1",
-    id: "rating9",
-    value: "9",
-    onClick: function onClick() {
-      return alert.show('Oh look, an alert!');
-    }
-  }), /*#__PURE__*/_react.default.createElement("label", {
-    for: "rating9",
-    class: "fa fa-star"
-  }), /*#__PURE__*/_react.default.createElement("input", {
-    type: "radio",
-    name: "rating1",
-    id: "rating10",
-    value: "10",
-    onClick: function onClick() {
-      return alert.show('Oh look, an alert!');
-    }
-  }), /*#__PURE__*/_react.default.createElement("label", {
-    for: "rating10",
-    class: "fa fa-star"
+    className: "fas fa-star"
   })))), haveRated && /*#__PURE__*/_react.default.createElement("div", {
     className: "afterRating"
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -54248,8 +54191,8 @@ function ViewMovie(props) {
   }), /*#__PURE__*/_react.default.createElement("div", {
     className: "userRating"
   }, userRating), /*#__PURE__*/_react.default.createElement("div", {
-    className: "tenText"
-  }, "/ 10"))), haveRated && /*#__PURE__*/_react.default.createElement("button", {
+    className: "fiveText"
+  }, "/ 5"))), haveRated && /*#__PURE__*/_react.default.createElement("button", {
     className: "removeRatingText neuton-normal-white-20px",
     onClick: deleteRating
   }, "Remove Rating"), /*#__PURE__*/_react.default.createElement("div", {
@@ -54268,8 +54211,8 @@ function ViewMovie(props) {
   }), /*#__PURE__*/_react.default.createElement("div", {
     className: "movieRating"
   }, movieRating), /*#__PURE__*/_react.default.createElement("div", {
-    className: "tenText"
-  }, "/ 10")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "fiveText"
+  }, "/ 5")), /*#__PURE__*/_react.default.createElement("div", {
     className: "pgAndTime"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "pgContainer"
@@ -54415,9 +54358,9 @@ function ViewMovie(props) {
   }, /*#__PURE__*/_react.default.createElement("span", null, footerText2)))))));
 }
 
-var _default = ViewMovie;
+var _default = MovieInfoPage;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./ViewMovie.css":"components/movieInfoPage/ViewMovie/ViewMovie.css","axios":"node_modules/axios/index.js","universal-cookie":"node_modules/universal-cookie/es6/index.js","jwt-decode":"node_modules/jwt-decode/build/jwt-decode.esm.js"}],"components/reviewPage/reviewPage.css":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./movieInfoPage.css":"components/movieInfoPage/movieInfoPage.css","axios":"node_modules/axios/index.js","universal-cookie":"node_modules/universal-cookie/es6/index.js","jwt-decode":"node_modules/jwt-decode/build/jwt-decode.esm.js","../header":"components/header/index.jsx"}],"components/reviewPage/reviewPage.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -54436,6 +54379,8 @@ require("./reviewPage.css");
 
 var _reactRouterDom = require("react-router-dom");
 
+var _header = _interopRequireDefault(require("../header"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function reviewPage(props) {
@@ -54453,33 +54398,7 @@ function reviewPage(props) {
     className: "reviewPage screen"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "reviewPageContainer"
-  }), /*#__PURE__*/_react.default.createElement("header", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "header"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/home-page"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "headerLogo",
-    src: logo
-  })), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/home-page"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "homeText darkergrotesque-medium-white-35px2"
-  }, homeText))), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/genresPage"
-  }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresText darkergrotesque-medium-white-35px2"
-  }, genresText)))), /*#__PURE__*/_react.default.createElement("ul", null, /*#__PURE__*/_react.default.createElement("img", {
-    className: "regUserIcon",
-    src: "/img/regUser.png"
-  }), /*#__PURE__*/_react.default.createElement("li", {
-    className: "dropdown"
-  }, /*#__PURE__*/_react.default.createElement("a", {
-    className: "dropbtn"
-  }, "Username"), /*#__PURE__*/_react.default.createElement("div", {
-    className: "dropdownContent"
-  }, /*#__PURE__*/_react.default.createElement("a", {
-    className: "logout"
-  }, "Logout")))))), /*#__PURE__*/_react.default.createElement("main", null, /*#__PURE__*/_react.default.createElement("div", {
+  }), /*#__PURE__*/_react.default.createElement("header", null, /*#__PURE__*/_react.default.createElement(_header.default, null)), /*#__PURE__*/_react.default.createElement("main", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "reviewBody"
   }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "reviewBox"
@@ -54511,7 +54430,7 @@ function reviewPage(props) {
 
 var _default = reviewPage;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","./reviewPage.css":"components/reviewPage/reviewPage.css","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js"}],"App.jsx":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","./reviewPage.css":"components/reviewPage/reviewPage.css","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","../header":"components/header/index.jsx"}],"App.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -54535,7 +54454,7 @@ var _genresPage = _interopRequireDefault(require("./components/genresPage"));
 
 var _genreTypePage = _interopRequireDefault(require("./components/genreTypePage"));
 
-var _ViewMovie = _interopRequireDefault(require("./components/movieInfoPage/ViewMovie"));
+var _movieInfoPage = _interopRequireDefault(require("./components/movieInfoPage"));
 
 var _reviewPage = _interopRequireDefault(require("./components/reviewPage"));
 
@@ -54553,8 +54472,8 @@ function App() {
   }, /*#__PURE__*/_react.default.createElement(_genresPage.default, genresPageData)), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/genreTypePage"
   }, /*#__PURE__*/_react.default.createElement(_genreTypePage.default, genreTypePageData)), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
-    path: "/movieInfoPage/ViewMovie/:id"
-  }, /*#__PURE__*/_react.default.createElement(_ViewMovie.default, viewMovieData)), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+    path: "/movieInfoPage/:id"
+  }, /*#__PURE__*/_react.default.createElement(_movieInfoPage.default, movieInfoPageData)), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/reviewPage"
   }, /*#__PURE__*/_react.default.createElement(_reviewPage.default, reviewPageData))));
 }
@@ -54696,7 +54615,7 @@ var genreTypePageData = {
   footerText1: "WE MAKE YOUR DAY",
   footerText2: /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, "Filmey \xA9 2021", /*#__PURE__*/_react.default.createElement("br", null))
 };
-var viewMovieData = {
+var movieInfoPageData = {
   // Header
   logo: "/img/logo.png",
   homeText: "Home",
@@ -54780,7 +54699,7 @@ var reviewPageData = {
   footerText1: "WE MAKE YOUR DAY",
   footerText2: /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, "Filmey \xA9 2021", /*#__PURE__*/_react.default.createElement("br", null))
 };
-},{"./App.css":"App.css","react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./components/registerPage/regPage":"components/registerPage/regPage/index.jsx","./components/loginPage":"components/loginPage/index.jsx","./components/homePage":"components/homePage/index.jsx","./components/genresPage":"components/genresPage/index.jsx","./components/genreTypePage":"components/genreTypePage/index.jsx","./components/movieInfoPage/ViewMovie":"components/movieInfoPage/ViewMovie/index.jsx","./components/reviewPage":"components/reviewPage/index.jsx"}],"node_modules/bootstrap/dist/css/bootstrap.min.css":[function(require,module,exports) {
+},{"./App.css":"App.css","react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./components/registerPage/regPage":"components/registerPage/regPage/index.jsx","./components/loginPage":"components/loginPage/index.jsx","./components/homePage":"components/homePage/index.jsx","./components/genresPage":"components/genresPage/index.jsx","./components/genreTypePage":"components/genreTypePage/index.jsx","./components/movieInfoPage":"components/movieInfoPage/index.jsx","./components/reviewPage":"components/reviewPage/index.jsx"}],"node_modules/bootstrap/dist/css/bootstrap.min.css":[function(require,module,exports) {
 
         var reloadCSS = require('_css_loader');
         module.hot.dispose(reloadCSS);
@@ -54832,7 +54751,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62660" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "9801" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

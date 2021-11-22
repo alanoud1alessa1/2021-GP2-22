@@ -8,8 +8,7 @@
 
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css");
 
-@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"); */
-
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"); 
 .screen a {
   display: contents;
   text-decoration: none;
@@ -2117,8 +2116,6 @@ box-shadow: 0px 5px 10px  var(--cardinal);
     width: 1920px;
   }
 
-
-
   @keyframes animate-enter-frames {
     from{opacity: 0;
   transform: scale(1.1);
@@ -2131,6 +2128,178 @@ box-shadow: 0px 5px 10px  var(--cardinal);
   .clickable{
       cursor: pointer;
   }
+  .genresText:hover,
+  .homeText:hover {
+    transform: translate(0, -5px);
+  }
+  
+  .line-14 {
+    height: 3px;
+    left: 64px;
+    position: absolute;
+    top: 1080px;
+    width: 1896px;
+  }
+  
+  .rectangle-398 {
+    background-color: var(--eerie-black);
+    height: 93px;
+    left: 65px;
+    position: absolute;
+    top: 18px;
+    width: 1905px;
+  }
+  
+  .registerText {
+    left: 1830px;
+    letter-spacing: 0;
+    line-height: 16px;
+    position: absolute;
+    top: 80px;
+    white-space: nowrap;
+    width: 75px;
+  }
+  
+  .loginText {
+    left: 1750px;
+    letter-spacing: 0;
+    line-height: 16px;
+    position: absolute;
+    top: 79px;
+    white-space: nowrap;
+    width: 52px;
+  }
+  
+  .loginIcon {
+    height: 40px;
+    /* left: 1750px; */
+    left: 1747px;
+    position: absolute;
+    /* top: 37px; */
+    top: 34px;
+    width: 44px;
+  }
+  
+  .registerIcon {
+    height: 40px;
+    /* left: 1837px; */
+    left: 1826px;
+    position: absolute;
+    /* top: 36px; */
+    top: 33px;
+    width: 44px;
+  }
+
+  
+  .genresText {
+    cursor: pointer;
+    left: 425px;
+    letter-spacing: 0;
+    position: absolute;
+    top: 43px;
+    transition: all 0.2s ease;
+    width: 137px;
+  }
+  
+  .headerLogo {
+    height: 87px;
+    left: 20px;
+    object-fit: cover;
+    position: absolute;
+    top: 24px;
+    width: 190px;
+  }
+  
+  .homeText{
+    cursor: pointer;
+    left: 298px;
+    letter-spacing: 0;
+    position: absolute;
+    top: 43px;
+    transition: all 0.2s ease;
+    width: 111px;
+  }
+
+  .dropdown {
+    display: inline-block;
+    height: 40px;
+    width: 90px;
+    position: absolute;
+    /* left: 1775px; */
+    left: 60px;
+    top: 55px;
+    color: var(--baby-powder);
+    cursor: pointer;
+    }
+    
+    .regUserIcon {
+    position: absolute;
+    /* left: 1750px; */
+    top: 40px;
+    }
+    
+    .dropdown:hover {
+    display: block;
+    }
+    
+    .dropbtn {
+    display: inline-block;
+    color: var(--white);
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    background-color: var(--cardinal);
+    }
+
+    .dropdown:hover .dropbtn {
+    color: var(--baby-powder);
+    }
+    
+    .dropdownContent {
+      display: none;
+      position: absolute;
+      background-color: var(--baby-powder);
+      width: 100px;
+      height: 50px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      border-radius: 2px;
+      z-index: 1;
+      text-align: center;
+      padding: 10px 5px;
+    }
+    
+    .dropdown:hover .dropdownContent{
+    display: block;
+    }
+    
+    .dropdownContent:hover{
+    background-color: var(--cardinal);
+    }
+    
+    .logout{
+      text-decoration: none;
+      color: var(--black);
+      text-decoration: none;
+      display: block;
+      text-align: center;
+    }
+    
+    
+    .logout:hover{
+    color: var(--black);
+    }
+    
+    .dropdownContent:hover .logout {
+    color: var(--baby-powder);
+    }
+    
+.registeredUser{
+  /* float: right;
+  margin-right: 50px ; */
+   position: absolute; 
+   left:1690px; 
+   margin-right: 200px; 
+}
 .genresPage {
     align-items: flex-start;
     background-color: var(--white);
@@ -3135,20 +3304,21 @@ position: absolute;
   cursor: pointer;
   left: 230px;
   top: 782px;
-  position: absolute;
   transition: all 0.2s ease;
-  align-items: flex-start;
-  display: flex;
+  /* align-items: flex-start; */
   height: 65px;
   position: absolute;
-  align-items:center;
   background-color: var(--cardinal);
   border-radius: 10px;
   /* display: flex; */
   height: 65px;
   width: 230px;
   border-width: 0px;
-  /* padding: 10px 19px; */
+  /* padding: 8px 30px; */
+  padding-left: 25px;
+  padding-top: 8px;
+  align-items:center;
+  text-align: center;
 }
 
 .trailer:hover {
@@ -3162,14 +3332,12 @@ position: absolute;
   font-size: var(--font-size-xxxxl5);
   font-weight: 400;
   /* left: 285px; */
-  left: 60px;
   white-space: nowrap;
   letter-spacing: 0;
-  position: absolute;
   /* top: 778px; */
-  top: 8px;
   cursor: pointer;
   text-decoration: none;
+  text-align: center;
 }
 
 .playTrailerText:hover{
@@ -3229,6 +3397,8 @@ position: absolute;
   position: absolute;
   transition: all 0.2s ease;
   left:30px; 
+  z-index: 1;
+
 }
 
 .star:hover,
@@ -3244,6 +3414,7 @@ position: absolute;
   transition: all 0.2s ease;
   position: absolute;
   left: 60px;
+  z-index: 1;
 }
 
 .movieRating {
@@ -3265,17 +3436,17 @@ position: absolute;
 .userRating{
   color: var(--white);
   font-family: var(--font-family-neuton);
-  font-size: var(--font-size-xxxxl5);
+  font-size: 50px;
+  top:-12px;
   font-weight: 700;
-  left:80px;
-  top: 4px;
+  left:82px;
   letter-spacing: 0.36px;
   position: absolute;
   transform: rotate(-0.42deg);
   width: 80px;
 }
 
-.tenText{
+.fiveText{
   color: var(--white);
   font-family: var(--font-family-neuton);
   font-size: var(--font-size-xxxxl5);
@@ -3540,6 +3711,7 @@ position: absolute;
   display: inline-block;
   text-align: center;
   align-items: center;
+  z-index: 1;
 }
 
 .pgAndTime{
@@ -3636,12 +3808,12 @@ position: absolute;
 }
 
 .castImage1 {
-  height: 211px;
   left: 0px;
   position: absolute;
   top: 0px;
-  width: 169px;
-  border-radius: 10%;
+  width: 230px;
+  height: 240px;
+  border-radius: 10px;
 }
 
 .castImage4 {
@@ -3689,21 +3861,22 @@ position: absolute;
 }
 
 .castName1 {
-  text-align: center;
+  text-align: center; 
   letter-spacing: 0;
   position: absolute;
   text-shadow: 0px 4px 4px #00000040;
-  top: 220px;
-  width: 157px;
+  top: 250px;
+  justify-content: center;
+  /* width: 157px; */
 }
 
 .castRole1 {
   letter-spacing: 0;
   text-shadow: 0px 4px 4px #00000040;
-  top: 280px;
-  left:0px;
+  top: 295px;
+  /* left:0px; */
   position: absolute;
-  width: 150px;
+  /* width: 150px; */
   overflow-wrap: break-word;
   text-align: center;
 }
@@ -3922,16 +4095,18 @@ position: absolute;
 
 
 .cast1{
-  /* height: 211px; */
-  min-height: 211px;
-  width: 169px;
+  min-height: 340px;
+  display: flex;
   top: 1050px;
-  left: 100px;
+  left: 125px;
   position: relative;
   float:left;
-  margin-left:100px;
-  text-align: center;
-  align-content: center;
+  margin-left: 100px;
+  justify-content: center;
+  background-color: var(--shark);
+  border-radius: 10px;
+  width: 230px;
+  transition: all 0.2s ease;
 }
 
 .cast2{
@@ -4096,26 +4271,7 @@ card
 }
 .menu-item:hover {
   color: #2980b9;
-}
-
-.addRating{
-  position:absolute;
-  left:1550px;
-  top: 280px;
-  background-color: var(--shark);
-  border-radius: 10px;
-  cursor: pointer;
-  margin-top: 50pxss;
-  transition: all 0.2s ease;
-  width: 350px;
-  height: 130px;
-  }
-
-  .addRating:hover{
-    transform: translate(0, -5px);
-    background-color: #35373B;
-  }
-
+}  
   .afterRating:hover{
     background-color: #35373B;
   }
@@ -4160,30 +4316,6 @@ card
   white-space: nowrap;
   width: 291px;
 }
-
-.rating-css {
-  position: absolute;
-  left:20px;
-  top: 70px;
-  }
-  
-  .rating-css div {
-    color: var(--cardinal);
-  }
-  
-  .rating-css input {
-    display: none;
-  }
-  
-  .rating-css input + label {
-    font-size: 30px;
-    text-shadow: 1px 1px 0 var(--cardinal);
-    cursor: pointer;
-  }
-  
-  .rating-css input:checked + label ~ label {
-    color: var( --pink-swan);
-  }
 
   .reviewsContainer{
     top: 150px;
@@ -4260,7 +4392,70 @@ card
   text-decoration-color: var(--cardinal);
   background-color: var(--eerie-black);
   border: none;
+  z-index: 1;
   }
+  
+.addRating{
+  position:relative;
+  left:1550px;
+  top: 300px;
+  background-color: var(--shark);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 350px;
+  height: 130px;
+  z-index: 1;
+  }
+
+  .addRating:hover{
+    transform: translate(0, -5px);
+    background-color: #35373B;
+  }
+
+.rating-css {
+  position: absolute;
+  left: 65px;
+  top: 70px;
+  direction: rtl;
+  }
+  
+  .rating-css div {
+    /* color: var(--cardinal); */
+    color: var(--shark);
+  }
+  .rating-css label:hover ~label   {
+    color: var(--cardinal);
+  } 
+
+  .rating-css label:hover  {
+    color: var(--cardinal);
+  } 
+  .rating-css input {
+    display: none;
+  }
+  
+  .rating-css input + label {
+    font-size: 35px;
+    /* text-shadow: 1px 1px 0 var(--cardinal); */
+    cursor: pointer;
+    margin-left: 5px;
+  }
+  
+  /* .rating-css input:checked + label ~ label {
+     color: var( --pink-swan); 
+  } */
+
+  .rating-css input + label ~ label {
+    color: var( --pink-swan); 
+   /* color: var(--shark); */
+ }
+
+  .rating-css  label {
+    color: var( --pink-swan); 
+   /* color: var(--shark); */
+ }
+
 .reviewPage {
   align-items: flex-start;
   background-color: var(--white);
@@ -4359,83 +4554,6 @@ width: 100%;
 .writeReview:focus { 
   outline: none !important;
   border-color: #c4c4c499;;
-}
-
-
-.dropdown {
-display: inline-block;
-height: 40px;
-width: 90px;
-position: absolute;
-left: 1775px;
-top: 55px;
-color: var(--baby-powder);
-cursor: pointer;
-}
-
-.regUserIcon {
-position: absolute;
-left: 1750px;
-top: 40px;
-}
-
-.dropdown:hover {
-display: block;
-}
-
-.dropbtn {
-display: inline-block;
-color: var(--white);
-vertical-align: middle;
-padding: 14px 16px;
-text-decoration: none;
-font-size: 20px;
-}
-
-.dropbtn {
-background-color: var(--cardinal);
-}
-
-.dropdown:hover .dropbtn {
-color: var(--baby-powder);
-}
-
-.dropdownContent {
-  display: none;
-  position: absolute;
-  background-color: var(--baby-powder);
-  width: 100px;
-  height: 50px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  border-radius: 2px;
-  z-index: 1;
-  margin-top: 10px;
-  text-align: center;
-  left:-4px;
-}
-
-.dropdown:hover .dropdownContent{
-display: block;
-}
-
-.dropdownContent:hover{
-background-color: var(--cardinal);
-}
-
-.logout{
-text-decoration: none;
-color: var(--black);
-text-decoration: none;
-display: block;
-text-align: center;
-}
-
-.logout:hover{
-color: var(--black);
-}
-
-.dropdownContent:hover .logout {
-color: var(--baby-powder);
 }
 
 .reviewFooter {

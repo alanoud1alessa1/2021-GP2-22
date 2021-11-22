@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./genreTypePage.css";
+import Header from "../header";
 
 
 function genreTypePage(props) {
@@ -41,54 +42,10 @@ function genreTypePage(props) {
         <div className="genresPageContainer">
         <body>
 
-           {/* Header */}
-           <header>
-            <div className="header"> 
-            <Link to="/home-page">
-             <img className="headerLogo" src={logo} />
-            </Link>
-              <div>
-                <Link to="/home-page">
-                  <div className="homeText darkergrotesque-medium-white-35px2">{homeText}</div>
-                </Link>
-              </div>
-              <div>
-                <Link to="/genresPage">
-                  <div>
-                    <div className="genresText darkergrotesque-medium-white-35px2">{genresText}</div>
-                  </div>
-                </Link>
-              </div>
-              {/* unregisterd user */}
-              <div className="clickable">
-                <Link to="/login-page">
-                  <img className="loginIcon" src={icon} />
-                  <div>
-                    <div className="loginText roboto-normal-white-18px2">{loginText}</div>
-                  </div>
-                </Link>
-              </div>
-              <div className="clickable">
-                <Link to="/registerPage/reg-page">
-                  <img className="registerIcon" src={icon} /> 
-                  <div>
-                    <div className="registerText roboto-normal-white-18px2">{registerText}</div>
-                  </div>
-                </Link>     
-              </div>
-
-              {/* registerd user */}
-                 <ul>
-                    <img  className="regUserIcon" src="/img/regUser.png"/>
-                    <li className="dropdown">
-                        <a className="dropbtn ">Username</a>
-                        <div className="dropdownContent">
-                        <a className="logout">Logout</a>
-                        </div>
-                    </li>
-                </ul>             
-            </div>
-          </header>
+            {/* Header */}
+             <header>
+                <Header/> 
+            </header>
 
           {/* main */}
           <main>

@@ -205,7 +205,7 @@ function regPage(props) {
             console.log("inside res data");
            const cookies = new Cookies();
             cookies.set('token', res.data, { path: '/' });
-            alert("Welcome "+username+", you have successfully registerd");
+            alert("Welcome "+username+"! you have successfully registerd.");
            window.location = '/home-page';}
           }
       })
@@ -390,6 +390,7 @@ function regPage(props) {
                 <Select isMulti options={genres}
                  onChange={getGenres}
                  closeMenuOnSelect={false} 
+                 isSearchable
                  className="favGenre"
                  placeholder="Select your favorite movie genres.."
                  theme={(theme) => ({

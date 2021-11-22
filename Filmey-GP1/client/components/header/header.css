@@ -1,0 +1,172 @@
+  .genresText:hover,
+  .homeText:hover {
+    transform: translate(0, -5px);
+  }
+  
+  .line-14 {
+    height: 3px;
+    left: 64px;
+    position: absolute;
+    top: 1080px;
+    width: 1896px;
+  }
+  
+  .rectangle-398 {
+    background-color: var(--eerie-black);
+    height: 93px;
+    left: 65px;
+    position: absolute;
+    top: 18px;
+    width: 1905px;
+  }
+  
+  .registerText {
+    left: 1830px;
+    letter-spacing: 0;
+    line-height: 16px;
+    position: absolute;
+    top: 80px;
+    white-space: nowrap;
+    width: 75px;
+  }
+  
+  .loginText {
+    left: 1750px;
+    letter-spacing: 0;
+    line-height: 16px;
+    position: absolute;
+    top: 79px;
+    white-space: nowrap;
+    width: 52px;
+  }
+  
+  .loginIcon {
+    height: 40px;
+    /* left: 1750px; */
+    left: 1747px;
+    position: absolute;
+    /* top: 37px; */
+    top: 34px;
+    width: 44px;
+  }
+  
+  .registerIcon {
+    height: 40px;
+    /* left: 1837px; */
+    left: 1826px;
+    position: absolute;
+    /* top: 36px; */
+    top: 33px;
+    width: 44px;
+  }
+
+  
+  .genresText {
+    cursor: pointer;
+    left: 425px;
+    letter-spacing: 0;
+    position: absolute;
+    top: 43px;
+    transition: all 0.2s ease;
+    width: 137px;
+  }
+  
+  .headerLogo {
+    height: 87px;
+    left: 20px;
+    object-fit: cover;
+    position: absolute;
+    top: 24px;
+    width: 190px;
+  }
+  
+  .homeText{
+    cursor: pointer;
+    left: 298px;
+    letter-spacing: 0;
+    position: absolute;
+    top: 43px;
+    transition: all 0.2s ease;
+    width: 111px;
+  }
+
+  .dropdown {
+    display: inline-block;
+    height: 40px;
+    width: 90px;
+    position: absolute;
+    /* left: 1775px; */
+    left: 60px;
+    top: 55px;
+    color: var(--baby-powder);
+    cursor: pointer;
+    }
+    
+    .regUserIcon {
+    position: absolute;
+    /* left: 1750px; */
+    top: 40px;
+    }
+    
+    .dropdown:hover {
+    display: block;
+    }
+    
+    .dropbtn {
+    display: inline-block;
+    color: var(--white);
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 20px;
+    background-color: var(--cardinal);
+    }
+
+    .dropdown:hover .dropbtn {
+    color: var(--baby-powder);
+    }
+    
+    .dropdownContent {
+      display: none;
+      position: absolute;
+      background-color: var(--baby-powder);
+      width: 100px;
+      height: 50px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      border-radius: 2px;
+      z-index: 1;
+      text-align: center;
+      padding: 10px 5px;
+    }
+    
+    .dropdown:hover .dropdownContent{
+    display: block;
+    }
+    
+    .dropdownContent:hover{
+    background-color: var(--cardinal);
+    }
+    
+    .logout{
+      text-decoration: none;
+      color: var(--black);
+      text-decoration: none;
+      display: block;
+      text-align: center;
+    }
+    
+    
+    .logout:hover{
+    color: var(--black);
+    }
+    
+    .dropdownContent:hover .logout {
+    color: var(--baby-powder);
+    }
+    
+.registeredUser{
+  /* float: right;
+  margin-right: 50px ; */
+   position: absolute; 
+   left:1690px; 
+   margin-right: 200px; 
+}
