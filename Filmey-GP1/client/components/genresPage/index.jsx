@@ -37,6 +37,7 @@ function genresPage(props) {
 
 
   const [allGenres,setAllGenres]=useState([]);
+  const [numOfGenres,setNumOfGenres]=useState();
 
   const [moviesId, setMoviesId] = useState([]);
   const [movieTitles, setmovieTitles] = useState([]);
@@ -53,8 +54,14 @@ function genresPage(props) {
       for (var i = 0; i < response.data.length; i++) {
         genresArray[i] = response.data[i].genre;
       }
+      // console.log(genresArray[4])
       setAllGenres(genresArray);
     });
+
+
+
+
+console.log(genresArray.length);
 
 
     let genreType = 'Comedy';

@@ -53315,20 +53315,25 @@ function genresPage(props) {
       allGenres = _useState2[0],
       setAllGenres = _useState2[1];
 
-  var _useState3 = (0, _react.useState)([]),
+  var _useState3 = (0, _react.useState)(),
       _useState4 = _slicedToArray(_useState3, 2),
-      moviesId = _useState4[0],
-      setMoviesId = _useState4[1];
+      numOfGenres = _useState4[0],
+      setNumOfGenres = _useState4[1];
 
   var _useState5 = (0, _react.useState)([]),
       _useState6 = _slicedToArray(_useState5, 2),
-      movieTitles = _useState6[0],
-      setmovieTitles = _useState6[1];
+      moviesId = _useState6[0],
+      setMoviesId = _useState6[1];
 
   var _useState7 = (0, _react.useState)([]),
       _useState8 = _slicedToArray(_useState7, 2),
-      Allposters = _useState8[0],
-      setAllposters = _useState8[1];
+      movieTitles = _useState8[0],
+      setmovieTitles = _useState8[1];
+
+  var _useState9 = (0, _react.useState)([]),
+      _useState10 = _slicedToArray(_useState9, 2),
+      Allposters = _useState10[0],
+      setAllposters = _useState10[1];
 
   _react.default.useEffect(function () {
     var genresArray = _toConsumableArray(allGenres); //Get All Genres
@@ -53337,10 +53342,12 @@ function genresPage(props) {
     api.get("/movies/allGenres/1").then(function (response) {
       for (var i = 0; i < response.data.length; i++) {
         genresArray[i] = response.data[i].genre;
-      }
+      } // console.log(genresArray[4])
+
 
       setAllGenres(genresArray);
     });
+    console.log(genresArray.length);
     var genreType = 'Comedy';
     api.get("/movies/genresFilter/".concat(genreType)).then(function (response) {
       var moviesIdArray = _toConsumableArray(moviesId);
@@ -53876,10 +53883,79 @@ function ViewMovie(props) {
   var _useParams = (0, _reactRouterDom.useParams)(),
       id = _useParams.id;
 
-  id = parseInt(id);
+  id = parseInt(id); //Rating function
+  //var userRating;
+
+  var _useState37 = (0, _react.useState)(false),
+      _useState38 = _slicedToArray(_useState37, 2),
+      haveRated = _useState38[0],
+      sethaveRated = _useState38[1];
+
+  var _useState39 = (0, _react.useState)(""),
+      _useState40 = _slicedToArray(_useState39, 2),
+      userRating = _useState40[0],
+      setuserRating = _useState40[1];
+
+  var addRating = function addRating(value) {
+    if (!registered) {
+      alert("Sorry this function is for registered users only");
+      return;
+    }
+
+    console.log(value); //userRating=value;
+
+    setuserRating(value);
+    console.log(userRating);
+    sethaveRated(true);
+
+    var res = _axios.default.post("http://localhost:3000/api/v1/users/rating", {
+      movieID: id,
+      userID: decoded.userID,
+      rating: parseInt(value)
+    }).then(function (res) {
+      console.log(res.data);
+    });
+  };
+
+  var deleteRating = function deleteRating() {
+    var res = _axios.default.post("http://localhost:3000/api/v1/users/deleteRating", {
+      movieID: id,
+      userID: decoded.userID
+    }).then(function (res) {
+      console.log(res.data);
+      console.log("in delete response");
+
+      if (res.data) {
+        sethaveRated(false);
+      }
+    });
+  };
+
+  var _useState41 = (0, _react.useState)(),
+      _useState42 = _slicedToArray(_useState41, 2),
+      getUserRating = _useState42[0],
+      setgetUserRating = _useState42[1];
 
   _react.default.useEffect(function () {
+    if (registered) {
+      var res = _axios.default.post("http://localhost:3000/api/v1/users/getRating", {
+        movieID: id,
+        userID: decoded.userID // rating:parseInt(value),
+
+      }).then(function (res) {
+        console.log(res.data[0]);
+
+        if (res.data[0]) {
+          sethaveRated(true);
+          setgetUserRating(res.data[0]);
+          console.log(res.data);
+          console.log(res.data);
+        }
+      });
+    } // }
     //Get movie info
+
+
     api.get("/movies/".concat(id)).then(function (response) {
       setMid(response.data[0].movie_id);
       setTitle(response.data[0].title);
@@ -54059,7 +54135,104 @@ function ViewMovie(props) {
     target: "_blank"
   }, playTrailerText, "  "), /*#__PURE__*/_react.default.createElement("i", {
     className: "fa fa-play-circle"
-  }, " ")), /*#__PURE__*/_react.default.createElement("div", {
+  }, " ")), !haveRated && /*#__PURE__*/_react.default.createElement("div", {
+    className: "addRating"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "rateItText neuton-normal-white-30px"
+  }, "Rate it !"), /*#__PURE__*/_react.default.createElement("div", {
+    class: "rating-css"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    class: "star-icon",
+    onChange: function onChange(e) {
+      addRating(e.target.value);
+    }
+  }, /*#__PURE__*/_react.default.createElement("input", {
+    type: "radio",
+    name: "rating1",
+    id: "rating1",
+    value: "1"
+  }), /*#__PURE__*/_react.default.createElement("label", {
+    for: "rating1",
+    class: "fa fa-star"
+  }), /*#__PURE__*/_react.default.createElement("input", {
+    type: "radio",
+    name: "rating1",
+    id: "rating2",
+    value: "2"
+  }), /*#__PURE__*/_react.default.createElement("label", {
+    for: "rating2",
+    class: "fa fa-star"
+  }), /*#__PURE__*/_react.default.createElement("input", {
+    type: "radio",
+    name: "rating1",
+    id: "rating3",
+    value: "3"
+  }), /*#__PURE__*/_react.default.createElement("label", {
+    for: "rating3",
+    class: "fa fa-star"
+  }), /*#__PURE__*/_react.default.createElement("input", {
+    type: "radio",
+    name: "rating1",
+    id: "rating4",
+    value: "4"
+  }), /*#__PURE__*/_react.default.createElement("label", {
+    for: "rating4",
+    class: "fa fa-star"
+  }), /*#__PURE__*/_react.default.createElement("input", {
+    type: "radio",
+    name: "rating1",
+    id: "rating5",
+    value: "5"
+  }), /*#__PURE__*/_react.default.createElement("label", {
+    for: "rating5",
+    class: "fa fa-star"
+  }), /*#__PURE__*/_react.default.createElement("input", {
+    type: "radio",
+    name: "rating1",
+    id: "rating6",
+    value: "6"
+  }), /*#__PURE__*/_react.default.createElement("label", {
+    for: "rating6",
+    class: "fa fa-star"
+  }), /*#__PURE__*/_react.default.createElement("input", {
+    type: "radio",
+    name: "rating1",
+    id: "rating7",
+    value: "7"
+  }), /*#__PURE__*/_react.default.createElement("label", {
+    for: "rating7",
+    class: "fa fa-star"
+  }), /*#__PURE__*/_react.default.createElement("input", {
+    type: "radio",
+    name: "rating1",
+    id: "rating8",
+    value: "8"
+  }), /*#__PURE__*/_react.default.createElement("label", {
+    for: "rating8",
+    class: "fa fa-star"
+  }), /*#__PURE__*/_react.default.createElement("input", {
+    type: "radio",
+    name: "rating1",
+    id: "rating9",
+    value: "9",
+    onClick: function onClick() {
+      return alert.show('Oh look, an alert!');
+    }
+  }), /*#__PURE__*/_react.default.createElement("label", {
+    for: "rating9",
+    class: "fa fa-star"
+  }), /*#__PURE__*/_react.default.createElement("input", {
+    type: "radio",
+    name: "rating1",
+    id: "rating10",
+    value: "10",
+    onClick: function onClick() {
+      return alert.show('Oh look, an alert!');
+    }
+  }), /*#__PURE__*/_react.default.createElement("label", {
+    for: "rating10",
+    class: "fa fa-star"
+  })))), haveRated && /*#__PURE__*/_react.default.createElement("div", {
     className: "afterRating"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "yourRatingText neuton-normal-white-30px"
@@ -54068,12 +54241,15 @@ function ViewMovie(props) {
   }, /*#__PURE__*/_react.default.createElement("img", {
     className: "afterRatingStar",
     src: "/img/star-2@2x.svg"
-  }), /*#__PURE__*/_react.default.createElement("div", {
+  }), !getUserRating && /*#__PURE__*/_react.default.createElement("div", {
     className: "userRating"
-  }, movieRating), /*#__PURE__*/_react.default.createElement("div", {
+  }, userRating), getUserRating && /*#__PURE__*/_react.default.createElement("div", {
+    className: "userRating"
+  }, getUserRating), /*#__PURE__*/_react.default.createElement("div", {
     className: "tenText"
-  }, "/ 10"))), /*#__PURE__*/_react.default.createElement("button", {
-    className: "removeRatingText neuton-normal-white-20px"
+  }, "/ 10"))), haveRated && /*#__PURE__*/_react.default.createElement("button", {
+    className: "removeRatingText neuton-normal-white-20px",
+    onClick: deleteRating
   }, "Remove Rating"), /*#__PURE__*/_react.default.createElement("div", {
     className: "movieInfo"
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -54654,7 +54830,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54653" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62660" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

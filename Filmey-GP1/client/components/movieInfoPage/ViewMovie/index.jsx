@@ -102,7 +102,67 @@ const [userReviews,setUserReviews]=useState([""]);
 
   let {id} = useParams();
   id = parseInt(id);
+
+  //Rating function
+  //var userRating;
+  const [haveRated,sethaveRated]=useState(false);
+  const [userRating,setuserRating]=useState("");
+  const addRating=(value)=> {
+    if(!registered)
+    {
+      alert ("Sorry this function is for registered users only");
+      return;
+    }
+    console.log(value);
+    //userRating=value;
+    setuserRating(value);
+    console.log(userRating);
+    sethaveRated(true);
+    const res =  Axios.post("http://localhost:3000/api/v1/users/rating",{
+      movieID:id,
+      userID :decoded.userID,
+      rating:parseInt(value),
+    }).then((res)=>{
+      console.log(res.data);
+    })
+    
+
+  }
+
+  const deleteRating=()=> {
+    const res =  Axios.post("http://localhost:3000/api/v1/users/deleteRating",{
+      movieID:id,
+      userID :decoded.userID,
+    }).then((res)=>{
+      console.log(res.data);
+      console.log("in delete response");
+      if(res.data)
+      {
+        sethaveRated(false);
+      }
+    })
+    
+  }
+  
+  
+  const [getUserRating,setgetUserRating]=useState();
   React.useEffect(() => {
+    if(registered){
+    const res =  Axios.post("http://localhost:3000/api/v1/users/getRating",{
+      movieID:id,
+      userID :decoded.userID,
+     // rating:parseInt(value),
+    }).then((res)=>{
+      console.log(res.data[0]);
+      if(res.data[0]){
+      sethaveRated(true);
+      setgetUserRating(res.data[0]);
+      console.log(res.data);
+      console.log(res.data);}
+    })}
+    
+
+ // }
 
 
     //Get movie info
@@ -307,49 +367,65 @@ api.get(`/movies/review/${id}`).then((response)=>{
                   <a className="playTrailerText" href={trailer_url} target="_blank">{playTrailerText}  </a>
                   <i  className="fa fa-play-circle"> </i>                  
                 </div>
-                
-                  {/*  add rating */}
-                  {/* <div className="addRating">
-                    <div className="rateItText neuton-normal-white-30px">{rateItText}</div>
+
+                 {/*  add rating */}
+                 {(!haveRated) && (
+                  <div className="addRating">
+                    <div className="rateItText neuton-normal-white-30px">Rate it !</div>
                     <div class="rating-css">
-                      <div class="star-icon">
-                        <input type="radio" name="rating1" id="rating1"/>
+                      <div class="star-icon" 
+                      onChange={
+                          (e)=>{
+                            addRating(e.target.value); 
+                          }
+                        }
+                        >
+                        <input type="radio" name="rating1" id="rating1" value="1"/>
                         <label for="rating1" class="fa fa-star" ></label>
-                        <input type="radio" name="rating1" id="rating2"/>
+                        <input type="radio" name="rating1" id="rating2" value="2"/>
                         <label for="rating2" class="fa fa-star"></label>
-                        <input type="radio" name="rating1" id="rating3"/>
+                        <input type="radio" name="rating1" id="rating3" value="3"/>
                         <label for="rating3" class="fa fa-star"></label>
-                        <input type="radio" name="rating1" id="rating4"/>
+                        <input type="radio" name="rating1" id="rating4" value="4"/>
                         <label for="rating4" class="fa fa-star"></label>
-                        <input type="radio" name="rating1" id="rating5"/>
+                        <input type="radio" name="rating1" id="rating5" value="5"/>
                         <label for="rating5" class="fa fa-star"></label>
-                        <input type="radio" name="rating1" id="rating6"/>
+                        <input type="radio" name="rating1" id="rating6" value="6"/>
                         <label for="rating6" class="fa fa-star"></label>
-                        <input type="radio" name="rating1" id="rating7"/>
+                        <input type="radio" name="rating1" id="rating7" value="7"/>
                         <label for="rating7" class="fa fa-star"></label>
-                        <input type="radio" name="rating1" id="rating8"/>
+                        <input type="radio" name="rating1" id="rating8" value="8"/>
                         <label for="rating8" class="fa fa-star"></label>
-                        <input type="radio" name="rating1" id="rating9"  onClick={() => alert.show('Oh look, an alert!')}/>
+                        <input type="radio" name="rating1" id="rating9"   value="9" onClick={() => alert.show('Oh look, an alert!')}/>
                         <label for="rating9" class="fa fa-star"></label>
-                        <input type="radio" name="rating1" id="rating10" onClick={() => alert.show('Oh look, an alert!')}/>
+                        <input type="radio" name="rating1" id="rating10" value="10" onClick={() => alert.show('Oh look, an alert!')}/>
                         <label for="rating10" class="fa fa-star"></label>
                       </div>
                     </div>   
-                    </div>  */}
+                    </div> )}
                     
                     
                     {/* after add rating */}
+                    {(haveRated) && (
                     <div  className="afterRating">
                       <div className="yourRatingText neuton-normal-white-30px">{yourRatingText}</div>
                       <div className="movieRatingContainer2">
                         <img className="afterRatingStar" src="/img/star-2@2x.svg" />
-                        <div className="userRating">{movieRating}</div> 
+                        {/* <div className="userRating">{movieRating}</div>  */}
+                        {(!getUserRating) && (
+                        <div className="userRating">{userRating}</div> )}
+                         {(getUserRating) && (
+                        <div className="userRating">{getUserRating}</div> )}
                         <div className="tenText">/ 10</div> 
                       </div> 
-                    </div>  
-                    {/* remove rating */}
-                    <button className="removeRatingText neuton-normal-white-20px">Remove Rating</button>
+                    </div>  )}
 
+                   
+                    {/* remove rating */}
+                    {(haveRated) && (
+                    <button className="removeRatingText neuton-normal-white-20px"  onClick={deleteRating}>Remove Rating</button>)}
+                
+                
 
                     
                 
@@ -437,7 +513,6 @@ api.get(`/movies/review/${id}`).then((response)=>{
                   // const castImg = castImgs[i];
                   // const castName = castNames[i];
                   // const castRole = castRoles[i];
-
                   row.push(
                   <div key={i}>
                   {
