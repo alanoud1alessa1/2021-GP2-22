@@ -53315,25 +53315,20 @@ function genresPage(props) {
       allGenres = _useState2[0],
       setAllGenres = _useState2[1];
 
-  var _useState3 = (0, _react.useState)(),
+  var _useState3 = (0, _react.useState)([]),
       _useState4 = _slicedToArray(_useState3, 2),
-      numOfGenres = _useState4[0],
-      setNumOfGenres = _useState4[1];
+      moviesId = _useState4[0],
+      setMoviesId = _useState4[1];
 
   var _useState5 = (0, _react.useState)([]),
       _useState6 = _slicedToArray(_useState5, 2),
-      moviesId = _useState6[0],
-      setMoviesId = _useState6[1];
+      movieTitles = _useState6[0],
+      setmovieTitles = _useState6[1];
 
   var _useState7 = (0, _react.useState)([]),
       _useState8 = _slicedToArray(_useState7, 2),
-      movieTitles = _useState8[0],
-      setmovieTitles = _useState8[1];
-
-  var _useState9 = (0, _react.useState)([]),
-      _useState10 = _slicedToArray(_useState9, 2),
-      Allposters = _useState10[0],
-      setAllposters = _useState10[1];
+      Allposters = _useState8[0],
+      setAllposters = _useState8[1];
 
   _react.default.useEffect(function () {
     var genresArray = _toConsumableArray(allGenres); //Get All Genres
@@ -53342,12 +53337,10 @@ function genresPage(props) {
     api.get("/movies/allGenres/1").then(function (response) {
       for (var i = 0; i < response.data.length; i++) {
         genresArray[i] = response.data[i].genre;
-      } // console.log(genresArray[4])
-
+      }
 
       setAllGenres(genresArray);
     });
-    console.log(genresArray.length);
     var genreType = 'Comedy';
     api.get("/movies/genresFilter/".concat(genreType)).then(function (response) {
       var moviesIdArray = _toConsumableArray(moviesId);
