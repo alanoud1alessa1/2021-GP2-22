@@ -106,7 +106,8 @@ const [userReviews,setUserReviews]=useState([""]);
   //Rating function
   //var userRating;
   const [haveRated,sethaveRated]=useState(false);
-  const [userRating,setuserRating]=useState("");
+  const [userRating,setuserRating]=useState();
+  var rating;
   const addRating=(value)=> {
     if(!registered)
     {
@@ -114,8 +115,11 @@ const [userReviews,setUserReviews]=useState([""]);
       return;
     }
     console.log(value);
+    rating=value;
+    console.log(rating);
     //userRating=value;
     setuserRating(value);
+    //userRating=value;
     console.log(userRating);
     sethaveRated(true);
     const res =  Axios.post("http://localhost:3000/api/v1/users/rating",{
@@ -123,11 +127,17 @@ const [userReviews,setUserReviews]=useState([""]);
       userID :decoded.userID,
       rating:parseInt(value),
     }).then((res)=>{
+      //rating=value;
       console.log(res.data);
     })
     
 
   }
+
+  // React.useEffect(() => { setuserRating(rating) }, [])
+
+  // React.useEffect(() => { setuserRating(rating);
+  // console.log(userRating)})
 
   const deleteRating=()=> {
     const res =  Axios.post("http://localhost:3000/api/v1/users/deleteRating",{
@@ -145,21 +155,24 @@ const [userReviews,setUserReviews]=useState([""]);
   }
   
   
-  const [getUserRating,setgetUserRating]=useState();
+  
   React.useEffect(() => {
+
     if(registered){
     const res =  Axios.post("http://localhost:3000/api/v1/users/getRating",{
       movieID:id,
       userID :decoded.userID,
-     // rating:parseInt(value),
     }).then((res)=>{
       console.log(res.data[0]);
       if(res.data[0]){
       sethaveRated(true);
-      setgetUserRating(res.data[0]);
+      setuserRating(res.data[0]);
       console.log(res.data);
       console.log(res.data);}
-    })}
+   }
+    )}
+
+    
     
 
  // }
@@ -411,11 +424,7 @@ api.get(`/movies/review/${id}`).then((response)=>{
                       <div className="yourRatingText neuton-normal-white-30px">{yourRatingText}</div>
                       <div className="movieRatingContainer2">
                         <img className="afterRatingStar" src="/img/star-2@2x.svg" />
-                        {/* <div className="userRating">{movieRating}</div>  */}
-                        {(!getUserRating) && (
-                        <div className="userRating">{userRating}</div> )}
-                         {(getUserRating) && (
-                        <div className="userRating">{getUserRating}</div> )}
+                        <div className="userRating">{userRating}</div>
                         <div className="tenText">/ 10</div> 
                       </div> 
                     </div>  )}

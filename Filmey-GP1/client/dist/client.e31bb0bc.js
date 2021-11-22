@@ -53892,10 +53892,12 @@ function ViewMovie(props) {
       haveRated = _useState38[0],
       sethaveRated = _useState38[1];
 
-  var _useState39 = (0, _react.useState)(""),
+  var _useState39 = (0, _react.useState)(),
       _useState40 = _slicedToArray(_useState39, 2),
       userRating = _useState40[0],
       setuserRating = _useState40[1];
+
+  var rating;
 
   var addRating = function addRating(value) {
     if (!registered) {
@@ -53903,9 +53905,12 @@ function ViewMovie(props) {
       return;
     }
 
-    console.log(value); //userRating=value;
+    console.log(value);
+    rating = value;
+    console.log(rating); //userRating=value;
 
-    setuserRating(value);
+    setuserRating(value); //userRating=value;
+
     console.log(userRating);
     sethaveRated(true);
 
@@ -53914,9 +53919,13 @@ function ViewMovie(props) {
       userID: decoded.userID,
       rating: parseInt(value)
     }).then(function (res) {
+      //rating=value;
       console.log(res.data);
     });
-  };
+  }; // React.useEffect(() => { setuserRating(rating) }, [])
+  // React.useEffect(() => { setuserRating(rating);
+  // console.log(userRating)})
+
 
   var deleteRating = function deleteRating() {
     var res = _axios.default.post("http://localhost:3000/api/v1/users/deleteRating", {
@@ -53932,23 +53941,17 @@ function ViewMovie(props) {
     });
   };
 
-  var _useState41 = (0, _react.useState)(),
-      _useState42 = _slicedToArray(_useState41, 2),
-      getUserRating = _useState42[0],
-      setgetUserRating = _useState42[1];
-
   _react.default.useEffect(function () {
     if (registered) {
       var res = _axios.default.post("http://localhost:3000/api/v1/users/getRating", {
         movieID: id,
-        userID: decoded.userID // rating:parseInt(value),
-
+        userID: decoded.userID
       }).then(function (res) {
         console.log(res.data[0]);
 
         if (res.data[0]) {
           sethaveRated(true);
-          setgetUserRating(res.data[0]);
+          setuserRating(res.data[0]);
           console.log(res.data);
           console.log(res.data);
         }
@@ -54242,11 +54245,9 @@ function ViewMovie(props) {
   }, /*#__PURE__*/_react.default.createElement("img", {
     className: "afterRatingStar",
     src: "/img/star-2@2x.svg"
-  }), !getUserRating && /*#__PURE__*/_react.default.createElement("div", {
+  }), /*#__PURE__*/_react.default.createElement("div", {
     className: "userRating"
-  }, userRating), getUserRating && /*#__PURE__*/_react.default.createElement("div", {
-    className: "userRating"
-  }, getUserRating), /*#__PURE__*/_react.default.createElement("div", {
+  }, userRating), /*#__PURE__*/_react.default.createElement("div", {
     className: "tenText"
   }, "/ 10"))), haveRated && /*#__PURE__*/_react.default.createElement("button", {
     className: "removeRatingText neuton-normal-white-20px",
