@@ -218,11 +218,13 @@ module.exports = {
       return message;
 
     } 
-    return;
+    return user;
 
     // sign token
    // return auth.createAccessToken(user);
   },
+
+
   async signup(email ,username, password , date_of_birth , gender , location,genres) {
    
     // let dupliacte=db(tableNames.user).where('email', email);
@@ -376,10 +378,10 @@ async getUserRating(userID, movieID) {
   return;
  },
 
-  async getId(username) {
-    let result= await db("User").where({username: username}).returning("*").pluck('user_id');
-    const userID=result[0];
-    return userID;
-   },
+  // async getId(username) {
+  //   let result= await db("User").where({username: username}).returning("*").pluck('user_id');
+  //   const userID=result[0];
+  //   return userID;
+  //  },
 };
 

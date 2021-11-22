@@ -238,18 +238,19 @@ router.post("/register", async (req, res, next) => {
 router.post("/login", async (req, res, next) => {
 
   const { username, password } = req.body;
-  const message= await queries.login(username,password);
-  const userID= await queries.getId(username);
+  const response= await queries.login(username,password);
+  //const userID= await queries.getId(username);
 
 
-  if(message)
+  if(response.passwordMessage||response.emailOrUsernameMessage)
     {
-      return res.json(message);
+      return res.json(response);
     }
+  
   
 
 
-  const user = { userID:userID, username: username, isAdmin:false};
+  const user = { userID:response.user_id, username: response.username, isAdmin:false};
   
 
   try {

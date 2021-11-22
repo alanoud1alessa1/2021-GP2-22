@@ -119,8 +119,9 @@ function loginPage(props) {
               const cookies = new Cookies();
               cookies.set('token', res.data, { path: '/' });
               console.log(res.data);
-              alert("Welcome "+username+"!");
-             window.location = '/home-page';
+              var decoded = jwt_decode(res.data);
+              alert("Welcome "+decoded.username+"!");
+               window.location = '/home-page';
             
           }})
           

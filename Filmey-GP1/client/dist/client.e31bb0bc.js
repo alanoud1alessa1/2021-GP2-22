@@ -52936,7 +52936,8 @@ function loginPage(props) {
             path: '/'
           });
           console.log(res.data);
-          alert("Welcome " + username + "!");
+          var decoded = (0, _jwtDecode.default)(res.data);
+          alert("Welcome " + decoded.username + "!");
           window.location = '/home-page';
         }
       });
