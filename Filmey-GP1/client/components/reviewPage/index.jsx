@@ -22,6 +22,7 @@ function reviewPage(props) {
     inputPlaceholder,
   } = props;
 
+
   var username;
 
   const cookies = new Cookies();
@@ -41,6 +42,7 @@ function reviewPage(props) {
   id = parseInt(id);
 
   const[review,setReview]=useState("");
+  const isEnabled = review.length > 0;
 
   const Review=()=>
   {
@@ -58,7 +60,7 @@ function reviewPage(props) {
       else{
         if(res.data)
         {
-          alert("Thank u! your review has been saved successfully.");
+          alert("Thank u! your review has been saved successfully."+review.length);
           window.location = `/movieInfoPage/${id}`;
         }
       }
@@ -82,19 +84,15 @@ function reviewPage(props) {
             <div className="reviewBody"></div>
             <div>
                 <div className="reviewBox"></div>
-                <textarea id="1" className="writeReview" name="writeReview" placeholder={inputPlaceholder} rows="5" cols="73"  onChange={
+                <textarea id="1" className="writeReview" name="writeReview" placeholder={inputPlaceholder} rows="5" cols="73" maxlength="335" autofocus="true" onChange={
                           (e)=>{
                             setReview(e.target.value); 
                           }
                         }>                
                 </textarea>
                 <div className="submitButton">
-                {/* <Link to="/home-page"> */}
-                <div className="submitButtonContainer">
-                        <div className="submitText" onClick={Review}>{submitText}</div>
-                </div>
-                {/* </Link> */}
-                </div>
+                    <button type="submit" className="submitButtonContainer" onClick={Review}  disabled={!isEnabled}>{submitText}</button>
+                  </div>
             </div>
             </main>
 

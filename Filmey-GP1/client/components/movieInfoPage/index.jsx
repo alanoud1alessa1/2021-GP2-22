@@ -7,10 +7,22 @@ import { useParams } from "react-router-dom";
 import Cookies from 'universal-cookie';
 import jwt_decode from "jwt-decode";
 import Header from "../header";
+import OwlCarousel from 'react-owl-carousel';  
+import 'owl.carousel/dist/assets/owl.carousel.css';  
+import 'owl.carousel/dist/assets/owl.theme.default.css';  
 
 
 function MovieInfoPage(props) {
 
+  const options={
+    // Navigation
+    navigation : false,
+    navText: [
+      "<div className='reviewsExpandLeft'>  <img className='reviewsExpandLeft' src='/img/expand-left--review-@2x.svg' /> </div>",
+      "<div>  <img className='reviewsExpandRight' src='/img/expand-right--review-@2x.svg' /> </div>"
+    ],
+    transitionStyle: "fade"
+  }
   const runCallback = (cb) => {
     return cb();
   };
@@ -482,8 +494,6 @@ api.get(`/movies/review/${id}`).then((response)=>{
                 <div className="reviewsContainer">
                   <img className="reviewsLine" src={redLine} />
                   <div className="reviewsText neuton-normal-white-60px5">{reviewsText}</div>
-                  <img className="reviewsExpandRight" src={rightArrow} />
-                  <img className="reviewsExpandLeft" src={leftArrow} />
                   <div className="addReview">
                     {/* <Link to="/reviewPage">
                       <img className="reviewIcon" src={reviewIcon}/>
@@ -508,24 +518,53 @@ api.get(`/movies/review/${id}`).then((response)=>{
                       </div>
                     </button>  )}  
                   </div>
-                  {/* review1 */}
-                  <div className="reviewContainer1">
-                    <p className="userReview1 roboto-bold-celeste-16px">{reviews[0]}</p>
-                    <div className="username1 roboto-bold-celeste-18px">{userReviews[0]}</div>
-                  </div>
-                  
-                  {/* review2 */}
-                  <div className="reviewContainer2">
-                    <p className="userReview2 roboto-bold-celeste-16px">{reviews[0]}</p>
-                    <div className="username2 roboto-bold-celeste-18px">{userReviews[0]}</div>
-                  </div>
+                  {/* reviews loop */}
 
-                  {/* review3 */}
-                  <div className="reviewContainer3">
-                    <p className="userReview3 roboto-bold-celeste-16px">{reviews[0]}</p>
-                    <div className="username3 roboto-bold-celeste-18px">{userReviews[0]}</div>
-                  </div>
-                </div>
+                  <div className="userReviews">
+                          <OwlCarousel className="owl-theme"  
+                          {...options}   
+                          nav
+                          >
+                   {runCallback(() => {
+                            const row = [];
+                            if (reviews.length>1){
+                            for (var i = 0; i < reviews.length; i++) {
+                              row.push(
+                              <div key={i}>
+                              {
+                               <div className="userReviewContainer neuton-bold-white-20px">    
+                                 <div className="reviewerUsername neuton-bold-white-20px">
+                                   <div className="reviewerUsernameIcon"> <img src={"/img/regUser.png"}  width="40" height="30"/> </div>
+                                   <div> {userReviews[i]} </div>
+                                 </div>      
+                                 <div className="userReview">
+                                   {reviews[i]}
+                                 </div>      
+                                 
+                              </div>
+                              }
+                              </div>
+                              );
+                            }
+                            return row;
+                          }
+                          else{
+                            row.push(
+                              <div key={i}>
+                              {
+                               <div className="noReviews neuton-bold-white-20px">    
+                                The movie has no reviews yet.
+                               </div>
+                              }
+                              </div>
+                              );
+                            }
+                            return row;
+                          }
+                   )}
+                    </OwlCarousel> 
+                  </div>                  
+            </div>
             </main>
 
               {/* footer */}
