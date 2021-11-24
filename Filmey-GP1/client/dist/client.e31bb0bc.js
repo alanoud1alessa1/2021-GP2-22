@@ -53399,22 +53399,21 @@ function genresPage(props) {
   var _useState3 = (0, _react.useState)(),
       _useState4 = _slicedToArray(_useState3, 2),
       numOfGenres = _useState4[0],
-      setNumOfGenres = _useState4[1];
+      setNumOfGenres = _useState4[1]; // const [moviesId, setMoviesId] = useState([]);
+  // const [movieTitles, setmovieTitles] = useState([]);
+  // const [Allposters, setAllposters] = useState([]);
 
-  var _useState5 = (0, _react.useState)([]),
+
+  var _useState5 = (0, _react.useState)([{
+    'movie_id': 1,
+    'title': 'Toy1'
+  }, {
+    'movie_id': 3,
+    'title': 'Toy3'
+  }]),
       _useState6 = _slicedToArray(_useState5, 2),
-      moviesId = _useState6[0],
-      setMoviesId = _useState6[1];
-
-  var _useState7 = (0, _react.useState)([]),
-      _useState8 = _slicedToArray(_useState7, 2),
-      movieTitles = _useState8[0],
-      setmovieTitles = _useState8[1];
-
-  var _useState9 = (0, _react.useState)([]),
-      _useState10 = _slicedToArray(_useState9, 2),
-      Allposters = _useState10[0],
-      setAllposters = _useState10[1];
+      moviesInfo = _useState6[0],
+      setMoviesInfo = _useState6[1];
 
   _react.default.useEffect(function () {
     var genresArray = _toConsumableArray(allGenres); //Get All Genres
@@ -53430,23 +53429,45 @@ function genresPage(props) {
     });
     console.log(genresArray.length);
     var genreType = 'Comedy';
-    api.get("/movies/genresFilter/".concat(genreType)).then(function (response) {
-      var moviesIdArray = _toConsumableArray(moviesId);
-
-      var movieTitlesArray = _toConsumableArray(movieTitles);
-
-      var postersArray = _toConsumableArray(Allposters);
-
-      for (var i = 0; i < response.data.length; i++) {
-        moviesIdArray[i] = response.data[i].movie_id;
-        movieTitlesArray[i] = response.data[i].title;
-        postersArray[i] = response.data[i].poster;
-      }
-
-      setMoviesId(moviesIdArray);
-      setmovieTitles(movieTitlesArray);
-      setAllposters(postersArray);
-    });
+    api.get("/movies/genresFilterTopFour/".concat(genreType)).then(function (response) {
+      //   setMoviesInfo( prevState => ({
+      //     moviesInfo: [...prevState.moviesInfo,  {'movie_id':2,'title' : 'Toy2'}]
+      // }));
+      var info = [].concat(_toConsumableArray(moviesInfo), [{
+        'movie_id': 2,
+        'title': 'Toy2'
+      }]);
+      console.log(info);
+      setMoviesInfo(info); //       const moviesInfoArray = [...moviesInfo];
+      //       moviesInfoArray[0] ={'movie_id':1,'title' : 'Toy1'};
+      //       moviesInfoArray[1] ={'movie_id':2,'title' : 'Toy2'};
+      // console.log(moviesInfoArray[0].movie_id);
+      //       // const movieInfo = {'movie_id':2,'title' : 'Toy2',}  
+      //       setMoviesInfo(moviesInfoArray);
+      // const moviesIdArray = [...moviesId];
+      // const movieTitlesArray = [...movieTitles];
+      // const postersArray = [...Allposters];
+      // for (var i = 0; i < response.data.length; i++) {
+      //   moviesIdArray[i] = response.data[i].movie_id;
+      //   movieTitlesArray[i] = response.data[i].title;
+      //   postersArray[i] = response.data[i].poster;
+      // }
+      // setMoviesId(moviesIdArray);
+      // setmovieTitles(movieTitlesArray);
+      // setAllposters(postersArray);
+    }); // api.get(`/movies/genresFilterTopFour/${genreType}`).then((response) => {
+    //   const moviesIdArray = [...moviesId];
+    //   const movieTitlesArray = [...movieTitles];
+    //   const postersArray = [...Allposters];
+    //   for (var i = 0; i < response.data.length; i++) {
+    //     moviesIdArray[i] = response.data[i].movie_id;
+    //     movieTitlesArray[i] = response.data[i].title;
+    //     postersArray[i] = response.data[i].poster;
+    //   }
+    //   setMoviesId(moviesIdArray);
+    //   setmovieTitles(movieTitlesArray);
+    //   setAllposters(postersArray);
+    // });
   }, []);
 
   return /*#__PURE__*/_react.default.createElement("div", {
@@ -53471,30 +53492,25 @@ function genresPage(props) {
   }, runCallback(function () {
     var row = [];
 
-    for (var i = 5; i <= 8; i++) {
-      var id = moviesId[i - 1];
-      var url = "/movieInfoPage/".concat(id);
-      var poster = Allposters[i - 1];
-      var title = movieTitles[i - 1];
-      var reminder = i % 4;
+    for (var i = 0; i <= 1; i++) {
+      var id = moviesInfo[i].movie_id;
+      var url = "/movieInfoPage/".concat(id); // const poster = Allposters[i];
+      // const title = movieTitles[i];
+      // // const reminder = i % 4;
+      // // if (reminder == 0) {
+      // //   reminder = 4;
+      // // }
 
-      if (reminder == 0) {
-        reminder = 4;
-      }
-
-      var className1 = "Movie".concat(reminder);
+      var className1 = "Movie".concat(i);
       row.push( /*#__PURE__*/_react.default.createElement("div", {
         key: i
       }, /*#__PURE__*/_react.default.createElement("div", {
         className: className1
       }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
         to: url
-      }, /*#__PURE__*/_react.default.createElement("img", {
-        className: "genresMoviePoster1",
-        src: poster
-      }), /*#__PURE__*/_react.default.createElement("div", {
+      }, /*#__PURE__*/_react.default.createElement("div", {
         className: "genresMovieName1 roboto-medium-white-15px"
-      }, title), /*#__PURE__*/_react.default.createElement("div", {
+      }, moviesInfo[i].title), /*#__PURE__*/_react.default.createElement("div", {
         className: "genresRating1 neuton-bold-white-30px3"
       }, props.rating1), /*#__PURE__*/_react.default.createElement("img", {
         className: "genresStar1",
@@ -55007,7 +55023,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52623" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53878" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

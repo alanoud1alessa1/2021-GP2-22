@@ -69,40 +69,84 @@ module.exports = {
       .limit(numberofmovies);
   },
 
-  async getBasedOnGenre(genreType) {
-    return db
-      .select("M.movie_id", "M.title", "M.poster", "G.genre")
-      .from("Movie_Genre AS MG")
-      .leftJoin("Genre AS G", "G.genre_id", "MG.genre_id")
-      .leftJoin("Movie AS M", "MG.movie_id", "M.movie_id")
-      .where("G.genre", "=", genreType)
-      .orderBy("movie_id", "asc");
+  async getTopFourBasedOnGenre(genreType) {
+
+     
+    
+    
+    
+    return db.select("M.movie_id", "M.title", "M.poster" )
+    .from("Movie_Genre AS MG")
+    .leftJoin("Genre AS G", "G.genre_id", "MG.genre_id")
+    .where("G.genre", "=", genreType)
+    .leftJoin("Movie AS M", "MG.movie_id", "M.movie_id");
+
+    // movie = movie.json
+
+
+
+    // var movie = JSON.parse( db.select("M.movie_id", "M.title", "M.poster" )
+    // .from("Movie_Genre AS MG")
+    // .leftJoin("Genre AS G", "G.genre_id", "MG.genre_id")
+    // .where("G.genre", "=", genreType)
+    // .leftJoin("Movie AS M", "MG.movie_id", "M.movie_id"))
+    // return movie;
+
+
+
+
+
+    // return db
+    // .select("M.movie_id", "M.title", "M.poster", "G.genre" , "R.rating")
+    // .from("Movie_Genre AS MG")
+    // .leftJoin("Genre AS G", "G.genre_id", "MG.genre_id")
+    // .where("G.genre", "=", genreType)
+    // .leftJoin("Movie AS M", "MG.movie_id", "M.movie_id")
+    // .leftJoin( db("Rating AS ")
+    // .select("*"), "M.movie_id", "R.movie_id")
+    // .orderBy("R.rating", 'desc' , {nulls: 'last'});
+
+    // return db
+    //   .select("movie_id", db.raw("ROUND(AVG(rating),2) AS total_rating") ,db.raw("COUNT(rating) AS total_users") )
+    //   .from("Rating")
+    //   .where({movie_id : movie_id})
+    //   .groupByRaw("movie_id");
+
+
+
+
+
   },
 
   async getMovieReviews(movie_id) {
-
     return db("Review")
-      .select("username" , 'review')
+      .select("username", "review")
       .innerJoin("User", "Review.user_id", "User.user_id")
       .where({
         movie_id: movie_id,
       });
   },
 
+  //   async addMovie(title, year, length , age_guide ,description, poster , trailer_url) {
 
-//   async addMovie(title, year, length , age_guide ,description, poster , trailer_url) {
+  //  const [movie_id] = await db("Movie").select("movie_id").
+  //     const [id] = await db("Movie")
+  //     .insert({ title, year, length , age_guide ,description, poster , trailer_url })
+  //     .returning("movie_id");
 
-//  const [movie_id] = await db("Movie").select("movie_id").
-//     const [id] = await db("Movie")
-//     .insert({ title, year, length , age_guide ,description, poster , trailer_url })
-//     .returning("movie_id");
+  //     return id ;
+  //   },
 
-//     return id ;
-//   },
+  async getAllGenres() {
+    return db("Genre").select("genre");
+  },
 
-async getAllGenres() {
-return db('Genre').select("genre");
-},
+  async getRating(movie_id) {
 
-
+    return db
+      .select("movie_id", db.raw("ROUND(AVG(rating),1) AS total_rating") ,db.raw("COUNT(rating) AS total_users") )
+      .from("Rating")
+      .where({movie_id : movie_id})
+      .groupByRaw("movie_id");
+  },
 };

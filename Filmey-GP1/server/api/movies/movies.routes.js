@@ -110,11 +110,11 @@ router.get("/topMovies/:numberofmovies", async (req, res, next) => {
   }
 });
 
-router.get("/genresFilter/:genreType", async (req, res, next) => {
+router.get("/genresFilterTopFour/:genreType", async (req, res, next) => {
   const { genreType } = req.params;
   try {
 
-        const movies = await queries.getBasedOnGenre(genreType);
+        const movies = await queries.getTopFourBasedOnGenre(genreType);
 
     if (movies) {
       return res.json(movies);
@@ -169,7 +169,20 @@ router.post("/add", async (req, res, next) => {
   }
 });
 
+router.get("/rating/:id", async (req, res, next) => {
+  const { id } = req.params;
+  try {
 
+        const rating = await queries.getRating(id);
+
+    if (rating) {
+      return res.json(rating);
+    }
+    return next();
+  } catch (error) {
+    return next(error);
+  }
+});
 
 // router.put("/", async (req, res, next) => {
 //   const { email, username, password , date_of_birth , location} = req.body;

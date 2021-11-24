@@ -40,9 +40,14 @@ function genresPage(props) {
   const [allGenres,setAllGenres]=useState([]);
   const [numOfGenres,setNumOfGenres]=useState();
 
-  const [moviesId, setMoviesId] = useState([]);
-  const [movieTitles, setmovieTitles] = useState([]);
-  const [Allposters, setAllposters] = useState([]);
+  // const [moviesId, setMoviesId] = useState([]);
+  // const [movieTitles, setmovieTitles] = useState([]);
+  // const [Allposters, setAllposters] = useState([]);
+
+    const [moviesInfo, setMoviesInfo] = useState([
+      {'movie_id':1,'title' : 'Toy1'} ,   {'movie_id':3,'title' : 'Toy3'}
+    ]);
+
 
 
   React.useEffect(() => {
@@ -67,21 +72,55 @@ console.log(genresArray.length);
 
     let genreType = 'Comedy';
 
-    api.get(`/movies/genresFilter/${genreType}`).then((response) => {
+    
+    api.get(`/movies/genresFilterTopFour/${genreType}`).then((response) => {
 
-      const moviesIdArray = [...moviesId];
-      const movieTitlesArray = [...movieTitles];
-      const postersArray = [...Allposters];
 
-      for (var i = 0; i < response.data.length; i++) {
-        moviesIdArray[i] = response.data[i].movie_id;
-        movieTitlesArray[i] = response.data[i].title;
-        postersArray[i] = response.data[i].poster;
-      }
-      setMoviesId(moviesIdArray);
-      setmovieTitles(movieTitlesArray);
-      setAllposters(postersArray);
+    //   setMoviesInfo( prevState => ({
+    //     moviesInfo: [...prevState.moviesInfo,  {'movie_id':2,'title' : 'Toy2'}]
+    // }));
+
+    const info = [...moviesInfo, {'movie_id':2,'title' : 'Toy2'}]
+    console.log(info);
+    setMoviesInfo(info)
+    
+//       const moviesInfoArray = [...moviesInfo];
+//       moviesInfoArray[0] ={'movie_id':1,'title' : 'Toy1'};
+//       moviesInfoArray[1] ={'movie_id':2,'title' : 'Toy2'};
+// console.log(moviesInfoArray[0].movie_id);
+
+//       // const movieInfo = {'movie_id':2,'title' : 'Toy2',}  
+//       setMoviesInfo(moviesInfoArray);
+
+      // const moviesIdArray = [...moviesId];
+      // const movieTitlesArray = [...movieTitles];
+      // const postersArray = [...Allposters];
+
+      // for (var i = 0; i < response.data.length; i++) {
+      //   moviesIdArray[i] = response.data[i].movie_id;
+      //   movieTitlesArray[i] = response.data[i].title;
+      //   postersArray[i] = response.data[i].poster;
+      // }
+      // setMoviesId(moviesIdArray);
+      // setmovieTitles(movieTitlesArray);
+      // setAllposters(postersArray);
     });
+
+    // api.get(`/movies/genresFilterTopFour/${genreType}`).then((response) => {
+
+    //   const moviesIdArray = [...moviesId];
+    //   const movieTitlesArray = [...movieTitles];
+    //   const postersArray = [...Allposters];
+
+    //   for (var i = 0; i < response.data.length; i++) {
+    //     moviesIdArray[i] = response.data[i].movie_id;
+    //     movieTitlesArray[i] = response.data[i].title;
+    //     postersArray[i] = response.data[i].poster;
+    //   }
+    //   setMoviesId(moviesIdArray);
+    //   setmovieTitles(movieTitlesArray);
+    //   setAllposters(postersArray);
+    // });
   }, []);
 
   return (
@@ -112,29 +151,32 @@ console.log(genresArray.length);
                 {runCallback(() => {
                   const row = [];
 
-                  for (var i = 5; i <= 8; i++) {
-                    const id = moviesId[i - 1];
-                    const url = `/movieInfoPage/${id}`;
-                    const poster = Allposters[i - 1];
-                    const title = movieTitles[i - 1];
-                    const reminder = i % 4;
 
-                    if (reminder == 0) {
-                      reminder = 4;
-                    }
-                    const className1 = `Movie${reminder}`;
+            
+                  for (var i = 0; i <= 1; i++) {
+                    const id = moviesInfo[i].movie_id;
+                    const url = `/movieInfoPage/${id}`;
+                    // const poster = Allposters[i];
+                    // const title = movieTitles[i];
+
+                    // // const reminder = i % 4;
+
+                    // // if (reminder == 0) {
+                    // //   reminder = 4;
+                    // // }
+                    const className1 = `Movie${i}`;
 
                     row.push(
                       <div key={i}>
                         {
                           <div className={className1}>
                             <Link to={url}>
-                              <img
+                              {/* <img
                                 className="genresMoviePoster1"
                                 src={poster}
-                              />
+                              /> */}
                               <div className="genresMovieName1 roboto-medium-white-15px">
-                                {title}
+                                {moviesInfo[i].title}
                               </div>
                               <div className="genresRating1 neuton-bold-white-30px3">
                                 {props.rating1}
