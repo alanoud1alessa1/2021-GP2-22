@@ -50,12 +50,14 @@ function MovieInfoPage(props) {
 
   var registered =false;
   var username="";
+  var isAdmin=false;
 
   const cookies = new Cookies();
   try{
     const token=cookies.get('token');
     var decoded = jwt_decode(token);
     username=decoded.username;
+    isAdmin=decoded.isAdmin;
     registered=true;
 
   }
@@ -178,7 +180,7 @@ const [userReviews,setUserReviews]=useState([""]);
   
   React.useEffect(() => {
 
-    if(registered){
+    if(registered && !isAdmin){
     const res =  Axios.post("http://localhost:3000/api/v1/users/getRating",{
       userID :decoded.userID,
       movieID:id,
@@ -354,7 +356,7 @@ api.get(`/movies/review/${id}`).then((response)=>{
                 </div>
 
                  {/*  add rating */}
-                 {(!haveRated) && (
+                 {(!haveRated  && !isAdmin) && (
                   <div className="addRating">
                     <div className="rateItText neuton-normal-white-30px">Rate it !</div>
                     <div class="rating-css">
@@ -497,13 +499,14 @@ api.get(`/movies/review/${id}`).then((response)=>{
                         <div className="reviewItText neuton-normal-white-30px">{reviewItText}</div>
                       </div>
                     </Link>     */}
+                    {(!isAdmin) && (
                      <button onClick={addReview} >
                       <img className="reviewIcon" src={reviewIcon}/>
                       <img className="reviewIcon2" src={addIcon} />
                       <div>
                         <div className="reviewItText neuton-normal-white-30px">{reviewItText}</div>
                       </div>
-                    </button>    
+                    </button>  )}  
                   </div>
                   {/* review1 */}
                   <div className="reviewContainer1">

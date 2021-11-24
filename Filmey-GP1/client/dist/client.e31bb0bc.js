@@ -53762,12 +53762,14 @@ function MovieInfoPage(props) {
       yourRatingText = props.yourRatingText;
   var registered = false;
   var username = "";
+  var isAdmin = false;
   var cookies = new _universalCookie.default();
 
   try {
     var token = cookies.get('token');
     var decoded = (0, _jwtDecode.default)(token);
     username = decoded.username;
+    isAdmin = decoded.isAdmin;
     registered = true;
   } catch (_unused) {
     registered = false;
@@ -53960,7 +53962,7 @@ function MovieInfoPage(props) {
   };
 
   _react.default.useEffect(function () {
-    if (registered) {
+    if (registered && !isAdmin) {
       var res = _axios.default.post("http://localhost:3000/api/v1/users/getRating", {
         userID: decoded.userID,
         movieID: id
@@ -54111,7 +54113,7 @@ function MovieInfoPage(props) {
     target: "_blank"
   }, playTrailerText, "  "), /*#__PURE__*/_react.default.createElement("i", {
     className: "fa fa-play-circle"
-  }, " ")), !haveRated && /*#__PURE__*/_react.default.createElement("div", {
+  }, " ")), !haveRated && !isAdmin && /*#__PURE__*/_react.default.createElement("div", {
     className: "addRating"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "rateItText neuton-normal-white-30px"
@@ -54299,7 +54301,7 @@ function MovieInfoPage(props) {
     src: leftArrow
   }), /*#__PURE__*/_react.default.createElement("div", {
     className: "addReview"
-  }, /*#__PURE__*/_react.default.createElement("button", {
+  }, !isAdmin && /*#__PURE__*/_react.default.createElement("button", {
     onClick: addReview
   }, /*#__PURE__*/_react.default.createElement("img", {
     className: "reviewIcon",
@@ -54625,12 +54627,11 @@ function reviewPage(props) {
       setReview = _useState2[1];
 
   var Review = function Review() {
-    console.log("غاده");
     console.log("in review func");
 
     var res = _axios.default.post("http://localhost:3000/api/v1/users/Review", {
-      movieID: id,
       userID: decoded.userID,
+      movieID: id,
       review: _utf.default.encode(review)
     }).then(function (res) {
       if (res.data.reviewErrorMessage) {
@@ -55006,7 +55007,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59396" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52623" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

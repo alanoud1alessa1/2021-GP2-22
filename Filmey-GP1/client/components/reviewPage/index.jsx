@@ -45,11 +45,10 @@ function reviewPage(props) {
   const Review=()=>
   {
     
-    console.log("غاده");
     console.log("in review func");
     const res =  Axios.post("http://localhost:3000/api/v1/users/Review",{
-      movieID:id,
       userID :decoded.userID,
+      movieID:id,
       review:utf8.encode(review),
     }).then((res)=>{
       if(res.data.reviewErrorMessage)
