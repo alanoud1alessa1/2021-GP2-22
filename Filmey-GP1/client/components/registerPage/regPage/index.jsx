@@ -51,104 +51,7 @@ function regPage(props) {
 
   
 
-  // function Multiple()
-  // {
-    var genres=[
-      {
-        value:1,
-        label:'Action'
-      },
-      {
-        value:2,
-        label:'Adventure'
-      },
-      {
-        value:3,
-        label:'Animation'
-      },
-      {
-        value:4,
-        label:'Biography'
-      },
-      {
-        value:5,
-        label:'Comedy'
-      },
-      {
-        value:6,
-        label:'Crime'
-      },
-      {
-        value:7,
-        label:'Documentary'
-      },
-      {
-        value:8,
-        label:'Drama'
-      },
-      {
-        value:9,
-        label:'Family'
-      },
-      {
-        value:10,
-        label:'Fantasy'
-      },
-      {
-        value:11,
-        label:'Film-Noir'
-      },
-      {
-        value:12,
-        label:'History'
-      },
-      {
-        value:13,
-        label:'Horror'
-      },
-      {
-        value:14,
-        label:'Music'
-      },
-      {
-        value:15,
-        label:'Musical'
-      },
-      {
-        value:16,
-        label:'Mystery'
-      },
-      {
-        value:17,
-        label:'Romance'
-      },
-      {
-        value:18,
-        label:'Sci-Fi'
-      },
-      {
-        value:19,
-        label:'Short'
-      },
-      {
-        value:20,
-        label:'Sport'
-      },
-      {
-        value:21,
-        label:'Thriller'
-      },
-      {
-        value:22,
-        label:'War'
-      },
-      {
-        value:23,
-        label:'Western'
-      },
-    ];
-
-  // }
+  
 
   //var a=[];
   var getGenres=(e)=>{
@@ -170,7 +73,7 @@ function regPage(props) {
 
       for (var i = 0; i < response.data.length; i++) {
 
-        genresArray[i] = response.data[i].genre;
+        genresArray[i] = {value:i, label: response.data[i].genre};
       }
       console.log(genresArray)
       setAllGenres(genresArray);
@@ -439,7 +342,8 @@ function regPage(props) {
               <div className="regText7 nunito-normal-river-bed-18px">{text7}</div>
               <div className="multiSelect"> 
 
-                <Select isMulti options={genres}
+                <Select isMulti //options={genres} 
+                options={allGenres}
                  onChange={getGenres}
                  closeMenuOnSelect={false} 
                  isSearchable
