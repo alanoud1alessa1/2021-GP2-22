@@ -109,7 +109,7 @@ exports.up = async (knex) => {
         references(table, "Movie" , "movie");
         references(table, "User" , "user");
         table.string("review", 225).notNullable();
-        table.primary(["movie_id", "user_id"]);
+        table.primary(["movie_id", "user_id","review"]);
       })
   ]);
 };

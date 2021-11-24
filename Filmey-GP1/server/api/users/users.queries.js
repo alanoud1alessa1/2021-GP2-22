@@ -160,6 +160,7 @@ const bcrypt = require("bcrypt");
 const auth = require("../../auth");
 const tableNames = require("../../constents/tableNames");
 const emailValidator = require('deep-email-validator');
+const utf8 = require('utf8');
 
 module.exports = {
   async get(id) {
@@ -378,6 +379,33 @@ async getUserRating(userID, movieID) {
   return;
  },
 
+ async review(userID, movieID,review) {
+  let user = await db(tableNames.review)
+  .where({
+    movie_id:movieID,
+    user_id: userID,
+    review: utf8.decode(review),
+  })
+  .first()
+  .returning("*");
+  if(user)
+  {
+    const message = { 'reviewErrorMessage' : "Sorry, this review has already been added. "};
+    return message;
+
+  }
+  //console.log("in deletetUserRating");
+  let result= await db(tableNames.review).insert({
+    movie_id: movieID,
+     user_id: userID,
+     review: utf8.decode(review),
+     //review:review,
+   }).returning("*");
+  if(result){
+    return result; 
+  }
+  return;
+ },
   // async getId(username) {
   //   let result= await db("User").where({username: username}).returning("*").pluck('user_id');
   //   const userID=result[0];

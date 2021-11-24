@@ -324,4 +324,18 @@ router.post("/deleteRating", async (req, res, next) => {
 }
 );
 
+router.post("/Review", async (req, res, next) => {
+  // const cookies = new Cookies();
+  // const token=cookies.get('token');
+  // var decoded = jwt_decode(token);
+  // console.log(decoded.userID);
+  console.log("in review");
+  const {userID,movieID,review}= req.body;
+  console.log(req.body);
+  //console.log(req.cookies.token);
+  const result= await queries.review(userID,movieID,review);
+  return res.json(result);
+}
+);
+
 module.exports = router;

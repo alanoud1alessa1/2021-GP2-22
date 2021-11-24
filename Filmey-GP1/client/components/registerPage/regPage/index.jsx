@@ -56,7 +56,7 @@ function regPage(props) {
     var genres=[
       {
         value:1,
-        label:'Animation'
+        label:'Action'
       },
       {
         value:2,
@@ -64,34 +64,86 @@ function regPage(props) {
       },
       {
         value:3,
-        label:'Comedy'
+        label:'Animation'
       },
       {
         value:4,
-        label:'Family'
+        label:'Biography'
       },
       {
         value:5,
-        label:'Fantasy'
+        label:'Comedy'
       },
       {
         value:6,
-        label:'Romance'
-      },
-      {
-        value:7,
-        label:'Fantasy'
-      },
-      {
-        value:8,
         label:'Crime'
       },
       {
+        value:7,
+        label:'Documentary'
+      },
+      {
+        value:8,
+        label:'Drama'
+      },
+      {
         value:9,
-        label:'Thriller'
+        label:'Family'
       },
       {
         value:10,
+        label:'Fantasy'
+      },
+      {
+        value:11,
+        label:'Film-Noir'
+      },
+      {
+        value:12,
+        label:'History'
+      },
+      {
+        value:13,
+        label:'Horror'
+      },
+      {
+        value:14,
+        label:'Music'
+      },
+      {
+        value:15,
+        label:'Musical'
+      },
+      {
+        value:16,
+        label:'Mystery'
+      },
+      {
+        value:17,
+        label:'Romance'
+      },
+      {
+        value:18,
+        label:'Sci-Fi'
+      },
+      {
+        value:19,
+        label:'Short'
+      },
+      {
+        value:20,
+        label:'Sport'
+      },
+      {
+        value:21,
+        label:'Thriller'
+      },
+      {
+        value:22,
+        label:'War'
+      },
+      {
+        value:23,
         label:'Western'
       },
     ];

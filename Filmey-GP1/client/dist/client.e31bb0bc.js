@@ -52388,33 +52388,72 @@ function regPage(props) {
 
   var genres = [{
     value: 1,
-    label: 'Animation'
+    label: 'Action'
   }, {
     value: 2,
     label: 'Adventure'
   }, {
     value: 3,
-    label: 'Comedy'
+    label: 'Animation'
   }, {
     value: 4,
-    label: 'Family'
+    label: 'Biography'
   }, {
     value: 5,
-    label: 'Fantasy'
+    label: 'Comedy'
   }, {
     value: 6,
-    label: 'Romance'
-  }, {
-    value: 7,
-    label: 'Fantasy'
-  }, {
-    value: 8,
     label: 'Crime'
   }, {
+    value: 7,
+    label: 'Documentary'
+  }, {
+    value: 8,
+    label: 'Drama'
+  }, {
     value: 9,
-    label: 'Thriller'
+    label: 'Family'
   }, {
     value: 10,
+    label: 'Fantasy'
+  }, {
+    value: 11,
+    label: 'Film-Noir'
+  }, {
+    value: 12,
+    label: 'History'
+  }, {
+    value: 13,
+    label: 'Horror'
+  }, {
+    value: 14,
+    label: 'Music'
+  }, {
+    value: 15,
+    label: 'Musical'
+  }, {
+    value: 16,
+    label: 'Mystery'
+  }, {
+    value: 17,
+    label: 'Romance'
+  }, {
+    value: 18,
+    label: 'Sci-Fi'
+  }, {
+    value: 19,
+    label: 'Short'
+  }, {
+    value: 20,
+    label: 'Sport'
+  }, {
+    value: 21,
+    label: 'Thriller'
+  }, {
+    value: 22,
+    label: 'War'
+  }, {
+    value: 23,
     label: 'Western'
   }]; // }
   //var a=[];
@@ -53910,8 +53949,22 @@ function MovieInfoPage(props) {
   var _useParams = (0, _reactRouterDom.useParams)(),
       id = _useParams.id;
 
-  id = parseInt(id); //Rating function
+  id = parseInt(id);
+
+  var addReview = function addReview() {
+    if (!registered) {
+      if (window.confirm('Sorry! you have to login.')) {
+        window.location.href = '/login-page';
+      }
+
+      ;
+      return;
+    }
+
+    window.location.href = "/reviewPage/".concat(id);
+  }; //Rating function
   //var userRating;
+
 
   var _useState37 = (0, _react.useState)(false),
       _useState38 = _slicedToArray(_useState37, 2),
@@ -53933,20 +53986,20 @@ function MovieInfoPage(props) {
 
       ;
       return;
-    }
+    } //console.log(value);
 
-    console.log(value);
-    rating = value;
-    console.log(rating); //userRating=value;
+
+    rating = value; //console.log(rating);
+    //userRating=value;
 
     setuserRating(value); //userRating=value;
+    //console.log(userRating);
 
-    console.log(userRating);
     sethaveRated(true);
 
     var res = _axios.default.post("http://localhost:3000/api/v1/users/rating", {
-      movieID: id,
       userID: decoded.userID,
+      movieID: id,
       rating: parseInt(value)
     }).then(function (res) {
       //rating=value;
@@ -53961,8 +54014,8 @@ function MovieInfoPage(props) {
 
   var deleteRating = function deleteRating() {
     var res = _axios.default.post("http://localhost:3000/api/v1/users/deleteRating", {
-      movieID: id,
-      userID: decoded.userID
+      userID: decoded.userID,
+      movieID: id
     }).then(function (res) {
       console.log(res.data);
       console.log("in delete response");
@@ -53978,16 +54031,15 @@ function MovieInfoPage(props) {
   _react.default.useEffect(function () {
     if (registered) {
       var res = _axios.default.post("http://localhost:3000/api/v1/users/getRating", {
-        movieID: id,
-        userID: decoded.userID
+        userID: decoded.userID,
+        movieID: id
       }).then(function (res) {
         console.log(res.data[0]);
 
         if (res.data[0]) {
           sethaveRated(true);
-          setuserRating(res.data[0]);
-          console.log(res.data);
-          console.log(res.data);
+          setuserRating(res.data[0]); // console.log(res.data);
+          // console.log(res.data);
         }
       });
     } // }
@@ -54316,8 +54368,8 @@ function MovieInfoPage(props) {
     src: leftArrow
   }), /*#__PURE__*/_react.default.createElement("div", {
     className: "addReview"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/reviewPage"
+  }, /*#__PURE__*/_react.default.createElement("button", {
+    onClick: addReview
   }, /*#__PURE__*/_react.default.createElement("img", {
     className: "reviewIcon",
     src: reviewIcon
@@ -54365,7 +54417,211 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/reviewPage/index.jsx":[function(require,module,exports) {
+},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"node_modules/utf8/utf8.js":[function(require,module,exports) {
+/*! https://mths.be/utf8js v3.0.0 by @mathias */
+;(function(root) {
+
+	var stringFromCharCode = String.fromCharCode;
+
+	// Taken from https://mths.be/punycode
+	function ucs2decode(string) {
+		var output = [];
+		var counter = 0;
+		var length = string.length;
+		var value;
+		var extra;
+		while (counter < length) {
+			value = string.charCodeAt(counter++);
+			if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
+				// high surrogate, and there is a next character
+				extra = string.charCodeAt(counter++);
+				if ((extra & 0xFC00) == 0xDC00) { // low surrogate
+					output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
+				} else {
+					// unmatched surrogate; only append this code unit, in case the next
+					// code unit is the high surrogate of a surrogate pair
+					output.push(value);
+					counter--;
+				}
+			} else {
+				output.push(value);
+			}
+		}
+		return output;
+	}
+
+	// Taken from https://mths.be/punycode
+	function ucs2encode(array) {
+		var length = array.length;
+		var index = -1;
+		var value;
+		var output = '';
+		while (++index < length) {
+			value = array[index];
+			if (value > 0xFFFF) {
+				value -= 0x10000;
+				output += stringFromCharCode(value >>> 10 & 0x3FF | 0xD800);
+				value = 0xDC00 | value & 0x3FF;
+			}
+			output += stringFromCharCode(value);
+		}
+		return output;
+	}
+
+	function checkScalarValue(codePoint) {
+		if (codePoint >= 0xD800 && codePoint <= 0xDFFF) {
+			throw Error(
+				'Lone surrogate U+' + codePoint.toString(16).toUpperCase() +
+				' is not a scalar value'
+			);
+		}
+	}
+	/*--------------------------------------------------------------------------*/
+
+	function createByte(codePoint, shift) {
+		return stringFromCharCode(((codePoint >> shift) & 0x3F) | 0x80);
+	}
+
+	function encodeCodePoint(codePoint) {
+		if ((codePoint & 0xFFFFFF80) == 0) { // 1-byte sequence
+			return stringFromCharCode(codePoint);
+		}
+		var symbol = '';
+		if ((codePoint & 0xFFFFF800) == 0) { // 2-byte sequence
+			symbol = stringFromCharCode(((codePoint >> 6) & 0x1F) | 0xC0);
+		}
+		else if ((codePoint & 0xFFFF0000) == 0) { // 3-byte sequence
+			checkScalarValue(codePoint);
+			symbol = stringFromCharCode(((codePoint >> 12) & 0x0F) | 0xE0);
+			symbol += createByte(codePoint, 6);
+		}
+		else if ((codePoint & 0xFFE00000) == 0) { // 4-byte sequence
+			symbol = stringFromCharCode(((codePoint >> 18) & 0x07) | 0xF0);
+			symbol += createByte(codePoint, 12);
+			symbol += createByte(codePoint, 6);
+		}
+		symbol += stringFromCharCode((codePoint & 0x3F) | 0x80);
+		return symbol;
+	}
+
+	function utf8encode(string) {
+		var codePoints = ucs2decode(string);
+		var length = codePoints.length;
+		var index = -1;
+		var codePoint;
+		var byteString = '';
+		while (++index < length) {
+			codePoint = codePoints[index];
+			byteString += encodeCodePoint(codePoint);
+		}
+		return byteString;
+	}
+
+	/*--------------------------------------------------------------------------*/
+
+	function readContinuationByte() {
+		if (byteIndex >= byteCount) {
+			throw Error('Invalid byte index');
+		}
+
+		var continuationByte = byteArray[byteIndex] & 0xFF;
+		byteIndex++;
+
+		if ((continuationByte & 0xC0) == 0x80) {
+			return continuationByte & 0x3F;
+		}
+
+		// If we end up here, it’s not a continuation byte
+		throw Error('Invalid continuation byte');
+	}
+
+	function decodeSymbol() {
+		var byte1;
+		var byte2;
+		var byte3;
+		var byte4;
+		var codePoint;
+
+		if (byteIndex > byteCount) {
+			throw Error('Invalid byte index');
+		}
+
+		if (byteIndex == byteCount) {
+			return false;
+		}
+
+		// Read first byte
+		byte1 = byteArray[byteIndex] & 0xFF;
+		byteIndex++;
+
+		// 1-byte sequence (no continuation bytes)
+		if ((byte1 & 0x80) == 0) {
+			return byte1;
+		}
+
+		// 2-byte sequence
+		if ((byte1 & 0xE0) == 0xC0) {
+			byte2 = readContinuationByte();
+			codePoint = ((byte1 & 0x1F) << 6) | byte2;
+			if (codePoint >= 0x80) {
+				return codePoint;
+			} else {
+				throw Error('Invalid continuation byte');
+			}
+		}
+
+		// 3-byte sequence (may include unpaired surrogates)
+		if ((byte1 & 0xF0) == 0xE0) {
+			byte2 = readContinuationByte();
+			byte3 = readContinuationByte();
+			codePoint = ((byte1 & 0x0F) << 12) | (byte2 << 6) | byte3;
+			if (codePoint >= 0x0800) {
+				checkScalarValue(codePoint);
+				return codePoint;
+			} else {
+				throw Error('Invalid continuation byte');
+			}
+		}
+
+		// 4-byte sequence
+		if ((byte1 & 0xF8) == 0xF0) {
+			byte2 = readContinuationByte();
+			byte3 = readContinuationByte();
+			byte4 = readContinuationByte();
+			codePoint = ((byte1 & 0x07) << 0x12) | (byte2 << 0x0C) |
+				(byte3 << 0x06) | byte4;
+			if (codePoint >= 0x010000 && codePoint <= 0x10FFFF) {
+				return codePoint;
+			}
+		}
+
+		throw Error('Invalid UTF-8 detected');
+	}
+
+	var byteArray;
+	var byteCount;
+	var byteIndex;
+	function utf8decode(byteString) {
+		byteArray = ucs2decode(byteString);
+		byteCount = byteArray.length;
+		byteIndex = 0;
+		var codePoints = [];
+		var tmp;
+		while ((tmp = decodeSymbol()) !== false) {
+			codePoints.push(tmp);
+		}
+		return ucs2encode(codePoints);
+	}
+
+	/*--------------------------------------------------------------------------*/
+
+	root.version = '3.0.0';
+	root.encode = utf8encode;
+	root.decode = utf8decode;
+
+}(typeof exports === 'undefined' ? this.utf8 = {} : exports));
+
+},{}],"components/reviewPage/index.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -54373,7 +54629,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _react = _interopRequireDefault(require("react"));
+var _react = _interopRequireWildcard(require("react"));
 
 require("./reviewPage.css");
 
@@ -54381,7 +54637,31 @@ var _reactRouterDom = require("react-router-dom");
 
 var _header = _interopRequireDefault(require("../header"));
 
+var _universalCookie = _interopRequireDefault(require("universal-cookie"));
+
+var _jwtDecode = _interopRequireDefault(require("jwt-decode"));
+
+var _axios = _interopRequireDefault(require("axios"));
+
+var _utf = _interopRequireDefault(require("utf8"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function reviewPage(props) {
   var logo = props.logo,
@@ -54392,6 +54672,47 @@ function reviewPage(props) {
       footerText2 = props.footerText2,
       submitText = props.submitText,
       inputPlaceholder = props.inputPlaceholder;
+  var username;
+  var cookies = new _universalCookie.default();
+
+  try {
+    var token = cookies.get('token');
+    var decoded = (0, _jwtDecode.default)(token);
+    username = decoded.user_id; //registered=true;
+  } catch (_unused) {// registered=false;
+    // console.log("guest user");
+  }
+
+  var _useParams = (0, _reactRouterDom.useParams)(),
+      id = _useParams.id;
+
+  id = parseInt(id);
+
+  var _useState = (0, _react.useState)(""),
+      _useState2 = _slicedToArray(_useState, 2),
+      review = _useState2[0],
+      setReview = _useState2[1];
+
+  var Review = function Review() {
+    console.log("غاده");
+    console.log("in review func");
+
+    var res = _axios.default.post("http://localhost:3000/api/v1/users/Review", {
+      movieID: id,
+      userID: decoded.userID,
+      review: _utf.default.encode(review)
+    }).then(function (res) {
+      if (res.data.reviewErrorMessage) {
+        alert(res.data.reviewErrorMessage);
+      } else {
+        if (res.data) {
+          alert("Thank u! your review has been saved successfully.");
+          window.location = "/movieInfoPage/".concat(id);
+        }
+      }
+    });
+  };
+
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "PageCenter"
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -54403,20 +54724,23 @@ function reviewPage(props) {
   }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "reviewBox"
   }), /*#__PURE__*/_react.default.createElement("textarea", {
+    id: "1",
     className: "writeReview",
     name: "writeReview",
     placeholder: inputPlaceholder,
     rows: "5",
-    cols: "73"
+    cols: "73",
+    onChange: function onChange(e) {
+      setReview(e.target.value);
+    }
   }), /*#__PURE__*/_react.default.createElement("div", {
     className: "submitButton"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/home-page"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "submitButtonContainer"
   }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "submitText"
-  }, submitText)))))), /*#__PURE__*/_react.default.createElement("footer", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "submitText",
+    onClick: Review
+  }, submitText))))), /*#__PURE__*/_react.default.createElement("footer", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "reviewFooter"
   }, " "), /*#__PURE__*/_react.default.createElement("img", {
     className: "reviewFooterLogo",
@@ -54430,7 +54754,7 @@ function reviewPage(props) {
 
 var _default = reviewPage;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","./reviewPage.css":"components/reviewPage/reviewPage.css","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","../header":"components/header/index.jsx"}],"App.jsx":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","./reviewPage.css":"components/reviewPage/reviewPage.css","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","../header":"components/header/index.jsx","universal-cookie":"node_modules/universal-cookie/es6/index.js","jwt-decode":"node_modules/jwt-decode/build/jwt-decode.esm.js","axios":"node_modules/axios/index.js","utf8":"node_modules/utf8/utf8.js"}],"App.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -54474,7 +54798,7 @@ function App() {
   }, /*#__PURE__*/_react.default.createElement(_genreTypePage.default, genreTypePageData)), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/movieInfoPage/:id"
   }, /*#__PURE__*/_react.default.createElement(_movieInfoPage.default, movieInfoPageData)), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
-    path: "/reviewPage"
+    path: "/reviewPage/:id"
   }, /*#__PURE__*/_react.default.createElement(_reviewPage.default, reviewPageData))));
 }
 
@@ -54751,7 +55075,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "9801" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59396" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

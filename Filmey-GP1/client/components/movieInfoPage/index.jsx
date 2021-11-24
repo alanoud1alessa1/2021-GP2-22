@@ -105,6 +105,21 @@ const [userReviews,setUserReviews]=useState([""]);
   let {id} = useParams();
   id = parseInt(id);
 
+  const addReview=()=>{
+    if(!registered)
+  {
+    if (window.confirm('Sorry! you have to login.')) 
+    {
+      window.location.href='/login-page';
+    };
+     return;
+  }
+    window.location.href=`/reviewPage/${id}`;
+
+  }
+  
+  
+
   //Rating function
   //var userRating;
   const [haveRated,sethaveRated]=useState(false);
@@ -119,17 +134,17 @@ const [userReviews,setUserReviews]=useState([""]);
       };
       return;
     }
-    console.log(value);
+    //console.log(value);
     rating=value;
-    console.log(rating);
+    //console.log(rating);
     //userRating=value;
     setuserRating(value);
     //userRating=value;
-    console.log(userRating);
+    //console.log(userRating);
     sethaveRated(true);
     const res =  Axios.post("http://localhost:3000/api/v1/users/rating",{
-      movieID:id,
       userID :decoded.userID,
+      movieID:id,
       rating:parseInt(value),
     }).then((res)=>{
       //rating=value;
@@ -146,8 +161,8 @@ const [userReviews,setUserReviews]=useState([""]);
 
   const deleteRating=()=> {
     const res =  Axios.post("http://localhost:3000/api/v1/users/deleteRating",{
-      movieID:id,
       userID :decoded.userID,
+      movieID:id,
     }).then((res)=>{
       console.log(res.data);
       console.log("in delete response");
@@ -165,15 +180,16 @@ const [userReviews,setUserReviews]=useState([""]);
 
     if(registered){
     const res =  Axios.post("http://localhost:3000/api/v1/users/getRating",{
-      movieID:id,
       userID :decoded.userID,
+      movieID:id,
     }).then((res)=>{
       console.log(res.data[0]);
       if(res.data[0]){
       sethaveRated(true);
       setuserRating(res.data[0]);
-      console.log(res.data);
-      console.log(res.data);}
+      // console.log(res.data);
+      // console.log(res.data);
+    }
    }
     )}
 
@@ -467,13 +483,27 @@ api.get(`/movies/review/${id}`).then((response)=>{
                   <img className="reviewsExpandRight" src={rightArrow} />
                   <img className="reviewsExpandLeft" src={leftArrow} />
                   <div className="addReview">
-                    <Link to="/reviewPage">
+                    {/* <Link to="/reviewPage">
                       <img className="reviewIcon" src={reviewIcon}/>
                       <img className="reviewIcon2" src={addIcon} />
                       <div>
                         <div className="reviewItText neuton-normal-white-30px">{reviewItText}</div>
                       </div>
-                    </Link>     
+                    </Link>      */}
+                    {/* <Link to={reviewURL}>
+                      <img className="reviewIcon" src={reviewIcon}/>
+                      <img className="reviewIcon2" src={addIcon} />
+                      <div>
+                        <div className="reviewItText neuton-normal-white-30px">{reviewItText}</div>
+                      </div>
+                    </Link>     */}
+                     <button onClick={addReview} >
+                      <img className="reviewIcon" src={reviewIcon}/>
+                      <img className="reviewIcon2" src={addIcon} />
+                      <div>
+                        <div className="reviewItText neuton-normal-white-30px">{reviewItText}</div>
+                      </div>
+                    </button>    
                   </div>
                   {/* review1 */}
                   <div className="reviewContainer1">

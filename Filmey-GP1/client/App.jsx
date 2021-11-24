@@ -32,7 +32,7 @@ function App() {
         <Route path="/movieInfoPage/:id">
           <MovieInfoPage {...movieInfoPageData} />
         </Route>
-        <Route path="/reviewPage">
+        <Route path="/reviewPage/:id">
           <ReviewPage {...reviewPageData} />
         </Route>
       </Switch>

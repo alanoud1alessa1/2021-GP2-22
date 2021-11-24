@@ -2,6 +2,12 @@ import React from "react";
 import "./reviewPage.css";
 import { Link } from "react-router-dom";
 import Header from "../header";
+import {useState  } from "react";
+import { useParams } from "react-router-dom";
+import Cookies from 'universal-cookie';
+import jwt_decode from "jwt-decode";
+import Axios from 'axios';
+import utf8 from 'utf8';
 
 
 function reviewPage(props) {
@@ -15,6 +21,52 @@ function reviewPage(props) {
     submitText,
     inputPlaceholder,
   } = props;
+
+  var username;
+
+  const cookies = new Cookies();
+  try{
+    const token=cookies.get('token');
+    var decoded = jwt_decode(token);
+    username=decoded.user_id;
+    //registered=true;
+
+  }
+  catch{
+    // registered=false;
+    // console.log("guest user");
+  }
+  
+  let {id} = useParams();
+  id = parseInt(id);
+
+  const[review,setReview]=useState("");
+
+  const Review=()=>
+  {
+    
+    console.log("غاده");
+    console.log("in review func");
+    const res =  Axios.post("http://localhost:3000/api/v1/users/Review",{
+      movieID:id,
+      userID :decoded.userID,
+      review:utf8.encode(review),
+    }).then((res)=>{
+      if(res.data.reviewErrorMessage)
+      {
+        alert(res.data.reviewErrorMessage);
+      }
+      else{
+        if(res.data)
+        {
+          alert("Thank u! your review has been saved successfully.");
+          window.location = `/movieInfoPage/${id}`;
+        }
+      }
+
+   })
+  }
+
 
   return (
     <div className="PageCenter">
@@ -31,14 +83,18 @@ function reviewPage(props) {
             <div className="reviewBody"></div>
             <div>
                 <div className="reviewBox"></div>
-                <textarea className="writeReview" name="writeReview" placeholder={inputPlaceholder} rows="5" cols="73">                
+                <textarea id="1" className="writeReview" name="writeReview" placeholder={inputPlaceholder} rows="5" cols="73"  onChange={
+                          (e)=>{
+                            setReview(e.target.value); 
+                          }
+                        }>                
                 </textarea>
                 <div className="submitButton">
-                <Link to="/home-page">
+                {/* <Link to="/home-page"> */}
                 <div className="submitButtonContainer">
-                        <div className="submitText">{submitText}</div>
+                        <div className="submitText" onClick={Review}>{submitText}</div>
                 </div>
-                </Link>
+                {/* </Link> */}
                 </div>
             </div>
             </main>

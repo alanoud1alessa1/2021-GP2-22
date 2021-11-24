@@ -30,6 +30,7 @@
     "react-select": "^5.2.1",
     "reactstrap": "^9.0.0",
     "universal-cookie": "^4.0.4",
+    "utf8": "^3.0.0",
     "utils": "^0.3.1"
   },
   "devDependencies": {
