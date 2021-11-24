@@ -2,9 +2,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./genreTypePage.css";
 import Header from "../header";
+import { useParams } from "react-router-dom";
+import { useState } from "react";
+import Axios from "axios";
+
 
 
 function genreTypePage(props) {
+
+  const runCallback = (cb) => {
+    return cb();
+  };
   const {
     genreTitle,
     movieName1,
@@ -36,6 +44,45 @@ function genreTypePage(props) {
  
   } = props;
 
+  const api = Axios.create({
+    baseURL: "http://localhost:3000/api/v1",
+  });
+
+  const [moviesId, setMoviesId] = useState([]);
+  const [movieTitles, setmovieTitles] = useState([]);
+  const [Allposters, setAllposters] = useState([]);
+
+
+
+  let {genre} = useParams();
+  React.useEffect(() => {
+    var moviesIdArray = [...moviesId];
+    var movieTitlesArray = [...movieTitles];
+    var postersArray = [...Allposters];
+
+
+      api.get(`/movies/genresFilter/${genre}/50`).then((response) => {
+        for (var i = 0; i < response.data.length; i++) {
+          moviesIdArray[i] = response.data[i].movie_id;
+          movieTitlesArray[i] = response.data[i].title;
+          postersArray[i] = response.data[i].poster;
+
+        }
+
+        //if finish getting all movies --> then set valuse
+
+
+        if (moviesIdArray.length == response.data.length) {
+          console.log(movieTitlesArray);
+          setMoviesId(moviesIdArray);
+          setmovieTitles(movieTitlesArray);
+          setAllposters(postersArray);
+        }
+      });
+
+  }, []);
+
+
   return (
     <div className="PageCenter">
       <div className="genresPage screen">
@@ -53,52 +100,64 @@ function genreTypePage(props) {
 
             {/* Title */}
             <div>
-              <h1 className="genreTypeTitle neuton-normal-white-60px3">{genreTitle}</h1>
+              <h1 className="genreTypeTitle neuton-normal-white-60px3">{genre}</h1>
             </div>
             
-          {/* row1  */}
-          <div className="movies">
-            {/* movie 1 */}
-            <div className="Movie1">
-              <img className="genresMoviePoster1" src={moviePoster} />
-              <div className="genresMovieName1 roboto-medium-white-15px">{movieName1}</div>
-              <div className="genresRating1 neuton-bold-white-30px3">{rating1}</div>
-              <img className="genresStar1" src={star} />
-              <div className="genresGenreType1">
-                <div className="genresGenreTypeText1 roboto-normal-cardinal-12px3">{genresGenreTypeText1}</div>
+
+
+
+                      {/* row1  */}
+              <div className="movies">
+                {runCallback(() => {
+                  const row = [];
+                  var count = 0;
+
+                  for (var k = 0; k < 2; k++) {
+                    for (var i = 0; i <= 3; i++) {
+                      const id = moviesId[count];
+                      const url = `/movieInfoPage/${id}`;
+
+                      const poster = Allposters[count];
+                      const title = movieTitles[count++];
+
+                      // // const reminder = i % 4;
+
+                      // // if (reminder == 0) {
+                      // //   reminder = 4;
+                      // // }
+                      const className1 = `Movie${count}`;
+
+
+                      row.push(
+                        <div key={i}>
+                          {
+                            <div className={className1}>
+                              <Link to={url}>
+                                <img className="genresMoviePoster1" src={poster} />
+                                <div className="genresMovieName1">{title}</div>
+                                <div className="genresRating1 neuton-bold-white-30px3">
+                                  {props.rating1}
+                                </div>
+                                <img className="genresStar1" src={props.star} />
+                                <div className="genresGenreType1">
+                                  <div className="genresGenreTypeText1 roboto-normal-cardinal-12px3">
+                                    {props.genresGenreTypeText1}
+                                  </div>
+                                </div>
+                              </Link>
+                            </div>
+                          }
+                        </div>
+                      );
+                    }
+                  }
+                  return row;
+                })}
               </div>
-            </div>
-            {/* movie 2 */}
-            <div className="Movie2">
-              <img className="genresMoviePoster1" src={moviePoster} />
-              <div className="genresMovieName1 roboto-medium-white-15px">{movieName2}</div>
-              <div className="genresRating1 neuton-bold-white-30px3">{rating2}</div>
-              <img className="genresStar1" src={star} />
-              <div className="genresGenreType1">
-                <div className="genresGenreTypeText1 roboto-normal-cardinal-12px3">{genresGenreTypeText2}</div>
-              </div>
-            </div>
-            {/* movie 3 */}
-            <div className="Movie3">
-              <img className="genresMoviePoster1" src={moviePoster} />
-              <div className="genresMovieName1 roboto-medium-white-15px">{movieName3}</div>
-              <div className="genresRating1 neuton-bold-white-30px3">{rating3}</div>
-              <img className="genresStar1" src={star} />
-              <div className="genresGenreType1">
-                <div className="genresGenreTypeText1  roboto-normal-cardinal-12px3">{genresGenreTypeText3}</div>
-              </div>
-            </div>
-            {/* movie 4 */}
-            <div className="Movie4">
-              <img className="genresMoviePoster1" src={moviePoster} />
-              <div className="genresMovieName1 roboto-medium-white-15px">{movieName4}</div>
-              <div className="genresRating1 neuton-bold-white-30px3">{rating4}</div>
-              <img className="genresStar1" src={star} />
-              <div className="genresGenreType1">
-                <div className="genresGenreTypeText1 roboto-normal-cardinal-12px3">{genresGenreTypeText4}</div>   
-              </div>
-            </div>
-          </div>
+
+
+
+
 
           </main>
           {/* footer */}

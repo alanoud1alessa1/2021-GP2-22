@@ -69,20 +69,20 @@ module.exports = {
       .limit(numberofmovies);
   },
 
-  async getTopFourBasedOnGenre(genreType) {
+  async getBasedOnGenre(genreType , limit) {
 
-     
-    
-    
-    
-    return db.select("M.movie_id", "M.title", "M.poster" )
+    return db.select("M.movie_id", "M.title", "M.poster" , "R.rating")
     .from("Movie_Genre AS MG")
     .leftJoin("Genre AS G", "G.genre_id", "MG.genre_id")
     .where("G.genre", "=", genreType)
-    .leftJoin("Movie AS M", "MG.movie_id", "M.movie_id");
+    .leftJoin("Movie AS M", "MG.movie_id", "M.movie_id")
+    .leftJoin("Rating AS R", "MG.movie_id", "R.movie_id")
+    // .groupByRaw("M.movie_id")
+    .orderBy("rating")
+    .limit(limit);
 
-    // movie = movie.json
-
+  
+//group by only accepts aggregation functions in select
 
 
     // var movie = JSON.parse( db.select("M.movie_id", "M.title", "M.poster" )
@@ -118,13 +118,17 @@ module.exports = {
 
   },
 
+  
+
+
   async getMovieReviews(movie_id) {
-    return db("Review")
-      .select("username", "review")
-      .innerJoin("User", "Review.user_id", "User.user_id")
-      .where({
-        movie_id: movie_id,
-      });
+
+    return db.select("M.movie_id", "M.title", "M.poster" )
+    .from("Movie_Genre AS MG")
+    .leftJoin("Genre AS G", "G.genre_id", "MG.genre_id")
+    .where("G.genre", "=", genreType)
+    .leftJoin("Movie AS M", "MG.movie_id", "M.movie_id")
+    .limit(50);
   },
 
   //   async addMovie(title, year, length , age_guide ,description, poster , trailer_url) {

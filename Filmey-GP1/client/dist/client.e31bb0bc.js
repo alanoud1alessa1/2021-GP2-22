@@ -53399,75 +53399,66 @@ function genresPage(props) {
   var _useState3 = (0, _react.useState)(),
       _useState4 = _slicedToArray(_useState3, 2),
       numOfGenres = _useState4[0],
-      setNumOfGenres = _useState4[1]; // const [moviesId, setMoviesId] = useState([]);
-  // const [movieTitles, setmovieTitles] = useState([]);
-  // const [Allposters, setAllposters] = useState([]);
+      setNumOfGenres = _useState4[1];
 
-
-  var _useState5 = (0, _react.useState)([{
-    'movie_id': 1,
-    'title': 'Toy1'
-  }, {
-    'movie_id': 3,
-    'title': 'Toy3'
-  }]),
+  var _useState5 = (0, _react.useState)([]),
       _useState6 = _slicedToArray(_useState5, 2),
-      moviesInfo = _useState6[0],
-      setMoviesInfo = _useState6[1];
+      moviesId = _useState6[0],
+      setMoviesId = _useState6[1];
+
+  var _useState7 = (0, _react.useState)([]),
+      _useState8 = _slicedToArray(_useState7, 2),
+      movieTitles = _useState8[0],
+      setmovieTitles = _useState8[1];
+
+  var _useState9 = (0, _react.useState)([]),
+      _useState10 = _slicedToArray(_useState9, 2),
+      Allposters = _useState10[0],
+      setAllposters = _useState10[1]; // const [moviesInfo, setMoviesInfo] = useState([
+  // {'movie_id':1,'title' : 'Toy1'} ,   {'movie_id':3,'title' : 'Toy3'}
+  // ]);
+
+
+  var allGens = ["Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy", "Film-Noir", "History", "Horror", "Music", "Musical", "Mystery", "Romance", "Sci-Fi", "Short", "Sport", "Thriller", "War", "Western"]; // // const numOfGenres = 0;
+  // let genresArray = [];
+  // //Get All Genres
+  // api.get(`/movies/allGenres/1`).then((response) => {
+  //   for (var i = 0; i < response.data.length; i++) {
+  //     genresArray[i] = response.data[i].genre;
+  //     // numOfGenres = numOfGenres + 1;
+  //   }
+  //   setAllGenres(genresArray);
+  // });
 
   _react.default.useEffect(function () {
-    var genresArray = _toConsumableArray(allGenres); //Get All Genres
+    var moviesIdArray = _toConsumableArray(moviesId);
+
+    var movieTitlesArray = _toConsumableArray(movieTitles);
+
+    var postersArray = _toConsumableArray(Allposters);
+
+    var numOfItrations = 2;
+
+    for (var k = 0; k < numOfItrations; k++) {
+      var genreType = allGens[k];
+      var count = 0;
+      console.log(genreType);
+      api.get("/movies/genresFilter/".concat(genreType, "/4")).then(function (response) {
+        for (var i = 0; i < 4; i++) {
+          moviesIdArray[count] = response.data[i].movie_id;
+          movieTitlesArray[count] = response.data[i].title;
+          postersArray[count++] = response.data[i].poster;
+        } //if finish getting all movies --> then set valuse
 
 
-    api.get("/movies/allGenres/1").then(function (response) {
-      for (var i = 0; i < response.data.length; i++) {
-        genresArray[i] = response.data[i].genre;
-      } // console.log(genresArray[4])
-
-
-      setAllGenres(genresArray);
-    });
-    console.log(genresArray.length);
-    var genreType = 'Comedy';
-    api.get("/movies/genresFilterTopFour/".concat(genreType)).then(function (response) {
-      //   setMoviesInfo( prevState => ({
-      //     moviesInfo: [...prevState.moviesInfo,  {'movie_id':2,'title' : 'Toy2'}]
-      // }));
-      var info = [].concat(_toConsumableArray(moviesInfo), [{
-        'movie_id': 2,
-        'title': 'Toy2'
-      }]);
-      console.log(info);
-      setMoviesInfo(info); //       const moviesInfoArray = [...moviesInfo];
-      //       moviesInfoArray[0] ={'movie_id':1,'title' : 'Toy1'};
-      //       moviesInfoArray[1] ={'movie_id':2,'title' : 'Toy2'};
-      // console.log(moviesInfoArray[0].movie_id);
-      //       // const movieInfo = {'movie_id':2,'title' : 'Toy2',}  
-      //       setMoviesInfo(moviesInfoArray);
-      // const moviesIdArray = [...moviesId];
-      // const movieTitlesArray = [...movieTitles];
-      // const postersArray = [...Allposters];
-      // for (var i = 0; i < response.data.length; i++) {
-      //   moviesIdArray[i] = response.data[i].movie_id;
-      //   movieTitlesArray[i] = response.data[i].title;
-      //   postersArray[i] = response.data[i].poster;
-      // }
-      // setMoviesId(moviesIdArray);
-      // setmovieTitles(movieTitlesArray);
-      // setAllposters(postersArray);
-    }); // api.get(`/movies/genresFilterTopFour/${genreType}`).then((response) => {
-    //   const moviesIdArray = [...moviesId];
-    //   const movieTitlesArray = [...movieTitles];
-    //   const postersArray = [...Allposters];
-    //   for (var i = 0; i < response.data.length; i++) {
-    //     moviesIdArray[i] = response.data[i].movie_id;
-    //     movieTitlesArray[i] = response.data[i].title;
-    //     postersArray[i] = response.data[i].poster;
-    //   }
-    //   setMoviesId(moviesIdArray);
-    //   setmovieTitles(movieTitlesArray);
-    //   setAllposters(postersArray);
-    // });
+        if (moviesIdArray.length == numOfItrations * 4) {
+          console.log(movieTitlesArray);
+          setMoviesId(moviesIdArray);
+          setmovieTitles(movieTitlesArray);
+          setAllposters(postersArray);
+        }
+      });
+    }
   }, []);
 
   return /*#__PURE__*/_react.default.createElement("div", {
@@ -53487,53 +53478,49 @@ function genresPage(props) {
     src: props.arrowIcon
   }), /*#__PURE__*/_react.default.createElement("h1", {
     className: "genreTypeTitle neuton-normal-white-60px3"
-  }, props.genreTitle))), /*#__PURE__*/_react.default.createElement("div", {
+  }, allGens[0]))), /*#__PURE__*/_react.default.createElement("div", {
     className: "movies"
   }, runCallback(function () {
     var row = [];
+    var count = 0;
 
-    for (var i = 0; i <= 1; i++) {
-      var id = moviesInfo[i].movie_id;
-      var url = "/movieInfoPage/".concat(id); // const poster = Allposters[i];
-      // const title = movieTitles[i];
-      // // const reminder = i % 4;
-      // // if (reminder == 0) {
-      // //   reminder = 4;
-      // // }
+    for (var k = 0; k < 2; k++) {
+      for (var i = 0; i <= 3; i++) {
+        var id = moviesId[count];
+        var url = "/movieInfoPage/".concat(id);
+        var poster = Allposters[count];
+        var title = movieTitles[count++]; // // const reminder = i % 4;
+        // // if (reminder == 0) {
+        // //   reminder = 4;
+        // // }
 
-      var className1 = "Movie".concat(i);
-      row.push( /*#__PURE__*/_react.default.createElement("div", {
-        key: i
-      }, /*#__PURE__*/_react.default.createElement("div", {
-        className: className1
-      }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-        to: url
-      }, /*#__PURE__*/_react.default.createElement("div", {
-        className: "genresMovieName1 roboto-medium-white-15px"
-      }, moviesInfo[i].title), /*#__PURE__*/_react.default.createElement("div", {
-        className: "genresRating1 neuton-bold-white-30px3"
-      }, props.rating1), /*#__PURE__*/_react.default.createElement("img", {
-        className: "genresStar1",
-        src: props.star
-      }), /*#__PURE__*/_react.default.createElement("div", {
-        className: "genresGenreType1"
-      }, /*#__PURE__*/_react.default.createElement("div", {
-        className: "genresGenreTypeText1 roboto-normal-cardinal-12px3"
-      }, props.genresGenreTypeText1))))));
+        var className1 = "Movie".concat(count);
+        row.push( /*#__PURE__*/_react.default.createElement("div", {
+          key: i
+        }, /*#__PURE__*/_react.default.createElement("div", {
+          className: className1
+        }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+          to: url
+        }, /*#__PURE__*/_react.default.createElement("img", {
+          className: "genresMoviePoster1",
+          src: poster
+        }), /*#__PURE__*/_react.default.createElement("div", {
+          className: "genresMovieName1"
+        }, title), /*#__PURE__*/_react.default.createElement("div", {
+          className: "genresRating1 neuton-bold-white-30px3"
+        }, props.rating1), /*#__PURE__*/_react.default.createElement("img", {
+          className: "genresStar1",
+          src: props.star
+        }), /*#__PURE__*/_react.default.createElement("div", {
+          className: "genresGenreType1"
+        }, /*#__PURE__*/_react.default.createElement("div", {
+          className: "genresGenreTypeText1 roboto-normal-cardinal-12px3"
+        }, props.genresGenreTypeText1))))));
+      }
     }
 
     return row;
-  })), /*#__PURE__*/_react.default.createElement("div", {
-    className: "Movie2"
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "Movie4"
-  }), /*#__PURE__*/_react.default.createElement("img", {
-    className: "genresExpandMoviesLeft",
-    src: props.leftArrowIcon
-  }), /*#__PURE__*/_react.default.createElement("img", {
-    className: "genresExpandMoviesRight",
-    src: props.rightArrowIcon
-  })), /*#__PURE__*/_react.default.createElement("div", {
+  }))), /*#__PURE__*/_react.default.createElement("div", {
     className: "footer"
   }, " "), /*#__PURE__*/_react.default.createElement("img", {
     className: "footerLogo",
@@ -53560,7 +53547,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _react = _interopRequireDefault(require("react"));
+var _react = _interopRequireWildcard(require("react"));
 
 var _reactRouterDom = require("react-router-dom");
 
@@ -53568,9 +53555,39 @@ require("./genreTypePage.css");
 
 var _header = _interopRequireDefault(require("../header"));
 
+var _axios = _interopRequireDefault(require("axios"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 function genreTypePage(props) {
+  var runCallback = function runCallback(cb) {
+    return cb();
+  };
+
   var genreTitle = props.genreTitle,
       movieName1 = props.movieName1,
       movieName2 = props.movieName2,
@@ -53598,6 +53615,53 @@ function genreTypePage(props) {
       star = props.star,
       leftArrowIcon = props.leftArrowIcon,
       rightArrowIcon = props.rightArrowIcon;
+
+  var api = _axios.default.create({
+    baseURL: "http://localhost:3000/api/v1"
+  });
+
+  var _useState = (0, _react.useState)([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      moviesId = _useState2[0],
+      setMoviesId = _useState2[1];
+
+  var _useState3 = (0, _react.useState)([]),
+      _useState4 = _slicedToArray(_useState3, 2),
+      movieTitles = _useState4[0],
+      setmovieTitles = _useState4[1];
+
+  var _useState5 = (0, _react.useState)([]),
+      _useState6 = _slicedToArray(_useState5, 2),
+      Allposters = _useState6[0],
+      setAllposters = _useState6[1];
+
+  var _useParams = (0, _reactRouterDom.useParams)(),
+      genre = _useParams.genre;
+
+  _react.default.useEffect(function () {
+    var moviesIdArray = _toConsumableArray(moviesId);
+
+    var movieTitlesArray = _toConsumableArray(movieTitles);
+
+    var postersArray = _toConsumableArray(Allposters);
+
+    api.get("/movies/genresFilter/".concat(genre, "/50")).then(function (response) {
+      for (var i = 0; i < response.data.length; i++) {
+        moviesIdArray[i] = response.data[i].movie_id;
+        movieTitlesArray[i] = response.data[i].title;
+        postersArray[i] = response.data[i].poster;
+      } //if finish getting all movies --> then set valuse
+
+
+      if (moviesIdArray.length == response.data.length) {
+        console.log(movieTitlesArray);
+        setMoviesId(moviesIdArray);
+        setmovieTitles(movieTitlesArray);
+        setAllposters(postersArray);
+      }
+    });
+  }, []);
+
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "PageCenter"
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -53608,73 +53672,49 @@ function genreTypePage(props) {
     className: "body"
   }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h1", {
     className: "genreTypeTitle neuton-normal-white-60px3"
-  }, genreTitle)), /*#__PURE__*/_react.default.createElement("div", {
+  }, genre)), /*#__PURE__*/_react.default.createElement("div", {
     className: "movies"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "Movie1"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "genresMoviePoster1",
-    src: moviePoster
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresMovieName1 roboto-medium-white-15px"
-  }, movieName1), /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresRating1 neuton-bold-white-30px3"
-  }, rating1), /*#__PURE__*/_react.default.createElement("img", {
-    className: "genresStar1",
-    src: star
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresGenreType1"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresGenreTypeText1 roboto-normal-cardinal-12px3"
-  }, genresGenreTypeText1))), /*#__PURE__*/_react.default.createElement("div", {
-    className: "Movie2"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "genresMoviePoster1",
-    src: moviePoster
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresMovieName1 roboto-medium-white-15px"
-  }, movieName2), /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresRating1 neuton-bold-white-30px3"
-  }, rating2), /*#__PURE__*/_react.default.createElement("img", {
-    className: "genresStar1",
-    src: star
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresGenreType1"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresGenreTypeText1 roboto-normal-cardinal-12px3"
-  }, genresGenreTypeText2))), /*#__PURE__*/_react.default.createElement("div", {
-    className: "Movie3"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "genresMoviePoster1",
-    src: moviePoster
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresMovieName1 roboto-medium-white-15px"
-  }, movieName3), /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresRating1 neuton-bold-white-30px3"
-  }, rating3), /*#__PURE__*/_react.default.createElement("img", {
-    className: "genresStar1",
-    src: star
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresGenreType1"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresGenreTypeText1  roboto-normal-cardinal-12px3"
-  }, genresGenreTypeText3))), /*#__PURE__*/_react.default.createElement("div", {
-    className: "Movie4"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "genresMoviePoster1",
-    src: moviePoster
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresMovieName1 roboto-medium-white-15px"
-  }, movieName4), /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresRating1 neuton-bold-white-30px3"
-  }, rating4), /*#__PURE__*/_react.default.createElement("img", {
-    className: "genresStar1",
-    src: star
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresGenreType1"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresGenreTypeText1 roboto-normal-cardinal-12px3"
-  }, genresGenreTypeText4))))), /*#__PURE__*/_react.default.createElement("div", {
+  }, runCallback(function () {
+    var row = [];
+    var count = 0;
+
+    for (var k = 0; k < 2; k++) {
+      for (var i = 0; i <= 3; i++) {
+        var id = moviesId[count];
+        var url = "/movieInfoPage/".concat(id);
+        var poster = Allposters[count];
+        var title = movieTitles[count++]; // // const reminder = i % 4;
+        // // if (reminder == 0) {
+        // //   reminder = 4;
+        // // }
+
+        var className1 = "Movie".concat(count);
+        row.push( /*#__PURE__*/_react.default.createElement("div", {
+          key: i
+        }, /*#__PURE__*/_react.default.createElement("div", {
+          className: className1
+        }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+          to: url
+        }, /*#__PURE__*/_react.default.createElement("img", {
+          className: "genresMoviePoster1",
+          src: poster
+        }), /*#__PURE__*/_react.default.createElement("div", {
+          className: "genresMovieName1"
+        }, title), /*#__PURE__*/_react.default.createElement("div", {
+          className: "genresRating1 neuton-bold-white-30px3"
+        }, props.rating1), /*#__PURE__*/_react.default.createElement("img", {
+          className: "genresStar1",
+          src: props.star
+        }), /*#__PURE__*/_react.default.createElement("div", {
+          className: "genresGenreType1"
+        }, /*#__PURE__*/_react.default.createElement("div", {
+          className: "genresGenreTypeText1 roboto-normal-cardinal-12px3"
+        }, props.genresGenreTypeText1))))));
+      }
+    }
+
+    return row;
+  }))), /*#__PURE__*/_react.default.createElement("div", {
     className: "footer"
   }, " "), /*#__PURE__*/_react.default.createElement("img", {
     className: "footerLogo",
@@ -53688,218 +53728,12 @@ function genreTypePage(props) {
 
 var _default = genreTypePage;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./genreTypePage.css":"components/genreTypePage/genreTypePage.css","../header":"components/header/index.jsx"}],"components/movieInfoPage/movieInfoPage.css":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./genreTypePage.css":"components/genreTypePage/genreTypePage.css","../header":"components/header/index.jsx","axios":"node_modules/axios/index.js"}],"components/movieInfoPage/movieInfoPage.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../../../../node_modules/object-assign/index.js":[function(require,module,exports) {
-/*
-object-assign
-(c) Sindre Sorhus
-@license MIT
-*/
-'use strict';
-/* eslint-disable no-unused-vars */
-
-var getOwnPropertySymbols = Object.getOwnPropertySymbols;
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-var propIsEnumerable = Object.prototype.propertyIsEnumerable;
-
-function toObject(val) {
-  if (val === null || val === undefined) {
-    throw new TypeError('Object.assign cannot be called with null or undefined');
-  }
-
-  return Object(val);
-}
-
-function shouldUseNative() {
-  try {
-    if (!Object.assign) {
-      return false;
-    } // Detect buggy property enumeration order in older V8 versions.
-    // https://bugs.chromium.org/p/v8/issues/detail?id=4118
-
-
-    var test1 = new String('abc'); // eslint-disable-line no-new-wrappers
-
-    test1[5] = 'de';
-
-    if (Object.getOwnPropertyNames(test1)[0] === '5') {
-      return false;
-    } // https://bugs.chromium.org/p/v8/issues/detail?id=3056
-
-
-    var test2 = {};
-
-    for (var i = 0; i < 10; i++) {
-      test2['_' + String.fromCharCode(i)] = i;
-    }
-
-    var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
-      return test2[n];
-    });
-
-    if (order2.join('') !== '0123456789') {
-      return false;
-    } // https://bugs.chromium.org/p/v8/issues/detail?id=3056
-
-
-    var test3 = {};
-    'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
-      test3[letter] = letter;
-    });
-
-    if (Object.keys(Object.assign({}, test3)).join('') !== 'abcdefghijklmnopqrst') {
-      return false;
-    }
-
-    return true;
-  } catch (err) {
-    // We don't expect any of the above to throw, but better to be safe.
-    return false;
-  }
-}
-
-module.exports = shouldUseNative() ? Object.assign : function (target, source) {
-  var from;
-  var to = toObject(target);
-  var symbols;
-
-  for (var s = 1; s < arguments.length; s++) {
-    from = Object(arguments[s]);
-
-    for (var key in from) {
-      if (hasOwnProperty.call(from, key)) {
-        to[key] = from[key];
-      }
-    }
-
-    if (getOwnPropertySymbols) {
-      symbols = getOwnPropertySymbols(from);
-
-      for (var i = 0; i < symbols.length; i++) {
-        if (propIsEnumerable.call(from, symbols[i])) {
-          to[symbols[i]] = from[symbols[i]];
-        }
-      }
-    }
-  }
-
-  return to;
-};
-},{}],"../../../../node_modules/prop-types/lib/ReactPropTypesSecret.js":[function(require,module,exports) {
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-'use strict';
-
-var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
-
-module.exports = ReactPropTypesSecret;
-
-},{}],"../../../../node_modules/prop-types/checkPropTypes.js":[function(require,module,exports) {
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-'use strict';
-
-var printWarning = function () {};
-
-if ("development" !== 'production') {
-  var ReactPropTypesSecret = require('./lib/ReactPropTypesSecret');
-
-  var loggedTypeFailures = {};
-  var has = Function.call.bind(Object.prototype.hasOwnProperty);
-
-  printWarning = function (text) {
-    var message = 'Warning: ' + text;
-
-    if (typeof console !== 'undefined') {
-      console.error(message);
-    }
-
-    try {
-      // --- Welcome to debugging React ---
-      // This error was thrown as a convenience so that you can use this stack
-      // to find the callsite that caused this warning to fire.
-      throw new Error(message);
-    } catch (x) {}
-  };
-}
-/**
- * Assert that the values match with the type specs.
- * Error messages are memorized and will only be shown once.
- *
- * @param {object} typeSpecs Map of name to a ReactPropType
- * @param {object} values Runtime values that need to be type-checked
- * @param {string} location e.g. "prop", "context", "child context"
- * @param {string} componentName Name of the component for error messages.
- * @param {?Function} getStack Returns the component stack.
- * @private
- */
-
-
-function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
-  if ("development" !== 'production') {
-    for (var typeSpecName in typeSpecs) {
-      if (has(typeSpecs, typeSpecName)) {
-        var error; // Prop type validation may throw. In case they do, we don't want to
-        // fail the render phase where it didn't fail before. So we log it.
-        // After these have been cleaned up, we'll let them throw.
-
-        try {
-          // This is intentionally an invariant that gets caught. It's the same
-          // behavior as without this statement except with a better message.
-          if (typeof typeSpecs[typeSpecName] !== 'function') {
-            var err = Error((componentName || 'React class') + ': ' + location + ' type `' + typeSpecName + '` is invalid; ' + 'it must be a function, usually from the `prop-types` package, but received `' + typeof typeSpecs[typeSpecName] + '`.');
-            err.name = 'Invariant Violation';
-            throw err;
-          }
-
-          error = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, ReactPropTypesSecret);
-        } catch (ex) {
-          error = ex;
-        }
-
-        if (error && !(error instanceof Error)) {
-          printWarning((componentName || 'React class') + ': type specification of ' + location + ' `' + typeSpecName + '` is invalid; the type checker ' + 'function must return `null` or an `Error` but returned a ' + typeof error + '. ' + 'You may have forgotten to pass an argument to the type checker ' + 'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' + 'shape all require an argument).');
-        }
-
-        if (error instanceof Error && !(error.message in loggedTypeFailures)) {
-          // Only monitor this failure once because there tends to be a lot of the
-          // same error.
-          loggedTypeFailures[error.message] = true;
-          var stack = getStack ? getStack() : '';
-          printWarning('Failed ' + location + ' type: ' + error.message + (stack != null ? stack : ''));
-        }
-      }
-    }
-  }
-}
-/**
- * Resets warning cache when testing.
- *
- * @private
- */
-
-
-checkPropTypes.resetWarningCache = function () {
-  if ("development" !== 'production') {
-    loggedTypeFailures = {};
-  }
-};
-
-module.exports = checkPropTypes;
-},{"./lib/ReactPropTypesSecret":"../../../../node_modules/prop-types/lib/ReactPropTypesSecret.js"}],"../../../../node_modules/react/cjs/react.development.js":[function(require,module,exports) {
+},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"node_modules/react-owl-carousel/node_modules/react/cjs/react.development.js":[function(require,module,exports) {
 /** @license React v16.14.0
  * react.development.js
  *
@@ -55776,7 +55610,7 @@ if ("development" !== "production") {
     exports.version = ReactVersion;
   })();
 }
-},{"object-assign":"../../../../node_modules/object-assign/index.js","prop-types/checkPropTypes":"../../../../node_modules/prop-types/checkPropTypes.js"}],"../../../../node_modules/react/index.js":[function(require,module,exports) {
+},{"object-assign":"node_modules/object-assign/index.js","prop-types/checkPropTypes":"node_modules/prop-types/checkPropTypes.js"}],"node_modules/react-owl-carousel/node_modules/react/index.js":[function(require,module,exports) {
 'use strict';
 
 if ("development" === 'production') {
@@ -55784,7 +55618,7 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react.development.js');
 }
-},{"./cjs/react.development.js":"../../../../node_modules/react/cjs/react.development.js"}],"../../../../node_modules/react-owl-carousel/umd/OwlCarousel.js":[function(require,module,exports) {
+},{"./cjs/react.development.js":"node_modules/react-owl-carousel/node_modules/react/cjs/react.development.js"}],"node_modules/react-owl-carousel/umd/OwlCarousel.js":[function(require,module,exports) {
 var define;
 var global = arguments[3];
 (function (global, factory) {
@@ -59387,13 +59221,13 @@ var global = arguments[3];
 
 })));
 
-},{"react":"../../../../node_modules/react/index.js"}],"../../../../node_modules/owl.carousel/dist/assets/owl.carousel.css":[function(require,module,exports) {
+},{"react":"node_modules/react-owl-carousel/node_modules/react/index.js"}],"node_modules/owl.carousel/dist/assets/owl.carousel.css":[function(require,module,exports) {
 
         var reloadCSS = require('_css_loader');
         module.hot.dispose(reloadCSS);
         module.hot.accept(reloadCSS);
       
-},{"./owl.video.play.png":[["owl.video.play.f4603e1d.png","../../../../node_modules/owl.carousel/dist/assets/owl.video.play.png"],"../../../../node_modules/owl.carousel/dist/assets/owl.video.play.png"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../../../../node_modules/owl.carousel/dist/assets/owl.theme.default.css":[function(require,module,exports) {
+},{"./owl.video.play.png":[["owl.video.play.0094e0a6.png","node_modules/owl.carousel/dist/assets/owl.video.play.png"],"node_modules/owl.carousel/dist/assets/owl.video.play.png"],"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"node_modules/owl.carousel/dist/assets/owl.theme.default.css":[function(require,module,exports) {
 
         var reloadCSS = require('_css_loader');
         module.hot.dispose(reloadCSS);
@@ -59616,6 +59450,16 @@ function MovieInfoPage(props) {
       userReviews = _useState36[0],
       setUserReviews = _useState36[1];
 
+  var _useState37 = (0, _react.useState)(),
+      _useState38 = _slicedToArray(_useState37, 2),
+      totalRating = _useState38[0],
+      setTotalRating = _useState38[1];
+
+  var _useState39 = (0, _react.useState)(),
+      _useState40 = _slicedToArray(_useState39, 2),
+      totalUsersRating = _useState40[0],
+      setTotalUsersRating = _useState40[1];
+
   var _useParams = (0, _reactRouterDom.useParams)(),
       id = _useParams.id;
 
@@ -59636,15 +59480,15 @@ function MovieInfoPage(props) {
   //var userRating;
 
 
-  var _useState37 = (0, _react.useState)(false),
-      _useState38 = _slicedToArray(_useState37, 2),
-      haveRated = _useState38[0],
-      sethaveRated = _useState38[1];
+  var _useState41 = (0, _react.useState)(false),
+      _useState42 = _slicedToArray(_useState41, 2),
+      haveRated = _useState42[0],
+      sethaveRated = _useState42[1];
 
-  var _useState39 = (0, _react.useState)(),
-      _useState40 = _slicedToArray(_useState39, 2),
-      userRating = _useState40[0],
-      setuserRating = _useState40[1];
+  var _useState43 = (0, _react.useState)(),
+      _useState44 = _slicedToArray(_useState43, 2),
+      userRating = _useState44[0],
+      setuserRating = _useState44[1];
 
   var rating;
 
@@ -59810,6 +59654,15 @@ function MovieInfoPage(props) {
       setCastNames(newArr1);
       setCastImgs(newArr2);
       setCastRoles(newArr3);
+    }); //Get Rating
+
+    api.get("/movies/rating/".concat(id)).then(function (response) {
+      if (response.data.length == 0) {
+        setTotalUsersRating(0);
+      } else {
+        setTotalRating(response.data[0].total_rating);
+        setTotalUsersRating(response.data[0].total_users);
+      }
     }); //Get Reviews
 
     api.get("/movies/review/".concat(id)).then(function (response) {
@@ -60096,7 +59949,7 @@ function MovieInfoPage(props) {
 
 var _default = MovieInfoPage;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./movieInfoPage.css":"components/movieInfoPage/movieInfoPage.css","axios":"node_modules/axios/index.js","universal-cookie":"node_modules/universal-cookie/es6/index.js","jwt-decode":"node_modules/jwt-decode/build/jwt-decode.esm.js","../header":"components/header/index.jsx","react-owl-carousel":"../../../../node_modules/react-owl-carousel/umd/OwlCarousel.js","owl.carousel/dist/assets/owl.carousel.css":"../../../../node_modules/owl.carousel/dist/assets/owl.carousel.css","owl.carousel/dist/assets/owl.theme.default.css":"../../../../node_modules/owl.carousel/dist/assets/owl.theme.default.css"}],"components/reviewPage/reviewPage.css":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./movieInfoPage.css":"components/movieInfoPage/movieInfoPage.css","axios":"node_modules/axios/index.js","universal-cookie":"node_modules/universal-cookie/es6/index.js","jwt-decode":"node_modules/jwt-decode/build/jwt-decode.esm.js","../header":"components/header/index.jsx","react-owl-carousel":"node_modules/react-owl-carousel/umd/OwlCarousel.js","owl.carousel/dist/assets/owl.carousel.css":"node_modules/owl.carousel/dist/assets/owl.carousel.css","owl.carousel/dist/assets/owl.theme.default.css":"node_modules/owl.carousel/dist/assets/owl.theme.default.css"}],"components/reviewPage/reviewPage.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -60481,7 +60334,7 @@ function App() {
   }, /*#__PURE__*/_react.default.createElement(_homePage.default, homePageData)), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/genresPage"
   }, /*#__PURE__*/_react.default.createElement(_genresPage.default, genresPageData)), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
-    path: "/genreTypePage"
+    path: "/genreTypePage/:genre"
   }, /*#__PURE__*/_react.default.createElement(_genreTypePage.default, genreTypePageData)), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
     path: "/movieInfoPage/:id"
   }, /*#__PURE__*/_react.default.createElement(_movieInfoPage.default, movieInfoPageData)), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
@@ -60738,7 +60591,7 @@ require("owl.carousel/dist/assets/owl.theme.default.css");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 _reactDom.default.render( /*#__PURE__*/_react.default.createElement(_App.default, null), document.getElementById("app"));
-},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","./globals.css":"globals.css","./styleguide.css":"styleguide.css","./App":"App.jsx","bootstrap/dist/css/bootstrap.min.css":"node_modules/bootstrap/dist/css/bootstrap.min.css","owl.carousel/dist/assets/owl.carousel.css":"../../../../node_modules/owl.carousel/dist/assets/owl.carousel.css","owl.carousel/dist/assets/owl.theme.default.css":"../../../../node_modules/owl.carousel/dist/assets/owl.theme.default.css"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","./globals.css":"globals.css","./styleguide.css":"styleguide.css","./App":"App.jsx","bootstrap/dist/css/bootstrap.min.css":"node_modules/bootstrap/dist/css/bootstrap.min.css","owl.carousel/dist/assets/owl.carousel.css":"node_modules/owl.carousel/dist/assets/owl.carousel.css","owl.carousel/dist/assets/owl.theme.default.css":"node_modules/owl.carousel/dist/assets/owl.theme.default.css"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -60766,7 +60619,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "1508" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62116" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

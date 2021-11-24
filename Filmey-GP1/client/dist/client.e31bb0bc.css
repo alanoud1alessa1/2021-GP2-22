@@ -2475,28 +2475,28 @@ top:0px;
 position: absolute;
 }
 
-  .Movie1{
+  .Movie4{
     left: 172px; 
     cursor: pointer;
     position: relative;
     top: 360px;
   }
 
-  .Movie2{
+  .Movie3{
     cursor: pointer;
     left: 630px; 
     position: relative;
     top: 345px;
   }
 
-  .Movie3{
+  .Movie2{
     cursor: pointer;
     left: 1070px; 
     position: relative;
     top: 330px;
   }
 
-  .Movie4{
+  .Movie1{
     cursor: pointer;
     left: 1510px; 
     position: relative;
@@ -2518,6 +2518,7 @@ position: absolute;
     top: 0px;
     width: 332px;
   }
+  
   
   .genresMovieName1 {
     left: 40px;
@@ -2766,6 +2767,33 @@ position: absolute;
     top: 1302px;
     width: 344px;
   }
+  
+
+   .Movie8{
+    cursor: pointer;
+    left: 1530px; 
+    position: relative;
+    top: 700px;
+  }
+  .Movie7{
+    cursor: pointer;
+    left: 1070px; 
+    position: relative;
+    top: 700px;
+  }
+  .Movie6{
+    cursor: pointer;
+    left: 590px; 
+    position: relative;
+    top: 700px;
+  }
+  .Movie5{
+    cursor: pointer;
+    left: 10px; 
+    position: relative;
+    top: 700px;
+  }
+
   
 .genresPage {
   align-items: flex-start;
@@ -4686,7 +4714,7 @@ width: 20px;
   top: 50%;
   margin-left: -40px;
   margin-top: -40px;
-  background: url("/owl.video.play.f4603e1d.png") no-repeat;
+  background: url("/owl.video.play.0094e0a6.png") no-repeat;
   cursor: pointer;
   z-index: 1;
   -webkit-backface-visibility: hidden;

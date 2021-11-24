@@ -114,6 +114,8 @@ const [numOfCasts,setNumOfCasts]=useState(0);
 const [reviews,setReviews]=useState([""]);
 const [userReviews,setUserReviews]=useState([""]);
 
+const [totalRating,setTotalRating]=useState();
+const [totalUsersRating,setTotalUsersRating]=useState();
 
 
   let {id} = useParams();
@@ -322,6 +324,21 @@ setCastImgs(newArr2);
 setCastRoles(newArr3);
 });
   
+//Get Rating
+api.get(`/movies/rating/${id}`).then((response)=>{
+
+
+  if(response.data.length == 0){
+    setTotalUsersRating(0);
+
+  }
+  else{
+    setTotalRating(response.data[0].total_rating ) ;
+    setTotalUsersRating(response.data[0].total_users );
+  }
+
+});
+
  
 //Get Reviews
 api.get(`/movies/review/${id}`).then((response)=>{

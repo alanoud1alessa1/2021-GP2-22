@@ -26,7 +26,7 @@ function App() {
         <Route path="/genresPage">
           <GenresPage {...genresPageData} />
         </Route>
-        <Route path="/genreTypePage">
+        <Route path="/genreTypePage/:genre">
           <GenreTypePage {...genreTypePageData} />
         </Route>
         <Route path="/movieInfoPage/:id">

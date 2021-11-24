@@ -110,11 +110,11 @@ router.get("/topMovies/:numberofmovies", async (req, res, next) => {
   }
 });
 
-router.get("/genresFilterTopFour/:genreType", async (req, res, next) => {
-  const { genreType } = req.params;
+router.get("/genresFilter/:genreType/:limit", async (req, res, next) => {
+  const { genreType  , limit} = req.params;
   try {
 
-        const movies = await queries.getTopFourBasedOnGenre(genreType);
+        const movies = await queries.getBasedOnGenre(genreType , limit);
 
     if (movies) {
       return res.json(movies);
@@ -124,6 +124,8 @@ router.get("/genresFilterTopFour/:genreType", async (req, res, next) => {
     return next(error);
   }
 });
+
+
 
 router.get("/review/:id", async (req, res, next) => {
   const { id } = req.params;
