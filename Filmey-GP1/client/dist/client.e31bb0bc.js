@@ -59766,7 +59766,7 @@ function MovieInfoPage(props) {
   }), /*#__PURE__*/_react.default.createElement("div", {
     className: "userRating"
   }, userRating), /*#__PURE__*/_react.default.createElement("div", {
-    className: "fiveText"
+    className: "fiveText1"
   }, "/ 5"))), haveRated && /*#__PURE__*/_react.default.createElement("button", {
     className: "removeRatingText neuton-normal-white-20px",
     onClick: deleteRating
@@ -59785,9 +59785,11 @@ function MovieInfoPage(props) {
     src: "/img/star-2@2x.svg"
   }), /*#__PURE__*/_react.default.createElement("div", {
     className: "movieRating"
-  }, movieRating), /*#__PURE__*/_react.default.createElement("div", {
-    className: "fiveText"
-  }, "/ 5")), /*#__PURE__*/_react.default.createElement("div", {
+  }, totalRating), /*#__PURE__*/_react.default.createElement("div", {
+    className: "fiveText2"
+  }, "/ 5 "), /*#__PURE__*/_react.default.createElement("div", {
+    className: "totalUsersRating"
+  }, "(", totalUsersRating, " ratings)")), /*#__PURE__*/_react.default.createElement("div", {
     className: "pgAndTime"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "pgContainer"
@@ -59872,7 +59874,7 @@ function MovieInfoPage(props) {
         className: "castName1 neuton-bold-white-20px"
       }, castName), /*#__PURE__*/_react.default.createElement("div", {
         className: "castRole1 roboto-normal-white-15px"
-      }, castRole)))));
+      }, "as ", castRole)))));
     }
 
     return row;
@@ -59904,12 +59906,12 @@ function MovieInfoPage(props) {
   }), runCallback(function () {
     var row = [];
 
-    if (reviews.length > 1) {
+    if (reviews.length > 0) {
       for (var i = 0; i < reviews.length; i++) {
         row.push( /*#__PURE__*/_react.default.createElement("div", {
           key: i
         }, /*#__PURE__*/_react.default.createElement("div", {
-          className: "userReviewContainer neuton-bold-white-20px"
+          className: "userReviewContainer"
         }, /*#__PURE__*/_react.default.createElement("div", {
           className: "reviewerUsername neuton-bold-white-20px"
         }, /*#__PURE__*/_react.default.createElement("div", {
@@ -59919,7 +59921,7 @@ function MovieInfoPage(props) {
           width: "40",
           height: "30"
         }), " "), /*#__PURE__*/_react.default.createElement("div", null, " ", userReviews[i], " ")), /*#__PURE__*/_react.default.createElement("div", {
-          className: "userReview"
+          className: "userReview roboto-normal-white-20px"
         }, reviews[i]))));
       }
 
@@ -60619,7 +60621,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62116" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "6521" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

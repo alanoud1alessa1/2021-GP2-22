@@ -362,243 +362,243 @@ api.get(`/movies/review/${id}`).then((response)=>{
 }, []);
 
 
+return (
+  <div className="PageCenter">
+    <div className="movieInfo screen">
+      <div className="movieInfoContainer">
+        <body>
+          {/* Header */}
+          <header>
+            <Header/> 
+          </header>
 
 
-  return (
-    <div className="PageCenter">
-      <div className="movieInfo screen">
-        <div className="movieInfoContainer">
-          <body>
-            {/* Header */}
-            <header>
-              <Header/> 
-            </header>
+          {/* main  */}
+          <main>
+            <div className="body"></div>
+              <img className="moviePoster" src={poster}/>
+              <div className="trailer">
+                <a className="playTrailerText" href={trailer_url} target="_blank">{playTrailerText}  </a>
+                <i  className="fa fa-play-circle"> </i>                  
+              </div>
 
+               {/*  add rating */}
+               {(!haveRated  && !isAdmin) && (
+                <div className="addRating">
+                  <div className="rateItText neuton-normal-white-30px">Rate it !</div>
+                  <div class="rating-css">
+                    <div class="star-icon" 
+                    onChange={
+                        (e)=>{
+                          addRating(e.target.value); 
+                        }
+                      }
+                      >
+                      <input type="radio" name="rating1" id="rating1" value="5"/>
+                      <label for="rating1" className="fas fa-star" ></label>
+                      <input type="radio" name="rating1" id="rating2" value="4"/>
+                      <label for="rating2" className="fas fa-star"></label>
+                      <input type="radio" name="rating1" id="rating3" value="3"/>
+                      <label for="rating3" className="fas fa-star"></label>
+                      <input type="radio" name="rating1" id="rating4" value="2"/>
+                      <label for="rating4" className="fas fa-star"></label>
+                      <input type="radio" name="rating1" id="rating5" value="1"/>
+                      <label for="rating5" className="fas fa-star"></label>
+                    </div>
+                  </div>   
+               </div> )}
+                  
+                  
+                  {/* after add rating */}
+                  {(haveRated) && (
+                  <div  className="afterRating">
+                    <div className="yourRatingText neuton-normal-white-30px">{yourRatingText}</div>
+                    <div className="movieRatingContainer2">
+                      <img className="afterRatingStar" src="/img/star-2@2x.svg" />
+                      <div className="userRating">{userRating}</div>
+                      <div className="fiveText1">/ 5</div> 
+                    </div> 
+                  </div>  )}
 
-            {/* main  */}
-            <main>
-              <div className="body"></div>
-                <img className="moviePoster" src={poster}/>
-                <div className="trailer">
-                  <a className="playTrailerText" href={trailer_url} target="_blank">{playTrailerText}  </a>
-                  <i  className="fa fa-play-circle"> </i>                  
+                 
+                  {/* remove rating */}
+                  {(haveRated) && (
+                  <button className="removeRatingText neuton-normal-white-20px"  onClick={deleteRating}>Remove Rating</button>)}
+   
+              <div className="movieInfo">
+                <div className="movieTitle">
+                  <div className="movieName">{title} <span className="movieYear"> ({year})</span></div>
+                  <div className="movieRatingContainer">
+                    <img className="star" src="/img/star-2@2x.svg" />
+                    <div className="movieRating">{totalRating}</div> 
+                    <div className="fiveText2">/ 5 </div> 
+                    <div className="totalUsersRating">({totalUsersRating} ratings)</div> 
+                    
+                  </div>
+                  <div className="pgAndTime">
+                    <div className="pgContainer"> 
+                        <div className="moviepg neuton-bold-white-20px">{age_guide}</div>
+                    </div>
+                    <div className="timeContainer">
+                    <div className="movieTime neuton-bold-white-20px">{length}</div>
+                    </div>
+                  </div>
                 </div>
 
-                 {/*  add rating */}
-                 {(!haveRated  && !isAdmin) && (
-                  <div className="addRating">
-                    <div className="rateItText neuton-normal-white-30px">Rate it !</div>
-                    <div class="rating-css">
-                      <div class="star-icon" 
-                      onChange={
-                          (e)=>{
-                            addRating(e.target.value); 
-                          }
-                        }
-                        >
-                        <input type="radio" name="rating1" id="rating1" value="5"/>
-                        <label for="rating1" className="fas fa-star" ></label>
-                        <input type="radio" name="rating1" id="rating2" value="4"/>
-                        <label for="rating2" className="fas fa-star"></label>
-                        <input type="radio" name="rating1" id="rating3" value="3"/>
-                        <label for="rating3" className="fas fa-star"></label>
-                        <input type="radio" name="rating1" id="rating4" value="2"/>
-                        <label for="rating4" className="fas fa-star"></label>
-                        <input type="radio" name="rating1" id="rating5" value="1"/>
-                        <label for="rating5" className="fas fa-star"></label>
-                      </div>
-                    </div>   
-                 </div> )}
-                    
-                    
-                    {/* after add rating */}
-                    {(haveRated) && (
-                    <div  className="afterRating">
-                      <div className="yourRatingText neuton-normal-white-30px">{yourRatingText}</div>
-                      <div className="movieRatingContainer2">
-                        <img className="afterRatingStar" src="/img/star-2@2x.svg" />
-                        <div className="userRating">{userRating}</div>
-                        <div className="fiveText">/ 5</div> 
-                      </div> 
-                    </div>  )}
-
-                   
-                    {/* remove rating */}
-                    {(haveRated) && (
-                    <button className="removeRatingText neuton-normal-white-20px"  onClick={deleteRating}>Remove Rating</button>)}
-     
-                <div className="movieInfo">
-                  <div className="movieTitle">
-                    <div className="movieName">{title} <span className="movieYear"> ({year})</span></div>
-                    <div className="movieRatingContainer">
-                      <img className="star" src="/img/star-2@2x.svg" />
-                      <div className="movieRating">{movieRating}</div> 
-                      <div className="fiveText">/ 5</div> 
-                    </div>
-                    <div className="pgAndTime">
-                      <div className="pgContainer"> 
-                          <div className="moviepg neuton-bold-white-20px">{age_guide}</div>
-                      </div>
-                      <div className="timeContainer">
-                      <div className="movieTime neuton-bold-white-20px">{length}</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="movieGenreContainer">
-                    <div className="movieInfoGenre neuton-bold-white-24px">{genreText}</div>
-                    <div className="movieInfoGenreType roboto-normal-baby-powder-25px">{genre}</div>
-                  </div>
-                  
-                  <div className="movieDesContainer"> 
-                    <div className="line1Container"><img className="line1" src="/img/line-5@1x.svg" /></div>
-                    <div className="descriptionText neuton-bold-white-24px">{descriptionText}</div>
-                    <div className="movieDes roboto-normal-baby-powder-25px">{description}</div>
-                  </div>
-
-                  <div className="movieDirectorContainer">
-                    <div className="line2Container"><img className="line2" src="/img/line-5@1x.svg" /></div>
-                    <div className="directorText neuton-bold-white-24px">{directorText}</div>
-                    <div className="directorName roboto-normal-baby-powder-25px">{directors}</div>
-                  </div>
-
-                  <div className="movieWritersContainer">
-                    <div className="line3Container"> <img className="line3" src="/img/line-5@1x.svg" /> </div>
-                    <div className="writersText neuton-bold-white-24px">{writersText}</div>
-                    <div className="writersName roboto-normal-baby-powder-25px">{writers}</div>
-                  </div>
-                  
-                  <div className="movielanguageContainer"> 
-                    <img className="line4" src="/img/line-5@1x.svg" />
-                    <div className="languageText2 neuton-bold-white-24px">{languageText2}</div>
-                    <div className="movieLanguage roboto-normal-baby-powder-25px">{languages}</div>
-                  </div> 
+                <div className="movieGenreContainer">
+                  <div className="movieInfoGenre neuton-bold-white-24px">{genreText}</div>
+                  <div className="movieInfoGenreType roboto-normal-baby-powder-25px">{genre}</div>
                 </div>
                 
-                {/* top cast */}
-                <div className="topCast">
-                  <div className="topCastText neuton-normal-white-60px5">{topCastText}</div>
-                  <img className="topCastLine" src={redLine}/>
-
-                  {/* casts loop	 */}
-                  {runCallback(() => {
-                  const row = [];
-                  for (var i = 0; i < numOfCasts; i++) {
-                    const castImg = castImgs[i];
-                    const castName = castNames[i];
-                    const castRole = castRoles[i];
-
-                    row.push(
-                    <div key={i}>
-                    {
-                    <div className="castLoop">  
-                    <div className="cast1">
-                      <img className="castImage1" src={castImg} />
-                      <div className="castName1 neuton-bold-white-20px">{castName}</div>
-                      <div className="castRole1 roboto-normal-white-15px">{castRole}</div>
-                    </div>
-                    </div>
-                    }
-                    </div>
-                    );
-                  }
-                  return row;
-                  })}
-              
+                <div className="movieDesContainer"> 
+                  <div className="line1Container"><img className="line1" src="/img/line-5@1x.svg" /></div>
+                  <div className="descriptionText neuton-bold-white-24px">{descriptionText}</div>
+                  <div className="movieDes roboto-normal-baby-powder-25px">{description}</div>
                 </div>
 
-                {/* reviews */}
-                <div className="reviewsContainer">
-                  <img className="reviewsLine" src={redLine} />
-                  <div className="reviewsText neuton-normal-white-60px5">{reviewsText}</div>
-                  <div className="addReview">
-                    {/* <Link to="/reviewPage">
-                      <img className="reviewIcon" src={reviewIcon}/>
-                      <img className="reviewIcon2" src={addIcon} />
-                      <div>
-                        <div className="reviewItText neuton-normal-white-30px">{reviewItText}</div>
-                      </div>
-                    </Link>      */}
-                    {/* <Link to={reviewURL}>
-                      <img className="reviewIcon" src={reviewIcon}/>
-                      <img className="reviewIcon2" src={addIcon} />
-                      <div>
-                        <div className="reviewItText neuton-normal-white-30px">{reviewItText}</div>
-                      </div>
-                    </Link>     */}
-                    {(!isAdmin) && (
-                     <button onClick={addReview} >
-                      <img className="reviewIcon" src={reviewIcon}/>
-                      <img className="reviewIcon2" src={addIcon} />
-                      <div>
-                        <div className="reviewItText neuton-normal-white-30px">{reviewItText}</div>
-                      </div>
-                    </button>  )}  
+                <div className="movieDirectorContainer">
+                  <div className="line2Container"><img className="line2" src="/img/line-5@1x.svg" /></div>
+                  <div className="directorText neuton-bold-white-24px">{directorText}</div>
+                  <div className="directorName roboto-normal-baby-powder-25px">{directors}</div>
+                </div>
+
+                <div className="movieWritersContainer">
+                  <div className="line3Container"> <img className="line3" src="/img/line-5@1x.svg" /> </div>
+                  <div className="writersText neuton-bold-white-24px">{writersText}</div>
+                  <div className="writersName roboto-normal-baby-powder-25px">{writers}</div>
+                </div>
+                
+                <div className="movielanguageContainer"> 
+                  <img className="line4" src="/img/line-5@1x.svg" />
+                  <div className="languageText2 neuton-bold-white-24px">{languageText2}</div>
+                  <div className="movieLanguage roboto-normal-baby-powder-25px">{languages}</div>
+                </div> 
+              </div>
+              
+              {/* top cast */}
+              <div className="topCast">
+                <div className="topCastText neuton-normal-white-60px5">{topCastText}</div>
+                <img className="topCastLine" src={redLine}/>
+
+                {/* casts loop	 */}
+                {runCallback(() => {
+                const row = [];
+                for (var i = 0; i < numOfCasts; i++) {
+                  const castImg = castImgs[i];
+                  const castName = castNames[i];
+                  const castRole = castRoles[i];
+
+                  row.push(
+                  <div key={i}>
+                  {
+                  <div className="castLoop">  
+                  <div className="cast1">
+                    <img className="castImage1" src={castImg} />
+                    <div className="castName1 neuton-bold-white-20px">{castName}</div>
+                    <div className="castRole1 roboto-normal-white-15px">as {castRole}</div>
                   </div>
-                  {/* reviews loop */}
+                  </div>
+                  }
+                  </div>
+                  );
+                }
+                return row;
+                })}
+            
+              </div>
 
-                  <div className="userReviews">
-                          <OwlCarousel className="owl-theme"  
-                          {...options}   
-                          nav
-                          >
-                   {runCallback(() => {
-                            const row = [];
-                            if (reviews.length>1){
-                            for (var i = 0; i < reviews.length; i++) {
-                              row.push(
-                              <div key={i}>
-                              {
-                               <div className="userReviewContainer neuton-bold-white-20px">    
-                                 <div className="reviewerUsername neuton-bold-white-20px">
-                                   <div className="reviewerUsernameIcon"> <img src={"/img/regUser.png"}  width="40" height="30"/> </div>
-                                   <div> {userReviews[i]} </div>
-                                 </div>      
-                                 <div className="userReview">
-                                   {reviews[i]}
-                                 </div>      
-                                 
-                              </div>
-                              }
-                              </div>
-                              );
-                            }
-                            return row;
-                          }
-                          else{
+              {/* reviews */}
+              <div className="reviewsContainer">
+                <img className="reviewsLine" src={redLine} />
+                <div className="reviewsText neuton-normal-white-60px5">{reviewsText}</div>
+                <div className="addReview">
+                  {/* <Link to="/reviewPage">
+                    <img className="reviewIcon" src={reviewIcon}/>
+                    <img className="reviewIcon2" src={addIcon} />
+                    <div>
+                      <div className="reviewItText neuton-normal-white-30px">{reviewItText}</div>
+                    </div>
+                  </Link>      */}
+                  {/* <Link to={reviewURL}>
+                    <img className="reviewIcon" src={reviewIcon}/>
+                    <img className="reviewIcon2" src={addIcon} />
+                    <div>
+                      <div className="reviewItText neuton-normal-white-30px">{reviewItText}</div>
+                    </div>
+                  </Link>     */}
+                  {(!isAdmin) && (
+                   <button onClick={addReview} >
+                    <img className="reviewIcon" src={reviewIcon}/>
+                    <img className="reviewIcon2" src={addIcon} />
+                    <div>
+                      <div className="reviewItText neuton-normal-white-30px">{reviewItText}</div>
+                    </div>
+                  </button>  )}  
+                </div>
+                {/* reviews loop */}
+
+                <div className="userReviews">
+                        <OwlCarousel className="owl-theme"  
+                        {...options}   
+                        nav
+                        >
+                 {runCallback(() => {
+                          const row = [];
+                          if (reviews.length>0){
+                          for (var i = 0; i < reviews.length; i++) {
                             row.push(
-                              <div key={i}>
-                              {
-                               <div className="noReviews neuton-bold-white-20px">    
-                                The movie has no reviews yet.
-                               </div>
-                              }
-                              </div>
-                              );
+                            <div key={i}>
+                            {
+                             <div className="userReviewContainer">    
+                               <div className="reviewerUsername neuton-bold-white-20px">
+                                 <div className="reviewerUsernameIcon"> <img src={"/img/regUser.png"}  width="40" height="30"/> </div>
+                                 <div> {userReviews[i]} </div>
+                               </div>      
+                               <div className="userReview roboto-normal-white-20px">
+                                 {reviews[i]}
+                               </div>      
+                               
+                            </div>
                             }
-                            return row;
+                            </div>
+                            );
                           }
-                   )}
-                    </OwlCarousel> 
-                  </div>                  
-            </div>
-            </main>
+                          return row;
+                        }
+                        else{
+                          row.push(
+                            <div key={i}>
+                            {
+                             <div className="noReviews neuton-bold-white-20px">    
+                              The movie has no reviews yet.
+                             </div>
+                            }
+                            </div>
+                            );
+                          }
+                          return row;
+                        }
+                 )}
+                  </OwlCarousel> 
+                </div>                  
+          </div>
+          </main>
 
-              {/* footer */}
-            <footer className="footer">
-             <div className="movieInfofooter"> </div>
-               <img className="movieInfofooterLogo" src={logo} />
-               <div className="movieInfofooterText1">{footerText1}</div>
-               <div className="movieInfocopyRightText inter-light-bon-jour-35px2">
-                 <span>{footerText2}</span>
-               </div>
-            </footer>
+            {/* footer */}
+          <footer className="footer">
+           <div className="movieInfofooter"> </div>
+             <img className="movieInfofooterLogo" src={logo} />
+             <div className="movieInfofooterText1">{footerText1}</div>
+             <div className="movieInfocopyRightText inter-light-bon-jour-35px2">
+               <span>{footerText2}</span>
+             </div>
+          </footer>
 
-          </body>
-        </div>
+        </body>
       </div>
     </div>
-  );
+  </div>
+);
 }
 
 export default MovieInfoPage;

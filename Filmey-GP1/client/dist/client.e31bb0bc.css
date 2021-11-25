@@ -3477,7 +3477,7 @@ position: absolute;
   width: 80px;
 }
 
-.fiveText{
+.fiveText1{
   color: var(--white);
   font-family: var(--font-family-neuton);
   font-size: var(--font-size-xxxxl5);
@@ -3492,6 +3492,44 @@ position: absolute;
   transform: rotate(-0.42deg);
   width: 114px;
 }
+
+.fiveText2{
+  color: var(--white);
+  font-family: var(--font-family-neuton);
+  font-size: var(--font-size-xxxxl5);
+  font-weight: 700;
+  /* left: 635px; */
+  left:125px;
+  top: 4px;
+  /* top: 229px; */
+  /* top:103px; */
+  letter-spacing: 0.36px;
+  position: absolute;
+  transform: rotate(-0.42deg);
+  width: 114px;
+}
+
+
+.totalUsersRating{
+  font-size: var(--font-size-xl5);
+  /* font-weight: 700; */
+  /* left: 635px; */
+  left: 170px;
+  top: 18px;
+  /* top: 229px; */
+  /* top:103px; */
+  letter-spacing: 0.36px;
+  position: absolute;
+  transform: rotate(-0.42deg);
+  white-space: nowrap;
+  color: #fbfbfb;
+  font-family: var(--font-family-roboto);
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+
+
 
 .fa-times-circle{
   color: var(--white);
@@ -3578,7 +3616,7 @@ position: absolute;
   top:68px;
   letter-spacing: 0;
   position: absolute;
-  overflow-y:scroll;
+  overflow: auto;
   height: 200px;
   padding-right: 30px;
   /* top: 449px; */
@@ -3907,11 +3945,9 @@ position: absolute;
   top: 295px;
   /* left:0px; */
   position: absolute;
-  /* width: 150px; */
   overflow-wrap: break-word;
-  text-align: center;
   text-align: justify;
-
+  margin-top:20px;
 }
 
 .castRole2 {
@@ -4101,15 +4137,16 @@ position: absolute;
   min-height: 340px;
   display: flex;
   top: 1050px;
-  left: 125px;
+  left: 150px;
   position: relative;
   float:left;
-  margin-left: 100px;
+  margin-left: 80px;
   justify-content: center;
   background-color: var(--shark);
   border-radius: 10px;
   width: 230px;
   transition: all 0.2s ease;
+  padding-bottom: 370px;
 }
 
 .cast2{
@@ -4465,17 +4502,17 @@ card
   margin-left: 50px;
   border-radius: 10px;
   cursor: pointer;
-  min-height: 200px;
+  min-height: 250px;
   left: 10px;
   transition: all 0.2s ease;
   width: 480px;
-  padding: 0px 30px;
+  padding: 0px 50px;
   display: flex;
   justify-content: center;
  }
 
  .userReviews{
-  left: 150px;
+  left: 180px;
   margin-top: 0px;
   position:absolute;
   top: 1600px;
@@ -4510,25 +4547,32 @@ align-content: center; */
 }
 
 .userReview{
-text-align: center;
-letter-spacing: 0;
-position: absolute;
-top: 100px;
-justify-content: center;
-padding:0px 30px;
-text-align: justify;
-} 
+  letter-spacing: 0;
+  height: 150px;
+  position: absolute;
+  top: 70px;
+  padding:0px 30px;
+  text-align: center;
+  font-size: 20px;
+  overflow: hidden;
+  overflow-y: auto;
+  width: 440px;
+  overflow-wrap: break-word;
+  } 
+
 
 .owl-theme {
 width: 20px;
   /* top: 100px !important; */
 }
-.owl-theme .owl-dots .owl-dot   {
+.owl-theme .owl-dots   {
     /* background-color: blue; */
     display: flex;   
     align-self: center;
     justify-content: center;
     align-content: center;
+    display: none;
+
     /* width: 10px; */
     /* height: 10px;
     margin: 5px 7px;
@@ -4543,15 +4587,22 @@ width: 20px;
 
 .owl-theme .owl-nav [className='reviewsExpandRight']  {
     position: absolute;
-    left: 1600px;
-    top: 40px;  
+    left: 1610px;
+    top: 80px;  
 }
 
 .owl-theme .owl-nav [className='reviewsExpandLeft']  {
   position: absolute;
-  left: 0px;
-  top: 20px;  
+  left: -10px;
+  top: 40px;  
+  color: #d41c24;
 }
+
+.owl-theme .owl-nav [className='reviewsExpandRight']:hover,
+.owl-theme .owl-nav [className='reviewsExpandLeft']:hover{
+background-color: var(--shark);
+}
+
 
 
 
