@@ -59460,6 +59460,8 @@ function MovieInfoPage(props) {
       totalUsersRating = _useState40[0],
       setTotalUsersRating = _useState40[1];
 
+  var totalUsers;
+
   var _useParams = (0, _reactRouterDom.useParams)(),
       id = _useParams.id;
 
@@ -59490,7 +59492,31 @@ function MovieInfoPage(props) {
       userRating = _useState44[0],
       setuserRating = _useState44[1];
 
+  var _useState45 = (0, _react.useState)(false),
+      _useState46 = _slicedToArray(_useState45, 2),
+      ratedMovie = _useState46[0],
+      setratedMovie = _useState46[1];
+
   var rating;
+
+  var updateMovieRating = function updateMovieRating() {
+    api.get("/movies/rating/".concat(id)).then(function (response) {
+      if (response.data.length == 0) {
+        setTotalUsersRating(0);
+        totalUsers = 0;
+      } else {
+        setTotalRating(response.data[0].total_rating);
+        setTotalUsersRating(response.data[0].total_users);
+        totalUsers = response.data[0].total_users;
+      }
+
+      if (Number(totalUsers) > 0) {
+        setratedMovie(true);
+      } else {
+        setratedMovie(false);
+      }
+    });
+  };
 
   var addRating = function addRating(value) {
     if (!registered) {
@@ -59521,6 +59547,7 @@ function MovieInfoPage(props) {
     });
 
     alert("Thank u! your rating has been saved successfully.");
+    updateMovieRating();
   }; // React.useEffect(() => { setuserRating(rating) }, [])
   // React.useEffect(() => { setuserRating(rating);
   // console.log(userRating)})
@@ -59540,6 +59567,7 @@ function MovieInfoPage(props) {
     });
 
     alert("Your rating has been deleted successfully.");
+    updateMovieRating();
   };
 
   _react.default.useEffect(function () {
@@ -59659,9 +59687,15 @@ function MovieInfoPage(props) {
     api.get("/movies/rating/".concat(id)).then(function (response) {
       if (response.data.length == 0) {
         setTotalUsersRating(0);
+        totalUsers = 0;
       } else {
         setTotalRating(response.data[0].total_rating);
         setTotalUsersRating(response.data[0].total_users);
+        totalUsers = response.data[0].total_users;
+      }
+
+      if (Number(totalUsers) > 0) {
+        setratedMovie(true);
       }
     }); //Get Reviews
 
@@ -59783,13 +59817,15 @@ function MovieInfoPage(props) {
   }, /*#__PURE__*/_react.default.createElement("img", {
     className: "star",
     src: "/img/star-2@2x.svg"
-  }), /*#__PURE__*/_react.default.createElement("div", {
+  }), ratedMovie && /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "movieRating"
   }, totalRating), /*#__PURE__*/_react.default.createElement("div", {
     className: "fiveText2"
   }, "/ 5 "), /*#__PURE__*/_react.default.createElement("div", {
     className: "totalUsersRating"
-  }, "(", totalUsersRating, " ratings)")), /*#__PURE__*/_react.default.createElement("div", {
+  }, "(", totalUsersRating, " ratings)")), !ratedMovie && /*#__PURE__*/_react.default.createElement("div", {
+    className: "emptyMovieRating"
+  }, "The movie has no ratings yet. ")), /*#__PURE__*/_react.default.createElement("div", {
     className: "pgAndTime"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "pgContainer"
@@ -60621,7 +60657,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "6521" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "8331" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
