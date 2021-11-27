@@ -53414,7 +53414,12 @@ function genresPage(props) {
   var _useState9 = (0, _react.useState)([]),
       _useState10 = _slicedToArray(_useState9, 2),
       Allposters = _useState10[0],
-      setAllposters = _useState10[1]; // const [moviesInfo, setMoviesInfo] = useState([
+      setAllposters = _useState10[1];
+
+  var _useState11 = (0, _react.useState)([]),
+      _useState12 = _slicedToArray(_useState11, 2),
+      totalRatings = _useState12[0],
+      settotalRatings = _useState12[1]; // const [moviesInfo, setMoviesInfo] = useState([
   // {'movie_id':1,'title' : 'Toy1'} ,   {'movie_id':3,'title' : 'Toy3'}
   // ]);
 
@@ -53437,6 +53442,8 @@ function genresPage(props) {
 
     var postersArray = _toConsumableArray(Allposters);
 
+    var ratingsArray = _toConsumableArray(totalRatings);
+
     var numOfItrations = 2;
 
     for (var k = 0; k < numOfItrations; k++) {
@@ -53447,7 +53454,8 @@ function genresPage(props) {
         for (var i = 0; i < 4; i++) {
           moviesIdArray[count] = response.data[i].movie_id;
           movieTitlesArray[count] = response.data[i].title;
-          postersArray[count++] = response.data[i].poster;
+          postersArray[count] = response.data[i].poster;
+          ratingsArray[count++] = response.data[i].total_rating;
         } //if finish getting all movies --> then set valuse
 
 
@@ -53456,6 +53464,7 @@ function genresPage(props) {
           setMoviesId(moviesIdArray);
           setmovieTitles(movieTitlesArray);
           setAllposters(postersArray);
+          settotalRatings(ratingsArray);
         }
       });
     }
@@ -53472,7 +53481,7 @@ function genresPage(props) {
   }), /*#__PURE__*/_react.default.createElement("div", {
     className: "goToGenreTypePage"
   }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/genreTypePage"
+    to: "/genreTypePage/Action"
   }, /*#__PURE__*/_react.default.createElement("img", {
     className: "arrowIcon",
     src: props.arrowIcon
@@ -53485,11 +53494,14 @@ function genresPage(props) {
     var count = 0;
 
     for (var k = 0; k < 2; k++) {
+      // const gen = allGens[k];
+      // const genPage = `/genreTypePage/${gen}`
       for (var i = 0; i <= 3; i++) {
         var id = moviesId[count];
         var url = "/movieInfoPage/".concat(id);
         var poster = Allposters[count];
-        var title = movieTitles[count++]; // // const reminder = i % 4;
+        var title = movieTitles[count];
+        var rating = totalRatings[count++]; // // const reminder = i % 4;
         // // if (reminder == 0) {
         // //   reminder = 4;
         // // }
@@ -53508,7 +53520,7 @@ function genresPage(props) {
           className: "genresMovieName1"
         }, title), /*#__PURE__*/_react.default.createElement("div", {
           className: "genresRating1 neuton-bold-white-30px3"
-        }, props.rating1), /*#__PURE__*/_react.default.createElement("img", {
+        }, rating), /*#__PURE__*/_react.default.createElement("img", {
           className: "genresStar1",
           src: props.star
         }), /*#__PURE__*/_react.default.createElement("div", {

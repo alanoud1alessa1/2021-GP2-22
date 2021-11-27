@@ -41,6 +41,7 @@ function genresPage(props) {
   const [moviesId, setMoviesId] = useState([]);
   const [movieTitles, setmovieTitles] = useState([]);
   const [Allposters, setAllposters] = useState([]);
+  const [totalRatings, settotalRatings] = useState([]);
 
   // const [moviesInfo, setMoviesInfo] = useState([
   // {'movie_id':1,'title' : 'Toy1'} ,   {'movie_id':3,'title' : 'Toy3'}
@@ -85,6 +86,7 @@ function genresPage(props) {
     var moviesIdArray = [...moviesId];
     var movieTitlesArray = [...movieTitles];
     var postersArray = [...Allposters];
+    var ratingsArray = [...totalRatings];
 
     const numOfItrations = 2;
     for (var k = 0; k < numOfItrations; k++) {
@@ -96,9 +98,11 @@ function genresPage(props) {
 
       api.get(`/movies/genresFilter/${genreType}/4`).then((response) => {
         for (var i = 0; i < 4; i++) {
+
           moviesIdArray[count] = response.data[i].movie_id;
           movieTitlesArray[count] = response.data[i].title;
-          postersArray[count++] = response.data[i].poster;
+          postersArray[count] = response.data[i].poster;
+          ratingsArray[count++] = response.data[i].total_rating;
         }
 
         //if finish getting all movies --> then set valuse
@@ -107,6 +111,7 @@ function genresPage(props) {
           setMoviesId(moviesIdArray);
           setmovieTitles(movieTitlesArray);
           setAllposters(postersArray);
+          settotalRatings(ratingsArray);
         }
       });
     }
@@ -126,8 +131,10 @@ function genresPage(props) {
             <main>
               <div className="body"></div>
               {/* Title */}
-              <div className="goToGenreTypePage">
-                <Link to="/genreTypePage">
+
+
+              <div className='goToGenreTypePage'>
+                <Link to="/genreTypePage/Action">
                   <img className="arrowIcon" src={props.arrowIcon} />
                   <h1 className="genreTypeTitle neuton-normal-white-60px3">
                     {allGens[0]}
@@ -141,13 +148,20 @@ function genresPage(props) {
                   const row = [];
                   var count = 0;
 
+
+
+
                   for (var k = 0; k < 2; k++) {
+                    // const gen = allGens[k];
+                    // const genPage = `/genreTypePage/${gen}`
+                    
                     for (var i = 0; i <= 3; i++) {
                       const id = moviesId[count];
                       const url = `/movieInfoPage/${id}`;
 
                       const poster = Allposters[count];
-                      const title = movieTitles[count++];
+                      const title = movieTitles[count];
+                      const rating = totalRatings[count++];
 
                       // // const reminder = i % 4;
 
@@ -156,16 +170,20 @@ function genresPage(props) {
                       // // }
                       const className1 = `Movie${count}`;
 
-
                       row.push(
                         <div key={i}>
                           {
+
+
                             <div className={className1}>
                               <Link to={url}>
-                                <img className="genresMoviePoster1" src={poster} />
+                                <img
+                                  className="genresMoviePoster1"
+                                  src={poster}
+                                />
                                 <div className="genresMovieName1">{title}</div>
                                 <div className="genresRating1 neuton-bold-white-30px3">
-                                  {props.rating1}
+                                  {rating}
                                 </div>
                                 <img className="genresStar1" src={props.star} />
                                 <div className="genresGenreType1">
