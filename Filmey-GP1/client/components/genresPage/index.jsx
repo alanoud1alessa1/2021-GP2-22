@@ -103,6 +103,7 @@ function genresPage(props) {
           movieTitlesArray[count] = response.data[i].title;
           postersArray[count] = response.data[i].poster;
           ratingsArray[count++] = response.data[i].total_rating;
+          console.log(response.data[i].total_rating)
         }
 
         //if finish getting all movies --> then set valuse

@@ -53456,6 +53456,7 @@ function genresPage(props) {
           movieTitlesArray[count] = response.data[i].title;
           postersArray[count] = response.data[i].poster;
           ratingsArray[count++] = response.data[i].total_rating;
+          console.log(response.data[i].total_rating);
         } //if finish getting all movies --> then set valuse
 
 
@@ -53647,6 +53648,11 @@ function genreTypePage(props) {
       Allposters = _useState6[0],
       setAllposters = _useState6[1];
 
+  var _useState7 = (0, _react.useState)([]),
+      _useState8 = _slicedToArray(_useState7, 2),
+      totalRatings = _useState8[0],
+      settotalRatings = _useState8[1];
+
   var _useParams = (0, _reactRouterDom.useParams)(),
       genre = _useParams.genre;
 
@@ -53657,11 +53663,14 @@ function genreTypePage(props) {
 
     var postersArray = _toConsumableArray(Allposters);
 
+    var ratingsArray = _toConsumableArray(totalRatings);
+
     api.get("/movies/genresFilter/".concat(genre, "/50")).then(function (response) {
       for (var i = 0; i < response.data.length; i++) {
         moviesIdArray[i] = response.data[i].movie_id;
         movieTitlesArray[i] = response.data[i].title;
         postersArray[i] = response.data[i].poster;
+        ratingsArray[i] = response.data[i].total_rating;
       } //if finish getting all movies --> then set valuse
 
 
@@ -53670,6 +53679,7 @@ function genreTypePage(props) {
         setMoviesId(moviesIdArray);
         setmovieTitles(movieTitlesArray);
         setAllposters(postersArray);
+        settotalRatings(ratingsArray);
       }
     });
   }, []);
@@ -53695,7 +53705,8 @@ function genreTypePage(props) {
         var id = moviesId[count];
         var url = "/movieInfoPage/".concat(id);
         var poster = Allposters[count];
-        var title = movieTitles[count++]; // // const reminder = i % 4;
+        var title = movieTitles[count];
+        var rating = totalRatings[count++]; // // const reminder = i % 4;
         // // if (reminder == 0) {
         // //   reminder = 4;
         // // }
@@ -53714,7 +53725,7 @@ function genreTypePage(props) {
           className: "genresMovieName1"
         }, title), /*#__PURE__*/_react.default.createElement("div", {
           className: "genresRating1 neuton-bold-white-30px3"
-        }, props.rating1), /*#__PURE__*/_react.default.createElement("img", {
+        }, rating), /*#__PURE__*/_react.default.createElement("img", {
           className: "genresStar1",
           src: props.star
         }), /*#__PURE__*/_react.default.createElement("div", {

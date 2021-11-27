@@ -51,6 +51,7 @@ function genreTypePage(props) {
   const [moviesId, setMoviesId] = useState([]);
   const [movieTitles, setmovieTitles] = useState([]);
   const [Allposters, setAllposters] = useState([]);
+  const [totalRatings, settotalRatings] = useState([]);
 
 
 
@@ -59,6 +60,8 @@ function genreTypePage(props) {
     var moviesIdArray = [...moviesId];
     var movieTitlesArray = [...movieTitles];
     var postersArray = [...Allposters];
+    var ratingsArray = [...totalRatings];
+
 
 
       api.get(`/movies/genresFilter/${genre}/50`).then((response) => {
@@ -66,6 +69,8 @@ function genreTypePage(props) {
           moviesIdArray[i] = response.data[i].movie_id;
           movieTitlesArray[i] = response.data[i].title;
           postersArray[i] = response.data[i].poster;
+          ratingsArray[i] = response.data[i].total_rating;
+
 
         }
 
@@ -77,6 +82,8 @@ function genreTypePage(props) {
           setMoviesId(moviesIdArray);
           setmovieTitles(movieTitlesArray);
           setAllposters(postersArray);
+          settotalRatings(ratingsArray);
+
         }
       });
 
@@ -118,7 +125,8 @@ function genreTypePage(props) {
                       const url = `/movieInfoPage/${id}`;
 
                       const poster = Allposters[count];
-                      const title = movieTitles[count++];
+                      const title = movieTitles[count];
+                      const rating = totalRatings[count++];
 
                       // // const reminder = i % 4;
 
@@ -136,7 +144,7 @@ function genreTypePage(props) {
                                 <img className="genresMoviePoster1" src={poster} />
                                 <div className="genresMovieName1">{title}</div>
                                 <div className="genresRating1 neuton-bold-white-30px3">
-                                  {props.rating1}
+                                  {rating}
                                 </div>
                                 <img className="genresStar1" src={props.star} />
                                 <div className="genresGenreType1">
