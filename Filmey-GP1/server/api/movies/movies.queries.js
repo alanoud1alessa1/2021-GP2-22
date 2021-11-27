@@ -123,12 +123,16 @@ module.exports = {
 
   async getMovieReviews(movie_id) {
 
-    return db.select("M.movie_id", "M.title", "M.poster" )
-    .from("Movie_Genre AS MG")
-    .leftJoin("Genre AS G", "G.genre_id", "MG.genre_id")
-    .where("G.genre", "=", genreType)
-    .leftJoin("Movie AS M", "MG.movie_id", "M.movie_id")
-    .limit(50);
+    return db("Review AS R").select("review" , "username").where({
+      movie_id: movie_id,
+    }).leftJoin('User AS U' , 'R.user_id' , 'U.user_id');
+
+    // return db.select("M.movie_id", "M.title", "M.poster" )
+    // .from("Movie_Genre AS MG")
+    // .leftJoin("Genre AS G", "G.genre_id", "MG.genre_id")
+    // .where("G.genre", "=", genreType)
+    // .leftJoin("Movie AS M", "MG.movie_id", "M.movie_id")
+    // .limit(50);
   },
 
   //   async addMovie(title, year, length , age_guide ,description, poster , trailer_url) {

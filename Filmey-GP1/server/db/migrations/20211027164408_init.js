@@ -2,6 +2,7 @@ const tableNames = require("../../constents/tableNames")
 
 
 
+
 function references(
   table,
   tableName,
@@ -32,7 +33,6 @@ exports.up = async (knex) => {
     // }),
     // await knex.schema.createTable("Movie", (table) => {
     //   table.increments("movie_id").notNullable();
-    //   // table.integer("imdb_id").notNullable();
     //   table.string("title", 100).notNullable();
     //   table.integer("year").notNullable();
     //   table.string("length", 10).notNullable();
