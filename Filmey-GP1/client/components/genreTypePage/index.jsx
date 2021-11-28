@@ -13,36 +13,7 @@ function genreTypePage(props) {
   const runCallback = (cb) => {
     return cb();
   };
-  const {
-    genreTitle,
-    movieName1,
-    movieName2,
-    movieName3,
-    movieName4,
-    logo,
-    homeText,
-    genresText,
-    languageText,
-    loginText,
-    registerText,
-    icon,
-    footerText2,
-    footerText1,
-    moviePoster,
-    rating1,
-    rating2,
-    rating3,
-    rating4,
-    arrowIcon,
-    genresGenreTypeText1,
-    genresGenreTypeText2,
-    genresGenreTypeText3,
-    genresGenreTypeText4,
-    star,
-    leftArrowIcon,
-    rightArrowIcon,
- 
-  } = props;
+  const {} = props;
 
   const api = Axios.create({
     baseURL: "http://localhost:3000/api/v1",
@@ -64,19 +35,16 @@ function genreTypePage(props) {
 
 
 
-      api.get(`/movies/genresFilter/${genre}/50`).then((response) => {
+      api.get(`/movies/genresFilter/${genre}/48`).then((response) => {
         for (var i = 0; i < response.data.length; i++) {
           moviesIdArray[i] = response.data[i].movie_id;
           movieTitlesArray[i] = response.data[i].title;
           postersArray[i] = response.data[i].poster;
           ratingsArray[i] = response.data[i].total_rating;
 
-
         }
 
         //if finish getting all movies --> then set valuse
-
-
         if (moviesIdArray.length == response.data.length) {
           console.log(movieTitlesArray);
           setMoviesId(moviesIdArray);
@@ -114,7 +82,7 @@ function genreTypePage(props) {
                 {runCallback(() => {
                   const row = [];
                   var count = 0;
-                    for (var i = 0; i < 50; i++) {
+                    for (var i = 0; i < 48; i++) {
                       const id = moviesId[count];
                       const url = `/movieInfoPage/${id}`;
                       const poster = Allposters[count];

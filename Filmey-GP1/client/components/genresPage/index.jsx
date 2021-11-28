@@ -6,22 +6,21 @@ import jwt_decode from "jwt-decode";
 import Axios from "axios";
 import { useState } from "react";
 import Header from "../header";
-import OwlCarousel from 'react-owl-carousel';  
-import 'owl.carousel/dist/assets/owl.carousel.css';  
-import 'owl.carousel/dist/assets/owl.theme.default.css';  
+import OwlCarousel from "react-owl-carousel";
+import "owl.carousel/dist/assets/owl.carousel.css";
+import "owl.carousel/dist/assets/owl.theme.default.css";
 
 function genresPage(props) {
-
-  const options={
+  const options = {
     items: 5,
     // Navigation
-    navigation : false,
+    navigation: false,
     navText: [
       "<div className='reviewsExpandLeft'>  <img className='reviewsExpandLeft' src='/img/expand-left--review-@2x.svg' /> </div>",
-      "<div>  <img className='reviewsExpandRight' src='/img/expand-right--review-@2x.svg' /> </div>"
+      "<div>  <img className='reviewsExpandRight' src='/img/expand-right--review-@2x.svg' /> </div>",
     ],
-    transitionStyle: "fade"
-  }
+    transitionStyle: "fade",
+  };
 
   const runCallback = (cb) => {
     return cb();
@@ -103,26 +102,21 @@ function genresPage(props) {
     var postersArray = [...Allposters];
     var ratingsArray = [...totalRatings];
 
-    const numOfItrations = 2;
+    const numOfItrations = 13;
     for (var k = 0; k < numOfItrations; k++) {
       var genreType = allGens[k];
 
       var count = 0;
-
-      console.log(genreType);
-
-      api.get(`/movies/genresFilter/${genreType}/4`).then((response) => {
-        for (var i = 0; i < 4; i++) {
-
+      api.get(`/movies/genresFilter/${genreType}/10`).then((response) => {
+        for (var i = 0; i < 10; i++) {
           moviesIdArray[count] = response.data[i].movie_id;
           movieTitlesArray[count] = response.data[i].title;
           postersArray[count] = response.data[i].poster;
           ratingsArray[count++] = response.data[i].total_rating;
-          console.log(response.data[i].total_rating)
         }
 
         //if finish getting all movies --> then set valuse
-        if (moviesIdArray.length == numOfItrations * 4) {
+        if (moviesIdArray.length == numOfItrations * 10) {
           console.log(movieTitlesArray);
           setMoviesId(moviesIdArray);
           setmovieTitles(movieTitlesArray);
@@ -130,6 +124,24 @@ function genresPage(props) {
           settotalRatings(ratingsArray);
         }
       });
+      // api.get(`/movies/genresFilter/${genreType}/10`).then((response) => {
+      //   for (var i = 0; i < 10; i++) {
+      //     moviesIdArray[count] = response.data[i].movie_id;
+      //     movieTitlesArray[count] = response.data[i].title;
+      //     postersArray[count] = response.data[i].poster;
+      //     ratingsArray[count++] = response.data[i].total_rating;
+      //     // console.log(response.data[i].total_rating);
+      //   }
+
+      //   //if finish getting all movies --> then set valuse
+      //   if (moviesIdArray.length == numOfItrations * 10) {
+      //     // console.log(ratingsArray);
+      //     setMoviesId(moviesIdArray);
+      //     setmovieTitles(movieTitlesArray);
+      //     setAllposters(postersArray);
+      //     settotalRatings(ratingsArray);
+      //   }
+      // });
     }
   }, []);
 
@@ -148,76 +160,115 @@ function genresPage(props) {
               <div className="genreBody"></div>
               {/* movies loop */}
               <div className="genreMovies">
-
-              {/* Title */}
-              {runCallback(() => {
-                          const basicRow = [];
-                          var count = 0;
-                          for (var k = 0; k < 2; k++) {
-                          const genre = allGens[k];
-                          const genrePage = `/genreTypePage/${genre}`
-                            basicRow.push(
-                            <div key={k}>
-                            {
-                              <div>
-              <div className="goToGenreTypePage">
-              <Link to={genrePage}>
-                <div className="genreTitle">
-                  {genre}
-                  <img className="arrowIcon" src={props.arrowIcon} />
-                </div>
-              </Link>
-              </div>
-              <div className="genreTypeMovies"> 
-              <OwlCarousel className="owl-theme2"  
-                        {...options}   
-                        nav
-                        >
+                {/* Title */}
                 {runCallback(() => {
-                          const row = [];
+                  const basicRow = [];
+                  var count = 0;
+                  for (var k = 0; k < 1; k++) {
+                    const genre = allGens[k];
+                    const genrePage = `/genreTypePage/${genre}`;
+                    basicRow.push(
+                      <div key={k}>
+                        {
+                          <div>
+                            <div className="goToGenreTypePage">
+                              <Link to={genrePage}>
+                                <div className="genreTitle">
+                                  {genre}
+                                  <img
+                                    className="arrowIcon"
+                                    src={props.arrowIcon}
+                                  />
+                                </div>
+                              </Link>
+                            </div>
+                            <div className="genreTypeMovies">
+                              <OwlCarousel
+                                className="owl-theme2"
+                                {...options}
+                                nav
+                              >
+                                {runCallback(() => {
+                                  const row = [];
 
-                          for (var i = 0; i < 10; i++) {
-                            const id = moviesId[count];
-                            const url = `/movieInfoPage/${id}`;
-                            const poster = Allposters[count];
-                            const title = movieTitles[count];
-                            const rating = totalRatings[count++];
-                            // rating = "hello";
-                            
-                            row.push(
-                            <div key={i}>
-                            {
-                              <div>
-                                <div className="genreMovieContainer"> 
-                                <Link to={url}>
-                                <img  className="genreMoviePoster" src={poster} />
-                                <img className="genreStar" src="/img/star-2@2x.svg" />
-                                <div className="genreMovieRating neuton-bold-white-30px"> hi  {rating}</div> 
-                                <div className="genreMovieName neuton-bold-white-30px"> {title} </div> 
-                                </Link>
-                            </div> 
+                                  for (var i = 0; i < 10; i++) {
+                                    const id = moviesId[count];
+                                    const url = `/movieInfoPage/${id}`;
+                                    const poster = Allposters[count];
+                                    const title = movieTitles[count];
+                                    const rating = totalRatings[count++];
+
+
+                                
+                                    if (rating == "0.0") {
+                                      rating = "No ratings yet.";
+                                    }
+
+                                    console.log(rating)
+                                    row.push(
+                                      <div key={i}>
+                                        {
+                                          <div className="genreMovieContainer">
+                                            <Link to={url}>
+                                              <img
+                                                className="genreMoviePoster"
+                                                src={poster}
+                                              />
+                                              <img
+                                                className="genreStar"
+                                                src="/img/star-2@2x.svg"
+                                              />
+                                              <div className="genreMovieRating neuton-bold-white-30px">
+                                                {rating}
+                                              </div>
+                                              <div className="genreMovieName neuton-bold-white-30px">
+                                                {title}
+                                              </div>
+                                            </Link>
+                                          </div>
+                                        }
+                                      </div>
+                                    );
+                                    // row.push(
+                                    //   <div key={i}>
+                                    //     {
+                                    //       <div>
+                                    //         <div className="genreMovieContainer">
+                                    //           <Link to={url}>
+                                    //             <img
+                                    //               className="genreMoviePoster"
+                                    //               src={poster}
+                                    //             />
+                                    //             <img
+                                    //               className="genreStar"
+                                    //               src="/img/star-2@2x.svg"
+                                    //             />
+                                    //             <div className="genreMovieRating neuton-bold-white-30px">
+                                    //               {rating}
+                                    //             </div>
+                                    //             <div className="genreMovieName neuton-bold-white-30px">
+                                    //               {" "}
+                                    //               {title}{" "}
+                                    //             </div>
+                                    //           </Link>
+                                    //         </div>
+                                    //       </div>
+                                    //     }
+                                    //   </div>
+                                    // );
+                                  }
+                                  return row;
+                                })}
+                              </OwlCarousel>
                             </div>
-                            }
-                            </div>
-                            );
-                          }
-                          return row;
-                        
-                          
+                          </div>
+                        }
+                      </div>
+                    );
+                  }
+                  return basicRow;
                 })}
-                  </OwlCarousel> 
-                  </div>
               </div>
-                            }
-                            </div>
-                            );
-                          }
-                          return basicRow;
-                        
-                          
-                })}                
-
-                </div>          
               {/* Title */}
               {/* <div className='goToGenreTypePage'>
                 <Link to="/genreTypePage/Action">

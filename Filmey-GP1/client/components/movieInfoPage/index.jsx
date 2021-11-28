@@ -116,7 +116,7 @@ const [userReviews,setUserReviews]=useState([""]);
 
 const [totalRating,setTotalRating]=useState();
 const [totalUsersRating,setTotalUsersRating]=useState();
-var totalUsers;
+
 
   let {id} = useParams();
   id = parseInt(id);
@@ -140,29 +140,7 @@ var totalUsers;
   //var userRating;
   const [haveRated,sethaveRated]=useState(false);
   const [userRating,setuserRating]=useState();
-  const [ratedMovie,setratedMovie]=useState(false);
   var rating;
-
-  const updateMovieRating=()=> {
-    api.get(`/movies/rating/${id}`).then((response)=>{
-      if(response.data.length == 0){
-        setTotalUsersRating(0);
-        totalUsers=0;
-      }
-      else{
-        setTotalRating(response.data[0].total_rating ) ;
-        setTotalUsersRating(response.data[0].total_users );
-        totalUsers=response.data[0].total_users;
-      }
-      if (Number(totalUsers)>0){
-        setratedMovie(true);
-      }
-      else{
-        setratedMovie(false);
-      }
-    });
-  }
-
   const addRating=(value)=> {
     if(!registered)
     {
@@ -189,7 +167,7 @@ var totalUsers;
       console.log(res.data);
     })
     alert ("Thank u! your rating has been saved successfully.");
-    updateMovieRating();
+
   }
 
   // React.useEffect(() => { setuserRating(rating) }, [])
@@ -210,7 +188,6 @@ var totalUsers;
       }
     })
     alert ("Your rating has been deleted successfully.");
-    updateMovieRating();
   }
   
   
@@ -353,16 +330,13 @@ api.get(`/movies/rating/${id}`).then((response)=>{
 
   if(response.data.length == 0){
     setTotalUsersRating(0);
-    totalUsers=0;
+
   }
   else{
     setTotalRating(response.data[0].total_rating ) ;
     setTotalUsersRating(response.data[0].total_users );
-    totalUsers=response.data[0].total_users;
   }
-  if (Number(totalUsers)>0){
-    setratedMovie(true);
-  }
+
 });
 
  
@@ -380,7 +354,7 @@ api.get(`/movies/review/${id}`).then((response)=>{
     usersArray[i] = response.data[i].username ;
 
   } 
-
+console.log(reviewsArray);
   setReviews(reviewsArray) ;
   setUserReviews(usersArray);
 });
@@ -456,17 +430,10 @@ return (
                   <div className="movieName">{title} <span className="movieYear"> ({year})</span></div>
                   <div className="movieRatingContainer">
                     <img className="star" src="/img/star-2@2x.svg" />
-                    {(ratedMovie) && (
-                  <div>  
                     <div className="movieRating">{totalRating}</div> 
                     <div className="fiveText2">/ 5 </div> 
-                    <div className="totalUsersRating">({totalUsersRating} ratings)</div>  
-                  </div>
-                    )}
-                     {(!ratedMovie) && (
-                     <div className="emptyMovieRating">The movie has no ratings yet. </div> 
-                     
-                     )}
+                    <div className="totalUsersRating">({totalUsersRating} ratings)</div> 
+                    
                   </div>
                   <div className="pgAndTime">
                     <div className="pgContainer"> 
@@ -577,7 +544,7 @@ return (
                         >
                  {runCallback(() => {
                           const row = [];
-                          if (reviews.length>0){
+                          if (-1>0){
                           for (var i = 0; i < reviews.length; i++) {
                             row.push(
                             <div key={i}>

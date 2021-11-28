@@ -58994,30 +58994,44 @@ function genresPage(props) {
 
     var ratingsArray = _toConsumableArray(totalRatings);
 
-    var numOfItrations = 2;
+    var numOfItrations = 13;
 
     for (var k = 0; k < numOfItrations; k++) {
       var genreType = allGens[k];
       var count = 0;
-      console.log(genreType);
-      api.get("/movies/genresFilter/".concat(genreType, "/4")).then(function (response) {
-        for (var i = 0; i < 4; i++) {
+      api.get("/movies/genresFilter/".concat(genreType, "/10")).then(function (response) {
+        for (var i = 0; i < 10; i++) {
           moviesIdArray[count] = response.data[i].movie_id;
           movieTitlesArray[count] = response.data[i].title;
           postersArray[count] = response.data[i].poster;
           ratingsArray[count++] = response.data[i].total_rating;
-          console.log(response.data[i].total_rating);
         } //if finish getting all movies --> then set valuse
 
 
-        if (moviesIdArray.length == numOfItrations * 4) {
+        if (moviesIdArray.length == numOfItrations * 10) {
           console.log(movieTitlesArray);
           setMoviesId(moviesIdArray);
           setmovieTitles(movieTitlesArray);
           setAllposters(postersArray);
           settotalRatings(ratingsArray);
         }
-      });
+      }); // api.get(`/movies/genresFilter/${genreType}/10`).then((response) => {
+      //   for (var i = 0; i < 10; i++) {
+      //     moviesIdArray[count] = response.data[i].movie_id;
+      //     movieTitlesArray[count] = response.data[i].title;
+      //     postersArray[count] = response.data[i].poster;
+      //     ratingsArray[count++] = response.data[i].total_rating;
+      //     // console.log(response.data[i].total_rating);
+      //   }
+      //   //if finish getting all movies --> then set valuse
+      //   if (moviesIdArray.length == numOfItrations * 10) {
+      //     // console.log(ratingsArray);
+      //     setMoviesId(moviesIdArray);
+      //     setmovieTitles(movieTitlesArray);
+      //     setAllposters(postersArray);
+      //     settotalRatings(ratingsArray);
+      //   }
+      // });
     }
   }, []);
 
@@ -59035,7 +59049,7 @@ function genresPage(props) {
     var basicRow = [];
     var count = 0;
 
-    for (var k = 0; k < 2; k++) {
+    for (var k = 0; k < 1; k++) {
       var genre = allGens[k];
       var genrePage = "/genreTypePage/".concat(genre);
       basicRow.push( /*#__PURE__*/_react.default.createElement("div", {
@@ -59063,11 +59077,16 @@ function genresPage(props) {
           var url = "/movieInfoPage/".concat(id);
           var poster = Allposters[count];
           var title = movieTitles[count];
-          var rating = totalRatings[count++]; // rating = "hello";
+          var rating = totalRatings[count++];
 
+          if (rating == "0.0") {
+            rating = "No ratings yet.";
+          }
+
+          console.log(rating);
           row.push( /*#__PURE__*/_react.default.createElement("div", {
             key: i
-          }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
+          }, /*#__PURE__*/_react.default.createElement("div", {
             className: "genreMovieContainer"
           }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
             to: url
@@ -59079,9 +59098,35 @@ function genresPage(props) {
             src: "/img/star-2@2x.svg"
           }), /*#__PURE__*/_react.default.createElement("div", {
             className: "genreMovieRating neuton-bold-white-30px"
-          }, " hi  ", rating), /*#__PURE__*/_react.default.createElement("div", {
+          }, rating), /*#__PURE__*/_react.default.createElement("div", {
             className: "genreMovieName neuton-bold-white-30px"
-          }, " ", title, " "))))));
+          }, title))))); // row.push(
+          //   <div key={i}>
+          //     {
+          //       <div>
+          //         <div className="genreMovieContainer">
+          //           <Link to={url}>
+          //             <img
+          //               className="genreMoviePoster"
+          //               src={poster}
+          //             />
+          //             <img
+          //               className="genreStar"
+          //               src="/img/star-2@2x.svg"
+          //             />
+          //             <div className="genreMovieRating neuton-bold-white-30px">
+          //               {rating}
+          //             </div>
+          //             <div className="genreMovieName neuton-bold-white-30px">
+          //               {" "}
+          //               {title}{" "}
+          //             </div>
+          //           </Link>
+          //         </div>
+          //       </div>
+          //     }
+          //   </div>
+          // );
         }
 
         return row;
@@ -59143,38 +59188,14 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
 function genreTypePage(props) {
   var runCallback = function runCallback(cb) {
     return cb();
   };
 
-  var genreTitle = props.genreTitle,
-      movieName1 = props.movieName1,
-      movieName2 = props.movieName2,
-      movieName3 = props.movieName3,
-      movieName4 = props.movieName4,
-      logo = props.logo,
-      homeText = props.homeText,
-      genresText = props.genresText,
-      languageText = props.languageText,
-      loginText = props.loginText,
-      registerText = props.registerText,
-      icon = props.icon,
-      footerText2 = props.footerText2,
-      footerText1 = props.footerText1,
-      moviePoster = props.moviePoster,
-      rating1 = props.rating1,
-      rating2 = props.rating2,
-      rating3 = props.rating3,
-      rating4 = props.rating4,
-      arrowIcon = props.arrowIcon,
-      genresGenreTypeText1 = props.genresGenreTypeText1,
-      genresGenreTypeText2 = props.genresGenreTypeText2,
-      genresGenreTypeText3 = props.genresGenreTypeText3,
-      genresGenreTypeText4 = props.genresGenreTypeText4,
-      star = props.star,
-      leftArrowIcon = props.leftArrowIcon,
-      rightArrowIcon = props.rightArrowIcon;
+  _objectDestructuringEmpty(props);
 
   var api = _axios.default.create({
     baseURL: "http://localhost:3000/api/v1"
@@ -59212,7 +59233,7 @@ function genreTypePage(props) {
 
     var ratingsArray = _toConsumableArray(totalRatings);
 
-    api.get("/movies/genresFilter/".concat(genre, "/50")).then(function (response) {
+    api.get("/movies/genresFilter/".concat(genre, "/48")).then(function (response) {
       for (var i = 0; i < response.data.length; i++) {
         moviesIdArray[i] = response.data[i].movie_id;
         movieTitlesArray[i] = response.data[i].title;
@@ -59247,7 +59268,7 @@ function genreTypePage(props) {
     var row = [];
     var count = 0;
 
-    for (var i = 0; i < 50; i++) {
+    for (var i = 0; i < 48; i++) {
       var id = moviesId[count];
       var url = "/movieInfoPage/".concat(id);
       var poster = Allposters[count];
@@ -59515,8 +59536,6 @@ function MovieInfoPage(props) {
       totalUsersRating = _useState40[0],
       setTotalUsersRating = _useState40[1];
 
-  var totalUsers;
-
   var _useParams = (0, _reactRouterDom.useParams)(),
       id = _useParams.id;
 
@@ -59547,31 +59566,7 @@ function MovieInfoPage(props) {
       userRating = _useState44[0],
       setuserRating = _useState44[1];
 
-  var _useState45 = (0, _react.useState)(false),
-      _useState46 = _slicedToArray(_useState45, 2),
-      ratedMovie = _useState46[0],
-      setratedMovie = _useState46[1];
-
   var rating;
-
-  var updateMovieRating = function updateMovieRating() {
-    api.get("/movies/rating/".concat(id)).then(function (response) {
-      if (response.data.length == 0) {
-        setTotalUsersRating(0);
-        totalUsers = 0;
-      } else {
-        setTotalRating(response.data[0].total_rating);
-        setTotalUsersRating(response.data[0].total_users);
-        totalUsers = response.data[0].total_users;
-      }
-
-      if (Number(totalUsers) > 0) {
-        setratedMovie(true);
-      } else {
-        setratedMovie(false);
-      }
-    });
-  };
 
   var addRating = function addRating(value) {
     if (!registered) {
@@ -59602,7 +59597,6 @@ function MovieInfoPage(props) {
     });
 
     alert("Thank u! your rating has been saved successfully.");
-    updateMovieRating();
   }; // React.useEffect(() => { setuserRating(rating) }, [])
   // React.useEffect(() => { setuserRating(rating);
   // console.log(userRating)})
@@ -59622,7 +59616,6 @@ function MovieInfoPage(props) {
     });
 
     alert("Your rating has been deleted successfully.");
-    updateMovieRating();
   };
 
   _react.default.useEffect(function () {
@@ -59742,15 +59735,9 @@ function MovieInfoPage(props) {
     api.get("/movies/rating/".concat(id)).then(function (response) {
       if (response.data.length == 0) {
         setTotalUsersRating(0);
-        totalUsers = 0;
       } else {
         setTotalRating(response.data[0].total_rating);
         setTotalUsersRating(response.data[0].total_users);
-        totalUsers = response.data[0].total_users;
-      }
-
-      if (Number(totalUsers) > 0) {
-        setratedMovie(true);
       }
     }); //Get Reviews
 
@@ -59768,6 +59755,7 @@ function MovieInfoPage(props) {
         usersArray[i] = response.data[i].username;
       }
 
+      console.log(reviewsArray);
       setReviews(reviewsArray);
       setUserReviews(usersArray);
     });
@@ -59872,15 +59860,13 @@ function MovieInfoPage(props) {
   }, /*#__PURE__*/_react.default.createElement("img", {
     className: "star",
     src: "/img/star-2@2x.svg"
-  }), ratedMovie && /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
+  }), /*#__PURE__*/_react.default.createElement("div", {
     className: "movieRating"
   }, totalRating), /*#__PURE__*/_react.default.createElement("div", {
     className: "fiveText2"
   }, "/ 5 "), /*#__PURE__*/_react.default.createElement("div", {
     className: "totalUsersRating"
-  }, "(", totalUsersRating, " ratings)")), !ratedMovie && /*#__PURE__*/_react.default.createElement("div", {
-    className: "emptyMovieRating"
-  }, "The movie has no ratings yet. ")), /*#__PURE__*/_react.default.createElement("div", {
+  }, "(", totalUsersRating, " ratings)")), /*#__PURE__*/_react.default.createElement("div", {
     className: "pgAndTime"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "pgContainer"
@@ -59997,7 +59983,7 @@ function MovieInfoPage(props) {
   }), runCallback(function () {
     var row = [];
 
-    if (reviews.length > 0) {
+    if (-1 > 0) {
       for (var i = 0; i < reviews.length; i++) {
         row.push( /*#__PURE__*/_react.default.createElement("div", {
           key: i
@@ -60712,7 +60698,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "8084" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64664" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
