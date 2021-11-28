@@ -2,14 +2,14 @@
   align-items: flex-start;
   background-color: var(--white);
   display: flex;
-  min-height: 1366px;
+  /* min-height: 1366px; */
   overflow: hidden;
   width: 100%;
 
 }
 
 .genresPageContainer {
-  height: 1373px;
+  /* height: 1373px; */
   margin-left: -47px;
   position: absolute;
   width: 100%;
@@ -84,9 +84,9 @@ white-space: nowrap;
 width: 75px;
 }
 
-.body {
+.genreTypebody {
 background-color: var(--eerie-black);
-height: 1000px;
+min-height: 17000px;
 left: 47px;
 position:absolute;
 top: 130px;
@@ -95,14 +95,15 @@ width: 1920px;
 
 .genreTypeTitle {
 color: var(--white);
-font-family: var(--font-family-roboto);
-font-size: 50px;
-font-weight: 400;
-left: 140px;
+font-family: var(--font-family-neuton);
+font-size: 100px;
+font-weight: 500;
+left: 210px;
 letter-spacing: 0;
 position: absolute;
-top: 185px;
+top: 150px;
 width: 878px;
+margin-top: 40px;
 }
 
 .footerLogo {
@@ -117,34 +118,54 @@ width: 878px;
 .movies{
 top:0px;
 position: absolute;
+width:2000px;
+left:-20;
 }
 
-.genresMoviePoster1 {
-  height: 209px;
+.genreTypeMoviePoster {
+  /* height: 209px;
   left: 0px; 
   position: absolute;
   top: 0px;
-  width: 332px;
+  width: 332px; */
+
+  /* left: 0px;
+  position: absolute;
+  top: 0px;
+  width: 230px;
+  height: 240px;
+  border-radius: 10px; */
+
+    width: 360px;
+    height: 400px;
+    border-radius: 10px;
 }
 
-.genresMovieName1 {
-  left: 40px;
+.genreTypeMovieName {
   letter-spacing: 0;
-  line-height: 40px;
+  text-shadow: 0px 4px 4px #00000040;
+  top: 460px;
+  left:0px;
   position: absolute;
-  top: 162px;
-  white-space: nowrap;
-  width: 456px;
+  /* text-align: justify; */
+  margin-top:20px;
+  margin-bottom: 50px;
+  width: 350px;
+  padding-left: 20px;
+  overflow: hidden;
+  white-space: nowrap; /* Don't forget this one */
+  text-overflow: ellipsis;
 }
 
-.genresRating1 {
-  left: 60px;
-  letter-spacing: 0.36px;
+.genreTypeRating {
+  letter-spacing: 0;
+  text-shadow: 0px 4px 4px #00000040;
+  top: 403px;
+  left: 80px;
   position: absolute;
-  text-align: right;
-  top: 135px;
-  transform: rotate(-0.94deg);
-  width: 32px;
+  /* text-align: justify; */
+  margin-top:20px;
+  overflow-wrap: break-word;
 }
 
 .genresMoviePoster2 {
@@ -305,12 +326,21 @@ position: absolute;
   white-space: nowrap;
 }
 
-.genresStar1 {
-  height: 20px;
-  left: 50px;
-  position: absolute;
-  top: 145px;
-  width: 20px;
+.genreTypeStar {
+    top: 420px;
+    position: absolute;
+    display: flex;
+    height: 50px;
+    width: 50px;
+    padding: 6.9px 7.0px;
+    position: absolute;
+    transition: all 0.2s ease;
+    left: 20px;
+}
+
+
+.genresStar1:hover {
+  transform: scale(1.1);
 }
 
 .genresStar2 {
@@ -373,4 +403,25 @@ position: absolute;
   position: absolute;
   top: 1302px;
   width: 344px;
+}
+
+.genreTypeMovieContainer{
+  display: flex;
+  float:left;
+  margin-left: 50px;
+  margin-top: 50px;
+  color:white;
+  background-color: var(--shark);
+  border-radius: 10px;
+  cursor: pointer;
+  min-height: 550px; 
+  transition: all 0.2s ease;
+  width: 360px;
+  /* padding: 0px 50px; */
+  justify-content: center;
+  position: relative;
+   /* margin-left: 80px; */
+  padding-bottom: 50px; 
+  top: 320px;
+  left: 150px;
 }

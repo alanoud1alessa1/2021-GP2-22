@@ -41240,7 +41240,9 @@ var DateInput = /*#__PURE__*/function (_PureComponent) {
         var formattedDatePiece = formatDatePiece(datePiece, date);
         var datePieceReplacement = datePieceReplacements[index];
         placeholder = placeholder.replace(formattedDatePiece, datePieceReplacement);
-      });
+      }); // See: https://github.com/wojtekmaj/react-date-picker/issues/396
+
+      placeholder = placeholder.replace('17', 'y');
       return placeholder;
     }
   }, {
@@ -41564,6 +41566,12 @@ var DatePicker = /*#__PURE__*/function (_PureComponent) {
       }
     });
 
+    _defineProperty(_assertThisInitialized(_this), "onKeyDown", function (event) {
+      if (event.key === 'Escape') {
+        _this.closeCalendar();
+      }
+    });
+
     _defineProperty(_assertThisInitialized(_this), "openCalendar", function () {
       _this.setState({
         isOpen: true
@@ -41641,6 +41649,7 @@ var DatePicker = /*#__PURE__*/function (_PureComponent) {
       outsideActionEvents.forEach(function (eventName) {
         return document[fnName](eventName, _this2.onOutsideAction);
       });
+      document[fnName]('keydown', this.onKeyDown);
     }
   }, {
     key: "renderInputs",
@@ -46280,7 +46289,7 @@ var serializeStyles = function serializeStyles(args, registered, mergedProps) {
 };
 
 exports.serializeStyles = serializeStyles;
-},{"@emotion/hash":"node_modules/@emotion/hash/dist/hash.browser.esm.js","@emotion/unitless":"node_modules/@emotion/unitless/dist/unitless.browser.esm.js","@emotion/memoize":"node_modules/@emotion/memoize/dist/emotion-memoize.browser.esm.js"}],"node_modules/@emotion/react/dist/emotion-element-1c22787f.browser.esm.js":[function(require,module,exports) {
+},{"@emotion/hash":"node_modules/@emotion/hash/dist/hash.browser.esm.js","@emotion/unitless":"node_modules/@emotion/unitless/dist/unitless.browser.esm.js","@emotion/memoize":"node_modules/@emotion/memoize/dist/emotion-memoize.browser.esm.js"}],"node_modules/@emotion/react/dist/emotion-element-699e6908.browser.esm.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -46407,11 +46416,48 @@ function withTheme(Component) {
   var WithTheme = /*#__PURE__*/(0, _react.forwardRef)(render);
   WithTheme.displayName = "WithTheme(" + componentName + ")";
   return (0, _emotionReact_isolatedHnrsBrowserEsm.default)(WithTheme, Component);
-} // thus we only need to replace what is a valid character for JS, but not for CSS
+}
 
+var getFunctionNameFromStackTraceLine = function getFunctionNameFromStackTraceLine(line) {
+  // V8
+  var match = /^\s+at\s+([A-Za-z0-9$.]+)\s/.exec(line);
+
+  if (match) {
+    // The match may be something like 'Object.createEmotionProps'
+    var parts = match[1].split('.');
+    return parts[parts.length - 1];
+  } // Safari / Firefox
+
+
+  match = /^([A-Za-z0-9$.]+)@/.exec(line);
+  if (match) return match[1];
+  return undefined;
+};
+
+var internalReactFunctionNames = /* #__PURE__ */new Set(['renderWithHooks', 'processChild', 'finishClassComponent', 'renderToString']); // These identifiers come from error stacks, so they have to be valid JS
+// identifiers, thus we only need to replace what is a valid character for JS,
+// but not for CSS.
 
 var sanitizeIdentifier = function sanitizeIdentifier(identifier) {
   return identifier.replace(/\$/g, '-');
+};
+
+var getLabelFromStackTrace = function getLabelFromStackTrace(stackTrace) {
+  if (!stackTrace) return undefined;
+  var lines = stackTrace.split('\n');
+
+  for (var i = 0; i < lines.length; i++) {
+    var functionName = getFunctionNameFromStackTraceLine(lines[i]); // The first line of V8 stack traces is just "Error"
+
+    if (!functionName) continue; // If we reach one of these, we have gone too far and should quit
+
+    if (internalReactFunctionNames.has(functionName)) break; // The component name is the first function in the stack that starts with an
+    // uppercase letter
+
+    if (/^[A-Z]/.test(functionName)) return sanitizeIdentifier(functionName);
+  }
+
+  return undefined;
 };
 
 var typePropName = '__EMOTION_TYPE_PLEASE_DO_NOT_USE__';
@@ -46431,24 +46477,12 @@ var createEmotionProps = function createEmotionProps(type, props) {
     }
   }
 
-  newProps[typePropName] = type;
+  newProps[typePropName] = type; // For performance, only call getLabelFromStackTrace in development and when
+  // the label hasn't already been computed
 
-  if ("development" !== 'production') {
-    var error = new Error();
-
-    if (error.stack) {
-      // chrome
-      var match = error.stack.match(/at (?:Object\.|Module\.|)(?:jsx|createEmotionProps).*\n\s+at (?:Object\.|)([A-Z][A-Za-z0-9$]+) /);
-
-      if (!match) {
-        // safari and firefox
-        match = error.stack.match(/.*\n([A-Z][A-Za-z0-9$]+)@/);
-      }
-
-      if (match) {
-        newProps[labelPropName] = sanitizeIdentifier(match[1]);
-      }
-    }
+  if ("development" !== 'production' && !!props.css && (typeof props.css !== 'object' || typeof props.css.name !== 'string' || props.css.name.indexOf('-') === -1)) {
+    var label = getLabelFromStackTrace(new Error().stack);
+    if (label) newProps[labelPropName] = label;
   }
 
   return newProps;
@@ -46542,26 +46576,26 @@ Object.defineProperty(exports, "__esModule", {
 Object.defineProperty(exports, "CacheProvider", {
   enumerable: true,
   get: function () {
-    return _emotionElement1c22787fBrowserEsm.C;
+    return _emotionElement699e6908BrowserEsm.C;
   }
 });
 exports.Global = exports.ClassNames = void 0;
 Object.defineProperty(exports, "ThemeContext", {
   enumerable: true,
   get: function () {
-    return _emotionElement1c22787fBrowserEsm.T;
+    return _emotionElement699e6908BrowserEsm.T;
   }
 });
 Object.defineProperty(exports, "ThemeProvider", {
   enumerable: true,
   get: function () {
-    return _emotionElement1c22787fBrowserEsm.a;
+    return _emotionElement699e6908BrowserEsm.a;
   }
 });
 Object.defineProperty(exports, "__unsafe_useEmotionCache", {
   enumerable: true,
   get: function () {
-    return _emotionElement1c22787fBrowserEsm._;
+    return _emotionElement699e6908BrowserEsm._;
   }
 });
 exports.createElement = void 0;
@@ -46570,19 +46604,19 @@ exports.keyframes = exports.jsx = void 0;
 Object.defineProperty(exports, "useTheme", {
   enumerable: true,
   get: function () {
-    return _emotionElement1c22787fBrowserEsm.u;
+    return _emotionElement699e6908BrowserEsm.u;
   }
 });
 Object.defineProperty(exports, "withEmotionCache", {
   enumerable: true,
   get: function () {
-    return _emotionElement1c22787fBrowserEsm.w;
+    return _emotionElement699e6908BrowserEsm.w;
   }
 });
 Object.defineProperty(exports, "withTheme", {
   enumerable: true,
   get: function () {
-    return _emotionElement1c22787fBrowserEsm.b;
+    return _emotionElement699e6908BrowserEsm.b;
   }
 });
 
@@ -46590,7 +46624,7 @@ var _react = require("react");
 
 require("@emotion/cache");
 
-var _emotionElement1c22787fBrowserEsm = require("./emotion-element-1c22787f.browser.esm.js");
+var _emotionElement699e6908BrowserEsm = require("./emotion-element-699e6908.browser.esm.js");
 
 require("@babel/runtime/helpers/extends");
 
@@ -46608,7 +46642,7 @@ var _sheet = require("@emotion/sheet");
 
 var pkg = {
   name: "@emotion/react",
-  version: "11.6.0",
+  version: "11.7.0",
   main: "dist/emotion-react.cjs.js",
   module: "dist/emotion-react.esm.js",
   browser: {
@@ -46670,15 +46704,15 @@ var pkg = {
 var jsx = function jsx(type, props) {
   var args = arguments;
 
-  if (props == null || !_emotionElement1c22787fBrowserEsm.h.call(props, 'css')) {
+  if (props == null || !_emotionElement699e6908BrowserEsm.h.call(props, 'css')) {
     // $FlowFixMe
     return _react.createElement.apply(undefined, args);
   }
 
   var argsLength = args.length;
   var createElementArgArray = new Array(argsLength);
-  createElementArgArray[0] = _emotionElement1c22787fBrowserEsm.E;
-  createElementArgArray[1] = (0, _emotionElement1c22787fBrowserEsm.c)(type, props);
+  createElementArgArray[0] = _emotionElement699e6908BrowserEsm.E;
+  createElementArgArray[1] = (0, _emotionElement699e6908BrowserEsm.c)(type, props);
 
   for (var i = 2; i < argsLength; i++) {
     createElementArgArray[i] = args[i];
@@ -46693,7 +46727,7 @@ var warnedAboutCssPropForGlobal = false; // maintain place over rerenders.
 // initial render from browser, insertBefore context.sheet.tags[0] or if a style hasn't been inserted there yet, appendChild
 // initial client-side render from SSR, use place of hydrating tag
 
-var Global = /* #__PURE__ */(0, _emotionElement1c22787fBrowserEsm.w)(function (props, cache) {
+var Global = /* #__PURE__ */(0, _emotionElement699e6908BrowserEsm.w)(function (props, cache) {
   if ("development" !== 'production' && !warnedAboutCssPropForGlobal && ( // check for className as well since the user is
   // probably using the custom createElement which
   // means it will be turned into a className prop
@@ -46704,7 +46738,7 @@ var Global = /* #__PURE__ */(0, _emotionElement1c22787fBrowserEsm.w)(function (p
   }
 
   var styles = props.styles;
-  var serialized = (0, _serialize.serializeStyles)([styles], undefined, (0, _react.useContext)(_emotionElement1c22787fBrowserEsm.T)); // but it is based on a constant that will never change at runtime
+  var serialized = (0, _serialize.serializeStyles)([styles], undefined, (0, _react.useContext)(_emotionElement699e6908BrowserEsm.T)); // but it is based on a constant that will never change at runtime
   // it's effectively like having two implementations and switching them out
   // so it's not actually breaking anything
 
@@ -46859,7 +46893,7 @@ var Noop = function Noop() {
   return null;
 };
 
-var ClassNames = /* #__PURE__ */(0, _emotionElement1c22787fBrowserEsm.w)(function (props, cache) {
+var ClassNames = /* #__PURE__ */(0, _emotionElement699e6908BrowserEsm.w)(function (props, cache) {
   var hasRendered = false;
 
   var css = function css() {
@@ -46893,7 +46927,7 @@ var ClassNames = /* #__PURE__ */(0, _emotionElement1c22787fBrowserEsm.w)(functio
   var content = {
     css: css,
     cx: cx,
-    theme: (0, _react.useContext)(_emotionElement1c22787fBrowserEsm.T)
+    theme: (0, _react.useContext)(_emotionElement699e6908BrowserEsm.T)
   };
   var ele = props.children(content);
   hasRendered = true;
@@ -46925,7 +46959,7 @@ if ("development" !== 'production') {
     globalContext[globalKey] = true;
   }
 }
-},{"react":"node_modules/react/index.js","@emotion/cache":"node_modules/@emotion/cache/dist/emotion-cache.browser.esm.js","./emotion-element-1c22787f.browser.esm.js":"node_modules/@emotion/react/dist/emotion-element-1c22787f.browser.esm.js","@babel/runtime/helpers/extends":"node_modules/@babel/runtime/helpers/extends.js","@emotion/weak-memoize":"node_modules/@emotion/weak-memoize/dist/weak-memoize.browser.esm.js","hoist-non-react-statics":"node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js","../_isolated-hnrs/dist/emotion-react-_isolated-hnrs.browser.esm.js":"node_modules/@emotion/react/_isolated-hnrs/dist/emotion-react-_isolated-hnrs.browser.esm.js","@emotion/utils":"node_modules/@emotion/utils/dist/emotion-utils.browser.esm.js","@emotion/serialize":"node_modules/@emotion/serialize/dist/emotion-serialize.browser.esm.js","@emotion/sheet":"node_modules/@emotion/sheet/dist/emotion-sheet.browser.esm.js"}],"node_modules/@babel/runtime/helpers/esm/taggedTemplateLiteral.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","@emotion/cache":"node_modules/@emotion/cache/dist/emotion-cache.browser.esm.js","./emotion-element-699e6908.browser.esm.js":"node_modules/@emotion/react/dist/emotion-element-699e6908.browser.esm.js","@babel/runtime/helpers/extends":"node_modules/@babel/runtime/helpers/extends.js","@emotion/weak-memoize":"node_modules/@emotion/weak-memoize/dist/weak-memoize.browser.esm.js","hoist-non-react-statics":"node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js","../_isolated-hnrs/dist/emotion-react-_isolated-hnrs.browser.esm.js":"node_modules/@emotion/react/_isolated-hnrs/dist/emotion-react-_isolated-hnrs.browser.esm.js","@emotion/utils":"node_modules/@emotion/utils/dist/emotion-utils.browser.esm.js","@emotion/serialize":"node_modules/@emotion/serialize/dist/emotion-serialize.browser.esm.js","@emotion/sheet":"node_modules/@emotion/sheet/dist/emotion-sheet.browser.esm.js"}],"node_modules/@babel/runtime/helpers/esm/taggedTemplateLiteral.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -53313,449 +53347,6 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/genresPage/index.jsx":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireWildcard(require("react"));
-
-var _reactRouterDom = require("react-router-dom");
-
-require("./genresPage.css");
-
-var _universalCookie = _interopRequireDefault(require("universal-cookie"));
-
-var _jwtDecode = _interopRequireDefault(require("jwt-decode"));
-
-var _axios = _interopRequireDefault(require("axios"));
-
-var _header = _interopRequireDefault(require("../header"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function genresPage(props) {
-  var runCallback = function runCallback(cb) {
-    return cb();
-  };
-
-  var registered = false;
-  var username = "";
-  var cookies = new _universalCookie.default();
-
-  try {
-    var token = cookies.get("token");
-    var decoded = (0, _jwtDecode.default)(token);
-    username = decoded.username;
-    registered = true;
-  } catch (_unused) {
-    registered = false;
-    console.log("guest user");
-  }
-
-  var logOut = function logOut() {
-    cookies.remove("token", {
-      path: "/"
-    });
-    window.location.reload();
-  };
-
-  var api = _axios.default.create({
-    baseURL: "http://localhost:3000/api/v1"
-  });
-
-  var _useState = (0, _react.useState)([]),
-      _useState2 = _slicedToArray(_useState, 2),
-      allGenres = _useState2[0],
-      setAllGenres = _useState2[1];
-
-  var _useState3 = (0, _react.useState)(),
-      _useState4 = _slicedToArray(_useState3, 2),
-      numOfGenres = _useState4[0],
-      setNumOfGenres = _useState4[1];
-
-  var _useState5 = (0, _react.useState)([]),
-      _useState6 = _slicedToArray(_useState5, 2),
-      moviesId = _useState6[0],
-      setMoviesId = _useState6[1];
-
-  var _useState7 = (0, _react.useState)([]),
-      _useState8 = _slicedToArray(_useState7, 2),
-      movieTitles = _useState8[0],
-      setmovieTitles = _useState8[1];
-
-  var _useState9 = (0, _react.useState)([]),
-      _useState10 = _slicedToArray(_useState9, 2),
-      Allposters = _useState10[0],
-      setAllposters = _useState10[1];
-
-  var _useState11 = (0, _react.useState)([]),
-      _useState12 = _slicedToArray(_useState11, 2),
-      totalRatings = _useState12[0],
-      settotalRatings = _useState12[1]; // const [moviesInfo, setMoviesInfo] = useState([
-  // {'movie_id':1,'title' : 'Toy1'} ,   {'movie_id':3,'title' : 'Toy3'}
-  // ]);
-
-
-  var allGens = ["Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy", "Film-Noir", "History", "Horror", "Music", "Musical", "Mystery", "Romance", "Sci-Fi", "Short", "Sport", "Thriller", "War", "Western"]; // // const numOfGenres = 0;
-  // let genresArray = [];
-  // //Get All Genres
-  // api.get(`/movies/allGenres/1`).then((response) => {
-  //   for (var i = 0; i < response.data.length; i++) {
-  //     genresArray[i] = response.data[i].genre;
-  //     // numOfGenres = numOfGenres + 1;
-  //   }
-  //   setAllGenres(genresArray);
-  // });
-
-  _react.default.useEffect(function () {
-    var moviesIdArray = _toConsumableArray(moviesId);
-
-    var movieTitlesArray = _toConsumableArray(movieTitles);
-
-    var postersArray = _toConsumableArray(Allposters);
-
-    var ratingsArray = _toConsumableArray(totalRatings);
-
-    var numOfItrations = 2;
-
-    for (var k = 0; k < numOfItrations; k++) {
-      var genreType = allGens[k];
-      var count = 0;
-      console.log(genreType);
-      api.get("/movies/genresFilter/".concat(genreType, "/4")).then(function (response) {
-        for (var i = 0; i < 4; i++) {
-          moviesIdArray[count] = response.data[i].movie_id;
-          movieTitlesArray[count] = response.data[i].title;
-          postersArray[count] = response.data[i].poster;
-          ratingsArray[count++] = response.data[i].total_rating;
-          console.log(response.data[i].total_rating);
-        } //if finish getting all movies --> then set valuse
-
-
-        if (moviesIdArray.length == numOfItrations * 4) {
-          console.log(movieTitlesArray);
-          setMoviesId(moviesIdArray);
-          setmovieTitles(movieTitlesArray);
-          setAllposters(postersArray);
-          settotalRatings(ratingsArray);
-        }
-      });
-    }
-  }, []);
-
-  return /*#__PURE__*/_react.default.createElement("div", {
-    className: "PageCenter"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresPage screen"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresPageContainer"
-  }, /*#__PURE__*/_react.default.createElement("body", null, /*#__PURE__*/_react.default.createElement("header", null, /*#__PURE__*/_react.default.createElement(_header.default, null)), /*#__PURE__*/_react.default.createElement("main", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "body"
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "goToGenreTypePage"
-  }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-    to: "/genreTypePage/Action"
-  }, /*#__PURE__*/_react.default.createElement("img", {
-    className: "arrowIcon",
-    src: props.arrowIcon
-  }), /*#__PURE__*/_react.default.createElement("h1", {
-    className: "genreTypeTitle neuton-normal-white-60px3"
-  }, allGens[0]))), /*#__PURE__*/_react.default.createElement("div", {
-    className: "movies"
-  }, runCallback(function () {
-    var row = [];
-    var count = 0;
-
-    for (var k = 0; k < 2; k++) {
-      // const gen = allGens[k];
-      // const genPage = `/genreTypePage/${gen}`
-      for (var i = 0; i <= 3; i++) {
-        var id = moviesId[count];
-        var url = "/movieInfoPage/".concat(id);
-        var poster = Allposters[count];
-        var title = movieTitles[count];
-        var rating = totalRatings[count++]; // // const reminder = i % 4;
-        // // if (reminder == 0) {
-        // //   reminder = 4;
-        // // }
-
-        var className1 = "Movie".concat(count);
-        row.push( /*#__PURE__*/_react.default.createElement("div", {
-          key: i
-        }, /*#__PURE__*/_react.default.createElement("div", {
-          className: className1
-        }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-          to: url
-        }, /*#__PURE__*/_react.default.createElement("img", {
-          className: "genresMoviePoster1",
-          src: poster
-        }), /*#__PURE__*/_react.default.createElement("div", {
-          className: "genresMovieName1"
-        }, title), /*#__PURE__*/_react.default.createElement("div", {
-          className: "genresRating1 neuton-bold-white-30px3"
-        }, rating), /*#__PURE__*/_react.default.createElement("img", {
-          className: "genresStar1",
-          src: props.star
-        }), /*#__PURE__*/_react.default.createElement("div", {
-          className: "genresGenreType1"
-        }, /*#__PURE__*/_react.default.createElement("div", {
-          className: "genresGenreTypeText1 roboto-normal-cardinal-12px3"
-        }, props.genresGenreTypeText1))))));
-      }
-    }
-
-    return row;
-  }))), /*#__PURE__*/_react.default.createElement("div", {
-    className: "footer"
-  }, " "), /*#__PURE__*/_react.default.createElement("img", {
-    className: "footerLogo",
-    src: props.logo
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "footerText1"
-  }, props.footerText1), /*#__PURE__*/_react.default.createElement("div", {
-    className: "footerText2 inter-light-bon-jour-35px2"
-  }, /*#__PURE__*/_react.default.createElement("span", null, props.footerText2))))));
-}
-
-var _default = genresPage;
-exports.default = _default;
-},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./genresPage.css":"components/genresPage/genresPage.css","universal-cookie":"node_modules/universal-cookie/es6/index.js","jwt-decode":"node_modules/jwt-decode/build/jwt-decode.esm.js","axios":"node_modules/axios/index.js","../header":"components/header/index.jsx"}],"components/genreTypePage/genreTypePage.css":[function(require,module,exports) {
-var reloadCSS = require('_css_loader');
-
-module.hot.dispose(reloadCSS);
-module.hot.accept(reloadCSS);
-},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/genreTypePage/index.jsx":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireWildcard(require("react"));
-
-var _reactRouterDom = require("react-router-dom");
-
-require("./genreTypePage.css");
-
-var _header = _interopRequireDefault(require("../header"));
-
-var _axios = _interopRequireDefault(require("axios"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function genreTypePage(props) {
-  var runCallback = function runCallback(cb) {
-    return cb();
-  };
-
-  var genreTitle = props.genreTitle,
-      movieName1 = props.movieName1,
-      movieName2 = props.movieName2,
-      movieName3 = props.movieName3,
-      movieName4 = props.movieName4,
-      logo = props.logo,
-      homeText = props.homeText,
-      genresText = props.genresText,
-      languageText = props.languageText,
-      loginText = props.loginText,
-      registerText = props.registerText,
-      icon = props.icon,
-      footerText2 = props.footerText2,
-      footerText1 = props.footerText1,
-      moviePoster = props.moviePoster,
-      rating1 = props.rating1,
-      rating2 = props.rating2,
-      rating3 = props.rating3,
-      rating4 = props.rating4,
-      arrowIcon = props.arrowIcon,
-      genresGenreTypeText1 = props.genresGenreTypeText1,
-      genresGenreTypeText2 = props.genresGenreTypeText2,
-      genresGenreTypeText3 = props.genresGenreTypeText3,
-      genresGenreTypeText4 = props.genresGenreTypeText4,
-      star = props.star,
-      leftArrowIcon = props.leftArrowIcon,
-      rightArrowIcon = props.rightArrowIcon;
-
-  var api = _axios.default.create({
-    baseURL: "http://localhost:3000/api/v1"
-  });
-
-  var _useState = (0, _react.useState)([]),
-      _useState2 = _slicedToArray(_useState, 2),
-      moviesId = _useState2[0],
-      setMoviesId = _useState2[1];
-
-  var _useState3 = (0, _react.useState)([]),
-      _useState4 = _slicedToArray(_useState3, 2),
-      movieTitles = _useState4[0],
-      setmovieTitles = _useState4[1];
-
-  var _useState5 = (0, _react.useState)([]),
-      _useState6 = _slicedToArray(_useState5, 2),
-      Allposters = _useState6[0],
-      setAllposters = _useState6[1];
-
-  var _useState7 = (0, _react.useState)([]),
-      _useState8 = _slicedToArray(_useState7, 2),
-      totalRatings = _useState8[0],
-      settotalRatings = _useState8[1];
-
-  var _useParams = (0, _reactRouterDom.useParams)(),
-      genre = _useParams.genre;
-
-  _react.default.useEffect(function () {
-    var moviesIdArray = _toConsumableArray(moviesId);
-
-    var movieTitlesArray = _toConsumableArray(movieTitles);
-
-    var postersArray = _toConsumableArray(Allposters);
-
-    var ratingsArray = _toConsumableArray(totalRatings);
-
-    api.get("/movies/genresFilter/".concat(genre, "/50")).then(function (response) {
-      for (var i = 0; i < response.data.length; i++) {
-        moviesIdArray[i] = response.data[i].movie_id;
-        movieTitlesArray[i] = response.data[i].title;
-        postersArray[i] = response.data[i].poster;
-        ratingsArray[i] = response.data[i].total_rating;
-      } //if finish getting all movies --> then set valuse
-
-
-      if (moviesIdArray.length == response.data.length) {
-        console.log(movieTitlesArray);
-        setMoviesId(moviesIdArray);
-        setmovieTitles(movieTitlesArray);
-        setAllposters(postersArray);
-        settotalRatings(ratingsArray);
-      }
-    });
-  }, []);
-
-  return /*#__PURE__*/_react.default.createElement("div", {
-    className: "PageCenter"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresPage screen"
-  }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "genresPageContainer"
-  }, /*#__PURE__*/_react.default.createElement("body", null, /*#__PURE__*/_react.default.createElement("header", null, /*#__PURE__*/_react.default.createElement(_header.default, null)), /*#__PURE__*/_react.default.createElement("main", null, /*#__PURE__*/_react.default.createElement("div", {
-    className: "body"
-  }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h1", {
-    className: "genreTypeTitle neuton-normal-white-60px3"
-  }, genre)), /*#__PURE__*/_react.default.createElement("div", {
-    className: "movies"
-  }, runCallback(function () {
-    var row = [];
-    var count = 0;
-
-    for (var k = 0; k < 2; k++) {
-      for (var i = 0; i <= 3; i++) {
-        var id = moviesId[count];
-        var url = "/movieInfoPage/".concat(id);
-        var poster = Allposters[count];
-        var title = movieTitles[count];
-        var rating = totalRatings[count++]; // // const reminder = i % 4;
-        // // if (reminder == 0) {
-        // //   reminder = 4;
-        // // }
-
-        var className1 = "Movie".concat(count);
-        row.push( /*#__PURE__*/_react.default.createElement("div", {
-          key: i
-        }, /*#__PURE__*/_react.default.createElement("div", {
-          className: className1
-        }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
-          to: url
-        }, /*#__PURE__*/_react.default.createElement("img", {
-          className: "genresMoviePoster1",
-          src: poster
-        }), /*#__PURE__*/_react.default.createElement("div", {
-          className: "genresMovieName1"
-        }, title), /*#__PURE__*/_react.default.createElement("div", {
-          className: "genresRating1 neuton-bold-white-30px3"
-        }, rating), /*#__PURE__*/_react.default.createElement("img", {
-          className: "genresStar1",
-          src: props.star
-        }), /*#__PURE__*/_react.default.createElement("div", {
-          className: "genresGenreType1"
-        }, /*#__PURE__*/_react.default.createElement("div", {
-          className: "genresGenreTypeText1 roboto-normal-cardinal-12px3"
-        }, props.genresGenreTypeText1))))));
-      }
-    }
-
-    return row;
-  }))), /*#__PURE__*/_react.default.createElement("div", {
-    className: "footer"
-  }, " "), /*#__PURE__*/_react.default.createElement("img", {
-    className: "footerLogo",
-    src: logo
-  }), /*#__PURE__*/_react.default.createElement("div", {
-    className: "footerText1"
-  }, footerText1), /*#__PURE__*/_react.default.createElement("div", {
-    className: "footerText2 inter-light-bon-jour-35px2"
-  }, /*#__PURE__*/_react.default.createElement("span", null, footerText2))))));
-}
-
-var _default = genreTypePage;
-exports.default = _default;
-},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./genreTypePage.css":"components/genreTypePage/genreTypePage.css","../header":"components/header/index.jsx","axios":"node_modules/axios/index.js"}],"components/movieInfoPage/movieInfoPage.css":[function(require,module,exports) {
-var reloadCSS = require('_css_loader');
-
-module.hot.dispose(reloadCSS);
-module.hot.accept(reloadCSS);
 },{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"node_modules/react-owl-carousel/node_modules/react/cjs/react.development.js":[function(require,module,exports) {
 /** @license React v16.14.0
  * react.development.js
@@ -59256,6 +58847,447 @@ var global = arguments[3];
         module.hot.dispose(reloadCSS);
         module.hot.accept(reloadCSS);
       
+},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/genresPage/index.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _reactRouterDom = require("react-router-dom");
+
+require("./genresPage.css");
+
+var _universalCookie = _interopRequireDefault(require("universal-cookie"));
+
+var _jwtDecode = _interopRequireDefault(require("jwt-decode"));
+
+var _axios = _interopRequireDefault(require("axios"));
+
+var _header = _interopRequireDefault(require("../header"));
+
+var _reactOwlCarousel = _interopRequireDefault(require("react-owl-carousel"));
+
+require("owl.carousel/dist/assets/owl.carousel.css");
+
+require("owl.carousel/dist/assets/owl.theme.default.css");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function genresPage(props) {
+  var options = {
+    items: 5,
+    // Navigation
+    navigation: false,
+    navText: ["<div className='reviewsExpandLeft'>  <img className='reviewsExpandLeft' src='/img/expand-left--review-@2x.svg' /> </div>", "<div>  <img className='reviewsExpandRight' src='/img/expand-right--review-@2x.svg' /> </div>"],
+    transitionStyle: "fade"
+  };
+
+  var runCallback = function runCallback(cb) {
+    return cb();
+  };
+
+  var registered = false;
+  var username = "";
+  var cookies = new _universalCookie.default();
+
+  try {
+    var token = cookies.get("token");
+    var decoded = (0, _jwtDecode.default)(token);
+    username = decoded.username;
+    registered = true;
+  } catch (_unused) {
+    registered = false;
+    console.log("guest user");
+  }
+
+  var logOut = function logOut() {
+    cookies.remove("token", {
+      path: "/"
+    });
+    window.location.reload();
+  };
+
+  var api = _axios.default.create({
+    baseURL: "http://localhost:3000/api/v1"
+  });
+
+  var _useState = (0, _react.useState)([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      allGenres = _useState2[0],
+      setAllGenres = _useState2[1];
+
+  var _useState3 = (0, _react.useState)(),
+      _useState4 = _slicedToArray(_useState3, 2),
+      numOfGenres = _useState4[0],
+      setNumOfGenres = _useState4[1];
+
+  var _useState5 = (0, _react.useState)([]),
+      _useState6 = _slicedToArray(_useState5, 2),
+      moviesId = _useState6[0],
+      setMoviesId = _useState6[1];
+
+  var _useState7 = (0, _react.useState)([]),
+      _useState8 = _slicedToArray(_useState7, 2),
+      movieTitles = _useState8[0],
+      setmovieTitles = _useState8[1];
+
+  var _useState9 = (0, _react.useState)([]),
+      _useState10 = _slicedToArray(_useState9, 2),
+      Allposters = _useState10[0],
+      setAllposters = _useState10[1];
+
+  var _useState11 = (0, _react.useState)([]),
+      _useState12 = _slicedToArray(_useState11, 2),
+      totalRatings = _useState12[0],
+      settotalRatings = _useState12[1]; // const [moviesInfo, setMoviesInfo] = useState([
+  // {'movie_id':1,'title' : 'Toy1'} ,   {'movie_id':3,'title' : 'Toy3'}
+  // ]);
+
+
+  var allGens = ["Action", "Adventure", "Animation", "Biography", "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy", "Film-Noir", "History", "Horror", "Music", "Musical", "Mystery", "Romance", "Sci-Fi", "Short", "Sport", "Thriller", "War", "Western"]; // // const numOfGenres = 0;
+  // let genresArray = [];
+  // //Get All Genres
+  // api.get(`/movies/allGenres/1`).then((response) => {
+  //   for (var i = 0; i < response.data.length; i++) {
+  //     genresArray[i] = response.data[i].genre;
+  //     // numOfGenres = numOfGenres + 1;
+  //   }
+  //   setAllGenres(genresArray);
+  // });
+
+  _react.default.useEffect(function () {
+    var moviesIdArray = _toConsumableArray(moviesId);
+
+    var movieTitlesArray = _toConsumableArray(movieTitles);
+
+    var postersArray = _toConsumableArray(Allposters);
+
+    var ratingsArray = _toConsumableArray(totalRatings);
+
+    var numOfItrations = 2;
+
+    for (var k = 0; k < numOfItrations; k++) {
+      var genreType = allGens[k];
+      var count = 0;
+      console.log(genreType);
+      api.get("/movies/genresFilter/".concat(genreType, "/4")).then(function (response) {
+        for (var i = 0; i < 4; i++) {
+          moviesIdArray[count] = response.data[i].movie_id;
+          movieTitlesArray[count] = response.data[i].title;
+          postersArray[count] = response.data[i].poster;
+          ratingsArray[count++] = response.data[i].total_rating;
+          console.log(response.data[i].total_rating);
+        } //if finish getting all movies --> then set valuse
+
+
+        if (moviesIdArray.length == numOfItrations * 4) {
+          console.log(movieTitlesArray);
+          setMoviesId(moviesIdArray);
+          setmovieTitles(movieTitlesArray);
+          setAllposters(postersArray);
+          settotalRatings(ratingsArray);
+        }
+      });
+    }
+  }, []);
+
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "PageCenter"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "genresPage screen"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "genresPageContainer"
+  }, /*#__PURE__*/_react.default.createElement("body", null, /*#__PURE__*/_react.default.createElement("header", null, /*#__PURE__*/_react.default.createElement(_header.default, null)), /*#__PURE__*/_react.default.createElement("main", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "genreBody"
+  }), /*#__PURE__*/_react.default.createElement("div", {
+    className: "genreMovies"
+  }, runCallback(function () {
+    var basicRow = [];
+    var count = 0;
+
+    for (var k = 0; k < 2; k++) {
+      var genre = allGens[k];
+      var genrePage = "/genreTypePage/".concat(genre);
+      basicRow.push( /*#__PURE__*/_react.default.createElement("div", {
+        key: k
+      }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
+        className: "goToGenreTypePage"
+      }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+        to: genrePage
+      }, /*#__PURE__*/_react.default.createElement("div", {
+        className: "genreTitle"
+      }, genre, /*#__PURE__*/_react.default.createElement("img", {
+        className: "arrowIcon",
+        src: props.arrowIcon
+      })))), /*#__PURE__*/_react.default.createElement("div", {
+        className: "genreTypeMovies"
+      }, /*#__PURE__*/_react.default.createElement(_reactOwlCarousel.default, _extends({
+        className: "owl-theme2"
+      }, options, {
+        nav: true
+      }), runCallback(function () {
+        var row = [];
+
+        for (var i = 0; i < 10; i++) {
+          var id = moviesId[count];
+          var url = "/movieInfoPage/".concat(id);
+          var poster = Allposters[count];
+          var title = movieTitles[count];
+          var rating = totalRatings[count++]; // rating = "hello";
+
+          row.push( /*#__PURE__*/_react.default.createElement("div", {
+            key: i
+          }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
+            className: "genreMovieContainer"
+          }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+            to: url
+          }, /*#__PURE__*/_react.default.createElement("img", {
+            className: "genreMoviePoster",
+            src: poster
+          }), /*#__PURE__*/_react.default.createElement("img", {
+            className: "genreStar",
+            src: "/img/star-2@2x.svg"
+          }), /*#__PURE__*/_react.default.createElement("div", {
+            className: "genreMovieRating neuton-bold-white-30px"
+          }, " hi  ", rating), /*#__PURE__*/_react.default.createElement("div", {
+            className: "genreMovieName neuton-bold-white-30px"
+          }, " ", title, " "))))));
+        }
+
+        return row;
+      }))))));
+    }
+
+    return basicRow;
+  })))))));
+}
+
+var _default = genresPage;
+exports.default = _default;
+},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./genresPage.css":"components/genresPage/genresPage.css","universal-cookie":"node_modules/universal-cookie/es6/index.js","jwt-decode":"node_modules/jwt-decode/build/jwt-decode.esm.js","axios":"node_modules/axios/index.js","../header":"components/header/index.jsx","react-owl-carousel":"node_modules/react-owl-carousel/umd/OwlCarousel.js","owl.carousel/dist/assets/owl.carousel.css":"node_modules/owl.carousel/dist/assets/owl.carousel.css","owl.carousel/dist/assets/owl.theme.default.css":"node_modules/owl.carousel/dist/assets/owl.theme.default.css"}],"components/genreTypePage/genreTypePage.css":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/genreTypePage/index.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _reactRouterDom = require("react-router-dom");
+
+require("./genreTypePage.css");
+
+var _header = _interopRequireDefault(require("../header"));
+
+var _axios = _interopRequireDefault(require("axios"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function genreTypePage(props) {
+  var runCallback = function runCallback(cb) {
+    return cb();
+  };
+
+  var genreTitle = props.genreTitle,
+      movieName1 = props.movieName1,
+      movieName2 = props.movieName2,
+      movieName3 = props.movieName3,
+      movieName4 = props.movieName4,
+      logo = props.logo,
+      homeText = props.homeText,
+      genresText = props.genresText,
+      languageText = props.languageText,
+      loginText = props.loginText,
+      registerText = props.registerText,
+      icon = props.icon,
+      footerText2 = props.footerText2,
+      footerText1 = props.footerText1,
+      moviePoster = props.moviePoster,
+      rating1 = props.rating1,
+      rating2 = props.rating2,
+      rating3 = props.rating3,
+      rating4 = props.rating4,
+      arrowIcon = props.arrowIcon,
+      genresGenreTypeText1 = props.genresGenreTypeText1,
+      genresGenreTypeText2 = props.genresGenreTypeText2,
+      genresGenreTypeText3 = props.genresGenreTypeText3,
+      genresGenreTypeText4 = props.genresGenreTypeText4,
+      star = props.star,
+      leftArrowIcon = props.leftArrowIcon,
+      rightArrowIcon = props.rightArrowIcon;
+
+  var api = _axios.default.create({
+    baseURL: "http://localhost:3000/api/v1"
+  });
+
+  var _useState = (0, _react.useState)([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      moviesId = _useState2[0],
+      setMoviesId = _useState2[1];
+
+  var _useState3 = (0, _react.useState)([]),
+      _useState4 = _slicedToArray(_useState3, 2),
+      movieTitles = _useState4[0],
+      setmovieTitles = _useState4[1];
+
+  var _useState5 = (0, _react.useState)([]),
+      _useState6 = _slicedToArray(_useState5, 2),
+      Allposters = _useState6[0],
+      setAllposters = _useState6[1];
+
+  var _useState7 = (0, _react.useState)([]),
+      _useState8 = _slicedToArray(_useState7, 2),
+      totalRatings = _useState8[0],
+      settotalRatings = _useState8[1];
+
+  var _useParams = (0, _reactRouterDom.useParams)(),
+      genre = _useParams.genre;
+
+  _react.default.useEffect(function () {
+    var moviesIdArray = _toConsumableArray(moviesId);
+
+    var movieTitlesArray = _toConsumableArray(movieTitles);
+
+    var postersArray = _toConsumableArray(Allposters);
+
+    var ratingsArray = _toConsumableArray(totalRatings);
+
+    api.get("/movies/genresFilter/".concat(genre, "/50")).then(function (response) {
+      for (var i = 0; i < response.data.length; i++) {
+        moviesIdArray[i] = response.data[i].movie_id;
+        movieTitlesArray[i] = response.data[i].title;
+        postersArray[i] = response.data[i].poster;
+        ratingsArray[i] = response.data[i].total_rating;
+      } //if finish getting all movies --> then set valuse
+
+
+      if (moviesIdArray.length == response.data.length) {
+        console.log(movieTitlesArray);
+        setMoviesId(moviesIdArray);
+        setmovieTitles(movieTitlesArray);
+        setAllposters(postersArray);
+        settotalRatings(ratingsArray);
+      }
+    });
+  }, []);
+
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "PageCenter"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "genresPage screen"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "genresPageContainer"
+  }, /*#__PURE__*/_react.default.createElement("body", null, /*#__PURE__*/_react.default.createElement("header", null, /*#__PURE__*/_react.default.createElement(_header.default, null)), /*#__PURE__*/_react.default.createElement("main", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "genreTypebody"
+  }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h1", {
+    className: "genreTypeTitle neuton-normal-white-60px3"
+  }, genre)), /*#__PURE__*/_react.default.createElement("div", {
+    className: "movies"
+  }, runCallback(function () {
+    var row = [];
+    var count = 0;
+
+    for (var i = 0; i < 50; i++) {
+      var id = moviesId[count];
+      var url = "/movieInfoPage/".concat(id);
+      var poster = Allposters[count];
+      var title = movieTitles[count];
+      var rating = totalRatings[count++];
+
+      if (rating == "0.0") {
+        rating = "No ratings yet.";
+      }
+
+      row.push( /*#__PURE__*/_react.default.createElement("div", {
+        key: i
+      }, /*#__PURE__*/_react.default.createElement("div", {
+        className: "genreTypeMovieContainer"
+      }, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+        to: url
+      }, /*#__PURE__*/_react.default.createElement("img", {
+        className: "genreTypeMoviePoster",
+        src: poster
+      }), /*#__PURE__*/_react.default.createElement("img", {
+        className: "genreTypeStar",
+        src: props.star
+      }), /*#__PURE__*/_react.default.createElement("div", {
+        className: "genreTypeRating neuton-bold-white-30px"
+      }, rating), /*#__PURE__*/_react.default.createElement("div", {
+        className: "genreTypeMovieName neuton-bold-white-30px"
+      }, title)))));
+    }
+
+    return row;
+  })))))));
+}
+
+var _default = genreTypePage;
+exports.default = _default;
+},{"react":"node_modules/react/index.js","react-router-dom":"node_modules/react-router-dom/esm/react-router-dom.js","./genreTypePage.css":"components/genreTypePage/genreTypePage.css","../header":"components/header/index.jsx","axios":"node_modules/axios/index.js"}],"components/movieInfoPage/movieInfoPage.css":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
 },{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/movieInfoPage/index.jsx":[function(require,module,exports) {
 "use strict";
 
@@ -60680,7 +60712,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55728" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "8084" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

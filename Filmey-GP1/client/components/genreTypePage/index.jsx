@@ -103,10 +103,51 @@ function genreTypePage(props) {
 
           {/* main */}
           <main>
-            <div className="body"></div>
+            <div className="genreTypebody"></div>
 
             {/* Title */}
             <div>
+              <h1 className="genreTypeTitle neuton-normal-white-60px3">{genre}</h1>
+            </div>
+              {/* row1  */}
+              <div className="movies">
+                {runCallback(() => {
+                  const row = [];
+                  var count = 0;
+                    for (var i = 0; i < 50; i++) {
+                      const id = moviesId[count];
+                      const url = `/movieInfoPage/${id}`;
+                      const poster = Allposters[count];
+                      const title = movieTitles[count];
+                      const rating = totalRatings[count++];
+                      if (rating == "0.0"){
+                        rating = "No ratings yet."
+                      }
+
+                      row.push(
+                        <div key={i}>
+                          {
+                            <div className="genreTypeMovieContainer" >
+                              <Link to={url}>
+                                <img className="genreTypeMoviePoster" src={poster} />
+                                <img className="genreTypeStar" src={props.star} />
+                                <div className="genreTypeRating neuton-bold-white-30px">
+                                 {rating}
+                                </div>
+                                <div className="genreTypeMovieName neuton-bold-white-30px">{title}</div>
+                              </Link>
+                            </div>
+                          }
+                        </div>
+                      );
+                  }
+                  return row;
+                })}
+              </div>
+
+
+            {/* Title */}
+            {/* <div>
               <h1 className="genreTypeTitle neuton-normal-white-60px3">{genre}</h1>
             </div>
             
@@ -114,7 +155,7 @@ function genreTypePage(props) {
 
 
                       {/* row1  */}
-              <div className="movies">
+              {/* <div className="movies">
                 {runCallback(() => {
                   const row = [];
                   var count = 0;
@@ -161,7 +202,7 @@ function genreTypePage(props) {
                   }
                   return row;
                 })}
-              </div>
+              </div>  */}
 
 
 
@@ -169,12 +210,12 @@ function genreTypePage(props) {
 
           </main>
           {/* footer */}
-          <div className="footer"> </div>
+          {/* <div className="footer"> </div>
           <img className="footerLogo" src={logo} />
           <div className="footerText1">{footerText1}</div>
           <div className="footerText2 inter-light-bon-jour-35px2">
             <span>{footerText2}</span>
-          </div>
+          </div> */}
         </body>
         </div>
       </div>

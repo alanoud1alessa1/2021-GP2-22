@@ -6,8 +6,23 @@ import jwt_decode from "jwt-decode";
 import Axios from "axios";
 import { useState } from "react";
 import Header from "../header";
+import OwlCarousel from 'react-owl-carousel';  
+import 'owl.carousel/dist/assets/owl.carousel.css';  
+import 'owl.carousel/dist/assets/owl.theme.default.css';  
 
 function genresPage(props) {
+
+  const options={
+    items: 5,
+    // Navigation
+    navigation : false,
+    navText: [
+      "<div className='reviewsExpandLeft'>  <img className='reviewsExpandLeft' src='/img/expand-left--review-@2x.svg' /> </div>",
+      "<div>  <img className='reviewsExpandRight' src='/img/expand-right--review-@2x.svg' /> </div>"
+    ],
+    transitionStyle: "fade"
+  }
+
   const runCallback = (cb) => {
     return cb();
   };
@@ -130,28 +145,94 @@ function genresPage(props) {
 
             {/* main */}
             <main>
-              <div className="body"></div>
+              <div className="genreBody"></div>
+              {/* movies loop */}
+              <div className="genreMovies">
+
               {/* Title */}
+              {runCallback(() => {
+                          const basicRow = [];
+                          var count = 0;
+                          for (var k = 0; k < 2; k++) {
+                          const genre = allGens[k];
+                          const genrePage = `/genreTypePage/${genre}`
+                            basicRow.push(
+                            <div key={k}>
+                            {
+                              <div>
+              <div className="goToGenreTypePage">
+              <Link to={genrePage}>
+                <div className="genreTitle">
+                  {genre}
+                  <img className="arrowIcon" src={props.arrowIcon} />
+                </div>
+              </Link>
+              </div>
+              <div className="genreTypeMovies"> 
+              <OwlCarousel className="owl-theme2"  
+                        {...options}   
+                        nav
+                        >
+                {runCallback(() => {
+                          const row = [];
 
+                          for (var i = 0; i < 10; i++) {
+                            const id = moviesId[count];
+                            const url = `/movieInfoPage/${id}`;
+                            const poster = Allposters[count];
+                            const title = movieTitles[count];
+                            const rating = totalRatings[count++];
+                            // rating = "hello";
+                            
+                            row.push(
+                            <div key={i}>
+                            {
+                              <div>
+                                <div className="genreMovieContainer"> 
+                                <Link to={url}>
+                                <img  className="genreMoviePoster" src={poster} />
+                                <img className="genreStar" src="/img/star-2@2x.svg" />
+                                <div className="genreMovieRating neuton-bold-white-30px"> hi  {rating}</div> 
+                                <div className="genreMovieName neuton-bold-white-30px"> {title} </div> 
+                                </Link>
+                            </div> 
+                            </div>
+                            }
+                            </div>
+                            );
+                          }
+                          return row;
+                        
+                          
+                })}
+                  </OwlCarousel> 
+                  </div>
+              </div>
+                            }
+                            </div>
+                            );
+                          }
+                          return basicRow;
+                        
+                          
+                })}                
 
-              <div className='goToGenreTypePage'>
+                </div>          
+              {/* Title */}
+              {/* <div className='goToGenreTypePage'>
                 <Link to="/genreTypePage/Action">
                   <img className="arrowIcon" src={props.arrowIcon} />
                   <h1 className="genreTypeTitle neuton-normal-white-60px3">
                     {allGens[0]}
                   </h1>
                 </Link>
-              </div>
+              </div> */}
 
               {/* row1  */}
-              <div className="movies">
+              {/* <div className="movies">
                 {runCallback(() => {
                   const row = [];
                   var count = 0;
-
-
-
-
                   for (var k = 0; k < 2; k++) {
                     // const gen = allGens[k];
                     // const genPage = `/genreTypePage/${gen}`
@@ -174,8 +255,6 @@ function genresPage(props) {
                       row.push(
                         <div key={i}>
                           {
-
-
                             <div className={className1}>
                               <Link to={url}>
                                 <img
@@ -201,16 +280,16 @@ function genresPage(props) {
                   }
                   return row;
                 })}
-              </div>
+              </div> */}
             </main>
 
             {/* footer */}
-            <div className="footer"> </div>
+            {/* <div className="footer"> </div>
             <img className="footerLogo" src={props.logo} />
             <div className="footerText1">{props.footerText1}</div>
             <div className="footerText2 inter-light-bon-jour-35px2">
               <span>{props.footerText2}</span>
-            </div>
+            </div> */}
           </body>
         </div>
       </div>
