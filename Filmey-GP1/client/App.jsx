@@ -8,6 +8,8 @@ import GenresPage from "./components/genresPage";
 import GenreTypePage from "./components/genreTypePage";
 import MovieInfoPage from "./components/movieInfoPage";
 import ReviewPage from "./components/reviewPage";
+import AddMoviePage from "./components/addMoviePage";
+
 
 
 function App() {
@@ -34,6 +36,9 @@ function App() {
         </Route>
         <Route path="/reviewPage/:id">
           <ReviewPage {...reviewPageData} />
+        </Route>
+        <Route path="/addMoviePage">
+          <AddMoviePage {...addMoviePageData} />
         </Route>
       </Switch>
     </Router>
@@ -277,4 +282,35 @@ const reviewPageData= {
   footerText1: "WE MAKE YOUR DAY",
   footerText2: <>Filmey © 2021<br /></>,
 };
+
+const addMoviePageData= {
+  addmovietext: "Add Movie",
+  movieInformation: "Movie Information",
+  title: "Title",
+  inputType: "text",
+  inputPlaceholder: "e.g MoonNight",
+  genre: "Genre",
+  lanaguage: "Language",
+  year: "Year",
+  movielenadd: "Movie length",
+  hoursandmins: ":",
+  ageguide: "Age guide",
+  trailer: "Trailer",
+  poster: "Poster",
+  description: "Description",
+  inputType2: "text",
+  inputPlaceholder2: "Enter movie description",
+  directorWriter: "Director & Writer",
+  directoradd: "Director",
+  writer: "Writer",
+  topCast: "Top cast",
+  actorname: "Actor name",
+  actorcharacteradd: "Actor role",
+  actorimage: "Actor image",
+  addbutton: "Add",
+};
+
+
+
+
 

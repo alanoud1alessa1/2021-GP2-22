@@ -10,6 +10,8 @@ import Header from "../header";
 import OwlCarousel from 'react-owl-carousel';  
 import 'owl.carousel/dist/assets/owl.carousel.css';  
 import 'owl.carousel/dist/assets/owl.theme.default.css';  
+import { FiEdit  } from 'react-icons/fi' ;
+import { RiDeleteBin2Line } from 'react-icons/ri';
 
 
 function MovieInfoPage(props) {
@@ -21,7 +23,9 @@ function MovieInfoPage(props) {
       "<div className='reviewsExpandLeft'>  <img className='reviewsExpandLeft' src='/img/expand-left--review-@2x.svg' /> </div>",
       "<div>  <img className='reviewsExpandRight' src='/img/expand-right--review-@2x.svg' /> </div>"
     ],
-    transitionStyle: "fade"
+    transitionStyle: "fade",
+    items:3,
+    
   }
   const runCallback = (cb) => {
     return cb();
@@ -176,18 +180,24 @@ const [totalUsersRating,setTotalUsersRating]=useState();
   // console.log(userRating)})
 
   const deleteRating=()=> {
-    const res =  Axios.post("http://localhost:3000/api/v1/users/deleteRating",{
-      userID :decoded.userID,
-      movieID:id,
-    }).then((res)=>{
-      console.log(res.data);
-      console.log("in delete response");
-      if(res.data)
+     {
+      if (window.confirm('Are u sure to delete your rating?')) 
       {
-        sethaveRated(false);
-      }
-    })
-    alert ("Your rating has been deleted successfully.");
+        const res =  Axios.post("http://localhost:3000/api/v1/users/deleteRating",{
+          userID :decoded.userID,
+          movieID:id,
+        }).then((res)=>{
+          console.log(res.data);
+          console.log("in delete response");
+          if(res.data)
+          {
+            sethaveRated(false);
+          }
+        })
+        alert ("Your rating has been deleted successfully.");
+      };
+       return;
+    }
   }
   
   
@@ -383,7 +393,7 @@ return (
               </div>
 
                {/*  add rating */}
-               {(!haveRated  && !isAdmin) && (
+              {(!haveRated  && !isAdmin) && (
                 <div className="addRating">
                   <div className="rateItText neuton-normal-white-30px">Rate it !</div>
                   <div class="rating-css">
@@ -406,7 +416,7 @@ return (
                       <label for="rating5" className="fas fa-star"></label>
                     </div>
                   </div>   
-               </div> )}
+               </div> )} 
                   
                   
                   {/* after add rating */}
@@ -419,12 +429,41 @@ return (
                       <div className="fiveText1">/ 5</div> 
                     </div> 
                   </div>  )}
-
                  
                   {/* remove rating */}
                   {(haveRated) && (
                   <button className="removeRatingText neuton-normal-white-20px"  onClick={deleteRating}>Remove Rating</button>)}
    
+                  {/* edit movie */}
+                  ({isAdmin &&
+                  <div>
+                  <button className="editMovieButton">
+                  <Link to="/addMoviePage">
+
+                    <div className="editMovieContainer">
+                      <div className="editMovieIcon"> <FiEdit size={30}/> </div>
+                      <div className="editMovieText">  Edit  </div>
+                    </div>
+                    </Link>
+
+                  </button>
+                
+                  {/* delete movie */}
+                  <button className="deleteMovieButton">
+                  <Link to="/home-page">
+                    <div className="editMovieContainer">
+                      <div className="deleteMovieIcon"> <RiDeleteBin2Line size={35}/> </div>
+                      <div className="deleteMovieText">  Delete  </div>
+                    </div>
+                    </Link>
+                  </button>
+                  </div>
+                  })
+
+
+                   
+
+               {/* movie information */}
               <div className="movieInfo">
                 <div className="movieTitle">
                   <div className="movieName">{title} <span className="movieYear"> ({year})</span></div>
@@ -544,7 +583,7 @@ return (
                         >
                  {runCallback(() => {
                           const row = [];
-                          if (-1>0){
+                          if (reviews!= ""){
                           for (var i = 0; i < reviews.length; i++) {
                             row.push(
                             <div key={i}>
@@ -557,7 +596,7 @@ return (
                                <div className="userReview roboto-normal-white-20px">
                                  {reviews[i]}
                                </div>      
-                               
+                            
                             </div>
                             }
                             </div>
@@ -569,7 +608,7 @@ return (
                           row.push(
                             <div key={i}>
                             {
-                             <div className="noReviews neuton-bold-white-20px">    
+                             <div className="noReviews neuton-bold-white-30px">    
                               The movie has no reviews yet.
                              </div>
                             }

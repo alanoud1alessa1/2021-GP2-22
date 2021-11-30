@@ -35,7 +35,7 @@ function regPage(props) {
   const [email_error_message,setEmail_Error_message]=useState('');
   const [password_error_message,setPassword_Error_message]=useState('');
   var [Displayvalue,getvalue]=useState('');
-  const [value, onChange] = useState(new Date());
+  const [value, onChange] = useState();
 
   const [allGenres,setAllGenres]=useState([]);
 
@@ -46,7 +46,7 @@ function regPage(props) {
 
 
   const isEnabled = username.length > 0 && userEmail.length > 0 && userPassword.length > 0 && userGender!='' 
-  && userRegion!='' && Displayvalue!='' ;
+  && userRegion!='' && Displayvalue!='' && value != undefined;
 
 
   
@@ -326,15 +326,35 @@ function regPage(props) {
                     format="MM/dd/yyyy"
                     className="datePicker"
                     placeholder="select your birth date"
+                    placeholder="select date"
+                    dayPlaceholder="date"
+                    monthPlaceholder="month"
+                    yearPlaceholder="year"
                     required 
                     onDateChange={(date) => {
                         this.setState({date: date})
                       }}
-                    customStyles={
-                      {dateInput:
-                        {  border: 'none'
-                        }}
-                    }
+                    // customStyles={
+                    //   {dateInput:
+                    //     {  border: 'none',
+                    //     backgroundColor: 'black',
+                    //     color: 'black'
+                    //     }}
+                    // }
+                    customStyles={{
+                      dateIcon: {
+                        //display: 'none',
+                        position: 'absolute',
+                        left: 0,
+                        top: 400,
+                        marginLeft: 0,
+                      },
+                      dateInput: {
+                        marginLeft: 36,
+                        color: 'red',
+                        backgroundColor: 'black',
+                      },
+                    }}
                   />
             </div>
 
@@ -385,6 +405,7 @@ function regPage(props) {
                  >
                    
                  </Select>
+
                </div>
             </div>
 

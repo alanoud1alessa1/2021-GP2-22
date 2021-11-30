@@ -6,23 +6,25 @@ import Cookies from "universal-cookie";
 import jwt_decode from "jwt-decode";
 import "./header.css";
 
-
 function header(props) {
-
-
-  var registered = false;
-  var username = "";
+  
+  var registered =false;
+  var username="";
+  var isAdmin=false;
 
   const cookies = new Cookies();
-  try {
-    const token = cookies.get("token");
+  try{
+    const token=cookies.get('token');
     var decoded = jwt_decode(token);
-    username = decoded.username;
-    registered = true;
-  } catch {
-    registered = false;
-    console.log("guest user");
+    username=decoded.username;
+    isAdmin=decoded.isAdmin;
+    registered=true;
+
   }
+  catch{
+    registered=false;
+    console.log("guest user");}
+
 
   const logOut = () => {
     cookies.remove("token", { path: "/" });
@@ -56,6 +58,8 @@ function header(props) {
                 <Link to="/home-page">
                   <img className="headerLogo" src={"/img/logo.png"} />
                 </Link>
+
+                {/* Home */}
                 <div>
                   <Link to="/home-page">
                     <div className="homeText darkergrotesque-medium-white-35px2">
@@ -63,6 +67,8 @@ function header(props) {
                     </div>
                   </Link>
                 </div>
+
+                {/* Genres */}
                 <div>
                   <Link to="/genresPage">
                     <div>
@@ -72,6 +78,19 @@ function header(props) {
                     </div>
                   </Link>
                 </div>
+
+                {/* Add movie */}
+                {isAdmin && (
+                <div>
+                  <Link to="/addMoviePage">
+                    <div>
+                      <div className="addMovieText darkergrotesque-medium-white-35px2">
+                       Add movie
+                      </div>
+                    </div>
+                  </Link>
+                </div>
+                )}
 
                 {/* unregisterd user */}
                 {!registered && (

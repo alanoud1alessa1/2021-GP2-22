@@ -178,8 +178,83 @@
   text-align: center;
 }
 
-.trailer:hover {
+.trailer:hover,
+.editMovieButton:hover,
+.deleteMovieButton:hover{
   transform: translate(0, -5px);
+}
+
+.editMovieButton{
+  left:1550px;
+  top: 300px;
+  cursor: pointer;
+  /* left: 230px;
+  top: 782px; */
+  transition: all 0.2s ease;
+  /* align-items: flex-start; */
+  position: absolute;
+  background-color: var(--cardinal);
+  border-radius: 10px;
+  /* display: flex; */
+  height: 65px;
+  width: 160px;
+  border-width: 0px;
+  /* padding: 8px 30px; */
+  padding-left: 30px;
+  align-items:center;
+  text-align: center;
+  z-index:1;
+}
+
+.deleteMovieButton{
+  /* left:1550px;
+  top: 400px; */
+  left:1750px;
+  top: 300px;
+  cursor: pointer;
+  /* left: 230px;
+  top: 782px; */
+  transition: all 0.2s ease;
+  /* align-items: flex-start; */
+  position: absolute;
+  background-color: var(--cardinal);
+  border-radius: 10px;
+  /* display: flex; */
+  white-space: nowrap;
+  height: 65px;
+  width: 160px;
+  border-width: 0px;
+  /* padding: 8px 30px; */
+  padding-left: 13px;
+  align-items:center;
+  text-align: center;
+  z-index:1;
+}
+
+.editMovieContainer{
+  color: var(--white);
+  /* color: var(--cardinal); */
+  font-family: var(--font-family-roboto);
+  font-size: var(--font-size-xxxxl5);
+  font-weight: 400;
+  /* left: 285px; */
+  /* white-space: nowrap; */
+  letter-spacing: 0;
+  /* top: 778px; */
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  display: flex;
+  gap:10px;
+  z-index: 1;
+}
+
+.editMovieIcon{
+  margin-top: -2px;
+}
+
+.deleteMovieIcon{
+  margin-top: -2px;
 }
 
 .playTrailerText {
@@ -1338,7 +1413,7 @@ card
  }
 
  .userReviews{
-  left: 180px;
+  left: 150px;
   margin-top: 0px;
   position:absolute;
   top: 1600px;
@@ -1388,7 +1463,7 @@ align-content: center; */
 
 
 .owl-theme {
-width: 20px;
+width: 1600px;
   /* top: 100px !important; */
 }
 .owl-theme .owl-dots   {
@@ -1428,5 +1503,4 @@ width: 20px;
 .owl-theme .owl-nav [className='reviewsExpandLeft']:hover{
 background-color: var(--shark);
 }
-
 

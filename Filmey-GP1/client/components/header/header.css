@@ -1,5 +1,6 @@
 .genresText:hover,
-.homeText:hover {
+.homeText:hover,
+.addMovieText:hover {
   transform: translate(0, -5px);
 }
 
@@ -68,6 +69,17 @@
 .genresText {
   cursor: pointer;
   left: 425px;
+  letter-spacing: 0;
+  position: absolute;
+  top: 43px;
+  transition: all 0.2s ease;
+  width: 137px;
+  z-index: 1;
+}
+
+.addMovieText{
+  cursor: pointer;
+  left: 570px;
   letter-spacing: 0;
   position: absolute;
   top: 43px;

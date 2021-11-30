@@ -175,7 +175,8 @@
 .passwordText:after,
 .regionText:after,
 .genderText:after,
-.regText7:after
+.regText7:after,
+.regText6:after
 {
   content:" *";
   color: var(--cardinal);
@@ -607,3 +608,6 @@ color: #fff;
   opacity: 0.5; 
 }
 
+.yearPlaceholder{
+  background-color: beige;
+}

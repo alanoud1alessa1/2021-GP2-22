@@ -414,3 +414,11 @@
   font-style: normal;
   font-weight: 500;
 }
+
+.neuton-bold-white-30px7 {
+  color: var(--white);
+  font-family: var(--font-family-neuton);
+  font-size: 45px;
+  font-style: normal;
+  font-weight: 700;
+}

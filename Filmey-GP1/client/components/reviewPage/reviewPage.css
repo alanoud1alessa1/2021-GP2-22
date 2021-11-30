@@ -3,7 +3,7 @@
   background-color: var(--white);
   display: flex;
   min-height: 1366px;
-  width: 1912px;
+  width: 100%;
 }
 
 
@@ -92,6 +92,7 @@
   padding: 0;
   position: absolute;
   top: 400px;
+  resize: none;
 }
 
 .writeReview::placeholder {

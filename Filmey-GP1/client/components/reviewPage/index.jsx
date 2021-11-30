@@ -60,7 +60,7 @@ function reviewPage(props) {
       else{
         if(res.data)
         {
-          alert("Thank u! your review has been saved successfully."+review.length);
+          alert("Thank u! your review has been saved successfully.");
           window.location = `/movieInfoPage/${id}`;
         }
       }
@@ -84,7 +84,7 @@ function reviewPage(props) {
             <div className="reviewBody"></div>
             <div>
                 <div className="reviewBox"></div>
-                <textarea id="1" className="writeReview" name="writeReview" placeholder={inputPlaceholder} rows="5" cols="73" maxlength="335" autofocus="true" onChange={
+                <textarea id="1" className="writeReview" name="writeReview" placeholder={inputPlaceholder} rows="5" cols="73" maxlength="255" autofocus="true" onChange={
                           (e)=>{
                             setReview(e.target.value); 
                           }
