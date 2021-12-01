@@ -58,6 +58,8 @@ function genreTypePage(props) {
   }, []);
 
 
+
+
   return (
     <div className="PageCenter">
       <div className="genresPage screen">
@@ -82,7 +84,7 @@ function genreTypePage(props) {
                 {runCallback(() => {
                   const row = [];
                   var count = 0;
-                    for (var i = 0; i < 48; i++) {
+                    for (var i = 0; i < moviesId.length; i++) {
                       const id = moviesId[count];
                       const url = `/movieInfoPage/${id}`;
                       const poster = Allposters[count];

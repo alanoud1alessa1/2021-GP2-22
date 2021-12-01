@@ -117,6 +117,9 @@ function MovieInfoPage(props) {
   const [totalUsersRating, setTotalUsersRating] = useState();
   var totalUsers;
 
+
+  
+
   let { id } = useParams();
   id = parseInt(id);
 

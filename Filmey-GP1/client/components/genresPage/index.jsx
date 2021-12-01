@@ -65,6 +65,7 @@ function genresPage(props) {
   const [Allposters, setAllposters] = useState([]);
   const [totalRatings, settotalRatings] = useState([]);
   const [ERatings, setERatings] = useState([]);
+  // const [jj, setJj] = useState(true);
 
   // const [moviesInfo, setMoviesInfo] = useState([
   // {'movie_id':1,'title' : 'Toy1'} ,   {'movie_id':3,'title' : 'Toy3'}
@@ -81,6 +82,8 @@ function genresPage(props) {
     var numOfGenresToGet = 13
 
   } 
+
+
   // // const numOfGenres = 0;
   // let genresArray = [];
   // //Get All Genres
@@ -142,6 +145,8 @@ function genresPage(props) {
     );
 
   }, []);
+
+
 
   return (
     <div className="PageCenter">
