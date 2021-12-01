@@ -3,21 +3,71 @@ import "./addMoviePage.css";
 import Select from 'react-select';
 import Header from "../header";
 import CreatableSelect from 'react-select/creatable';
+import  { useState } from 'react';
 // import MultiStep from 'react-multistep' ;
 // import { MultiStep } from '@loft/multistep-form';
 
 
 function addMoviePage(props) {
 
-    const runCallback = (cb) => {
+  //  const [allYears,setallYears]=useState([]);
+  const yearsArray = [];
+  const hoursArray = [];
+  const minutesArray = [];
+
+  const options = [
+    { value: 'drama', label: 'drama' },
+    { value: 'action', label: 'action' },
+    { value: 'comedy', label: 'comedy' },
+  ]
+
+  const ageGuideArray = [  
+  { value: 'Approved', label: 'Approved' },
+  { value: 'G', label: 'G' },
+  { value: 'GP', label: 'GP' },
+  { value: 'M', label: 'M' },
+  { value: 'M/PG', label: 'M/PG' },
+  { value: 'NC-17', label: 'NC-17' },
+  { value: 'Not Rated', label: 'Not Rated' },
+  { value: 'Passed', label: 'Passed' },
+  { value: 'PG', label: 'PG' },
+  { value: 'PG12', label: 'PG12' },
+  { value: 'PG-13', label: 'PG-13' },
+  { value: 'R', label: 'R' },
+  { value: 'R12', label: 'R12' },
+  { value: 'R15', label: 'R15' },
+  { value: 'R18', label: 'R18' },
+  { value: 'TV-MA', label: 'TV-MA' },
+  { value: 'TV-PG', label: 'TV-PG' },
+  { value: 'TV-Y7', label: 'TV-Y7' },
+  { value: 'Unrated', label: 'Unrated' },
+  { value: 'X', label: 'X' },]
+
+  React.useEffect(() => {
+    //yearsArray
+      var year =1950;
+      for (var i = 0; i < 72 ; i++) {
+        yearsArray[i] = {value:i, label: year++};
+      }
+
+      //hoursArray
+      var hour = 1;
+      for (var i = 0; i < 10 ; i++) {
+        hoursArray[i] = {value:i, label: hour++};
+      }
+
+      //minutesArray
+      var minute = 0;
+      for (var i = 0; i < 60 ; i++) {
+        minutesArray[i] = {value:i, label: minute++};
+    }
+  }, []);
+
+  const runCallback = (cb) => {
     return cb();
   };
 
-    const options = [
-        { value: 'drama', label: 'drama' },
-        { value: 'action', label: 'action' },
-        { value: 'comedy', label: 'comedy' },
-      ]
+
 
   const {
     addmovietext,
@@ -167,13 +217,12 @@ function addMoviePage(props) {
 
           {/* year */}
           <div className="addMovieyear neuton-bold-white-30px7">{year}</div>
-          <CreatableSelect
+          <Select
           isSearchable
-          noOptionsMessage="hi"
           className="addMovieyear-placholder"
           placeholder="Select or write movie year"
-          formatCreateLabel={(inputText) => `${inputText}`}
-          options={options}
+          // options={options}
+          options = {yearsArray}
           theme={(theme) => ({
             ...theme,
             borderRadius: 0,
@@ -217,13 +266,12 @@ function addMoviePage(props) {
 
         {/* Hours */}
         <div className="hoursMovieLength neuton-bold-white-30px"> Hours :  </div>
-
-           <CreatableSelect
+           <Select
             isSearchable
             className="addMoviemovie-length1"
             placeholder="Select or write movie hours"
             formatCreateLabel={(inputText) => `${inputText}`}
-            options={options}
+            options={hoursArray}
             theme={(theme) => ({
               ...theme,
               borderRadius: 0,
@@ -253,12 +301,11 @@ function addMoviePage(props) {
          
           {/* Minutes */}
           <div className="minMovieLength neuton-bold-white-30px"> Minutes :  </div>
-          <CreatableSelect
+          <Select
             isSearchable
             className="addMoviemovie-length2"
-            placeholder="Select or write movie minutes"
-            formatCreateLabel={(inputText) => `${inputText}`}
-            options={options}
+            placeholder="Select movie minutes"
+            options={minutesArray}
             theme={(theme) => ({
               ...theme,
               borderRadius: 0,
@@ -271,7 +318,7 @@ function addMoviePage(props) {
             styles={{
             control: (provided, state) => ({
                 ...provided,
-                minHeight: 66,
+                Height: 66,
                 width: 320, 
                 background:'#fcfcfc',
                 outline: 'none',            
@@ -289,7 +336,7 @@ function addMoviePage(props) {
           {/* Age guide */}
           <div className="addMovieage-guide neuton-bold-white-30px7">{ageguide}</div>
           <Select 
-                options={options}
+                options={ageGuideArray}
                  isSearchable
                  className="addMovieage-guide-container"
                  placeholder="Select movie age guide"
@@ -379,7 +426,7 @@ function addMoviePage(props) {
           isMulti
           formatCreateLabel={(inputText) => `${inputText}`}
           className="addMoviedirector-container"
-          placeholder="Select or write movie director"
+          placeholder="Select or write movie directors"
           options={options}
           theme={(theme) => ({
             ...theme,
@@ -484,6 +531,8 @@ function addMoviePage(props) {
             {
             <div>  
                   <div className="addMovieflex-row-2">
+
+                  {/* actor name */}
                   <CreatableSelect
                     isSearchable
                     className="addMovieactor"
@@ -514,6 +563,8 @@ function addMoviePage(props) {
                       }),
                     }}
                   />
+
+                  {/* actor role */}
                   <CreatableSelect
                     isSearchable
                     className="addMovieactor-role"
@@ -545,35 +596,13 @@ function addMoviePage(props) {
                     }}
                   />
 
-                  <CreatableSelect
-                    isSearchable
+                  {/* actor image */}
+                  <input
                     className="addMovieactor-image"
-                    formatCreateLabel={(inputText) => `${inputText}`}
                     placeholder="Enter URL of actor image"
-                    options={options}
-                    theme={(theme) => ({
-                      ...theme,
-                      borderRadius: 0,
-                      colors: {
-                      ...theme.colors,
-                        text: 'var(--cardinal)',
-                        primary: 'var(--cardinal)',
-                      }, 
-                    })}
-                    styles={{
-                    control: (provided, state) => ({
-                        ...provided,
-                        minHeight: 66,
-                        width: 320, 
-                        background:'#fcfcfc',
-                        outline: 'none',            
-                        border: "0px solid black",
-                        fontSize:"16px",
-                        boxShadow: state.isFocused ? '0px 4px 4px red' :'0px 4px 4px #00000040',
-                        borderRadius: 5,
-                        paddingLeft: 10,
-                      }),
-                    }}
+                    name="actorImage"
+                    type="text"
+                    required
                   />
                   </div>
             </div>

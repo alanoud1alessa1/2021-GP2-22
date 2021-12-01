@@ -338,7 +338,7 @@
   letter-spacing: 6.00px;
   margin-left: 0px;
   margin-top: 72px;
-  min-height: 76px;
+  /* min-height: 76px; */
   width: 558px;
 }
 
@@ -353,16 +353,17 @@
   background-color: var(--baby-powder);
   border-radius: 5px;
   box-shadow: 0px 4px 4px #00000040;
-  height: 62px;
+  /* height: 62px; */
   margin-left: 1px;
   margin-top: 20px;
   width: 1382px;
+  
 }
 
 .addMoviewriter {
   letter-spacing: 0;
   margin-top: 36px;
-  min-height: 26px;
+  /* min-height: 26px; */
   width: 207px;
 }
 
@@ -370,10 +371,11 @@
   background-color: var(--baby-powder);
   border-radius: 5px;
   box-shadow: 0px 4px 4px #00000040;
-  height: 65px;
+  /* max-height: 65px; */
   margin-left: 1px;
   margin-top: 20px;
   width: 1385px;
+  /* overflow: hidden; */
 }
 
 .addMovieoverlap-group2 {
@@ -450,12 +452,23 @@
 }
 
 .addMovieactor-image {
-  /* background-color: var(--baby-powder);
+   /* background-color: var(--baby-powder);
   border-radius: 5px;
-  box-shadow: 0px 4px 4px #00000040; */
-  /* height: 77px; */
+  box-shadow: 0px 4px 4px #00000040; 
+  height: 77px;
   margin-left: 190px;
-  /* width: 361px; */
+  width: 361px; */
+
+  background-color: var(--baby-powder);
+  border-radius: 5px;
+  box-shadow: 0px 4px 4px #00000040;
+  height: 67px;
+  width: 361px;
+  /* margin-top: 20px; */
+  margin-left: 190px;
+  width: 320px;
+  padding: 13.6px 28px;
+  
 }
 
 
