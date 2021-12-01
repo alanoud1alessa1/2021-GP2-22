@@ -39,62 +39,6 @@ input:focus {
   padding: 0;
 }
 
-.header {
-  /* background-color: var(--eerie-black); */
-  /* height: 140px; */
-  background-color: var(--black);
-  height: 130px;
-  top:0px;
-  left: 47px;
-  position: absolute;
-  width: 1920px;
-}
-
-.headerLogo {
-  height: 87px;
-  left: 20px;
-  object-fit: cover;
-  position: absolute;
-  top: 24px;
-  width: 190px;
-}
-
-.languageText {
-  color: var(--white);
-  font-family: var(--font-family-neuton);
-  font-size: var(--font-size-l2);
-  font-weight: 700;
-  left: 1670px;
-  letter-spacing: -0.24px;
-  position: absolute;
-  text-align: center;
-  top: 51px;
-  width: 43px;
-}
-
-.languageContainer {
-  border: 1px solid var(--cardinal);
-  border-radius: 3px;
-  height: 40px;
-  left: 1670px;
-  position: absolute;
-  top: 45px;
-  width: 46px;
-}
-
-.homeText{
-  cursor: pointer;
-  left: 298px;
-  letter-spacing: 0;
-  position: absolute;
-  top: 43px;
-  transition: all 0.2s ease;
-  width: 111px;
-}
-
-.clickable{
-  cursor: pointer;
-}
   
 :root { 
 
