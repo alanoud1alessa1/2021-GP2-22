@@ -70,7 +70,7 @@ function header(props) {
 
                 {/* Genres */}
                 <div>
-                  <Link to="/genresPage">
+                  <Link to="/genresPage/1">
                     <div>
                       <div className="genresText darkergrotesque-medium-white-35px2">
                         Genres

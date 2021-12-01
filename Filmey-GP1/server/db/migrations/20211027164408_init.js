@@ -91,7 +91,7 @@ exports.up = async (knex) => {
     await knex.schema.createTable("Role", (table) => {
         references(table, "Movie" , "movie");
         references(table, "Actor" , 'actor');
-        table.string("role", 35).notNullable();
+        table.string("role", 35);
         table.primary(["movie_id", "actor_id"]);
     }),
     await knex.schema.createTable("User_Genre", (table) => {
@@ -108,7 +108,7 @@ exports.up = async (knex) => {
       await knex.schema.createTable("Review", (table) => {
         references(table, "Movie" , "movie");
         references(table, "User" , "user");
-        table.string("review", 225).notNullable();
+        table.string("review", 255).notNullable();
         table.primary(["movie_id", "user_id" ,"review"]);
       })
   ]);

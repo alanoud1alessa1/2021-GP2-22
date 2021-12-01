@@ -2,8 +2,10 @@
   align-items: flex-start;
   background-color: var(--white);
   display: flex;
-  height: auto;
+  /* height: auto; */
   width: 1912px;
+  
+  
 }
 
 .genresPageContainer {
@@ -86,7 +88,7 @@ width: 75px;
 
 .genreBody {
 background-color: var(--eerie-black);
-height: 10000px;
+height: 10900px;
 left: 47px;
 position:absolute;
 top: 130px;
@@ -103,6 +105,7 @@ text-decoration-color: var(--cardinal);
 text-decoration-thickness: 5px;
 text-underline-offset: 5px;
 border-radius: 6px;
+display: flex;
 }
 
 .goToGenreTypePage{
@@ -120,7 +123,8 @@ height: auto;
 }
 
 
-.goToGenreTypePage:hover{
+.goToGenreTypePage:hover,
+.viewMoreButton:hover{
   transform: translate(0, -5px);
 
 }
@@ -157,12 +161,13 @@ transform: scale(1.1);
   transition: all 0.2s ease;
 }
 
-.footerLogo {
+.genreTitle:hover .arrowIcon{
+color: var(--cardinal);
+}
+
+.genresfooterLogo {
   height: 139px;
-  left: 736px;
   object-fit: cover;
-  position: absolute;
-  top: 1971px;
   width: 410px;
 }
 
@@ -427,40 +432,22 @@ transform: translate(0, -5px);
   width: 20px;
 }
 
-.footer {
+/* .genresfooter {
   background-color: var(--black);
   height: 293px;
-  left: 47px;
-  position: absolute;
-  top: 1099px;
   width: 1920px;
-}
+} */
 
-.footerLogo {
-  height: 139px;
-  left: 775px;
-  object-fit: cover;
-  position: absolute;
-  top: 1133px;
-  width: 410px;
-}
-
-.footerText1 {
+.genresfooterText1 {
   color: var(--white);
   font-family: var(--font-family-neuton);
   font-size: var(--font-size-xl2);
   font-weight: 700;
-  left: 867px;
   letter-spacing: 0;
-  position: absolute;
-  top: 1286px;
 }
 
-.footerText2 {
-  left: 68px;
+.genresfooterText2 {
   letter-spacing: 0;
-  position: absolute;
-  top: 1302px;
   width: 344px;
 }
 
@@ -616,4 +603,22 @@ transform: scale(1.1);
 .genreTypeMovies{
 height: auto;
 padding-top: 30px;
+}
+
+.viewMoreButton{
+  cursor: pointer;
+  transition: all 0.2s ease;
+  /* align-items: flex-start; */
+  background-color: var(--cardinal);
+  border-radius: 10px;
+  /* display: flex; */
+  height: 65px;
+  width: 230px;
+  border-width: 0px;
+  margin-top: 50px;
+  /* padding: 8px 30px; */
+  /* padding-left: 0px; */
+  /* padding-top: 0px;  */
+  /* align-items:center; */
+  /* text-align: center; */
 }

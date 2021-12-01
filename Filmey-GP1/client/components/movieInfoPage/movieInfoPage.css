@@ -1504,3 +1504,17 @@ width: 1600px;
 background-color: var(--shark);
 }
 
+.emptyMovieRating{
+  color: var(--white);
+  font-family: var(--font-family-neuton);
+  font-size: var(--font-size-xxxl5);
+  font-weight: 700;
+  /* left: 635px; */
+  left:80px;
+  top: 12px;
+  /* top: 229px; */
+  /* top:103px; */
+  letter-spacing: 0.36px;
+  position: absolute;
+  width:400px;
+}

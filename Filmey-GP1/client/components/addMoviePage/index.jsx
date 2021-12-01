@@ -1,44 +1,24 @@
 import React from "react";
 import "./addMoviePage.css";
 import Select from 'react-select';
-// import Creatable, { useCreatable } from 'react-select/creatable';
-// import CreatableSelect from 'react-select/creatable';
-// import  { Component, KeyboardEventHandler } from 'react';
-// import { ActionMeta, OnChangeValue } from 'react-select';
-// import MultipleValueTextInput from 'react-multivalue-text-input';
 import Header from "../header";
-// import DurationPicker from 'react-duration-picker' ;
-
-
-
+import CreatableSelect from 'react-select/creatable';
+// import MultiStep from 'react-multistep' ;
+// import { MultiStep } from '@loft/multistep-form';
 
 
 function addMoviePage(props) {
 
-  // const onChange = duration => {
-  //   const { hours, minutes, seconds } = duration;
-  //   ({ hours, minutes, seconds });
-  // };
+    const runCallback = (cb) => {
+    return cb();
+  };
 
     const options = [
         { value: 'drama', label: 'drama' },
         { value: 'action', label: 'action' },
         { value: 'comedy', label: 'comedy' },
-        { value: 'Ostatni', label: 'other' }
       ]
 
-    //   const filterOption = (option, inputValue) => {
-    //     // tweak the filterOption to render Ostatni only if there's no other option matching + set hasExtraValue to true in case you want to display an message
-    //     if (option.label === "Ostatni"){
-    //       const {options} = this.state
-    //       const result = options.filter(opt => opt.label.includes(inputValue))
-    //       this.setState({ hasExtraValue: !result.length})
-    //        return !result.length
-    //        };
-    
-    //     return option.label.includes(inputValue);
-    //   };
-      
   const {
     addmovietext,
     movieInformation,
@@ -74,7 +54,6 @@ function addMoviePage(props) {
            <Header/> 
       </header>
         <div className="addMovieflex-col">
-          {/* <h1 className="addMovieadd-movie-text">{addmovietext}</h1> */}
           {/* Movie Information */}
           <div className="addMovieoverlap-group1">
             <div className="addMoviemovie-information neuton-normal-white-60px5">{movieInformation}</div>
@@ -82,12 +61,6 @@ function addMoviePage(props) {
           </div>
 
           {/* Title */}
-          {/* <DurationPicker
-      // onChange={onChange}
-      initialDuration={{ hours: 1, minutes: 2}}
-      maxHours={5}
-      noSec	={true}
-    /> */}
           <div className="addMovietitle neuton-bold-white-30px7">{title}</div>
             <input
               className="addMovietitle-placholder"
@@ -100,11 +73,9 @@ function addMoviePage(props) {
 
           {/* Genre */}
           <div className="addMovieflex-col-item neuton-bold-white-30px7">{genre}</div>
-          <Select isMulti //options={genres} 
-                // options={allGenres}
-                //  onChange={getGenres}
-                options={options}
-
+          <Select 
+                 isMulti 
+                 options={options}
                  closeMenuOnSelect={false} 
                  isSearchable
                  className="addMoviegenre-container"
@@ -145,14 +116,7 @@ function addMoviePage(props) {
                 }}
                  >
                 </Select>
-{/* 
-                <MultipleValueTextInput
-	// onItemAdded={(item, allItems) => console.log(`Item added: ${item}`)}
-	// onItemDeleted={(item, allItems) => console.log(`Item removed: ${item}`)}
-	label="Items"
-	name="item-input"
-	placeholder="Enter whatever items you want; separate them with COMMA or ENTER."
-/> */}
+
           {/* lanaguage */}
           <div className="addMovielanaguage neuton-bold-white-30px7">{lanaguage}</div>
           <Select isMulti //options={genres} 
@@ -200,39 +164,127 @@ function addMoviePage(props) {
                 }}
                  >
                 </Select>
-{/* 
-                <CreatableSelect
-        // components={components}
-        // inputValue={inputValue}
-        isClearable
-        isMulti
-        menuIsOpen={false}
-        // onChange={this.handleChange}
-        // onInputChange={this.handleInputChange}
-        // onKeyDown={this.handleKeyDown}
-        placeholder="Type something and press enter..."
-        // value={value}
-      /> */}
 
-           {/* year */}
+          {/* year */}
           <div className="addMovieyear neuton-bold-white-30px7">{year}</div>
-          <div className="addMovieyear-container border-1px-black">
-          <input
-              className="addMovieyear-placholder"
-              name="titleplacholder"
-              placeholder="Enter movie year (4 characters)"
-              type="text"
-              maxLength="4"
-              required
-            />
-          </div>
+          <CreatableSelect
+          isSearchable
+          noOptionsMessage="hi"
+          className="addMovieyear-placholder"
+          placeholder="Select or write movie year"
+          formatCreateLabel={(inputText) => `${inputText}`}
+          options={options}
+          theme={(theme) => ({
+            ...theme,
+            borderRadius: 0,
+            colors: {
+            ...theme.colors,
+              text: 'var(--cardinal)',
+              primary: 'var(--cardinal)',
+            }, 
+          })}
+          styles={{
+            
+          control: (provided, state) => ({
+              ...provided,
+              minHeight: 66,
+              background:'#fcfcfc',
+              outline: 'none',            
+              border: "0px solid black",
+              fontSize:"16px",
+              boxShadow: state.isFocused ? '0px 4px 4px red' :'0px 4px 4px #00000040',
+              borderRadius: 5,
+              paddingLeft: 20,
+            }),
 
-          {/* Movie Length  */}
-          <div className="addMoviemovie-len-add neuton-bold-white-30px7">{movielenadd}</div>
-          <div className="addMovieflex-row">
-            <div className="addMoviemovie-length1 border-1px-black"> Hours</div>            
-            <div className="addMoviemovie-length2 border-1px-black"> Minutes</div>
-          </div>
+          multiValueLabel: (base) => ({
+              ...base,
+              backgroundColor: 'var(--white-3)',
+              color: 'black',
+            }),
+
+            multiValueRemove: (base) => ({
+              ...base,
+              backgroundColor: 'var(--cardinal)',
+              color: 'white',
+            }),
+          }}
+        />
+
+        {/* Movie Length  */}
+        <div className="addMoviemovie-len-add neuton-bold-white-30px7">{movielenadd}</div>
+        <div className="addMovieflex-row">  
+
+        {/* Hours */}
+        <div className="hoursMovieLength neuton-bold-white-30px"> Hours :  </div>
+
+           <CreatableSelect
+            isSearchable
+            className="addMoviemovie-length1"
+            placeholder="Select or write movie hours"
+            formatCreateLabel={(inputText) => `${inputText}`}
+            options={options}
+            theme={(theme) => ({
+              ...theme,
+              borderRadius: 0,
+              colors: {
+              ...theme.colors,
+                text: 'var(--cardinal)',
+                primary: 'var(--cardinal)',
+                color: 'black',
+              }, 
+            })}
+            styles={{
+            control: (provided, state) => ({
+                ...provided,
+                minHeight: 66,
+                width: 320, 
+                background:'#fcfcfc',
+                outline: 'none',            
+                border: "0px solid black",
+                fontSize:"16px",
+                boxShadow: state.isFocused ? '0px 4px 4px red' :'0px 4px 4px #00000040',
+                borderRadius: 5,
+                paddingLeft: 10,
+                color: 'black',
+              }),
+            }}
+          />
+         
+          {/* Minutes */}
+          <div className="minMovieLength neuton-bold-white-30px"> Minutes :  </div>
+          <CreatableSelect
+            isSearchable
+            className="addMoviemovie-length2"
+            placeholder="Select or write movie minutes"
+            formatCreateLabel={(inputText) => `${inputText}`}
+            options={options}
+            theme={(theme) => ({
+              ...theme,
+              borderRadius: 0,
+              colors: {
+              ...theme.colors,
+                text: 'var(--cardinal)',
+                primary: 'var(--cardinal)',
+              }, 
+            })}
+            styles={{
+            control: (provided, state) => ({
+                ...provided,
+                minHeight: 66,
+                width: 320, 
+                background:'#fcfcfc',
+                outline: 'none',            
+                border: "0px solid black",
+                fontSize:"16px",
+                boxShadow: state.isFocused ? '0px 4px 4px red' :'0px 4px 4px #00000040',
+                borderRadius: 5,
+                paddingLeft: 10,
+              }),
+            }}
+          />
+
+        </div>
 
           {/* Age guide */}
           <div className="addMovieage-guide neuton-bold-white-30px7">{ageguide}</div>
@@ -322,11 +374,95 @@ function addMoviePage(props) {
 
           {/* Director */}
           <div className="addMovieflex-col-item neuton-bold-white-30px7">{directoradd}</div>
-          <div className="addMoviedirector-container border-1px-black"></div>
+          <CreatableSelect
+          isSearchable
+          isMulti
+          formatCreateLabel={(inputText) => `${inputText}`}
+          className="addMoviedirector-container"
+          placeholder="Select or write movie director"
+          options={options}
+          theme={(theme) => ({
+            ...theme,
+            borderRadius: 0,
+            colors: {
+            ...theme.colors,
+              text: 'var(--cardinal)',
+              primary: 'var(--cardinal)',
+            }, 
+          })}
+          styles={{
+          control: (provided, state) => ({
+              ...provided,
+              minHeight: 66,
+              background:'#fcfcfc',
+              outline: 'none',            
+              border: "0px solid black",
+              fontSize:"16px",
+              boxShadow: state.isFocused ? '0px 4px 4px red' :'0px 4px 4px #00000040',
+              borderRadius: 5,
+              paddingLeft: 20,
+            }),
+
+          multiValueLabel: (base) => ({
+              ...base,
+              backgroundColor: 'var(--white-3)',
+              color: 'black',
+            }),
+
+            multiValueRemove: (base) => ({
+              ...base,
+              backgroundColor: 'var(--cardinal)',
+              color: 'white',
+            }),
+          }}
+        />
 
           {/* Writer */}
           <div className="addMoviewriter neuton-bold-white-30px7">{writer}</div>
-          <div className="addMoviewriter-container border-1px-black"></div>
+          <CreatableSelect
+          isSearchable
+          formatCreateLabel={(inputText) => `${inputText}`}
+          isMulti
+          className="addMoviewriter-container"
+          placeholder="Select or write movie writers"
+          options={options}
+          theme={(theme) => ({
+            ...theme,
+            borderRadius: 0,
+            colors: {
+            ...theme.colors,
+              text: 'var(--cardinal)',
+              primary: 'var(--cardinal)',
+            }, 
+          })}
+          styles={{
+          control: (provided, state) => ({
+              ...provided,
+              minHeight: 66,
+              background:'#fcfcfc',
+              outline: 'none',            
+              border: "0px solid black",
+              fontSize:"16px",
+              boxShadow: state.isFocused ? '0px 4px 4px red' :'0px 4px 4px #00000040',
+              borderRadius: 5,
+              paddingLeft: 20,
+            }),
+
+          multiValueLabel: (base) => ({
+              ...base,
+              backgroundColor: 'var(--white-3)',
+              color: 'black',
+            }),
+
+            multiValueRemove: (base) => ({
+              ...base,
+              backgroundColor: 'var(--cardinal)',
+              color: 'white',
+            }),
+          }}
+        />
+          
+          
 
           {/* Top Cast */}
           <div className="addMovieoverlap-group2">
@@ -340,37 +476,120 @@ function addMoviePage(props) {
             <div className="addMovieactor-character-add neuton-bold-white-30px7">{actorcharacteradd}</div>
             <div className="addMovieactor-image-1 neuton-bold-white-30px7">{actorimage}</div>
           </div>
-          <div className="addMovieflex-row-2">
-            <div className="addMovieactor border-1px-black"></div>
-            <div className="addMovieactor-role border-1px-black"></div>
-            <div className="addMovieactor-image border-1px-black"></div>
-          </div>
+          {runCallback(() => {
+          const row = [];
+          for (var i = 0; i < 5; i++) {
+            row.push(
+            <div key={i}>
+            {
+            <div>  
+                  <div className="addMovieflex-row-2">
+                  <CreatableSelect
+                    isSearchable
+                    className="addMovieactor"
+                    formatCreateLabel={(inputText) => `${inputText}`}
+                    placeholder="Select or write actor name"
+                    options={options}
+                    theme={(theme) => ({
+                      ...theme,
+                      borderRadius: 0,
+                      colors: {
+                      ...theme.colors,
+                        text: 'var(--cardinal)',
+                        primary: 'var(--cardinal)',
+                      }, 
+                    })}
+                    styles={{
+                    control: (provided, state) => ({
+                        ...provided,
+                        minHeight: 66,
+                        width: 320, 
+                        background:'#fcfcfc',
+                        outline: 'none',            
+                        border: "0px solid black",
+                        fontSize:"16px",
+                        boxShadow: state.isFocused ? '0px 4px 4px red' :'0px 4px 4px #00000040',
+                        borderRadius: 5,
+                        paddingLeft: 10,
+                      }),
+                    }}
+                  />
+                  <CreatableSelect
+                    isSearchable
+                    className="addMovieactor-role"
+                    placeholder="Select or write actor role"
+                    formatCreateLabel={(inputText) => `${inputText}`}
+                    options={options}
+                    theme={(theme) => ({
+                      ...theme,
+                      borderRadius: 0,
+                      colors: {
+                      ...theme.colors,
+                        text: 'var(--cardinal)',
+                        primary: 'var(--cardinal)',
+                      }, 
+                    })}
+                    styles={{
+                    control: (provided, state) => ({
+                        ...provided,
+                        minHeight: 66,
+                        width: 320, 
+                        background:'#fcfcfc',
+                        outline: 'none',            
+                        border: "0px solid black",
+                        fontSize:"16px",
+                        boxShadow: state.isFocused ? '0px 4px 4px red' :'0px 4px 4px #00000040',
+                        borderRadius: 5,
+                        paddingLeft: 10,
+                      }),
+                    }}
+                  />
+
+                  <CreatableSelect
+                    isSearchable
+                    className="addMovieactor-image"
+                    formatCreateLabel={(inputText) => `${inputText}`}
+                    placeholder="Enter URL of actor image"
+                    options={options}
+                    theme={(theme) => ({
+                      ...theme,
+                      borderRadius: 0,
+                      colors: {
+                      ...theme.colors,
+                        text: 'var(--cardinal)',
+                        primary: 'var(--cardinal)',
+                      }, 
+                    })}
+                    styles={{
+                    control: (provided, state) => ({
+                        ...provided,
+                        minHeight: 66,
+                        width: 320, 
+                        background:'#fcfcfc',
+                        outline: 'none',            
+                        border: "0px solid black",
+                        fontSize:"16px",
+                        boxShadow: state.isFocused ? '0px 4px 4px red' :'0px 4px 4px #00000040',
+                        borderRadius: 5,
+                        paddingLeft: 10,
+                      }),
+                    }}
+                  />
+                  </div>
+            </div>
+            }
+            </div>
+            );
+          }
+          return row;
+          })}
 
         </div>
-        <div className="addMovieflex-row-4">
-          <div className="addMovieflex-col-1">
-            <div className="addMovieactor border-1px-black"></div>
-            <div className="addMovieactor-1 border-1px-black"></div>
-            <div className="addMovieactor-name5 border-1px-black"></div>
-          </div>
-          <div className="addMovieflex-row-5">
-            <div className="addMovieflex-col-2">
-              <div className="addMovieactor border-1px-black"></div>
-              <div className="addMovieactor-1 border-1px-black"></div>
-              <div className="addMovieactor-1 border-1px-black"></div>
-            </div>
-            <div className="addMovieflex-col-3">
-              <div className="addMovieactor border-1px-black"></div>
-              <div className="addMovieactor-1 border-1px-black"></div>
-              <div className="addMovieactor-1 border-1px-black"></div>
-            </div>
-          </div>
-        </div>
-        <div className="addMovieoverlap-group">
-          <div className="addMovieadd-button neuton-bold-white-30px7">{addbutton}</div>
-        </div>
+
+        <button className="addMovieadd-button neuton-bold-white-30px7">{addbutton}</button>
       </div>
     </div>
+
   );
 }
 

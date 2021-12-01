@@ -27,7 +27,7 @@ module.exports = {
   
           if (!user)
           {
-             message = { 'emailOrUsernameMessage' : "Sorry, email / username is not exists."};
+             message = { 'emailOrUsernameMessage' : "Sorry, email / username does not exists."};
       
             return message;
           }

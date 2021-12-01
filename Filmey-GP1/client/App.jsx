@@ -25,7 +25,7 @@ function App() {
         <Route path="/:path(|home-page)">
           <HomePage {...homePageData} />
         </Route>
-        <Route path="/genresPage">
+        <Route path="/genresPage/:numOfPage">
           <GenresPage {...genresPageData} />
         </Route>
         <Route path="/genreTypePage/:genre">
