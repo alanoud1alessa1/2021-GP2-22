@@ -8,6 +8,7 @@ import Cookies from 'universal-cookie';
 import jwt_decode from "jwt-decode";
 import Axios from 'axios';
 import utf8 from 'utf8';
+import Filter from 'bad-words';
 
 
 function reviewPage(props) {
@@ -42,16 +43,27 @@ function reviewPage(props) {
   id = parseInt(id);
 
   const[review,setReview]=useState("");
+  var reviewVar=""
   const isEnabled = review.length > 0;
 
   const Review=()=>
   {
     
     console.log("in review func");
+    const filter = new Filter();
+    try
+    {
+      reviewVar=utf8.encode(filter.clean(review))
+    }
+    catch
+    {
+      reviewVar=utf8.encode(review)
+    }
+    
     const res =  Axios.post("http://localhost:3000/api/v1/users/Review",{
       userID :decoded.userID,
       movieID:id,
-      review:utf8.encode(review),
+      review: reviewVar
     }).then((res)=>{
       if(res.data.reviewErrorMessage)
       {

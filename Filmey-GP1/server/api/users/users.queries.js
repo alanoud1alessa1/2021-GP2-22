@@ -162,6 +162,7 @@ const tableNames = require("../../constents/tableNames");
 const emailValidator = require('deep-email-validator');
 const utf8 = require('utf8');
 
+
 module.exports = {
   async get(id) {
     return db(tableNames.user)
