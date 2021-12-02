@@ -122,4 +122,16 @@ module.exports = {
       .where({ movie_id: movie_id })
       .groupByRaw("movie_id");
   },
+
+  async deleteMovie(movie_id) {
+    console.log(movie_id);
+    let result= await db(tableNames.movie)
+   .del().where({movie_id:movie_id});
+  if(result){
+    return result; 
+  }
+  return;
+ },
+    
 };
+

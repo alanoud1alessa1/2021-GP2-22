@@ -12,7 +12,7 @@ function references(
     .integer(`${columnName}_id`)
     .references(`${columnName}_id`)
     .inTable(tableName)
-    // .OnDelete("CASCADE")
+    .onDelete('CASCADE')
     // .OnUpdate(OnUpdate)
     .notNullable();
 
@@ -69,27 +69,27 @@ exports.up = async (knex) => {
 
     }) ,
     await knex.schema.createTable("Movie_Genre", (table) => {
-        references(table, "Movie" , "movie");
+        references(table, "Movie" , "movie")
         references(table, "Genre" , 'genre');
         table.primary(["movie_id", "genre_id"]);
-    }),
+     }),
     await knex.schema.createTable("Movie_Language", (table) => {
-        references(table, "Movie" , "movie");
+        references(table, "Movie" , "movie")
         references(table, "Language" , 'language');
         table.primary(["movie_id", "language_id"]);
     }),
     await knex.schema.createTable("Movie_Director", (table) => {
-        references(table, "Movie" , "movie");
+        references(table, "Movie" , "movie")
         references(table, "Director" , 'director');
         table.primary(["movie_id", "director_id"]);
     }),
     await knex.schema.createTable("Movie_Writer", (table) => {
-        references(table, "Movie" , "movie");
+        references(table, "Movie" , "movie")
         references(table, "Writer" , 'writer');
         table.primary(["movie_id", "writer_id"]);
     }),
     await knex.schema.createTable("Role", (table) => {
-        references(table, "Movie" , "movie");
+        references(table, "Movie" , "movie")
         references(table, "Actor" , 'actor');
         table.string("role", 35);
         table.primary(["movie_id", "actor_id"]);
@@ -100,13 +100,13 @@ exports.up = async (knex) => {
         table.primary(["user_id", "genre_id"]);
       }),
     await knex.schema.createTable("Rating", (table) => {
-        references(table, "Movie" , "movie");
+        references(table, "Movie" , "movie")
         references(table, "User" , "user");
         table.integer("rating").notNullable();
         table.primary(["movie_id", "user_id"]);
       }),
       await knex.schema.createTable("Review", (table) => {
-        references(table, "Movie" , "movie");
+        references(table, "Movie" , "movie")
         references(table, "User" , "user");
         table.string("review", 255).notNullable();
         table.primary(["movie_id", "user_id" ,"review"]);
@@ -119,22 +119,22 @@ exports.up = async (knex) => {
 
   exports.down = function(knex) {
     return knex.schema
-        .dropTable("Movie_Genre")
-        .dropTable("Movie_Language")
-        .dropTable("Movie_Director")
-        .dropTable("Movie_Writer")
-        .dropTable("Role")
-        .dropTable("User_Genre")
-        .dropTable("Rating")
-        .dropTable("Review")
-        .dropTable("Genre")
-        .dropTable("Language")
-        .dropTable("Director")
-        .dropTable("Writer")
-        .dropTable("Admin")
-        .dropTable("Actor")
-        .dropTable("User")
-        .dropTable("Movie");
+        // .dropTable("Movie_Genre")
+        // .dropTable("Movie_Language")
+        // .dropTable("Movie_Director")
+        // .dropTable("Movie_Writer")
+        // .dropTable("Role") 
+        // .dropTable("User_Genre")
+        // .dropTable("Rating")
+        // .dropTable("Review")
+        // .dropTable("Genre")
+        // .dropTable("Language")
+        // .dropTable("Director")
+        // .dropTable("Writer")
+        // .dropTable("Admin")
+        // .dropTable("Actor")
+        // .dropTable("User")
+        // .dropTable("Movie");
   };
 
 

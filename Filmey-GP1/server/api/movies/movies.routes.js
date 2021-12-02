@@ -171,6 +171,22 @@ router.post("/add", async (req, res, next) => {
   }
 });
 
+router.post("/delete", async (req, res, next) => {
+  const {movie_id} = req.body;
+  console.log(movie_id);
+  try {
+    const result = await queries.deleteMovie(movie_id);
+
+    if (result) {
+      return res.json(result);
+    }
+    return next();
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
+});
+
 router.get("/rating/:id", async (req, res, next) => {
   const { id } = req.params;
   try {

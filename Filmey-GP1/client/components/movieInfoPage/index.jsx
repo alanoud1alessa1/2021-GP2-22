@@ -158,6 +158,23 @@ function MovieInfoPage(props) {
     });
   };
 
+  const deleteMovie=()=>{
+
+    const res = Axios.post("http://localhost:3000/api/v1/movies/delete", {
+      movie_id: id,
+    }).then((res) => {
+      if(res.data){
+        alert("Movie has been deleted successfully");
+        window.location = '/home-page';
+      }
+      else{
+        alert("Sorry, an error occured. Please try again");
+      }
+      
+    });
+
+  }
+
   const addRating = (value) => {
     if (!registered) {
       if (window.confirm("Sorry! you have to login.")) {
@@ -466,13 +483,13 @@ function MovieInfoPage(props) {
                   </button>
                 
                   {/* delete movie */}
-                  <button className="deleteMovieButton">
-                  <Link to="/home-page">
+                  <button className="deleteMovieButton" onClick={deleteMovie}>
+                  {/* <Link to="/home-page"> */}
                     <div className="editMovieContainer">
                       <div className="deleteMovieIcon"> <RiDeleteBin2Line size={35}/> </div>
                       <div className="deleteMovieText">  Delete  </div>
                     </div>
-                    </Link>
+                    {/* </Link> */}
                   </button>
                   </div>
                   })
