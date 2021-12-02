@@ -51,17 +51,21 @@ function homePage(props) {
     //  // 'authorization' : token
   });
 
+  const [movieIds, setMovieIds] = useState([]);
   const [Allposters, setAllposters] = useState([]);
 
   React.useEffect(() => {
     let numOfTopMovies = 10;
 
     api.get(`/movies/topMovies/${numOfTopMovies}`).then((response) => {
+      const IdsArray = [...movieIds];
       const postersArray = [...Allposters];
 
       for (var i = 0; i < numOfTopMovies; i++) {
+        IdsArray[i] = response.data[i].movie_id;
         postersArray[i] = response.data[i].poster;
       }
+      setMovieIds(IdsArray);
       setAllposters(postersArray);
     });
   }, []);
@@ -96,7 +100,9 @@ function homePage(props) {
                 const row = [];
 
                 for (var i = 1; i <= 10; i++) {
-                  const url = `/MovieInfoPage/${i}`;
+                  const id = movieIds[i - 1];
+
+                  const url = `/MovieInfoPage/${id}`;
                   const poster = Allposters[i - 1];
                   row.push(
                     <div key={i}>

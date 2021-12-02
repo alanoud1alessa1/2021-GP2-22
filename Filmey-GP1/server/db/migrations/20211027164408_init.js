@@ -109,6 +109,7 @@ exports.up = async (knex) => {
         references(table, "Movie" , "movie")
         references(table, "User" , "user");
         table.string("review", 255).notNullable();
+        table.dateTime('created_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
         table.primary(["movie_id", "user_id" ,"review"]);
       })
   ]);

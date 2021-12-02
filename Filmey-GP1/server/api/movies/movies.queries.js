@@ -64,7 +64,7 @@ module.exports = {
 
   async getTopMovies(numberofmovies) {
     return db("Movie")
-      .select("*")
+      .select("movie_id" , "poster")
       .orderBy("movie_id", "asc")
       .limit(numberofmovies);
   },
@@ -94,7 +94,8 @@ module.exports = {
       .where({
         movie_id: movie_id,
       })
-      .leftJoin("User AS U", "R.user_id", "U.user_id");
+      .leftJoin("User AS U", "R.user_id", "U.user_id")
+      .orderBy("created_at" , "desc");
   },
 
   //   async addMovie(title, year, length , age_guide ,description, poster , trailer_url) {
