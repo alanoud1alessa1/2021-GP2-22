@@ -160,18 +160,21 @@ function MovieInfoPage(props) {
 
   const deleteMovie=()=>{
 
-    const res = Axios.post("http://localhost:3000/api/v1/movies/delete", {
-      movie_id: id,
-    }).then((res) => {
-      if(res.data){
-        alert("Movie has been deleted successfully");
-        window.location = '/home-page';
-      }
-      else{
-        alert("Sorry, an error occured. Please try again");
-      }
-      
-    });
+    if (window.confirm("Are you sure you want to delete the movie ?")) {
+      const res = Axios.post("http://localhost:3000/api/v1/movies/delete", {
+        movie_id: id,
+      }).then((res) => {
+        if(res.data){
+          alert("Movie has been deleted successfully");
+          window.location = '/home-page';
+        }
+        else{
+          alert("Sorry, an error occured. Please try again");
+        }
+        
+      });
+
+    }
 
   }
 

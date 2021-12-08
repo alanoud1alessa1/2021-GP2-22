@@ -65,6 +65,8 @@ function genresPage(props) {
   const [Allposters, setAllposters] = useState([]);
   const [totalRatings, settotalRatings] = useState([]);
   const [ERatings, setERatings] = useState([]);
+  // const [PageNum, setPageNum] = useState(1);
+
   // const [jj, setJj] = useState(true);
 
   // const [moviesInfo, setMoviesInfo] = useState([
@@ -74,13 +76,16 @@ function genresPage(props) {
   "Music","Musical","Mystery", "Romance","Sci-Fi","Short","Sport", "Thriller", "War", "Western"];
 
   if (numOfPage ==1){
+    // window.location.reload();
+
     var numOfItrations = 13;
     var numOfGenresToGet = 0
+
   }
   else{
     var numOfItrations = 10;
     var numOfGenresToGet = 13
-
+// setPageNum(2);
   } 
 
 
@@ -146,7 +151,10 @@ function genresPage(props) {
 
   }, []);
 
+  const refreashPage = () => {
+  window.location = '/genresPage/2';
 
+  };
 
   return (
     <div className="PageCenter">
@@ -250,9 +258,8 @@ function genresPage(props) {
                   }
                   return basicRow;
                 })}
-                {((numOfPage == 1 )&&<Link to="/genresPage/2">
-                  
-                                <button className="viewMoreButton neuton-bold-white-30px">
+                {((numOfPage == 1 )&&
+                   <button className="viewMoreButton neuton-bold-white-30px" onClick={refreashPage}>
                                   View more ..
                                   {/* <div className="arrowIcon"> 
                                   <IoIosArrowForward size={50}/>
@@ -263,7 +270,7 @@ function genresPage(props) {
                                   /> */}
                                 </button>
     
-                              </Link>)})
+  )})
               </div>
              
             </main>

@@ -53,6 +53,11 @@ function header(props) {
     });
   }, []);
 
+
+  const refreashPage = () => {
+    window.location = '/genresPage/1';
+    };
+
   return (
               <div className="header">
                 <Link to="/home-page">
@@ -70,13 +75,13 @@ function header(props) {
 
                 {/* Genres */}
                 <div>
-                  <Link to="/genresPage/1">
+                <button onClick={refreashPage}>
                     <div>
                       <div className="genresText darkergrotesque-medium-white-35px2">
                         Genres
                       </div>
                     </div>
-                  </Link>
+                    </button>
                 </div>
 
                 {/* Add movie */}
