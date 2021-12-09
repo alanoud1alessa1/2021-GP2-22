@@ -383,18 +383,54 @@ router.post("/addMovie", async (req , res, next) => {
   const {title,genres,languages,year,length,
     age_guide,trailer_url,poster,description,
     directors,writers,actorNames,actorRoles,actorImages } = req.body;
-    console.log(length.length);
+    //console.log(length.length);
+
+    var yearConverted=Number(year);
 
   try {
-        const movie = await queries.addMovie(title,genres,year,length,age_guide
-          ,trailer_url,poster,description);
+        const CheckMovieMessage = await queries.CheckMovie(title,yearConverted);
+        //CheckMovieMessage=CheckMovieMessage.CheckMovieMessage;
 
-          if(movie.MovieMessage)
-          {
-            console.log(movie.MovieMessage);
-            return res.json(movie);
-          }
-        
+          // if(checkMovie.CheckMovieMessage)
+          // {
+          //   console.log(checkMovie.CheckMovieMessage);
+          //   return res.json(checkMovie.CheckMovieMessage);
+          // }
+
+       const PosterMessage = await queries.CheckPoster(poster);
+      // PosterMessage=PosterMessage.PosterMessage;
+      //  if(checkPoster.PosterMessage)
+      //     {
+      //       console.log(checkMovie.PosterMessage);
+      //       return res.json(checkMovie.PosterMessage);
+      //     }
+       const DescriptionMessage = await queries.CheckDescription(description);
+      // DescriptionMessage=DescriptionMessage.DescriptionMessage;
+      //  if(checkDescription.DescriptionMessage)
+      //     {
+      //       console.log(checkDescription.DescriptionMessage);
+      //       return res.json(checkDescription.DescriptionMessage);
+      //     }
+      const checkActorImage = await queries.CheckActorImage(actorNames,actorImages);
+      console.log(checkActorImage);
+      //TrailerMessage=TrailerMessage.TrailerMessage;
+      //  if(checkTrailer.TrailerMessage)
+      //     {
+      //       console.log(checkTrailer.TrailerMessage);
+      //       return res.json(checkTrailer.TrailerMessage);
+      //     }
+      const TrailerMessage = await queries.CheckTrailer(trailer_url);
+      
+      if(CheckMovieMessage||PosterMessage||DescriptionMessage||TrailerMessage||checkActorImage)
+      {
+        return res.json({CheckMovieMessage,PosterMessage,DescriptionMessage,TrailerMessage,checkActorImage});
+      }
+    }
+    catch{}
+      try{
+
+
+       const movie = await queries.addMovie(title,yearConverted,length,age_guide,trailer_url,poster,description);
        const genre = await queries.addGenre(movie,genres);
        const language = await queries.addLanguage(movie,languages);
        const director = await queries.addDirector(movie,directors);
@@ -413,6 +449,24 @@ router.post("/addMovie", async (req , res, next) => {
     return next(error);
   }
 });
+
+router.get("/getMovieFormData/:id", async (req, res, next) => {
+  const {id} = req.params;
+  try {
+    const data = await queries.getMovieFormData(id);
+
+    if (data) {
+      return res.json(data);
+    }
+    return next();
+  } catch (error) {
+    console.log(error);
+   // res.statusCode = 409;
+    return next(error);
+  }
+}
+);
+
 
 
 // router.put("/", async (req, res, next) => {

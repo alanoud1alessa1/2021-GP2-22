@@ -4,6 +4,7 @@ import Select from 'react-select';
 import Header from "../header";
 import CreatableSelect from 'react-select/creatable';
 import  { useState } from 'react';
+import { useParams } from "react-router-dom";
 import Axios from "axios";
 import { ActionMeta, OnChangeValue } from 'react-select';
 
@@ -40,6 +41,9 @@ function addMoviePage(props) {
 
   var length=hoursState + 'h ' + minutesState+'min';
 
+    let { id } = useParams();
+    id = parseInt(id);
+
 
   var setGenreFunction=(e)=>{
     console.log(Array.isArray(e)?e.map(x=>x.label):[]);
@@ -72,14 +76,30 @@ var actorRoleArray=[...actorRoleArrayState];
 
 const setActorName  = index =>(newValue, actionMeta) => {
   console.log("setActorName");
-  console.log(index);
-  console.log(newValue.label);
   actorNameArray[index] =newValue.label;
-  console.log(actorNameArray);
+  // console.log(actorNameArray);
   setActorNameArrayState(actorNameArray);
   //console.log(actorNameArrayState);
-  console.log("actorImageArray");
-  console.log(actorImageArray);
+  // console.log("actorImageArray");
+  // console.log(actorImageArray);
+  var actorMessage;
+  var actorMessages=[];
+  var length=actorNameArray.length;
+  for (var i=0;i<length;i++)
+  {
+    var actorname=actorNameArray[i];
+    console.log(x);
+    for (var z=i+1;z<length;z++)
+    {
+      if(actorname==actorNameArray[z])
+      {
+        actorMessage=[z, "This actor has already been choosen"];
+        actorMessages.push(actorMessage);
+        console.log(actorMessages);  
+      } 
+    }
+
+  }
   const getActorImage =  Axios.get(
   `http://localhost:3000/api/v1/movies/getActorImage/${actorNameArray[index]}`
   )
@@ -158,8 +178,49 @@ const setActorImage = (index, value) => {
     actorImages:actorImageArray,
   }
   )
-  .then((addMovieRes)=>{
-    console.log(addMovieRes)
+  .then((res)=>{
+    // if(res.data.CheckMovieMessage.CheckMovieMessage)
+    // {
+    //   console.log(res.data.CheckMovieMessage.CheckMovieMessage);
+    // }
+    if(res.data.CheckMovieMessage)
+    {
+      console.log(res.data.CheckMovieMessage);
+    }
+
+    // if(res.data.PosterMessage.PosterMessage)
+    // {
+    //   console.log(res.data.PosterMessage.PosterMessage);
+    // }
+    if(res.data.PosterMessage)
+    {
+      console.log(res.data.PosterMessage);
+    }
+
+    // if(res.data.DescriptionMessage.DescriptionMessage)
+    // {
+    //   console.log(res.data.DescriptionMessage.DescriptionMessage);
+    // }
+    if(res.data.DescriptionMessage)
+    {
+      console.log(res.data.DescriptionMessage);
+    }
+
+    // if(res.data.TrailerMessage.TrailerMessage)
+    // {
+    //   console.log(res.data.TrailerMessage.TrailerMessage);
+    // }
+    if(res.data.TrailerMessage)
+    {
+      console.log(res.data.TrailerMessage);
+    }
+
+    if(res.data.checkActorImage)
+    {
+      console.log(res.data.checkActorImage);
+    }
+
+  
   })
 
   }
@@ -190,7 +251,18 @@ const setActorImage = (index, value) => {
         minutesArray[i] = {value:i, label: minute++};
     }
 
+    const editMovie=()=>
+    {
+      if(id>0)
+    {
+      const s =Axios.get(`http://localhost:3000/api/v1/movies/getMovieFormData/${id}`).then((response) => {
+      console.log(response.data);
+    });
+  }
+    }
+
   React.useEffect(() => {
+  
       
 
     const res =Axios.get("http://localhost:3000/api/v1/movies/allGenres/1").then((response) => {
@@ -1293,6 +1365,8 @@ const setActorImage = (index, value) => {
         </div> 
 
         <button className="addMovieadd-button neuton-bold-white-30px7" onClick={addMovie}>{addbutton}</button>
+        {id>0 && (
+        <button className="addMovieadd-button neuton-bold-white-30px7" onClick={editMovie}>edit</button>)}
       </div>
     </div>
 

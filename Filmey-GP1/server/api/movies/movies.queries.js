@@ -148,36 +148,123 @@ module.exports = {
       .groupByRaw("movie_id");
   },
 
-  async addMovie(title,genres,year,length,age_guide
-    ,trailer_url,poster,description) {
+  async CheckMovie(title,yearConverted) {
+    let checkMovie = await db(tableNames.movie)
+    .where({
+      title: title,
+      year:yearConverted,
+    })
+    .first()
+    .returning("*");
 
-      let CheckMovie = await db(tableNames.movie)
+    console.log(checkMovie);
+
+    if(checkMovie)
+    {
+      //var message = { 'CheckMovieMessage' : "This movie already exists"};
+      var message = "This movie already exists";
+
+      return message;
+    }
+  },
+
+  async CheckPoster(poster) {
+
+    let checkPoster = await db(tableNames.movie)
       .where({
-        title: title,
-        year:year,
+        poster:poster,
+      })
+      .first()
+      .returning("*");
+    
+    if(checkPoster)
+    {
+      //var message = { 'PosterMessage' : "This poster is for another movie"};
+      var message ="This poster is for another movie";
+
+      return message;
+    }
+  },
+
+  async CheckDescription(description) {
+
+    let checkDescription = await db(tableNames.movie)
+    .where({
+      description:description,
+    })
+    .first()
+    .returning("*");
+    
+    if(checkDescription)
+      {
+        //var message = { 'DescriptionMessage' : "This description is for another movie"};
+        var message =  "This description is for another movie";
+
+        return message;
+      }
+  },
+
+  async CheckTrailer(trailer_url) {
+
+    let checkTrailer = await db(tableNames.movie)
+      .where({
+        trailer_url:trailer_url,
       })
       .first()
       .returning("*");
 
-      if(CheckMovie)
+      if(checkTrailer)
       {
-        var message = { 'MovieMessage' : "This movie already exists"};
+        //var message = { 'TrailerMessage' : "This trailer is for another movie"};
+        var message = "This trailer is for another movie";
 
         return message;
       }
-      
+  },
+
+  async CheckActorImage(actorNames,actorImages) {
+     var length=actorImages.length;
+     var message;
+     for( var i=0; i<length;i++ ){
+      console.log(actorImages[i]);
+ 
+       let checkActorImage = await db(tableNames.actor)
+         .where({
+           actor_image_url:actorImages[i],
+         }).returning("*").pluck('actor');
+         console.log(checkActorImage[0]);
+         if(checkActorImage[0])
+         {
+           if(actorNames[i]!=checkActorImage[0])
+           {
+             var index= i.toString();
+             message={actorNumber: index, meesage: "This image belongs to another actor"};
+           }
+         }
+         //actorNamesArray.push(checkActorImage[0]);
+       }
+ 
+       return message;
+ 
+   },
+
+
+
+  async addMovie(title,yearConverted,length,age_guide
+    ,trailer_url,poster,description) {
+
       let movie_id=await db.select("movie_id").from(tableNames.movie).orderBy('movie_id', 'desc').returning("*").pluck('movie_id');
       movie_id=movie_id[0]+1;
 
-      var year1=Number(year);
-      console.log(year1);
+      console.log("addMovie");
+      console.log(yearConverted);
       console.log(movie_id);
     
       let movie= await db(tableNames.movie)
     .insert({
       movie_id:movie_id,
       title: title,
-      year:year1,
+      year:yearConverted,
       length:length,
       age_guide:age_guide,
       description:description,
@@ -409,6 +496,92 @@ async addDirector(movie_id,directors) {
            console.log(Role);}
            return;
            },
+
+
+  async getMovieFormData(id) {
+
+
+    
+      let movieInfo = await db(tableNames.movie).select("*").where({
+      movie_id: id,
+    })
+
+    let genre_ids = await db("Movie_Genre").select("*").where({
+      movie_id: id,
+    }).returning("*").pluck("genre_id");
+
+    var arrayofGenres = new Array();
+
+   
+
+    for (const id of genre_ids){
+      console.log(id);
+      let genre = await db("Genre").select("*").where({
+      genre_id: id,
+    }).returning("*").pluck("genre");
+    arrayofGenres.push(genre[0]);
+
+   
+  }
+  
+  //console.log(arrayofGenres);
+    let language_ids = await db(tableNames.movie_Language).select("*").where({
+      movie_id: id,
+    }).returning("*").pluck("language_id");
+
+    var arrayofLanguages = new Array();
+
+    for (const id of language_ids){
+      console.log(id);
+      let language = await db(tableNames.language).select("*").where({
+      language_id: id,
+    }).returning("*").pluck("language");
+    arrayofLanguages.push(language[0]);
+
+   
+  }
+
+  
+  var actorInfo;
+
+  //   let movieRoles = await db(tableNames.role).select("*").where({
+  //     movie_id: id,
+  //   }).returning("*");
+  //  console.log(movieRoles);
+  //   for (const actorId of movieRoles)
+  //   {
+  //     console.log(actorId);
+  //     let movieActors = await db(tableNames.actor).select("*").where({
+  //       actor_id: actorId.actor_id,
+  //     })
+  //     console.log(movieActors);
+  //     actorInfo.push({movieRoles.role,})
+      //return ActorInfo;
+ //   }
+  //   let movieDirectors = await db(tableNames.director).select("*").where({
+  //     movie_id: id,
+  //   }).returning("*").pluck("director");;
+
+  //   let movieWriters = await db(tableNames.writer).select("*").where({
+  //     movie_id: id,
+  //   }).returning("*").pluck("writer");
+
+    console.log(movieInfo);
+    console.log(arrayofGenres);
+    console.log(arrayofLanguages);
+    //return movieGenres;
+    //console.log(movieGenres);
+    // console.log(movieLanguages);
+    // console.log(movieRoles);
+    // console.log(movieDirectors);
+    // console.log(movieWriters);
+ 
+  //    if(movieInfo){
+  //      console.log(movieInfo);
+  //      return movieInfo;
+  // }
+ },
+
 
   async deleteMovie(movie_id) {
     console.log(movie_id);

@@ -87,7 +87,7 @@ function header(props) {
                 {/* Add movie */}
                 {isAdmin && (
                 <div>
-                  <Link to="/addMoviePage">
+                  <Link to="/addMoviePage/0">
                     <div>
                       <div className="addMovieText darkergrotesque-medium-white-35px2">
                        Add movie

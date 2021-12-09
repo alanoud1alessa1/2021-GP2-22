@@ -475,7 +475,8 @@ function MovieInfoPage(props) {
               ({isAdmin &&
                   <div>
                   <button className="editMovieButton">
-                  <Link to="/addMoviePage">
+                  {/* <Link to="/addMoviePage" > */}
+                  <Link to={`/addMoviePage/${id}`} >
 
                     <div className="editMovieContainer">
                       <div className="editMovieIcon"> <FiEdit size={30}/> </div>
