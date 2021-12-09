@@ -4,22 +4,16 @@ const users = require("./users/users.routes");
 const admins = require("./admins/admins.routes");
 const movies = require("./movies/movies.routes");
 const isAuth = require("../isAuth");
+const nodemailer = require("./node-mail/index");
+
+
 const router = express.Router();
 
 
 router.use("/users", users);
 router.use("/movies", movies);
 router.use("/admins", admins);
-
-// router.use((error, req, res, next) => {
-//   res.status(error.status || 500);
-//   res.json({
-//       error: {
-//           message: error.message
-//       }
-//   });
-//   next(error);
-// });
+router.use("/node-mail" , nodemailer);
 
 
 

@@ -88,7 +88,6 @@ const setActorName  = index =>(newValue, actionMeta) => {
   for (var i=0;i<length;i++)
   {
     var actorname=actorNameArray[i];
-    console.log(x);
     for (var z=i+1;z<length;z++)
     {
       if(actorname==actorNameArray[z])

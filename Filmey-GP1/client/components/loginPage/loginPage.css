@@ -233,3 +233,11 @@ box-shadow: 0px 5px 10px  var(--cardinal);
   color: var(--cardinal);
 }
 
+.text5{
+  color: #b62b2b;
+  font-weight: 900;
+  letter-spacing: 0.58px;
+  text-decoration:underline;
+  text-decoration-color: var(--cardinal);
+}
+

@@ -26,6 +26,8 @@ app.get("/", (req, res) => {
 app.use("/api/v1", api);
 
 
+
+
 app.use(middleware.notFound);
 app.use(middleware.errorHandler);
 

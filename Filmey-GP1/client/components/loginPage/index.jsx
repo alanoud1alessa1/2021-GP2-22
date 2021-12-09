@@ -5,6 +5,8 @@ import jwt_decode from "jwt-decode";
 import {useState } from "react";
 import Axios from "axios";
 import Cookies from 'universal-cookie';
+// import ResetPassword from "../resetPassword";
+
 
 function loginPage(props) {
   const {
@@ -20,6 +22,7 @@ function loginPage(props) {
     passwordinputType,
     passwordPlaceholder,
     text4,
+    text5
   } = props;
 
   
@@ -116,7 +119,7 @@ function loginPage(props) {
           else{
             setPassword_Error_message("");
           }
-               console.log("cookies");
+              console.log("cookies");
               const cookies = new Cookies();
               cookies.set('token', res.data, { path: '/' });
               console.log(res.data);
@@ -187,6 +190,8 @@ function loginPage(props) {
                     />
                   <div  className="loginErrorMessage nunito-semi-bold-white-28px">{password_error_message}</div>
                 </div>
+
+                <div><Link to="/forgetPassword" className="text5">{text5}</Link></div>
 
                 {/* login button */}
                 <div className="buttonContainer">

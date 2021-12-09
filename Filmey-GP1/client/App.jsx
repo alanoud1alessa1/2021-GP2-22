@@ -9,6 +9,8 @@ import GenreTypePage from "./components/genreTypePage";
 import MovieInfoPage from "./components/movieInfoPage";
 import ReviewPage from "./components/reviewPage";
 import AddMoviePage from "./components/addMoviePage";
+import ForgetPassword from "./components/forgetPassword";
+import ResetPassword from "./components/resetPassword";
 
 
 
@@ -21,6 +23,12 @@ function App() {
         </Route>
         <Route path="/login-page">
           <LoginPage {...loginPageData} />
+        </Route>
+        <Route path="/forgetPassword">
+          <ForgetPassword {...forgetPassword} />
+        </Route>  
+        <Route path="/resetPassword/:userId">
+          <ResetPassword {...resetPassword} />
         </Route>
         <Route path="/:path(|home-page)">
           <HomePage {...homePageData} />
@@ -37,7 +45,7 @@ function App() {
         <Route path="/reviewPage/:id">
           <ReviewPage {...reviewPageData} />
         </Route>
-        <Route path="/addMoviePage/:id">
+        <Route path="/addMoviePage">
           <AddMoviePage {...addMoviePageData} />
         </Route>
       </Switch>
@@ -58,12 +66,33 @@ const regPageData = {
     text7: "Which of these is your favorite movie genre?",
 };
 
+const forgetPassword={
+  backgroundImage: "/img/backgroundImage.png",
+  logo: "/img/logo.png",
+  text1: "Password recovery",
+  emailUsername: "Email",
+  emailUsernameinputType: "text",
+  emailUsernamePlaceholder: "Enter your email",
+
+};
+
+const resetPassword={
+  backgroundImage: "/img/backgroundImage.png",
+  logo: "/img/logo.png",
+  text1: "Reset Password",
+  password: "Password",
+  passwordinputType: "password",
+  passwordPlaceholder: "Enter a new password",
+
+};
+
 const loginPageData = {
     backgroundImage: "/img/backgroundImage.png",
     logo: "/img/logo.png",
     text1: "WELCOME BACK!",
     text2: "Don’t have a account,",
     text3: "Register",
+    text5:"Forgot password?",
     emailUsername: "Email / Username",
     emailUsernameinputType: "text",
     emailUsernamePlaceholder: "Enter your name or email",

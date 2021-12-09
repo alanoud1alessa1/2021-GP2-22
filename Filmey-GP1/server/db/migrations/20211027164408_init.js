@@ -120,22 +120,22 @@ exports.up = async (knex) => {
 
   exports.down = function(knex) {
     return knex.schema
-        .dropTable("Movie_Genre")
-        .dropTable("Movie_Language")
-        .dropTable("Movie_Director")
-        .dropTable("Movie_Writer")
-        .dropTable("Role") 
-        .dropTable("User_Genre")
-        .dropTable("Rating")
-        .dropTable("Review")
-        .dropTable("Genre")
-        .dropTable("Language")
-        .dropTable("Director")
-        .dropTable("Writer")
-        .dropTable("Admin")
-        .dropTable("Actor")
-        .dropTable("User")
-        .dropTable("Movie");
+        // .dropTable("Movie_Genre")
+        // .dropTable("Movie_Language")
+        // .dropTable("Movie_Director")
+        // .dropTable("Movie_Writer")
+        // .dropTable("Role") 
+        // .dropTable("User_Genre")
+        // .dropTable("Rating")
+        // .dropTable("Review")
+        // .dropTable("Genre")
+        // .dropTable("Language")
+        // .dropTable("Director")
+        // .dropTable("Writer")
+        // .dropTable("Admin")
+        // .dropTable("Actor")
+        // .dropTable("User")
+        // .dropTable("Movie");
   };
 
 
