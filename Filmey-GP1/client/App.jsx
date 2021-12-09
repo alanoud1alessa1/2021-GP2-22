@@ -45,7 +45,7 @@ function App() {
         <Route path="/reviewPage/:id">
           <ReviewPage {...reviewPageData} />
         </Route>
-        <Route path="/addMoviePage">
+        <Route path="/addMoviePage/:id">
           <AddMoviePage {...addMoviePageData} />
         </Route>
       </Switch>
