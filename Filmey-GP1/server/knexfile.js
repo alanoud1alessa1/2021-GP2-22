@@ -1,12 +1,11 @@
 require("dotenv").config();
 
 module.exports = {
-
   development: {
     client: "pg",
     connection: {
       database: "filmey",
-      user :"postgres",
+      user: "postgres",
       password: "pgAdmin123",
     },
     migrations: {
@@ -14,12 +13,9 @@ module.exports = {
     },
     seeds: {
       directory: "./db/seeds",
-    }
-  }
-
-
+    },
+  },
 };
-
 
 // module.exports = {
 
@@ -38,4 +34,3 @@ module.exports = {
 //     }
 //   }
 // };
-

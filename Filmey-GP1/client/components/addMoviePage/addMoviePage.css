@@ -66,7 +66,6 @@
 }
 
 .addMovietitle {
-  -webkit-text-stroke: 1px var(--black);
   letter-spacing: 0;
   margin-left: 0px;
   margin-top: 69px;
@@ -136,7 +135,7 @@
   margin-left: 0px;
   margin-top: 60px;
   min-height: 26px;
-  width: 207px;
+  width: 220px;
 }
 
 .addMoviegenre-container {
@@ -169,9 +168,9 @@
 
 .addMovieyear {
   letter-spacing: 0;
-  margin-top: 31px;
+  margin-top: 30px;
   min-height: 26px;
-  width: 207px;
+  width: 120px;
 }
 
 .addMovieyear-container {
@@ -198,7 +197,7 @@
 
 .addMoviemovie-len-add {
   letter-spacing: 0;
-  margin-top: 50px;
+  margin-top: 60px;
   min-height: 26px;
   width: 300px;
 }
@@ -212,6 +211,17 @@
   margin-top: 20px;
   min-width: 808px;
   /* gap:50px; */
+}
+
+.GenreYear{
+  align-items: left;
+  align-self: left;
+  display: flex;
+  height: 83px;
+  /* margin-right: 62.0px; */
+  /* margin-top: 20px; */
+  min-width: 808px;
+  margin-top: 50px;
 }
 
 .addMoviemovie-length1 {
@@ -246,9 +256,10 @@
 
 .addMovieage-guide {
   letter-spacing: 0;
-  margin-top: 42px;
+  margin-top: 30px;
+  margin-left: 150px;
   min-height: 26px;
-  width: 207px;
+  width: 210px;
 }
 
 .addMovieage-guide-container {
@@ -263,7 +274,7 @@
 
 .addMovietrailer {
   letter-spacing: 0;
-  margin-top: 32px;
+  margin-top: 80px;
   min-height: 26px;
   width: 207px;
 }
@@ -541,12 +552,13 @@
   /* min-height: 68px;
   min-width: 40px; */
   align-items: flex-end;
-  align-self: center;
+  /* align-self: center;  */
+  margin-left: 550px;
   background-color: var(--cardinal);
   border-radius: 10px;
   display: flex;
   height: 71px;
-  margin-top: 157px;
+  margin-top: 110px;
   /* width: 100px; */
   padding: 10px 200px;
   cursor: pointer;
@@ -559,4 +571,102 @@
 
 .minMovieLength{
   margin-left: 80px;
+}
+
+.addMovietitle:after,
+.addMovieflex-col-item:after,
+.addMovielanaguage:after,
+.addMovieyear:after,
+.addMoviemovie-len-add:after,
+.addMovieage-guide:after,
+.addMovietrailer:after,
+.addMovieposter:after,
+.addMoviedescription:after,
+.addMoviewriter:after,
+.addMovieactor-name:after,
+.addMovieactor-character-add:after,
+.addMovieactor-image-1:after
+{
+  content:"*";
+  color: var(--cardinal);
+}
+
+ .addMovieactor-image:disabled{
+  background-color: var(--pink-swan) ;
+} 
+
+.movieNameError {
+  /* margin-top: 90px; */
+  position: absolute;
+  color: var(--cardinal);
+  margin-top: 460px;
+  font-size: 25px;
+  font-family: var(--font-family-neuton);
+  font-weight: 400;
+}
+
+.moviePosterError, 
+.movieTrailerError,
+.movieDesError,
+.movieImageError{
+  font-family: var(--font-family-neuton);
+  color: var(--cardinal);
+  font-size: 25px;
+  font-family: var(--font-family-neuton);
+  font-weight: 400;
+}
+
+.movieYearBox{
+  align-items: flex-start;
+  background-color: var(--baby-powder);
+  border-radius: 5px;
+  border-color: var(--baby-powder);
+  box-shadow: 0px 4px 4px #00000040;
+  display: flex;
+  height: 56px;
+  margin-top: 50px;
+  min-width: 300px;
+  padding: 15px 15px;
+}
+
+.movieAgeGuideBox{
+  align-items: flex-start;
+  background-color: var(--baby-powder);
+  border-radius: 5px;
+  border-color: var(--baby-powder);
+  box-shadow: 0px 4px 4px #00000040;
+  display: flex;
+  height: 56px;
+  margin-top: 50px;
+  min-width: 150px;
+  padding: 15px 15px;
+  margin-top: 45px;
+  min-width: 300px;
+  margin-left: 5px;
+}
+
+.YearGenre{
+  display: flex;
+}
+
+.movieYearBox:hover,
+.movieHours:hover,
+.movieMin:hover,
+.movieAgeGuideBox{
+  box-shadow: 0px 4px 4px var(--cardinal);
+}
+
+.movieHours,
+.movieMin{
+  align-items: flex-start;
+  background-color: var(--baby-powder);
+  border-radius: 5px;
+  border-color: var(--baby-powder);
+  box-shadow: 0px 4px 4px #00000040;
+  display: flex;
+  height: 56px;
+  margin-top: 2px;
+  min-width: 150px;
+  padding: 15px 15px;
+  margin-left: 20px;
 }
