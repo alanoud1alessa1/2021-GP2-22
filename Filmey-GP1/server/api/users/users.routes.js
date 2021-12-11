@@ -89,7 +89,7 @@ router.post("/register", async (req, res, next) => {
   const user = { userID: userID, username: username, isAdmin: false };
 
   try {
-    const token = jwt.sign(user, "mySecretKey");
+    const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECERT);
 
     if (token) {
       return res.json(token);
@@ -139,7 +139,7 @@ router.post("/login", async (req, res, next) => {
   };
 
   try {
-    const token = jwt.sign(user, "mySecretKey");
+    const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECERT );
 
     if (token) {
       return res.json(token);
@@ -221,9 +221,13 @@ router.post("/userExist", async (req, res, next) => {
     isAdmin: false,
   };
 
+  
   try {
     if (user) {
-      return res.json(user);
+
+      const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECERT);
+
+      return res.json(token);
     }
 
     return next();
@@ -232,7 +236,22 @@ router.post("/userExist", async (req, res, next) => {
 
 router.post("/resetPassword", async (req, res, next) => {
 
-const { user_id  , newPassword} = req.body;
+const { token  , newPassword} = req.body;
+// const user_id = jwt.decode(token.userID);
+const user_id = 4;
+
+
+var passwordMessage = "";
+
+if (newPassword.length < 8) {
+  passwordMessage = {
+    passwordMessage: "Password length must be at least 8 characters.",
+  };
+
+  return res.json({passwordMessage });
+
+}
+
   const response = await queries.resetPassword(user_id , newPassword);
 
   const user = {

@@ -1,29 +1,33 @@
 const express = require("express");
 const nodemailer = require("nodemailer");
+const jwt = require("jsonwebtoken");
+
 
 const router = express.Router();
+
 
 router.post("/", (req, res) => {
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "Filmey.movies@gmail.com",
-      pass: "Filmey.movies123",
+      user: process.env.EMAIL,
+      pass: process.env.EMAIL_PASS,
     },
   });
 
+  const decoded = jwt.decode(req.body.token);
 
-  var link = `http://localhost:1234/resetpassword/${req.body.userId}`;
+ const token = req.body.token;
+  const email = decoded.email;
+
+  var link = `http://localhost:1234/resetpassword/${token}`;
   link = link.toString()
   var mailOptions = {
     from: "Filmey.movies@gmail.com",
-    to: req.body.email,
+    to: email,
     subject: "Reset Password",
-    html:  link,
-
-    // text: `http://localhosst:1234/resetpassword/${req.body.userId}`,
-  
-    // html:   "<p>Reset your new password Using the link</p> <a href='link'>Reset Password Link</a>"
+    text: "Reset your new password Using the link :" +`${link}`,
+    // html:   "<p>Reset your new password Using the link</p> <a href=`${link}`>Reset Password Link</a>"
     // '<p>Reset your new password Using the link </p><a href=`http://localhost:1234/resetpassword/${req.body.id}`>Reset Password Link</a>'
   };
 

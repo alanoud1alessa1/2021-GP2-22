@@ -191,6 +191,8 @@ function loginPage(props) {
                   <div  className="loginErrorMessage nunito-semi-bold-white-28px">{password_error_message}</div>
                 </div>
 
+
+
                 <div><Link to="/forgetPassword" className="text5">{text5}</Link></div>
 
                 {/* login button */}

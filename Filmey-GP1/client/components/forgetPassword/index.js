@@ -24,10 +24,12 @@ function loginPage(props) {
   } = props;
 
   // const [userId, setUserId] = useState();
-  var userId =0;
+  // var token = "";
+  const [token, setToken] = useState("");
   const [email, setEmail] = useState("");
   const [EmailNotExist_Error_message, setEmailNotExist_Error_message] =
     useState("");
+  const [showResendEmail, setShowResendEmail] = React.useState(false);
 
   const isEnabled = email.length > 0;
 
@@ -39,7 +41,6 @@ function loginPage(props) {
     const res = Axios.post(API_URL + "Users/userExist", {
       email: email,
     }).then((res) => {
-      // console.log(res);
       if (res.data) {
         if (res.data.userNotExistMessage) {
           userNotExistMessage = res.data.userNotExistMessage;
@@ -47,29 +48,28 @@ function loginPage(props) {
           return;
         } else {
           setEmailNotExist_Error_message("");
-          userId = res.data.userID;
-          // setUserId(4);
+          setToken(res.data);
           sendEmail();
-          // window.location = `http://localhost:1234/emailSend/${res.data.userID}/${email}`;
+          setShowResendEmail(true);
         }
       }
     });
   };
 
   const sendEmail = () => {
-    console.log(userId)
-  const res = Axios.post(API_URL + "node-mail", {
-    email: email,
-    userId: userId,
-    // emaiText:  "<p>Reset your new password Using the link</p> <a href=`http://localhost:1234/resetpassword/${userId}`>Reset Password Link</a>"
-  }).then((res) => {
-   
-  });
+    console.log(token);
+    const res = Axios.post(API_URL + "node-mail", {
+      token: token,
+      // userId: userId,
+      // emaiText:  "<p>Reset your new password Using the link</p> <a href=`http://localhost:1234/resetpassword/${userId}`>Reset Password Link</a>"
+    }).then((res) => {});
 
-  alert(
-    "Check your email! We've sent you instructions for resetting your password."
-  );
-};
+    alert(
+      "Check your email! We've sent you instructions for resetting your password."
+    );
+  };
+
+
 
   return (
     <div className="PageCenter">
@@ -109,6 +109,17 @@ function loginPage(props) {
                   </div>
                 </div>
 
+               {((showResendEmail)  && 
+               <Link
+                    type="button"
+                    className="loginButton"
+                    onClick={sendEmail}
+                  >
+                    <div className="text4 roboto-bold-white-28px">Didn't receive an email? click to resend</div>
+                  </Link> )}
+{/* 
+
+
                 {/* login button */}
                 <div className="buttonContainer">
                   <button
@@ -117,7 +128,9 @@ function loginPage(props) {
                     onClick={UserExist}
                     disabled={!isEnabled}
                   >
-                    <div className="text4 roboto-bold-white-28px">Send Email</div>
+                    <div className="text4 roboto-bold-white-28px">
+                      Send Email
+                    </div>
                   </button>
                 </div>
               </div>

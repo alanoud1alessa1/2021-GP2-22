@@ -435,16 +435,8 @@ module.exports = {
 
   async resetPassword(user_id, newPassword) {
 
-    // let user = await db(tableNames.user)
-    // .select("user_id")
-    //   .where({
-    //     email: email,
-    //   })
-    //   .first()
-    //   .returning("*");
 
     let new_password = await bcrypt.hash(newPassword, 12);
-    // const user_id  = user;
 
     const [updated] = await db(tableNames.user)
       .update({

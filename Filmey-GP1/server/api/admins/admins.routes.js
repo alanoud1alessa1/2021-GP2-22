@@ -31,7 +31,7 @@ router.get("/:id", isAuth, async (req, res, next) => {
     const user = { username: username, isAdmin:true};
   
     try {
-       const token= jwt.sign(user, "mySecretKey");
+       const token= jwt.sign(user, process.env.ACCESS_TOKEN_SECERT);
       if (token) {
         //res.render("/:path(|home-page)");
         return res.json(token);

@@ -1,12 +1,11 @@
 import React from "react";
-import { Link , useParams} from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "./resetPassword.css";
 import jwt_decode from "jwt-decode";
-import {useState } from "react";
+import { useState } from "react";
 import Axios from "axios";
-import Cookies from 'universal-cookie';
+import Cookies from "universal-cookie";
 // import ResetPassword from "../resetPassword";
-
 
 function loginPage(props) {
   const {
@@ -24,37 +23,59 @@ function loginPage(props) {
     text4,
   } = props;
 
-  
-  const [email,setEmail]=useState('');
-  const [userPassword,setuserPassword]=useState('');
-  const [password_error_message,setPassword_Error_message]=useState('');
+  const [email, setEmail] = useState("");
+  const [userPassword, setuserPassword] = useState("");
+  const [password_error_message, setPassword_Error_message] = useState("");
 
-  const isEnabled =userPassword.length >0;
+  const isEnabled = userPassword.length > 0;
 
-  var passwordMessage="";
+  var passwordMessage = "";
 
-
-  const {userId} = useParams();
+  // const { userId } = useParams();
 
   const API_URL = "http://localhost:3000/api/v1/users";
 
-    const resetPassword=()=>
-  {
-      const res =  Axios.post(API_URL + "/resetPassword",{
-        user_id:userId ,
-        newPassword: userPassword
+
+  const { token } = useParams();
+  // var token = jwt_decode(token);
+
+  const  resetPassword=()=>{
+
+    // var decoded = jwt_decode(res.data);
+   
+    const res = Axios.post(API_URL + "/resetPassword", {
+      token: token,
+      newPassword: userPassword,
+    }).then((res) => {
+      
+      console.log(userPassword.length);
+      try{
+    
+      if (res.data.passwordMessage.passwordMessage){
+        
+        passwordMessage=res.data.passwordMessage.passwordMessage;
+        setPassword_Error_message(passwordMessage);
 
       }
-      )
-      .then((res)=>{
-       console.log(res)
+      else {
+        setPassword_Error_message("");
+      }
       
-    alert("Password changed successfully");
-    window.location = '/login-page';
 
-      
-      })
- }
+    }
+      catch{
+         if (passwordMessage){
+          return;
+        }
+
+        else{
+          alert("Password changed successfully");
+                  window.location = "/login-page";
+          }
+      }
+     });
+  };
+
 
   return (
     <div className="PageCenter">
@@ -63,7 +84,7 @@ function loginPage(props) {
           <div className="pageBackground"></div>
           <img className="backgroundImage" src={backgroundImage} />
           <Link to="/home-page">
-           <img className="logo" src={logo} />
+            <img className="logo" src={logo} />
           </Link>
           <div className="loginComponents">
             <div className="text1">{text1}</div>
@@ -79,29 +100,35 @@ function loginPage(props) {
             {/* login form */}
             <form>
               <div className="inputFildes">
-
                 {/* New password */}
                 <div className="loginPasswordContainer">
-                  <div className="password-2 nunito-semi-bold-white-28px">{password}</div>
-                    <input
-                      className="enterPassword  roboto-normal-pink-swan-16px"
-                      name="password"
-                      placeholder={passwordPlaceholder}
-                      type={passwordinputType}
-                      required
-                      onChange={
-                        (e)=>{
-                          setuserPassword(e.target.value); 
-                        }  
-                      }
-                    />
-                  <div  className="loginErrorMessage nunito-semi-bold-white-28px">{password_error_message}</div>
+                  <div className="password-2 nunito-semi-bold-white-28px">
+                    {password}
+                  </div>
+                  <input
+                    className="enterPassword  roboto-normal-pink-swan-16px"
+                    name="password"
+                    placeholder="At least 8 characters"
+                    type={passwordinputType}
+                    required
+                    onChange={(e) => {
+                      setuserPassword(e.target.value);
+                    }}
+                    minlength="8"
+                  />
+                  <div className="loginErrorMessage nunito-semi-bold-white-28px">
+                    {password_error_message}
+                  </div>
                 </div>
-
 
                 {/* login button */}
                 <div className="buttonContainer">
-                  <button type="button"  className="loginButton" onClick={resetPassword}  disabled={!isEnabled}>
+                  <button
+                    type="button"
+                    className="loginButton"
+                    onClick={resetPassword}
+                    disabled={!isEnabled}
+                  >
                     <div className="text4 roboto-bold-white-28px">Confirm</div>
                   </button>
                 </div>
