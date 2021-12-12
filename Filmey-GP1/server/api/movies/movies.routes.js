@@ -390,37 +390,12 @@ router.post("/addMovie", async (req , res, next) => {
     var yearConverted=Number(year);
 
   try {
-        const CheckMovieMessage = await queries.CheckMovie(title,yearConverted);
-        //CheckMovieMessage=CheckMovieMessage.CheckMovieMessage;
-
-          // if(checkMovie.CheckMovieMessage)
-          // {
-          //   console.log(checkMovie.CheckMovieMessage);
-          //   return res.json(checkMovie.CheckMovieMessage);
-          // }
-
+      
+       const CheckMovieMessage = await queries.CheckMovie(title,yearConverted);
        const PosterMessage = await queries.CheckPoster(poster);
-      // PosterMessage=PosterMessage.PosterMessage;
-      //  if(checkPoster.PosterMessage)
-      //     {
-      //       console.log(checkMovie.PosterMessage);
-      //       return res.json(checkMovie.PosterMessage);
-      //     }
        const DescriptionMessage = await queries.CheckDescription(description);
-      // DescriptionMessage=DescriptionMessage.DescriptionMessage;
-      //  if(checkDescription.DescriptionMessage)
-      //     {
-      //       console.log(checkDescription.DescriptionMessage);
-      //       return res.json(checkDescription.DescriptionMessage);
-      //     }
-      const checkActorImage = await queries.CheckActorImage(actorNames,actorImages);
-      console.log(checkActorImage);
-      //TrailerMessage=TrailerMessage.TrailerMessage;
-      //  if(checkTrailer.TrailerMessage)
-      //     {
-      //       console.log(checkTrailer.TrailerMessage);
-      //       return res.json(checkTrailer.TrailerMessage);
-      //     }
+       const checkActorImage = await queries.CheckActorImage(actorNames,actorImages);
+       console.log(checkActorImage);
       const TrailerMessage = await queries.CheckTrailer(trailer_url);
       
       if(CheckMovieMessage||PosterMessage||DescriptionMessage||TrailerMessage||checkActorImage)
@@ -432,12 +407,14 @@ router.post("/addMovie", async (req , res, next) => {
       try{
 
 
-       const movie = await queries.addMovie(title,yearConverted,length,age_guide,trailer_url,poster,description);
-       const genre = await queries.addGenre(movie,genres);
-       const language = await queries.addLanguage(movie,languages);
-       const director = await queries.addDirector(movie,directors);
-       const writer = await queries.addWriter(movie,writers);
-       const actor = await queries.addActor(movie,actorNames,actorRoles,actorImages);
+       const movieID = await queries.addMovie(title,yearConverted,length,age_guide,trailer_url,poster,description);
+       const genre = await queries.addGenre(movieID,genres);
+       const language = await queries.addLanguage(movieID,languages);
+       const director = await queries.addDirector(movieID,directors);
+       const writer = await queries.addWriter(movieID,writers);
+       const actor = await queries.addActor(movieID,actorNames,actorRoles,actorImages);
+
+       return res.json({"movieID":movieID});
 
 
     // if (movie_id) {

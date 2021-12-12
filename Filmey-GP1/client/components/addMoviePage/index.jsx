@@ -245,6 +245,13 @@ const setActorImage = (index, value) => {
       setMovieActorImage_error_message(res.data.checkActorImage)
     }
 
+    if(res.data.movieID)
+    {
+      alert("Movie added successfully");
+      var newMovieID =res.data.movieID;
+      window.location = `/movieInfoPage/${newMovieID}`;
+    }
+
   
   })
 
