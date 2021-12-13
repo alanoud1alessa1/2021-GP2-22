@@ -69,7 +69,7 @@ const regPageData = {
 const forgetPassword={
   backgroundImage: "/img/backgroundImage.png",
   logo: "/img/logo.png",
-  text1: "Password recovery",
+  text1: "Password Recovery",
   emailUsername: "Email",
   emailUsernameinputType: "text",
   emailUsernamePlaceholder: "Enter your email",

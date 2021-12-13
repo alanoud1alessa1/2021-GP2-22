@@ -193,7 +193,7 @@ function loginPage(props) {
 
 
 
-                <div><Link to="/forgetPassword" className="text5">{text5}</Link></div>
+               <Link to="/forgetPassword">  <div className="forgetPass"> {text5} </div></Link>
 
                 {/* login button */}
                 <div className="buttonContainer">

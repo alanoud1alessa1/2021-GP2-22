@@ -517,14 +517,15 @@
   top:68px;
   letter-spacing: 0;
   position: absolute;
-  overflow: auto;
+  /* overflow: auto; */
   height: 200px;
   padding-right: 30px;
   /* top: 449px; */
   width: 873px;
-  /* width:1200px; */
   text-align: justify;
-  /* font-size: 16px;   */
+  overflow-y: scroll;
+  inline-size: 873px;
+  overflow-wrap: break-word;
 }
 
 .vector-12 {

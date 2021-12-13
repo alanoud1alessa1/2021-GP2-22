@@ -458,7 +458,7 @@
   border-radius: 5px;
   box-shadow: 0px 4px 4px #00000040;
   height: 77px; */
-  margin-left: 190px;
+  margin-left: 180px;
   /* width: 361px; */
 }
 
@@ -553,7 +553,7 @@
   min-width: 40px; */
   align-items: flex-end;
   /* align-self: center;  */
-  margin-left: 550px;
+  margin-left: 450px;
   background-color: var(--cardinal);
   border-radius: 10px;
   display: flex;
@@ -608,8 +608,11 @@
 .moviePosterError, 
 .movieTrailerError,
 .movieDesError,
-.movieImageError{
-  font-family: var(--font-family-neuton);
+.movieImageError,
+.movieActorNameError,
+.movieActorRoleError,
+.movieActorImageError
+{
   color: var(--cardinal);
   font-size: 25px;
   font-family: var(--font-family-neuton);
@@ -669,4 +672,10 @@
   min-width: 150px;
   padding: 15px 15px;
   margin-left: 20px;
+}
+
+.movieActorImageError{
+  letter-spacing: 0;
+  margin-left: 190px;
+  width: 325px;
 }

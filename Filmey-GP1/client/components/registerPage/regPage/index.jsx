@@ -7,6 +7,8 @@ import Axios from "axios";
 import jwt_decode from "jwt-decode";
 import Cookies from 'universal-cookie';
 import Select from 'react-select';
+import moment from 'moment';
+
 // import { DatePicker } from 'react-nice-dates';
 
 
@@ -332,6 +334,7 @@ function regPage(props) {
                     monthPlaceholder="month"
                     yearPlaceholder="year"
                     required 
+                    maxDate={moment().toDate()}
                     onDateChange={(date) => {
                         this.setState({date: date})
                       }}

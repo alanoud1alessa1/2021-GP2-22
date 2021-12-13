@@ -81,16 +81,13 @@ function loginPage(props) {
             <img className="logo" src={logo} />
           </Link>
           <div className="loginComponents">
-            <div className="text1">{text1}</div>
-            <div className="regContainer">
-              <div className="text2">{text2}</div>
-            </div>
+            <div className="passRecoveryText">{text1}</div>
 
             {/* Send Email */}
             <form>
-              <div className="inputFildes">
+              <div className="passRecoveryEmail">
                 {/* Email*/}
-                <div className="emialUsernameContainer">
+                <div className="passRecoveryEmailContainer">
                   <div className="emailUsername nunito-semi-bold-white-28px">
                     {emailUsername}
                   </div>
@@ -110,14 +107,15 @@ function loginPage(props) {
                 </div>
 
                {((showResendEmail)  && 
-               <Link
+
+                    <div className="resendEmailText">Didn't receive an email?&nbsp;       
+                    <Link
                     type="button"
-                    className="loginButton"
                     onClick={sendEmail}
-                  >
-                    <div className="text4 roboto-bold-white-28px">Didn't receive an email? click to resend</div>
-                  </Link> )}
-{/* 
+                    >
+                    <span className="resendText"> Resend Email</span>
+                    </Link> </div> )}
+
 
 
                 {/* login button */}

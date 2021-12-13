@@ -218,32 +218,54 @@ module.exports = {
     }
   },
 
-  async CheckActorImage(actorNames, actorImages) {
-    var length = actorImages.length;
+  // async CheckActorImage(actorNames, actorImages) {
+  //   var length = actorImages.length;
+  //   var message=[];
+  //   for (var i = 0; i < length; i++) {
+  //     console.log(actorImages[i]);
+
+  //     let checkActorImage = await db(tableNames.actor)
+  //       .where({
+  //         actor_image_url: actorImages[i],
+  //       })
+  //       .returning("*")
+  //       .pluck("actor");
+  //     console.log(checkActorImage[0]);
+  //     if (checkActorImage[0]) {
+  //       if (actorNames[i] != checkActorImage[0]) {
+  //         message[i]="Image belongs to another actor";;
+  //       }
+  //     }
+  //   }
+
+  //   return message;
+  // },
+
+  
+  async CheckActorImage(actorNames,actorImages) {
+    var length=actorImages.length;
     var message;
-    for (var i = 0; i < length; i++) {
-      console.log(actorImages[i]);
+    for( var i=0; i<length;i++ ){
+     console.log(actorImages[i]);
 
       let checkActorImage = await db(tableNames.actor)
         .where({
-          actor_image_url: actorImages[i],
-        })
-        .returning("*")
-        .pluck("actor");
-      console.log(checkActorImage[0]);
-      if (checkActorImage[0]) {
-        if (actorNames[i] != checkActorImage[0]) {
-          var index = i.toString();
-          message = {
-            actorNumber: index,
-            meesage: "This image belongs to another actor",
-          };
+          actor_image_url:actorImages[i],
+        }).returning("*").pluck('actor');
+        console.log(checkActorImage[0]);
+        if(checkActorImage[0])
+        {
+          if(actorNames[i]!=checkActorImage[0])
+          {
+            var index= i.toString();
+            message={actorNumber: index, meesage: "This image belongs to another actor"};
+          }
         }
+        //actorNamesArray.push(checkActorImage[0]);
       }
-      //actorNamesArray.push(checkActorImage[0]);
-    }
 
-    return message;
+      return message;
+
   },
 
   async addMovie(
