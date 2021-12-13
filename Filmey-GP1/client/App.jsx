@@ -313,6 +313,7 @@ const reviewPageData= {
 };
 
 const addMoviePageData= {
+  logo: "/img/logo.png",
   addmovietext: "Add Movie",
   movieInformation: "Movie Information",
   title: "Title",
@@ -337,6 +338,10 @@ const addMoviePageData= {
   actorcharacteradd: "Actor role",
   actorimage: "Actor image",
   addbutton: "Add",
+
+   // Footer
+   footerText2: <>Filmey © 2021<br /></>,
+   footerText1: "WE MAKE YOUR DAY",
 };
 
 

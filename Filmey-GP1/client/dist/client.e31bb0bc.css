@@ -2076,15 +2076,6 @@ box-shadow: 0px 5px 10px  var(--cardinal);
     width: 20px;
   }
   
-  .footer {
-    /* background-color: var(--eerie-black); */
-    background-color: var(--black);
-    height: 293px;
-    left: 47px;
-    position: absolute;
-    top: 1099px;
-    width: 1920px;
-  }
 
   @keyframes animate-enter-frames {
     from{opacity: 0;
@@ -2098,6 +2089,17 @@ box-shadow: 0px 5px 10px  var(--cardinal);
   .clickable{
       cursor: pointer;
   }
+
+  .homefooter {
+    /* background-color: var(--eerie-black); */
+    background-color: red;
+    height: 293px;
+    left: 47px;
+    position: absolute;
+    top: 19px;
+    width: 1920px;
+  }
+
 .genresText:hover,
 .homeText:hover,
 .addMovieText:hover {
@@ -2168,7 +2170,7 @@ box-shadow: 0px 5px 10px  var(--cardinal);
 
 .genresText {
   cursor: pointer;
-  left: 425px;
+  left: 435px;
   letter-spacing: 0;
   position: absolute;
   top: 43px;
@@ -2179,7 +2181,7 @@ box-shadow: 0px 5px 10px  var(--cardinal);
 
 .addMovieText{
   cursor: pointer;
-  left: 610px;
+  left: 600px;
   letter-spacing: 0;
   position: absolute;
   top: 43px;
@@ -2199,13 +2201,22 @@ box-shadow: 0px 5px 10px  var(--cardinal);
 }
 
 .homeText{
-  cursor: pointer;
+  /* cursor: pointer;
   left: 298px;
   letter-spacing: 0;
   position: absolute;
   top: 43px;
   transition: all 0.2s ease;
   width: 111px;
+  z-index: 1; */
+
+  cursor: pointer;
+  left: 435px;
+  letter-spacing: 0;
+  position: absolute;
+  top: 43px;
+  transition: all 0.2s ease;
+  width: 137px;
   z-index: 1;
 }
 
@@ -2256,6 +2267,7 @@ box-shadow: 0px 5px 10px  var(--cardinal);
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     border-radius: 2px;
     z-index: 1;
+    margin-top: 10px;
     text-align: center;
     padding: 10px 5px;
   }
@@ -2293,18 +2305,18 @@ margin-right: 50px ; */
  margin-right: 200px; 
  z-index: 1;
 }
+
+
 .genresPage {
   align-items: flex-start;
   background-color: var(--white);
   display: flex;
-  /* height: auto; */
+  height: 1300px;
   width: 1912px;
-  
-  
 }
 
 .genresPageContainer {
-  height: auto;
+  /* height: auto; */
   margin-left: -47px;
   position: relative;
   width: 100%;
@@ -2383,7 +2395,7 @@ width: 75px;
 
 .genreBody {
 background-color: var(--eerie-black);
-height: 10900px;
+height: 10100px;
 left: 47px;
 position:absolute;
 top: 130px;
@@ -3592,7 +3604,7 @@ left:-20;
 }
 
 .movieInfoContainer {
-  height: 2451px;
+  height: 2340px;
   margin-left: -47px;
   position: relative;
   width: 100%;
@@ -4849,22 +4861,14 @@ card
     position: absolute;
   }
 
-  .footer{
-    background-color: var(--black);
-    height: 293px;
-    left: 47px;
-    position: absolute;
-    top:   2050px;
-    width: 1920px;
-  }
 
 
 .movieInfofooter {
   background-color: var(--black);
   height: 293px;
-  /* left: 47px; */
+  left: 47px;
   position: absolute;
-  /* top:   1860px; */
+  top:   2060px;
   width: 1920px;
 }
 
@@ -5105,11 +5109,17 @@ background-color: var(--shark);
   width:400px;
 }
 .reviewPage {
-  align-items: flex-start;
-  background-color: var(--white);
+  align-items:flex-start;
+  /* background-color: var(--black); */
+  background-color: var(--eerie-black);
   display: flex;
-  min-height: 1366px;
-  width: 100%;
+  flex-direction: column;
+  height: 1300px;
+  padding: 70px 264px;
+  width: 1970px;
+  margin-left: -47px;
+  position: relative;
+  overflow: hidden;
 }
 
 
@@ -5253,19 +5263,24 @@ width: 344px;
   background-color: var(--eerie-black);
   display: flex;
   flex-direction: column;
-  /* height: 6149px; */
+  min-height: 4250px;
   padding: 70px 264px;
-  width: 100%;   
+  width: 1970px;
+  margin-left: -47px;
+  position: relative;
+  overflow: hidden;
 }
+
 
 .addMovieflex-col {
   align-items: flex-start;
   display: flex;
-  margin-left: 50px;
+  margin-left: 30px;
   flex-direction: column;
   min-height: 3598px;
-  width: 1386px;
+  width: 100%;
 }
+
 
 .addMovieadd-movie-text {
   align-self: center;
@@ -5280,7 +5295,7 @@ width: 344px;
 }
 
 .addMovieoverlap-group1 {
-  height: 103px;
+  min-height: 103px;
   margin-top: 127px;
   position: relative;
   width: 616px;
@@ -5696,7 +5711,7 @@ width: 344px;
 .addMovieflex-row-2 {
   align-items: flex-start;
   display: flex;
-  margin-left: 4px;
+  margin-left: 30px;
   margin-top: 40px;
   min-width: 1377px;
 }
@@ -5802,7 +5817,7 @@ width: 344px;
   min-width: 40px; */
   align-items: flex-end;
   /* align-self: center;  */
-  margin-left: 450px;
+  margin-left: 520px;
   background-color: var(--cardinal);
   border-radius: 10px;
   display: flex;
@@ -5927,6 +5942,50 @@ width: 344px;
   letter-spacing: 0;
   margin-left: 190px;
   width: 325px;
+}
+
+.addMoviefooter{
+      /* background-color: var(--eerie-black); */
+      background-color: var(--black);
+      min-height: 293px;
+      left: 47px;
+      position: absolute;
+      top:auto;
+      margin-top: 100px;
+      width: 1920px;
+}
+
+
+.addMoviefooterLogo {
+  height: 139px;
+  left: 775px;
+  object-fit: cover;
+  position: absolute;
+  top:auto;
+  margin-top: 120px;
+  width: 410px;
+}
+
+.addMoviefooterText1 {
+  color: var(--white);
+  font-family: var(--font-family-neuton);
+  font-size: var(--font-size-xl2);
+  font-weight: 700;
+  left: 867px;
+  letter-spacing: 0;
+  position: absolute;
+  top: 4150px;
+  top:auto;
+  margin-top: 4150px;
+
+}
+
+.addMoviecopyRightText {
+  left: 68px;
+  letter-spacing: 0;
+  position: absolute;
+  top: 4170px;
+  width: 344px;
 }
 
 .loginPage {

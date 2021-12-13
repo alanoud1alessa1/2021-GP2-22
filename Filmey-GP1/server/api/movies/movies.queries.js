@@ -62,10 +62,18 @@ module.exports = {
       });
   },
 
+  // async getTopMovies(numberofmovies) {
+  //   return db("Movie")
+  //     .select("movie_id", "poster")
+  //     .orderBy("movie_id", "asc")
+  //     .limit(numberofmovies);
+  // },
+
   async getTopMovies(numberofmovies) {
-    return db("Movie")
-      .select("movie_id", "poster")
-      .orderBy("movie_id", "asc")
+    return db("Movie AS M")
+      .select("M.movie_id", "M.poster" , "R.rating")
+      .leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
+      .orderBy("R.rating", "desc")
       .limit(numberofmovies);
   },
 

@@ -61,7 +61,7 @@ function header(props) {
   return (
               <div className="header">
                 <Link to="/home-page">
-                  <img className="headerLogo" src={"/img/logo.png"} />
+                <img className="headerLogo" src={"/img/logo.png"} />
                 </Link>
 
                 {/* Home */}
@@ -74,24 +74,29 @@ function header(props) {
                 </div>
 
                 {/* Genres */}
-                <div>
-                <button onClick={refreashPage}>
+                {/* <div>
+                <button className="refreshGenre" onClick={refreashPage}>
                     <div>
-                      <div className="genresText darkergrotesque-medium-white-35px2">
-                        Genres
+                      <div className="genresText darkergrotesque-medium-white-35px2"> 
+                      Genres
                       </div>
                     </div>
                     </button>
-                </div>
+                </div> */}
+                <div onClick={refreashPage}>
+                    <div>
+                      <div className="genresText darkergrotesque-medium-white-35px2"> 
+                      Genres
+                      </div>
+                    </div>
+                 </div>
 
                 {/* Add movie */}
                 {isAdmin && (
                 <div>
                   <Link to="/addMoviePage/0">
-                    <div>
                       <div className="addMovieText darkergrotesque-medium-white-35px2">
                        Add movie
-                      </div>
                     </div>
                   </Link>
                 </div>

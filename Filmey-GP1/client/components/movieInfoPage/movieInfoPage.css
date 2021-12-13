@@ -7,7 +7,7 @@
 }
 
 .movieInfoContainer {
-  height: 2451px;
+  height: 2340px;
   margin-left: -47px;
   position: relative;
   width: 100%;
@@ -1264,22 +1264,14 @@ card
     position: absolute;
   }
 
-  .footer{
-    background-color: var(--black);
-    height: 293px;
-    left: 47px;
-    position: absolute;
-    top:   2050px;
-    width: 1920px;
-  }
 
 
 .movieInfofooter {
   background-color: var(--black);
   height: 293px;
-  /* left: 47px; */
+  left: 47px;
   position: absolute;
-  /* top:   1860px; */
+  top:   2060px;
   width: 1920px;
 }
 

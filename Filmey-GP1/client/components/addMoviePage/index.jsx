@@ -68,7 +68,7 @@ function addMoviePage(props) {
 
    for (var j = i-1 ; j>-1 ; j--){
     if (actorName == actorNameArrayState[j] )
-    repeatedActorName[i] = "Name already been chosen";
+    repeatedActorName[i] = "Name has already been chosen";
    }
   }
 
@@ -81,7 +81,7 @@ for (var i = RolesLength -1 ; i > -1 ; i-- ) {
 
  for (var j = i-1 ; j>-1 ; j--){
   if (actorRole == actorRoleArrayState[j] )
-  repeatedActorRole[i] = "Role already been chosen";
+  repeatedActorRole[i] = "Role has already been chosen";
  }
 }
   
@@ -94,7 +94,7 @@ for (var i = imageLength -1 ; i > -1 ; i-- ) {
 
  for (var j = i-1 ; j>-1 ; j--){
   if (actorImage == actorImageArrayState[j] )
-  repeatedActorImage[i] = "Image already been chosen";
+  repeatedActorImage[i] = "Image has already been chosen";
  }
 }
 
@@ -103,8 +103,15 @@ for (var i = imageLength -1 ; i > -1 ; i-- ) {
 
 const validatePosterURL = (value) => {
   //.jpg
+
+  if(value==""){
+    setPosterURLErrorMessage('');
+  }
   if (validator.isURL(value)) {
-    if(value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.jpg'){
+    if(value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.jpg'
+    || value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+5)=='.jpeg'
+    || value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.png'
+    || value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.gif'){
       setPosterURLErrorMessage('');
       }
 
@@ -118,6 +125,9 @@ else {
 }
 
 const validateTrailerURL = (value) => {
+  if(value==""){
+    setPosterURLErrorMessage('');
+  }
   //https://www.youtube.com
   if (validator.isURL(value)) {
     if(value.substring(0,value.lastIndexOf('.com'))=="https://www.youtube"){
@@ -134,9 +144,15 @@ const validateTrailerURL = (value) => {
 }
 
 const validateActor1ImageURL = (value) => {
+  if(value==" "){
+    setPosterURLErrorMessage('');
+  }
   //.jpg
   if (validator.isURL(value)) {
-    if(value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.jpg'){
+    if(value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.jpg'
+    || value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+5)=='.jpeg'
+    || value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.png'
+    || value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.gif'){
       setActor1ImageURLErrorMessage('');
       }
 
@@ -147,12 +163,21 @@ const validateActor1ImageURL = (value) => {
 else {
       setActor1ImageURLErrorMessage("Image URL is not valid");
 }
+if(value==" "){
+  setPosterURLErrorMessage('');
+}
 }
 
 const validateActor2ImageURL = (value) => {
+  if(value==""){
+    setPosterURLErrorMessage('');
+  }
   //.jpg
   if (validator.isURL(value)) {
-    if(value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.jpg'){
+    if(value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.jpg'
+    || value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+5)=='.jpeg'
+    || value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.png'
+    || value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.gif'){
       setActor2ImageURLErrorMessage('');
       }
 
@@ -166,9 +191,15 @@ else {
 }
 
 const validateActor3ImageURL = (value) => {
+  if(value==""){
+    setPosterURLErrorMessage('');
+  }
   //.jpg
   if (validator.isURL(value)) {
-    if(value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.jpg'){
+    if(value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.jpg'
+    || value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+5)=='.jpeg'
+    || value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.png'
+    || value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.gif'){
       setActor3ImageURLErrorMessage('');
       }
 
@@ -182,9 +213,15 @@ else {
 }
 
 const validateActor4ImageURL = (value) => {
+  if(value==""){
+    setPosterURLErrorMessage('');
+  }
   //.jpg
   if (validator.isURL(value)) {
-    if(value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.jpg'){
+    if(value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.jpg'
+    || value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+5)=='.jpeg'
+    || value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.png'
+    || value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.gif'){
       setActor4ImageURLErrorMessage('');
       }
 
@@ -198,9 +235,15 @@ else {
 }
 
 const validateActor5ImageURL = (value) => {
+  if(value==""){
+    setPosterURLErrorMessage('');
+  }
   //.jpg
   if (validator.isURL(value)) {
-    if(value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.jpg'){
+    if(value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.jpg'
+    || value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+5)=='.jpeg'
+    || value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.png'
+    || value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.gif'){
       setActor4ImageURLErrorMessage('');
       }
 
@@ -1008,11 +1051,13 @@ const setActorImage = (index, value) => {
                   {/* actor name */}
                  <CreatableSelect
                     isSearchable
+                    isClearable
                     className="addMovieactor"
                     formatCreateLabel={(inputText) => `${inputText}`}
                     onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
                     placeholder="Select or write actor name"
                     options={allActors} 
+                    isClearable={true}
                     // onChange={
                     //   (e) =>{
                     //   // actorNameArray[1]=e.target.value
@@ -1020,6 +1065,8 @@ const setActorImage = (index, value) => {
                     //   }
                     // }
                     onChange={setActorName(0)}
+
+
                     //onInputChange={handleInputChange}
                     theme={(theme) => ({
                       ...theme,
@@ -1055,6 +1102,8 @@ const setActorImage = (index, value) => {
                     onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
                     options={allRoles}
                     onChange={setActorRole(0)}
+                    isClearable={true}
+
                   //  onChange={
                   //   (e) =>{
                   //   actorRoleArray[1]=e.target
@@ -1124,6 +1173,7 @@ const setActorImage = (index, value) => {
                   <div  className="addMovieactor"> 
                  <CreatableSelect
                     isSearchable
+                    isClearable
                     // className="addMovieactor"
                     isDisabled={!isFilled[0]}
                     formatCreateLabel={(inputText) => `${inputText}`}
@@ -1164,6 +1214,7 @@ const setActorImage = (index, value) => {
                   <div   className="addMovieactor-role"> 
                   <CreatableSelect
                     isSearchable
+                    isClearable
                     // className="addMovieactor-role"
                     placeholder="Select or write actor role"
                     isDisabled={!isFilled[0]}
@@ -1239,13 +1290,13 @@ const setActorImage = (index, value) => {
                   <div className="addMovieactor">
                  <CreatableSelect
                     isSearchable
+                    isClearable
                     // className="addMovieactor"
                     formatCreateLabel={(inputText) => `${inputText}`}
                     isDisabled={!isFilled[1]}
                     onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
                     placeholder="Select or write actor name"
                     options={allActors} 
-                    
                     onChange={setActorName(2)}
                     //onInputChange={handleInputChange}
                     theme={(theme) => ({
@@ -1280,6 +1331,7 @@ const setActorImage = (index, value) => {
                   <div  className="addMovieactor-role"> 
                   <CreatableSelect
                     isSearchable
+                    isClearable
                     // className="addMovieactor-role"
                     placeholder="Select or write actor role"
                     formatCreateLabel={(inputText) => `${inputText}`}
@@ -1355,6 +1407,7 @@ const setActorImage = (index, value) => {
                   <div className="addMovieactor">
                  <CreatableSelect
                     isSearchable
+                    isClearable
                     // className="addMovieactor"
                     formatCreateLabel={(inputText) => `${inputText}`}
                     onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
@@ -1394,6 +1447,7 @@ const setActorImage = (index, value) => {
                   <div  className="addMovieactor-role">
                   <CreatableSelect
                     isSearchable
+                    isClearable
                     // className="addMovieactor-role"
                     placeholder="Select or write actor role"
                     formatCreateLabel={(inputText) => `${inputText}`}
@@ -1468,6 +1522,7 @@ const setActorImage = (index, value) => {
                   <div className="addMovieactor">  
                  <CreatableSelect
                     isSearchable
+                    isClearable
                     // className="addMovieactor"
                     formatCreateLabel={(inputText) => `${inputText}`}
                     onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
@@ -1510,6 +1565,7 @@ const setActorImage = (index, value) => {
                   <div className="addMovieactor-role">
                   <CreatableSelect
                     isSearchable
+                    isClearable
                     // className="addMovieactor-role"
                     placeholder="Select or write actor role"
                     formatCreateLabel={(inputText) => `${inputText}`}
@@ -1575,10 +1631,20 @@ const setActorImage = (index, value) => {
 
         </div> 
 
-     
+        {/* disabled={!isEnabled}  */}
         <button className="addMovieadd-button neuton-bold-white-30px7"  disabled={!isEnabled}  onClick={addMovie}>{addbutton}</button>
         {id>0 && (
         <button className="addMovieadd-button neuton-bold-white-30px7" onClick={editMovie}>edit</button>)}
+
+               {/* footer */}
+            {/* <footer>
+              <div className="addMoviefooter"> </div>
+              <img className="addMoviefooterLogo" src={props.logo} />
+              <div className="addMoviefooterText1"> {props.footerText1}</div>
+              <div className="addMoviecopyRightText inter-light-bon-jour-35px2">
+                <span>{props.footerText2}</span>
+              </div>
+            </footer> */}
       </div>
     </div>
 

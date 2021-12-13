@@ -8,6 +8,10 @@ import jwt_decode from "jwt-decode";
 import Cookies from 'universal-cookie';
 import Select from 'react-select';
 import moment from 'moment';
+// import validate from 'deep-email-validator'
+import validator from 'validator'
+
+
 
 // import { DatePicker } from 'react-nice-dates';
 
@@ -36,6 +40,9 @@ function regPage(props) {
   const [username_error_message,setUsername_Error_message]=useState('');
   const [email_error_message,setEmail_Error_message]=useState('');
   const [password_error_message,setPassword_Error_message]=useState('');
+  const [incorrectpassword_error_message,setIncorrectpassword_Error_message]=useState('');
+  const [incorrectEmail_error_message,setIncorrectemail_Error_message]=useState('');
+
   var [Displayvalue,getvalue]=useState('');
   const [value, onChange] = useState();
 
@@ -48,12 +55,35 @@ function regPage(props) {
 
 
   const isEnabled = username.length > 0 && userEmail.length > 0 && userPassword.length > 0 && userGender!='' 
-  && userRegion!='' && Displayvalue!='' && value != undefined;
+  && userRegion!='' && Displayvalue!='' && value != undefined && incorrectpassword_error_message=="" && incorrectEmail_error_message=="";
 
 
   
+//incorrect password
+  const checkPassword = (value) => {
+    if( value.length<8 ){
+      setIncorrectpassword_Error_message('Password length should be at least 8 characters');
+      }
 
-  
+     else {
+      setIncorrectpassword_Error_message('');
+  }
+
+}
+
+
+//incorrect email
+const checkEmail= (value) => {
+
+  if( validator.isEmail(value)){
+    setIncorrectemail_Error_message("");
+    }
+
+   else {
+    setIncorrectemail_Error_message("Email is invalid");
+}
+
+}
 
   //var a=[];
   var getGenres=(e)=>{
@@ -229,11 +259,12 @@ function regPage(props) {
                   onChange={
                     (e)=>{
                       setUserEmail(e.target.value); 
+                      checkEmail(e.target.value);
                     }
                   }
                 />
               </div>
-              <div className="regErrorMessage nunito-normal-river-bed-18px">  <strong>  {email_error_message}  </strong>  </div>
+              <div className="regErrorMessage nunito-normal-river-bed-18px">  <strong>  {email_error_message} {incorrectEmail_error_message} </strong>  </div>
             </div>
 
             {/* password */}
@@ -249,12 +280,13 @@ function regPage(props) {
                   onChange={
                     (e)=>{
                       setUserPassword(e.target.value); 
+                      checkPassword(e.target.value); 
                     }
                   }
                   minlength="8"
                 />
               </div>
-              <div className="regErrorMessage nunito-normal-river-bed-18px"> <strong>  {password_error_message}  </strong>  </div>
+              <div className="regErrorMessage nunito-normal-river-bed-18px"> <strong>  {password_error_message} {incorrectpassword_error_message}  </strong>  </div>
             </div>
 
             {/*Gender*/}

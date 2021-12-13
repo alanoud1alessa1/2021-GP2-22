@@ -2,14 +2,12 @@
   align-items: flex-start;
   background-color: var(--white);
   display: flex;
-  /* height: auto; */
+  height: 1300px;
   width: 1912px;
-  
-  
 }
 
 .genresPageContainer {
-  height: auto;
+  /* height: auto; */
   margin-left: -47px;
   position: relative;
   width: 100%;
@@ -88,7 +86,7 @@ width: 75px;
 
 .genreBody {
 background-color: var(--eerie-black);
-height: 10900px;
+height: 10100px;
 left: 47px;
 position:absolute;
 top: 130px;

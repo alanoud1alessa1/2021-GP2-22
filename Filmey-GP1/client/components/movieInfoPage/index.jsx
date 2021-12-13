@@ -128,9 +128,7 @@ function MovieInfoPage(props) {
 
   const addReview = () => {
     if (!registered) {
-      if (window.confirm("Sorry! you have to login.")) {
-        window.location.href = "/login-page";
-      }
+      alert("Sorry! you have to login.");
       return;
     }
     window.location.href = `/reviewPage/${id}`;
@@ -183,9 +181,7 @@ function MovieInfoPage(props) {
 
   const addRating = (value) => {
     if (!registered) {
-      if (window.confirm("Sorry! you have to login.")) {
-        window.location.href = "/login-page";
-      }
+      alert("Sorry! you have to login.");
       return;
     }
     //console.log(value);
@@ -701,7 +697,7 @@ function MovieInfoPage(props) {
             </main>
 
             {/* footer */}
-            <footer className="footer">
+            <footer className="movieInfofooter">
               <div className="movieInfofooter"> </div>
               <img className="movieInfofooterLogo" src={logo} />
               <div className="movieInfofooterText1">{footerText1}</div>

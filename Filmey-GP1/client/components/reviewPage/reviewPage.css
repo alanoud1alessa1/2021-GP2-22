@@ -1,9 +1,15 @@
 .reviewPage {
-  align-items: flex-start;
-  background-color: var(--white);
+  align-items:flex-start;
+  /* background-color: var(--black); */
+  background-color: var(--eerie-black);
   display: flex;
-  min-height: 1366px;
-  width: 100%;
+  flex-direction: column;
+  height: 1300px;
+  padding: 70px 264px;
+  width: 1970px;
+  margin-left: -47px;
+  position: relative;
+  overflow: hidden;
 }
 
 

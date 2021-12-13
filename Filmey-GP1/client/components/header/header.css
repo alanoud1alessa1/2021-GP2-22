@@ -68,7 +68,7 @@
 
 .genresText {
   cursor: pointer;
-  left: 425px;
+  left: 435px;
   letter-spacing: 0;
   position: absolute;
   top: 43px;
@@ -79,7 +79,7 @@
 
 .addMovieText{
   cursor: pointer;
-  left: 610px;
+  left: 600px;
   letter-spacing: 0;
   position: absolute;
   top: 43px;
@@ -99,13 +99,22 @@
 }
 
 .homeText{
-  cursor: pointer;
+  /* cursor: pointer;
   left: 298px;
   letter-spacing: 0;
   position: absolute;
   top: 43px;
   transition: all 0.2s ease;
   width: 111px;
+  z-index: 1; */
+
+  cursor: pointer;
+  left: 435px;
+  letter-spacing: 0;
+  position: absolute;
+  top: 43px;
+  transition: all 0.2s ease;
+  width: 137px;
   z-index: 1;
 }
 
@@ -156,6 +165,7 @@
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     border-radius: 2px;
     z-index: 1;
+    margin-top: 10px;
     text-align: center;
     padding: 10px 5px;
   }
@@ -193,3 +203,4 @@ margin-right: 50px ; */
  margin-right: 200px; 
  z-index: 1;
 }
+

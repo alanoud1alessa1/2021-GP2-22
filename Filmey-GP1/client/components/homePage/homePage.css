@@ -543,15 +543,6 @@
     width: 20px;
   }
   
-  .footer {
-    /* background-color: var(--eerie-black); */
-    background-color: var(--black);
-    height: 293px;
-    left: 47px;
-    position: absolute;
-    top: 1099px;
-    width: 1920px;
-  }
 
   @keyframes animate-enter-frames {
     from{opacity: 0;
@@ -564,4 +555,14 @@
 
   .clickable{
       cursor: pointer;
+  }
+
+  .homefooter {
+    /* background-color: var(--eerie-black); */
+    background-color: red;
+    height: 293px;
+    left: 47px;
+    position: absolute;
+    top: 19px;
+    width: 1920px;
   }
