@@ -123,6 +123,9 @@ function MovieInfoPage(props) {
   let { id } = useParams();
   id = parseInt(id);
 
+
+
+
   const addReview = () => {
     if (!registered) {
       if (window.confirm("Sorry! you have to login.")) {
