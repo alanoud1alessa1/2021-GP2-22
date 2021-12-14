@@ -398,7 +398,7 @@ router.post("/addMovie", async (req , res, next) => {
        console.log(checkActorImage);
       const TrailerMessage = await queries.CheckTrailer(trailer_url);
       
-      if(CheckMovieMessage||PosterMessage||DescriptionMessage||TrailerMessage||checkActorImage)
+      if(CheckMovieMessage||PosterMessage||DescriptionMessage||TrailerMessage||checkActorImage[0])
       {
         return res.json({CheckMovieMessage,PosterMessage,DescriptionMessage,TrailerMessage,checkActorImage});
       }
