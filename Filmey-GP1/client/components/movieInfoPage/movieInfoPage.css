@@ -16,7 +16,6 @@
 .body {
   background-color: var(--eerie-black);
   height: 1942px;
-  /* left: 8px; */
   left: 47px;
   position: absolute;
   top: 130px;
@@ -162,16 +161,13 @@
   left: 230px;
   top: 782px;
   transition: all 0.2s ease;
-  /* align-items: flex-start; */
   height: 65px;
   position: absolute;
   background-color: var(--cardinal);
   border-radius: 10px;
-  /* display: flex; */
   height: 65px;
   width: 230px;
   border-width: 0px;
-  /* padding: 8px 30px; */
   padding-left: 25px;
   padding-top: 8px;
   align-items:center;
@@ -188,18 +184,13 @@
   left:1550px;
   top: 300px;
   cursor: pointer;
-  /* left: 230px;
-  top: 782px; */
   transition: all 0.2s ease;
-  /* align-items: flex-start; */
   position: absolute;
   background-color: var(--cardinal);
   border-radius: 10px;
-  /* display: flex; */
   height: 65px;
   width: 160px;
   border-width: 0px;
-  /* padding: 8px 30px; */
   padding-left: 30px;
   align-items:center;
   text-align: center;
@@ -207,24 +198,17 @@
 }
 
 .deleteMovieButton{
-  /* left:1550px;
-  top: 400px; */
   left:1750px;
   top: 300px;
   cursor: pointer;
-  /* left: 230px;
-  top: 782px; */
   transition: all 0.2s ease;
-  /* align-items: flex-start; */
   position: absolute;
   background-color: var(--cardinal);
   border-radius: 10px;
-  /* display: flex; */
   white-space: nowrap;
   height: 65px;
   width: 160px;
   border-width: 0px;
-  /* padding: 8px 30px; */
   padding-left: 13px;
   align-items:center;
   text-align: center;
@@ -233,14 +217,10 @@
 
 .editMovieContainer{
   color: var(--white);
-  /* color: var(--cardinal); */
   font-family: var(--font-family-roboto);
   font-size: var(--font-size-xxxxl5);
   font-weight: 400;
-  /* left: 285px; */
-  /* white-space: nowrap; */
   letter-spacing: 0;
-  /* top: 778px; */
   cursor: pointer;
   text-decoration: none;
   text-align: center;
@@ -259,21 +239,17 @@
 
 .playTrailerText {
   color: var(--white);
-  /* color: var(--cardinal); */
   font-family: var(--font-family-roboto);
   font-size: var(--font-size-xxxxl5);
   font-weight: 400;
-  /* left: 285px; */
   white-space: nowrap;
   letter-spacing: 0;
-  /* top: 778px; */
   cursor: pointer;
   text-decoration: none;
   text-align: center;
 }
 
 .playTrailerText:hover{
-  /* color: var(--cardinal); */
   color: var(--white);
 }
 
@@ -283,18 +259,13 @@
   top: 15px;
   left:18px;
   position: absolute;
-  /* height: 26px;
-  width: 28px; */
 }
 
 .trailerIcon {
   height: 26px;
-  /* left: 244px; */
   position: absolute;
-  /* top: 782px; */
   top:8px;
   left:15px;
-  /* transition: all 0.2s ease; */
   width: 28px;
 }
 
@@ -354,11 +325,8 @@
   font-family: var(--font-family-neuton);
   font-size: var(--font-size-xxxxl5);
   font-weight: 700;
-  /* left: 635px; */
   left:80px;
   top: 4px;
-  /* top: 229px; */
-  /* top:103px; */
   letter-spacing: 0.36px;
   position: absolute;
   transform: rotate(-0.42deg);
@@ -383,11 +351,8 @@
   font-family: var(--font-family-neuton);
   font-size: var(--font-size-xxxxl5);
   font-weight: 700;
-  /* left: 635px; */
   left:100px;
   top: 4px;
-  /* top: 229px; */
-  /* top:103px; */
   letter-spacing: 0.36px;
   position: absolute;
   transform: rotate(-0.42deg);
@@ -399,11 +364,8 @@
   font-family: var(--font-family-neuton);
   font-size: var(--font-size-xxxxl5);
   font-weight: 700;
-  /* left: 635px; */
   left:125px;
   top: 4px;
-  /* top: 229px; */
-  /* top:103px; */
   letter-spacing: 0.36px;
   position: absolute;
   transform: rotate(-0.42deg);
@@ -413,12 +375,8 @@
 
 .totalUsersRating{
   font-size: var(--font-size-xl5);
-  /* font-weight: 700; */
-  /* left: 635px; */
   left: 170px;
   top: 18px;
-  /* top: 229px; */
-  /* top:103px; */
   letter-spacing: 0.36px;
   position: absolute;
   transform: rotate(-0.42deg);
@@ -429,19 +387,13 @@
   opacity: 0.9;
 }
 
-
-
-
 .fa-times-circle{
   color: var(--white);
   font-family: var(--font-family-neuton);
   font-size: var(--font-size-xxxxl5);
   font-weight: 700;
-  /* left: 635px; */
   left:100px;
   top: 4px;
-  /* top: 229px; */
-  /* top:103px; */
   letter-spacing: 0.36px;
   position: absolute;
   transform: rotate(-0.42deg);
@@ -464,23 +416,17 @@
 }
 
 .movieInfoGenre {
-  /* left: 601px; */
   left:0px;
   letter-spacing: 0.37px;
   position: absolute;
-  /* top: 290px; */
   top:0px;
   width: 295px;
 }
 
 .movieInfoGenreType {
-  /* left: 645px; */
-  /* left:44px; */
   left:110px;
   letter-spacing: 0;
   position: absolute;
-  /* top: 336px; */
-  /* top:46px; */
   width: 209px;
 }
 
@@ -497,30 +443,23 @@
 }
 
 .line1Container{
-  /* left: 601px; */
-  /* top: 382px; */
   position: absolute;
 }
 
 .descriptionText {
-  /* left: 601px; */
   letter-spacing: 0.37px;
   position: absolute;
-  /* top: 398px; */
   top: 20px;
   width: 295px;
 }
 
 .movieDes{
-  /* left: 645px; */
   left:44px;
   top:68px;
   letter-spacing: 0;
   position: absolute;
-  /* overflow: auto; */
   height: 200px;
   padding-right: 30px;
-  /* top: 449px; */
   width: 873px;
   text-align: justify;
   overflow-y: scroll;
@@ -549,29 +488,22 @@
 }
 
 .languageText2 {
-  /* left: 1005px; */
   letter-spacing: 0.37px;
   position: absolute;
-  /* top: 842px; */
   top: 20px;
   width: 295px;
 }
 
 .movieLanguage {
-  /* left: 1005px; */
-  /* left:44px; */
   left:140px;
   letter-spacing: 0;
   position: absolute;
-  /* top: 868px; */
-  /* top:66px; */
   top: 20px;
   width: 873px;
 }
 
 .movieDirectorContainer{
   left: 601px;
-  /* top: 600px; */
   top: 750px;
   position:absolute;
 }
@@ -588,22 +520,16 @@
 }
 
 .directorText {
-  /* left: 601px; */
   letter-spacing: 0.37px;
   position: absolute;
-  /* top: 60px; */
   top: 20px;
   width: 295px;
 }
 
 .directorName {
-  /* left: 645px; */
   letter-spacing: 0;
   position: absolute;
-  /* top: 80px; */
-  /* left:44px; */
   left: 140px;
-  /* top:66px; */
   top: 20px;
   width: 873px;
 }
@@ -620,29 +546,22 @@
   width: 915px;
 }
 
-
 .line3Container{
   position: absolute;
 
 }
 
 .writersText {
-  /* left: 601px; */
   letter-spacing: 0.37px;
   position: absolute;
-  /* top: 720px; */
   top: 20px;
   width: 295px;
 }
 
 .writersName {
-  /* left: 645px; */
-  /* left:44px; */
   left: 140px;
   letter-spacing: 0;
   position: absolute;
-  /* top: 775px; */
-  /* top:66px; */
   top: 20px;
   width: 873px;
 }
@@ -658,12 +577,10 @@
   font-family: var(--font-family-roboto);
   font-size: 80px;
   font-weight: 700;
-  /* left: 595px; */
   letter-spacing: 0;
   line-height: 100.2px;
   position: absolute;
   text-shadow: 0px 4px 4px #00000040;
-  /* top: 130px; */
   white-space: nowrap;
   width: 291px;
 }
@@ -838,14 +755,12 @@
   text-shadow: 0px 4px 4px #00000040;
   top: 250px;
   justify-content: center;
-  /* width: 157px; */
 }
 
 .castRole1 {
   letter-spacing: 0;
   text-shadow: 0px 4px 4px #00000040;
   top: 295px;
-  /* left:0px; */
   position: absolute;
   overflow-wrap: break-word;
   text-align: justify;
@@ -917,9 +832,6 @@
 .reviewsExpandLeft {
   cursor: pointer;
   height: 72px;
-  /* left: 90px; */
-  /* position: absolute; */
-  /* top: 1626px; */
   transition: all 0.2s ease;
   width: 5000px;
 }
@@ -1092,7 +1004,6 @@
 /* Track */
 ::-webkit-scrollbar-track {
   background: var(--eerie-black);
-  /* box-shadow: inset 0 0 0px var(--celeste) ;  */
   background-color: darkgrey;
   border-radius: 5px;
 }
@@ -1142,9 +1053,7 @@
 .button.hover {
   border-color: #2980b9;
 }
-/*
-card
-*/
+
 .card {
   font-size: 12px;
 }
@@ -1355,7 +1264,6 @@ card
   }
 
   .rating-css div {
-    /* color: var(--cardinal); */
     color: var(--shark);
   }
   .rating-css label:hover ~label   {
@@ -1371,23 +1279,16 @@ card
 
   .rating-css input + label {
     font-size: 35px;
-    /* text-shadow: 1px 1px 0 var(--cardinal); */
     cursor: pointer;
     margin-left: 5px;
   }
 
-  /* .rating-css input:checked + label ~ label {
-     color: var( --pink-swan);
-  } */
-
   .rating-css input + label ~ label {
     color: var( --pink-swan);
-   /* color: var(--shark); */
  }
 
   .rating-css  label {
     color: var( --pink-swan);
-   /* color: var(--shark); */
  }
 
  .userReviewContainer{
@@ -1418,22 +1319,14 @@ font-weight: 700px;
 position:absolute;
 display:flex;
 color:white;
-/* background-color: var(--pink-swan); */
 margin-left: 50px;
 border-radius: 10px;
 cursor: pointer;
 min-height: 5px;
 left: 0px;
-/* margin-top: 50px; */
-/* position:absolute; */
-/* top: 1530px; */
 transition: all 0.2s ease;
 width: 480px;
 padding: 20px 30px;
-/* display: flex;
-justify-content: center;
-align-content: center; */
-
 } 
 
 .reviewerUsernameIcon{
@@ -1457,23 +1350,15 @@ align-content: center; */
 
 .owl-theme {
 width: 1600px;
-  /* top: 100px !important; */
 }
 .owl-theme .owl-dots   {
-    /* background-color: blue; */
     display: flex;   
     align-self: center;
     justify-content: center;
     align-content: center;
     display: none;
-
-    /* width: 10px; */
-    /* height: 10px;
-    margin: 5px 7px;
-    background: #D6D6D6;
-    display: block;
-    border-radius: 30px; */
 }
+
 .owl-theme .owl-dots  [className='owl-dot'],
 .owl-theme .owl-dots .owl-dot:hover .span {
   background: #fd3c3d;
@@ -1502,11 +1387,8 @@ background-color: var(--shark);
   font-family: var(--font-family-neuton);
   font-size: var(--font-size-xxxl5);
   font-weight: 700;
-  /* left: 635px; */
   left:80px;
   top: 12px;
-  /* top: 229px; */
-  /* top:103px; */
   letter-spacing: 0.36px;
   position: absolute;
   width:400px;

@@ -18,12 +18,7 @@ function homePage(props) {
     logo,
     footerText1,
     footerText2,
-    registerText,
-    loginText,
-    genresText,
-    homeText,
     top10Text,
-    icon,
   } = props;
 
   var registered = false;
@@ -40,15 +35,9 @@ function homePage(props) {
     console.log("guest user");
   }
 
-  const logOut = () => {
-    cookies.remove("token", { path: "/" });
-    window.location.reload();
-  };
 
   const api = Axios.create({
     baseURL: "http://localhost:3000/api/v1",
-    // headers :{
-    //  // 'authorization' : token
   });
 
   const [movieIds, setMovieIds] = useState([]);
@@ -127,7 +116,7 @@ function homePage(props) {
 
             {/* footer */}
             <footer>
-              <div className="footer"> </div>
+              <div className="homefooter"> </div>
               <img className="footerLogo" src={logo} />
               <div className="footerText1"> {footerText1}</div>
               <div className="copyRightText inter-light-bon-jour-35px2">

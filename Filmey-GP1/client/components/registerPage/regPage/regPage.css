@@ -2,11 +2,8 @@
   align-items: flex-start;
   background-color: var(--white);
   display: flex;
-  /* height: 1207px; */
-  /* width: 100%; */
   min-height: 100vh;
   box-sizing: border-box;
-  /* width: 1969px;  */
   width: 100%; 
   min-height: 100vh;
 }
@@ -16,7 +13,6 @@
   margin-left: -35px;
   margin-top: -12px; 
   position: relative;
-  /* width: 1969px;  */
   align-items: flex-start;
   display: flex;
   width: 100%;
@@ -32,7 +28,6 @@
   position: absolute;
   top: 12px;
   width: 967px; 
-  /* width: 60%; */
   min-height: 100vh;
 }
 
@@ -88,7 +83,6 @@
   object-fit: cover;
   position: absolute;
   top: 0;
-  /* width: 1934px; */
   width: 100%;
   min-height: 100vh;
   box-sizing: border-box;
@@ -190,37 +184,8 @@
   width: 580px;
 }
 
-/* .usernameBox {
-  background-color: var(--baby-powder);
-  border-radius: 5px;
-  box-shadow: 0px 4px 4px #00000040;
-  height: 56px;
-  left: 0;
-  position: absolute;
-  top: 30px;
-  width: 580px;
-} */
-
 .username {
-  /* background-color: transparent; */
   border: 0;
-  /* height: 30px;
-  left: 11px;
-  letter-spacing: 0;
-  padding: 0;
-  position: absolute;
-  padding: 2px;
-  top: 45px;
-  width: 540px; */
-
-  /* background-color: var(--baby-powder);
-  border-radius: 5px;
-  box-shadow: 0px 4px 4px #00000040;
-  height: 56px;
-  position: absolute;
-  top: 30px;
-  width: 580px; */
-
   align-items: flex-end;
   background-color: var(--baby-powder);
   border-radius: 5px;
@@ -261,31 +226,8 @@
   width: 207px;
 }
 
-/* .emailBox {
-  align-items: flex-end;
-  background-color: var(--baby-powder);
-  border-radius: 5px;
-  box-shadow: 0px 4px 4px #00000040;
-  display: flex;
-  height: 56px;
-  margin-top: 2px;
-  min-width: 580px;
-  padding: 12px 13px;
-} */
-
-
 .email {
-      /* background-color: transparent; */
       border: 0;
-      /* height: 30px; */
-      /* left: 11px; */
-      /* letter-spacing: 0;
-      padding: 0;
-      position: absolute;
-      padding: 2px;
-      top: 45px;
-      width: 540px; */
-
       align-items: flex-end;
       background-color: var(--baby-powder);
       border-radius: 5px;
@@ -329,18 +271,6 @@
   width: 207px;
 }
 
-/* .passwordBox {
-  align-items: flex-end;
-  background-color: var(--baby-powder);
-  border-radius: 5px;
-  box-shadow: 0px 4px 4px #00000040;
-  display: flex;
-  height: 56px;
-  margin-top: 2px;
-  min-width: 580px;
-  padding: 12px 13px;
-} */
-
 .regErrorMessage{
   margin-top: 90px;
   position: absolute;
@@ -348,15 +278,7 @@
 }
 
 .password {
-  /* background-color: transparent; */
   border: 0;
-  /* height: 31px;
-  letter-spacing: 0;
-  padding: 0;
-  padding: 2px;
-  top: 45px;
-  width: 540px; */
-
   align-items: flex-end;
   background-color: var(--baby-powder);
   border-radius: 5px;
@@ -508,10 +430,6 @@
 }
 
 .datePicker{
-  /* min-width: 580px;
-  background-color: var(--baby-powder);
-  height: 56px; */
-
   align-items: flex-start;
   background-color: var(--baby-powder);
   border-radius: 5px;
@@ -524,23 +442,6 @@
   padding: 15px 15px;
 }
 
-
-/* .createButton {
-  align-items: flex-start;
-  display: flex;
-  height: 61px;
-  margin-left: 1260px;
-  margin-top: 970px;
-  min-width: 445px;
-  position: absolute;
-  transition: all 0.2s ease;
-} */
-
-/* .createButton:hover {
-  transform: translate(0, -5px);
-} */
-
-/* .createButton  */
 .creatButtonBox {
   align-items:center;
   background-color: var(--cardinal);

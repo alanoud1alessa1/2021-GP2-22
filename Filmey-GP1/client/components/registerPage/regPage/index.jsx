@@ -11,9 +11,6 @@ import moment from 'moment';
 import validator from 'validator'
 
 
-
-
-
 function regPage(props) {
 
   const {
@@ -83,7 +80,6 @@ const checkEmail= (value) => {
 
 }
 
-  //var a=[];
   var getGenres=(e)=>{
     console.log(Array.isArray(e)?e.map(x=>x.label):[]);
     getvalue(Array.isArray(e)?e.map(x=>x.label):[]);
@@ -132,7 +128,6 @@ const checkEmail= (value) => {
     .then((res)=>{
       console.log("inside res");
       
-      //console.log(userPassword.length);
       try{
       if(res.data.usernameMessage.usernameMessage)
       {
@@ -206,6 +201,7 @@ const checkEmail= (value) => {
           </div>
 
           <form onSubmit={Register}>
+
             {/* username */}
             <div className="usernameContainer">
             <div className="regErrorMessage nunito-normal-river-bed-18px"> <strong>  {username_error_message}   </strong>  </div>
@@ -369,7 +365,7 @@ const checkEmail= (value) => {
               <div className="regText7 nunito-normal-river-bed-18px">{text7}</div>
               <div className="multiSelect"> 
 
-                <Select isMulti //options={genres} 
+                <Select isMulti 
                 options={allGenres}
                  onChange={getGenres}
                  closeMenuOnSelect={false} 

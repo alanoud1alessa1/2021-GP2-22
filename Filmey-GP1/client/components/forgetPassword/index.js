@@ -1,30 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./forgetPassword.css";
-import jwt_decode from "jwt-decode";
 import { useState } from "react";
-import Axios from "axios";
-import Cookies from "universal-cookie";
-import ResetPassword from "../resetPassword";
 
 function loginPage(props) {
   const {
     backgroundImage,
     logo,
     text1,
-    text2,
-    text3,
     emailUsername,
     emailUsernameinputType,
-    emailUsernamePlaceholder,
-    password,
-    passwordinputType,
-    passwordPlaceholder,
-    text4,
   } = props;
 
-  // const [userId, setUserId] = useState();
-   var token = "";
+  var token = "";
   const [email, setEmail] = useState("");
   const [EmailNotExist_Error_message, setEmailNotExist_Error_message] =
     useState("");
@@ -32,35 +20,11 @@ function loginPage(props) {
 
   const isEnabled = email.length > 0;
 
-  var userNotExistMessage = "";
-
-  const API_URL = "http://localhost:3000/api/v1/";
-
   const UserExist = () => {
-    const res = Axios.post(API_URL + "Users/userExist", {
-      email: email,
-    }).then((res) => {
-      if (res.data) {
-        if (res.data.userNotExistMessage) {
-          userNotExistMessage = res.data.userNotExistMessage;
-          setEmailNotExist_Error_message(userNotExistMessage);
-          return;
-        } else {
-          setEmailNotExist_Error_message("");
-          token=res.data;
-          sendEmail();
-          setShowResendEmail(true);
-        }
-      }
-    });
   };
 
   const sendEmail = () => {
     console.log(token);
-    const res = Axios.post(API_URL + "node-mail", {
-      token: token,
-    
-    }).then((res) => {});
 
     alert(
       "Check your email! We've sent you instructions for resetting your password."
@@ -84,6 +48,7 @@ function loginPage(props) {
             {/* Send Email */}
             <form>
               <div className="passRecoveryEmail">
+
                 {/* Email*/}
                 <div className="passRecoveryEmailContainer">
                   <div className="emailUsername nunito-semi-bold-white-28px">

@@ -146,7 +146,6 @@ const validateActor1ImageURL = (value) => {
   if(value==" "){
     setPosterURLErrorMessage('');
   }
-  //.jpg
   if (validator.isURL(value)) {
     if(value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.jpg'
     || value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+5)=='.jpeg'
@@ -345,8 +344,6 @@ const setActorRole  = index =>(newValue, actionMeta) => {
 };
 
 const setActorImage = (index, value) => {
-  // console.log(index);
-  // console.log(value);
   actorImageArray[index] =value;
   console.log(actorImageArray)
   setActorImageArrayState(actorImageArray);
@@ -597,12 +594,12 @@ const setActorImage = (index, value) => {
 
   return (
     <div className="PageCenter">
-     {/* <img className="addMoviebackgroundImage" src="/img/backgroundImage.png" /> */}
       <div className="addmovie screen">
       <header>
            <Header/> 
       </header>
         <div className="addMovieflex-col">
+
           {/* Movie Information */}
           <div className="addMovieoverlap-group1">
             <div className="addMoviemovie-information neuton-normal-white-60px5">{movieInformation}</div>
@@ -672,16 +669,12 @@ const setActorImage = (index, value) => {
                 }}
                  >
                 </Select>
+
           {/* lanaguage */}
           <div className="addMovielanaguage neuton-bold-white-30px7">{lanaguage}</div>
-          <Select isMulti //options={genres} 
-                // options={allGenres}
-                //  onChange={getGenres}
-                //options={allLanguages}
+          <Select isMulti 
                 options={allLanguages}
                 onChange={setLanguageFunction}
-                 //onChange={getGenres}
-                // filterOption={filterOption}
                  closeMenuOnSelect={false} 
                  isSearchable
                  className="addMovielanaguage-container"
@@ -732,7 +725,6 @@ const setActorImage = (index, value) => {
           onChange={
             (e)=>{
               setYear(e.target.value);
-              //console.log(e.target.value); 
             } 
           }>
             <option selected disabled hidden className="selectText roboto-normal-pink-swan-16px" value=""> Select movie year</option>
@@ -764,6 +756,7 @@ const setActorImage = (index, value) => {
 
           </select> 
           </div>
+          
           {/* Trailer  */}
           <div className="addMovietrailer neuton-bold-white-30px7">{trailer}</div>
           <div className="addMovietrailer-container border-1px-black">
@@ -928,7 +921,6 @@ const setActorImage = (index, value) => {
           isMulti
           className="addMoviewriter-container"
           placeholder="Select or write movie writers"
-         // options={allWriters}
           options={allWriters}
           onChange={setWriterFunction}
           theme={(theme) => ({
@@ -967,14 +959,14 @@ const setActorImage = (index, value) => {
           }}
         />
           
-          {/* Top Cast */}
-        <div className="addMovieoverlap-group2">
+         {/* Top Cast */}
+          <div className="addMovieoverlap-group2">
             <img className="addMovieline3" src="/img/threeline@2x.svg" />
             <div className="addMovietop-cast neuton-normal-white-60px5">{topCast}</div>
           </div> 
 
- {/* Actors */}
-  <div className="addMovieflex-row-1 nunito-normal-white-35px">
+         {/* Actors */}
+          <div className="addMovieflex-row-1 nunito-normal-white-35px">
             <div className="addMovieactor-name neuton-bold-white-30px7">{actorname}</div>
             <div className="addMovieactor-character-add neuton-bold-white-30px7">{actorcharacteradd}</div>
             <div className="addMovieactor-image-1 neuton-bold-white-30px7">{actorimage}</div>
@@ -996,16 +988,9 @@ const setActorImage = (index, value) => {
                     placeholder="Select or write actor name"
                     options={allActors} 
                     isClearable={true}
-                    // onChange={
-                    //   (e) =>{
-                    //   // actorNameArray[1]=e.target.value
-                    //   console.log(e.target.value)
-                    //   }
-                    // }
                     onChange={setActorName(0)}
 
 
-                    //onInputChange={handleInputChange}
                     theme={(theme) => ({
                       ...theme,
                       borderRadius: 0,
@@ -1041,12 +1026,6 @@ const setActorImage = (index, value) => {
                     options={allRoles}
                     onChange={setActorRole(0)}
                     isClearable={true}
-
-                  //  onChange={
-                  //   (e) =>{
-                  //   actorRoleArray[1]=e.target
-                  //   }
-                  // }
                     theme={(theme) => ({
                       ...theme,
                       borderRadius: 0,
@@ -1080,10 +1059,7 @@ const setActorImage = (index, value) => {
                     name="actorImage"
                     type="text"
                     required
-                   // value={actorImageArray[0]}
-                  // value={actorImageArrayState[0]}
                     value={actorImageArray[0]}
-                    //onChange={setActorImage[0]}
                     onChange={
                       (e) =>{
                         setActorImage(0,e.target.value);
@@ -1188,7 +1164,6 @@ const setActorImage = (index, value) => {
                     required
                     disabled={!isFilled[0]}
                     value={actorImageArray[1]}
-                    //onChange={setActorImage[1]}
                     onChange={
                       (e) =>{
                         setActorImage(1,e.target.value);
@@ -1198,12 +1173,12 @@ const setActorImage = (index, value) => {
                   />
                  <div className="movieActorImageError nunito-normal-river-bed-50px"> <strong> {repeatedActorImage[1]} {movieActorImage_error_message[1]} {actor2ImageURLErrorMessage} </strong></div>
                  </div>
-                  {/* <div className="movieImageError nunito-normal-river-bed-50px"> <strong> {movieActorImage_error_message}  </strong></div> */}
 
                   </div>
             </div>
-             {/*3rd Actor */}
 
+
+             {/*3rd Actor */}
              <div>  
                   <div className="addMovieflex-row-2"> 
 
@@ -1212,14 +1187,12 @@ const setActorImage = (index, value) => {
                  <CreatableSelect
                     isSearchable
                     isClearable
-                    // className="addMovieactor"
                     formatCreateLabel={(inputText) => `${inputText}`}
                     isDisabled={!isFilled[1]}
                     onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
                     placeholder="Select or write actor name"
                     options={allActors} 
                     onChange={setActorName(2)}
-                    //onInputChange={handleInputChange}
                     theme={(theme) => ({
                       ...theme,
                       borderRadius: 0,
@@ -1253,7 +1226,6 @@ const setActorImage = (index, value) => {
                   <CreatableSelect
                     isSearchable
                     isClearable
-                    // className="addMovieactor-role"
                     placeholder="Select or write actor role"
                     formatCreateLabel={(inputText) => `${inputText}`}
                     onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
@@ -1298,9 +1270,7 @@ const setActorImage = (index, value) => {
                     type="text"
                     required
                     disabled={!isFilled[1]}
-                    //value={actorImageArrayState[2]}
                     value={actorImageArray[2]}
-                    //onChange={setActorImage[2]}
                     onChange={
                       (e) =>{
                         setActorImage(2,e.target.value);
@@ -1313,8 +1283,8 @@ const setActorImage = (index, value) => {
                   </div>
             </div>
 
-             {/*4th Actor */}
 
+             {/*4th Actor */}
              <div>  
                   <div className="addMovieflex-row-2"> 
 
@@ -1323,14 +1293,12 @@ const setActorImage = (index, value) => {
                  <CreatableSelect
                     isSearchable
                     isClearable
-                    // className="addMovieactor"
                     formatCreateLabel={(inputText) => `${inputText}`}
                     onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
                     placeholder="Select or write actor name"
                     isDisabled={!isFilled[2]}
                     options={allActors} 
                     onChange={setActorName(3)}
-                    //onInputChange={handleInputChange}
                     theme={(theme) => ({
                       ...theme,
                       borderRadius: 0,
@@ -1363,7 +1331,6 @@ const setActorImage = (index, value) => {
                   <CreatableSelect
                     isSearchable
                     isClearable
-                    // className="addMovieactor-role"
                     placeholder="Select or write actor role"
                     formatCreateLabel={(inputText) => `${inputText}`}
                     onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
@@ -1407,9 +1374,7 @@ const setActorImage = (index, value) => {
                     type="text"
                     required
                     disabled={!isFilled[2]}
-                    //value={actorImageArrayState[3]}
                     value={actorImageArray[3]}
-                    //onChange={setActorImage[3]}
                     onChange={
                       (e) =>{
                         setActorImage(3,e.target.value);
@@ -1424,7 +1389,6 @@ const setActorImage = (index, value) => {
 
 
              {/*5th Actor */}
-
              <div>  
                   <div className="addMovieflex-row-2"> 
 
@@ -1433,14 +1397,12 @@ const setActorImage = (index, value) => {
                  <CreatableSelect
                     isSearchable
                     isClearable
-                    // className="addMovieactor"
                     formatCreateLabel={(inputText) => `${inputText}`}
                     onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
                     placeholder="Select or write actor name"
                     options={allActors} 
                     isDisabled={!isFilled[3]}
                     onChange={setActorName(4)}
-                    //onInputChange={handleInputChange}
                     theme={(theme) => ({
                       ...theme,
                       borderRadius: 0,
@@ -1476,7 +1438,6 @@ const setActorImage = (index, value) => {
                   <CreatableSelect
                     isSearchable
                     isClearable
-                    // className="addMovieactor-role"
                     placeholder="Select or write actor role"
                     formatCreateLabel={(inputText) => `${inputText}`}
                     options={allRoles}
@@ -1511,8 +1472,8 @@ const setActorImage = (index, value) => {
               <div className="movieActorRoleError nunito-normal-river-bed-50px"> <strong> { repeatedActorRole[4] } </strong></div>
 
                   </div>
+
                   {/* actor image */}
-                
                   <div>
                   <input
                     className="addMovieactor-image"
@@ -1521,9 +1482,7 @@ const setActorImage = (index, value) => {
                     type="text"
                     required
                     disabled={!isFilled[3]}
-                    //value={actorImageArrayState[3]}
                     value={actorImageArray[4]}
-                    //onChange={setActorImage[3]}
                     onChange={
                       (e) =>{
                         setActorImage(4,e.target.value);
@@ -1541,7 +1500,6 @@ const setActorImage = (index, value) => {
 
         </div> 
 
-        {/* disabled={!isEnabled}  */}
         <button className="addMovieadd-button neuton-bold-white-30px7"  disabled={!isEnabled}  onClick={addMovie}>{addbutton}</button>
         {id>0 && (
         <button className="addMovieadd-button neuton-bold-white-30px7" onClick={editMovie}>edit</button>)}

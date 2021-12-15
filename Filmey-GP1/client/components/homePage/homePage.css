@@ -71,12 +71,7 @@
   .homeMoviePoster{
     cursor: pointer;
     transition: all 0.2s ease;
-    /* margin-right: 30px; */
     border-radius:50px;
-    /* display:ruby; */
-    /* margin-right: 30px; */
-    /* display: inline-block; 
-    margin:10px; */
     margin:10px;
     float:left;
   }
@@ -346,20 +341,16 @@
   
   .loginIcon {
     height: 40px;
-    /* left: 1750px; */
     left: 1747px;
     position: absolute;
-    /* top: 37px; */
     top: 34px;
     width: 44px;
   }
   
   .registerIcon {
     height: 40px;
-    /* left: 1837px; */
     left: 1826px;
     position: absolute;
-    /* top: 36px; */
     top: 33px;
     width: 44px;
   }
@@ -558,7 +549,6 @@
   }
 
   .homefooter {
-    /* background-color: var(--eerie-black); */
     background-color: red;
     height: 293px;
     left: 47px;

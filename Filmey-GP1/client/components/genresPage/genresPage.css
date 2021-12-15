@@ -7,13 +7,11 @@
 }
 
 .genresPageContainer {
-  /* height: auto; */
   margin-left: -47px;
   position: relative;
   width: 100%;
 }
 
-/* header */
 .header {
 background-color: var(--black);
 height: 130px;
@@ -107,15 +105,6 @@ display: flex;
 }
 
 .goToGenreTypePage{
-  /* cursor: pointer;
-  transition: all 0.2s ease;
-  position: absolute;
-  margin-top: 100px ;
-  display:block;
-float:left;
-margin:10px 5px;
-text-align:center;  
-padding:20px; */
 margin-top: 50px;
 height: auto;
 }
@@ -430,12 +419,6 @@ transform: translate(0, -5px);
   width: 20px;
 }
 
-/* .genresfooter {
-  background-color: var(--black);
-  height: 293px;
-  width: 1920px;
-} */
-
 .genresfooterText1 {
   color: var(--white);
   font-family: var(--font-family-neuton);
@@ -484,25 +467,16 @@ height: auto;
 }  
 
 .owl-theme2 {
-/* top: 300px; */
 width: 20px;
-  /* top: 100px !important; */
 }
 .owl-theme2 .owl-dots   {
-    /* background-color: blue; */
     display: flex;   
     align-self: center;
     justify-content: center;
     align-content: center;
     display: none;
-
-    /* width: 10px; */
-    /* height: 10px;
-    margin: 5px 7px;
-    background: #D6D6D6;
-    display: block;
-    border-radius: 30px; */
 }
+
 .owl-theme2 .owl-dots  [className='owl-dot'],
 .owl-theme2 .owl-dots .owl-dot:hover .span {
   background: #fd3c3d;
@@ -545,11 +519,8 @@ border-radius: 10px;
   left: 0px;
   transition: all 0.2s ease;
   width: 310px;
-  /* padding: 0px 50px; */
   display: flex;
   position: relative;
-   /* margin-left: 80px; */
-  /* padding-bottom: 50px;  */
 }
 
 .genreMovieName{
@@ -558,13 +529,12 @@ border-radius: 10px;
   top: 450px;
   left:0px;
   position: absolute;
-  /* text-align: justify; */
   margin-top:20px;
   overflow-wrap: break-word;
   width:300px;
   padding-left: 20px;
   overflow: hidden;
-  white-space: nowrap; /* Don't forget this one */
+  white-space: nowrap; 
   text-overflow: ellipsis;
 }
 
@@ -574,7 +544,6 @@ text-shadow: 0px 4px 4px #00000040;
 top: 403px;
 left: 52px;
 position: absolute;
-/* text-align: justify; */
 margin-top:20px;
 overflow-wrap: break-word;
 width:300px;
@@ -606,17 +575,10 @@ padding-top: 30px;
 .viewMoreButton{
   cursor: pointer;
   transition: all 0.2s ease;
-  /* align-items: flex-start; */
   background-color: var(--cardinal);
   border-radius: 10px;
-  /* display: flex; */
   height: 65px;
   width: 230px;
   border-width: 0px;
   margin-top: 50px;
-  /* padding: 8px 30px; */
-  /* padding-left: 0px; */
-  /* padding-top: 0px;  */
-  /* align-items:center; */
-  /* text-align: center; */
 }

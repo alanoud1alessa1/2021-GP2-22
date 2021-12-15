@@ -1,6 +1,5 @@
 import React from "react";
 import "./reviewPage.css";
-import { Link } from "react-router-dom";
 import Header from "../header";
 import {useState  } from "react";
 import { useParams } from "react-router-dom";

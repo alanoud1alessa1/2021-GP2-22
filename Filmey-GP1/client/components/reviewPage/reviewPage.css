@@ -1,6 +1,5 @@
 .reviewPage {
   align-items:flex-start;
-  /* background-color: var(--black); */
   background-color: var(--eerie-black);
   display: flex;
   flex-direction: column;

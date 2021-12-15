@@ -28,14 +28,11 @@ function header(props) {
 
   const logOut = () => {
     cookies.remove("token", { path: "/" });
-    // window.location.reload();
     window.location = '/home-page';
   };
 
   const api = Axios.create({
     baseURL: "http://localhost:3000/api/v1",
-    // headers :{
-    //  // 'authorization' : token
   });
 
   const [Allposters, setAllposters] = useState([]);

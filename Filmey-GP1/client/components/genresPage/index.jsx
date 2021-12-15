@@ -65,8 +65,6 @@ function genresPage(props) {
   "Music","Musical","Mystery", "Romance","Sci-Fi","Short","Sport", "Thriller", "War", "Western"];
 
   if (numOfPage ==1){
-    // window.location.reload();
-
     var numOfItrations = 13;
     var numOfGenresToGet = 0
 
@@ -112,7 +110,7 @@ function genresPage(props) {
 
         }
 
-        // //if finish getting all movies --> then set valuse
+        //if finish getting all movies --> then set valuse
         if (moviesIdArray.length == numOfItrations * 10) {
           setMoviesId(moviesIdArray);
           setmovieTitles(movieTitlesArray);
@@ -137,6 +135,7 @@ function genresPage(props) {
       <div className="genresPage screen">
         <div className="genresPageContainer">
           <body>
+
             {/* Header */}
             <header>
               <Header />
@@ -145,8 +144,10 @@ function genresPage(props) {
             {/* main */}
             <main>
               <div className="genreBody"></div>
+
               {/* movies loop */}
               <div className="genreMovies">
+
                 {/* Title */}
                 {runCallback(() => {
                   const basicRow = [];
@@ -162,10 +163,6 @@ function genresPage(props) {
                               <Link to={genrePage}>
                                 <div className="genreTitle">
                                   {genre}
-                                  {/* <img
-                                    className="arrowIcon"
-                                    src={props.arrowIcon}
-                                  /> */}
                                 <div className="arrowIcon"> 
                                   <IoIosArrowForward size={50}/>
                                 </div>

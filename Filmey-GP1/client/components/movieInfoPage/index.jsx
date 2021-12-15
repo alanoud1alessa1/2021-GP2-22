@@ -31,34 +31,20 @@ function MovieInfoPage(props) {
   };
 
   const {
-    movieRating,
     directorText,
     writersText,
     descriptionText,
     topCastText,
     reviewsText,
     reviewItText,
-    userReview1,
-    username1,
-    userReview2,
-    username2,
-    userReview3,
-    username3,
     logo,
-    homeText,
-    genresText,
     languageText2,
-    loginText,
-    registerText,
-    icon,
     footerText1,
     footerText2,
     playTrailerText,
     addIcon,
     genreText,
     redLine,
-    rightArrow,
-    leftArrow,
     reviewIcon,
     yourRatingText,
   } = props;
@@ -79,15 +65,9 @@ function MovieInfoPage(props) {
     console.log("guest user");
   }
 
-  const logOut = () => {
-    cookies.remove("token", { path: "/" });
-    window.location.reload();
-  };
 
   const api = Axios.create({
     baseURL: "http://localhost:3000/api/v1",
-    // headers :{
-    //  // 'authorization' : token
   });
 
   const [mid, setMid] = useState("");
@@ -135,7 +115,6 @@ function MovieInfoPage(props) {
   };
 
   //Rating function
-  //var userRating;
   const [haveRated, sethaveRated] = useState(false);
   const [userRating, setuserRating] = useState();
   const [ratedMovie, setratedMovie] = useState(false);
@@ -162,18 +141,6 @@ function MovieInfoPage(props) {
   const deleteMovie=()=>{
 
     if (window.confirm("Are you sure you want to delete the movie ?")) {
-      const res = Axios.post("http://localhost:3000/api/v1/movies/delete", {
-        movie_id: id,
-      }).then((res) => {
-        if(res.data){
-          alert("Movie has been deleted successfully");
-          window.location = '/home-page';
-        }
-        else{
-          alert("Sorry, an error occured. Please try again");
-        }
-        
-      });
 
     }
 
@@ -184,60 +151,20 @@ function MovieInfoPage(props) {
       alert("Sorry! you have to login.");
       return;
     }
-    //console.log(value);
     rating = value;
-    //console.log(rating);
-    //userRating=value;
     setuserRating(value);
-    //userRating=value;
-    //console.log(userRating);
     sethaveRated(true);
-    const res = Axios.post("http://localhost:3000/api/v1/users/rating", {
-      userID: decoded.userID,
-      movieID: id,
-      rating: parseInt(value),
-    }).then((res) => {
-      //rating=value;
-      console.log(res.data);
-    });
     alert("Thank u! your rating has been saved successfully.");
     updateMovieRating();
   };
 
-  // React.useEffect(() => { setuserRating(rating) }, [])
-
-  // React.useEffect(() => { setuserRating(rating);
-  // console.log(userRating)})
-
   const deleteRating = () => {
-    const res = Axios.post("http://localhost:3000/api/v1/users/deleteRating", {
-      userID: decoded.userID,
-      movieID: id,
-    }).then((res) => {
-      console.log(res.data);
-      console.log("in delete response");
-      if (res.data) {
-        sethaveRated(false);
-      }
-    });
     alert("Your rating has been deleted successfully.");
     updateMovieRating();
   };
 
   React.useEffect(() => {
     if (registered && !isAdmin) {
-      const res = Axios.post("http://localhost:3000/api/v1/users/getRating", {
-        userID: decoded.userID,
-        movieID: id,
-      }).then((res) => {
-        console.log(res.data[0]);
-        if (res.data[0]) {
-          sethaveRated(true);
-          setuserRating(res.data[0]);
-          // console.log(res.data);
-          // console.log(res.data);
-        }
-      });
     }
 
     // }
@@ -447,6 +374,7 @@ function MovieInfoPage(props) {
                   </div>
                 </div>
               )}
+
               {/* after add rating */}
               {haveRated && (
                 <div className="afterRating">
@@ -460,6 +388,7 @@ function MovieInfoPage(props) {
                   </div>
                 </div>
               )}
+
               {/* remove rating */}
               {haveRated && (
                 <button
@@ -474,7 +403,6 @@ function MovieInfoPage(props) {
               ({isAdmin &&
                   <div>
                   <button className="editMovieButton">
-                  {/* <Link to="/addMoviePage" > */}
                   <Link to={`/addMoviePage/${id}`} >
 
                     <div className="editMovieContainer">
@@ -496,7 +424,6 @@ function MovieInfoPage(props) {
                   </button>
                   </div>
                   })
-
 
               {/* movie information */}
               <div className="movieInfo">
@@ -591,6 +518,7 @@ function MovieInfoPage(props) {
                   </div>
                 </div>
               </div>
+              
               {/* top cast */}
               <div className="topCast">
                 <div className="topCastText neuton-normal-white-60px5">
@@ -598,7 +526,7 @@ function MovieInfoPage(props) {
                 </div>
                 <img className="topCastLine" src={redLine} />
 
-                {/* casts loop	 */}
+                {/* casts loop */}
                 {runCallback(() => {
                   const row = [];
                   for (var i = 0; i < numOfCasts; i++) {
@@ -627,6 +555,7 @@ function MovieInfoPage(props) {
                   return row;
                 })}
               </div>
+
               {/* reviews */}
               <div className="reviewsContainer">
                 <img className="reviewsLine" src={redLine} />
@@ -646,8 +575,8 @@ function MovieInfoPage(props) {
                     </button>
                   )}
                 </div>
-                {/* reviews loop */}
 
+                {/* reviews loop */}
                 <div className="userReviews">
                   <OwlCarousel className="owl-theme" {...options} nav>
                     {runCallback(() => {
