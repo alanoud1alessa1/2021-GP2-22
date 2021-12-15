@@ -179,7 +179,6 @@ router.get("/allLanguages/:id", async (req , res, next) => {
         const allLanguages = await queries.getAllLanguages();
 
     if (allLanguages) {
-     // console.log(allLanguages)
       return res.json(allLanguages);
     }
     return next();
@@ -203,20 +202,6 @@ router.get("/allAgeGuide/:id", async (req , res, next) => {
   }
 });
 
-// router.get("/allAgeGuide/:id", async (req , res, next) => {
-
-//   try {
-//         const allAgeGuide = await queries.getAllAgeGuide();
-
-//     if (allAgeGuide) {
-//      // console.log(allAgeGuide)
-//       return res.json(allAgeGuide);
-//     }
-//     return next();
-//   } catch (error) {
-//     return next(error);
-//   }
-// });
 
 router.get("/allDirectors/:id", async (req , res, next) => {
 
@@ -224,7 +209,6 @@ router.get("/allDirectors/:id", async (req , res, next) => {
         const allDirectors = await queries.getAllDirectors();
 
     if (allDirectors) {
-     // console.log(allDirectors)
       return res.json(allDirectors);
     }
     return next();
@@ -239,7 +223,6 @@ router.get("/allWriters/:id", async (req , res, next) => {
         const allWriters = await queries.getAllWriters();
 
     if (allWriters) {
-     // console.log(allWriters)
       return res.json(allWriters);
     }
     return next();
@@ -254,7 +237,6 @@ router.get("/allActors/:id", async (req , res, next) => {
         const allActors = await queries.getAllActorss();
 
     if (allActors) {
-      //console.log(allActors)
       return res.json(allActors);
     }
     return next();
@@ -269,7 +251,6 @@ router.get("/allRoles/:id", async (req , res, next) => {
         const allRoles = await queries.getAllRoles();
 
     if (allRoles) {
-     // console.log(allAgeGuide)
       return res.json(allRoles);
     }
     return next();
@@ -278,23 +259,6 @@ router.get("/allRoles/:id", async (req , res, next) => {
   }
 });
 
-
-// router.post("/add", async (req, res, next) => {
-//   //console.log(req.body);
-
-//   // const { title, year, length , age_guide ,description, poster , trailer_url} = req.body;
-//   // try {
-//   //   const id = await queries.addMovie(title, year, length , age_guide ,description, poster , trailer_url);
-
-//   //   if (id) {
-//   //     return res.json(id);
-//   //   }
-//   //   return next();
-//   // } catch (error) {
-//   //   console.log(error);
-//   //   return next(error);
-//   // }
-// });
 
 router.post("/delete", async (req, res, next) => {
   const {movie_id} = req.body;
@@ -342,24 +306,8 @@ router.get("/allGenres", async (req , res, next) => {
   }
 });
 
-// router.get("/allGenres", async (req , res, next) => {
-
-//   try {
-//         const allGenres = await queries.getAllGenres();
-
-//     if (allGenres) {
-//       return res.json(allGenres);
-//     }
-//     return next();
-//   } catch (error) {
-//     return next(error);
-//   }
-// });
-
 
 router.get("/getActorImage/:actorName", async (req , res, next) => {
-  //console.log("ggg");
-  //console.log(req.params);
   const { actorName } = req.params
   console.log("/getActorImage/:actorName");
   console.log(actorName);
@@ -385,7 +333,6 @@ router.post("/addMovie", async (req , res, next) => {
   const {title,genres,languages,year,length,
     age_guide,trailer_url,poster,description,
     directors,writers,actorNames,actorRoles,actorImages } = req.body;
-    //console.log(length.length);
 
     var yearConverted=Number(year);
 
@@ -415,14 +362,6 @@ router.post("/addMovie", async (req , res, next) => {
        const actor = await queries.addActor(movieID,actorNames,actorRoles,actorImages);
 
        return res.json({"movieID":movieID});
-
-
-    // if (movie_id) {
-    //   const genre = await queries.addGenre(movie_id,genres);
-    //   console.log(movie_id);
-    //   return res.json(movie_id);
-    // }
-    // return next();
   } catch (error) {
 
     return next(error);
@@ -441,7 +380,6 @@ router.get("/getMovieFormData/:id", async (req, res, next) => {
     return next();
   } catch (error) {
     console.log(error);
-   // res.statusCode = 409;
     return next(error);
   }
 }
@@ -458,43 +396,14 @@ router.post("/updateMovieInfo/:id", async (req, res, next) => {
 
   try {
 
-    // const movie = await queries.updateMovieInfo(id , title,yearConverted,length,age_guide,trailer_url,poster,description);
+ 
     const genre = await queries.updateGenre(id,genres);
-    // const language = await queries.updateLanguage(id,languages);
-    // const director = await queries.updateDirector(id,directors);
-    // const writer = await queries.updateWriter(id,writers);
-    // const actor = await queries.updateActor(id,actorNames,actorRoles,actorImages);
-
-    // if (movie && ) {
-    //   return res.json(movie);
-    // }
-    // return next();
   } catch (error) {
     console.log(error);
-   // res.statusCode = 409;
     return next(error);
   }
 }
 );
-
-
-
-
-// router.put("/", async (req, res, next) => {
-//   const { email, username, password , date_of_birth , location} = req.body;
-//   try {
-//     const token = await queries.signup(email, username, password , date_of_birth , location);
-//     if (token) {
-//       return res.json(token);
-//     }
-//     return next();
-//   } catch (error) {
-//     console.log(error);
-//     res.statusCode = 409;
-//     return next(error);
-//   }
-// });
-
 
 
 

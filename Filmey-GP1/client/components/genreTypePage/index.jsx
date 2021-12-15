@@ -116,76 +116,10 @@ function genreTypePage(props) {
               </div>
 
 
-            {/* Title */}
-            {/* <div>
-              <h1 className="genreTypeTitle neuton-normal-white-60px3">{genre}</h1>
-            </div>
-            
-
-
-
-                      {/* row1  */}
-              {/* <div className="movies">
-                {runCallback(() => {
-                  const row = [];
-                  var count = 0;
-
-                  for (var k = 0; k < 2; k++) {
-                    for (var i = 0; i <= 3; i++) {
-                      const id = moviesId[count];
-                      const url = `/movieInfoPage/${id}`;
-
-                      const poster = Allposters[count];
-                      const title = movieTitles[count];
-                      const rating = totalRatings[count++];
-
-                      // // const reminder = i % 4;
-
-                      // // if (reminder == 0) {
-                      // //   reminder = 4;
-                      // // }
-                      const className1 = `Movie${count}`;
-
-
-                      row.push(
-                        <div key={i}>
-                          {
-                            <div className={className1}>
-                              <Link to={url}>
-                                <img className="genresMoviePoster1" src={poster} />
-                                <div className="genresMovieName1">{title}</div>
-                                <div className="genresRating1 neuton-bold-white-30px3">
-                                  {rating}
-                                </div>
-                                <img className="genresStar1" src={props.star} />
-                                <div className="genresGenreType1">
-                                  <div className="genresGenreTypeText1 roboto-normal-cardinal-12px3">
-                                    {props.genresGenreTypeText1}
-                                  </div>
-                                </div>
-                              </Link>
-                            </div>
-                          }
-                        </div>
-                      );
-                    }
-                  }
-                  return row;
-                })}
-              </div>  */}
-
-
 
 
 
           </main>
-          {/* footer */}
-          {/* <div className="footer"> </div>
-          <img className="footerLogo" src={logo} />
-          <div className="footerText1">{footerText1}</div>
-          <div className="footerText2 inter-light-bon-jour-35px2">
-            <span>{footerText2}</span>
-          </div> */}
         </body>
         </div>
       </div>

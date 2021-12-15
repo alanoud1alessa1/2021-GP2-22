@@ -26,7 +26,6 @@ function addMoviePage(props) {
   const [descriptionState,setDescription]=useState('');
   const [directorState,setDirector]=useState('');
   const [writerState,setWriter]=useState('');
- // const [actorsArray,setActorArray]=useState([]);
   const [actorImageArrayState,setActorImageArrayState]=useState([]);
   const [actorNameArrayState,setActorNameArrayState]=useState([]);
   const [actorRoleArrayState,setActorRoleArrayState]=useState([]);
@@ -305,8 +304,6 @@ const preventChar = (value) => {
     setWriter(Array.isArray(e)?e.map(x=>x.label):[]);
   }
 
-//var actorRoleArray=[];
-
 
 var actorNameArray = [...actorNameArrayState];
 var actorImageArray=[...actorImageArrayState];
@@ -315,49 +312,7 @@ var actorRoleArray=[...actorRoleArrayState];
 const setActorName  = index =>(newValue, actionMeta) => {
   console.log("setActorName");
   actorNameArray[index] =newValue.label;
-  // console.log(actorNameArray);
   setActorNameArrayState(actorNameArray);
-  //console.log(actorNameArrayState);
-  // console.log("actorImageArray");
-  // console.log(actorImageArray);
-  // var actorMessage;
-  // var actorMessages=[];
-  // var length=actorNameArray.length;
-
-
-  // [a , b ,c ]
-  // for (var i=0;i<length;i++)
-  // {
-  //   var actorname=actorNameArray[i];
-  //   // console.log(x);
-  //   for (var z=i+1;z<length;z++)
-  //   {
-  //     if(actorname==actorNameArray[z])
-  //     {
-  //       actorMessage=[z, "This actor has already been choosen"];
-  //       actorMessages.push(actorMessage);
-  //       console.log(actorMessages);  
-  //     } 
-  //   }
-
-  // }
-
-  // for (var i=length-1;i>-1;i--)
-  // {
-  //   var actorname=actorNameArray[length-1];
-  //   // console.log(x);
-  //   for (var z=i-1;z>-1;z--)
-  //   {
-  //     if(actorname==actorNameArray[z])
-  //     {
-  //       // actorMessage=[z, "This actor has already been choosen"];
-  //       actorMessages[z]("This actor has already been choosen");
-  //       // console.log(actorMessages);  
-  //     } 
-  //   }
-
-  // }
-  // setActorName_error_message(actorMessages);
   const getActorImage =  Axios.get(
   `http://localhost:3000/api/v1/movies/getActorImage/${actorNameArray[index]}`
   )
@@ -437,10 +392,6 @@ const setActorImage = (index, value) => {
   }
   )
   .then((res)=>{
-    // if(res.data.CheckMovieMessage.CheckMovieMessage)
-    // {
-    //   console.log(res.data.CheckMovieMessage.CheckMovieMessage);
-    // }
     if(res.data.CheckMovieMessage)
     {
       console.log(res.data.CheckMovieMessage);
@@ -449,11 +400,6 @@ const setActorImage = (index, value) => {
     else{
       setMovieName_error_message('');
     }
-
-    // if(res.data.PosterMessage.PosterMessage)
-    // {
-    //   console.log(res.data.PosterMessage.PosterMessage);
-    // }
     if(res.data.PosterMessage)
     {
       console.log(res.data.PosterMessage);
@@ -462,12 +408,6 @@ const setActorImage = (index, value) => {
     else{
       setMoviePoster_error_message('');
     }
-
-
-    // if(res.data.DescriptionMessage.DescriptionMessage)
-    // {
-    //   console.log(res.data.DescriptionMessage.DescriptionMessage);
-    // }
     if(res.data.DescriptionMessage)
     {
       console.log(res.data.DescriptionMessage);
@@ -476,10 +416,6 @@ const setActorImage = (index, value) => {
     else{
       setMovieDes_error_message('')
     }
-    // if(res.data.TrailerMessage.TrailerMessage)
-    // {
-    //   console.log(res.data.TrailerMessage.TrailerMessage);
-    // }
     if(res.data.TrailerMessage)
     {
       console.log(res.data.TrailerMessage);
@@ -492,9 +428,6 @@ const setActorImage = (index, value) => {
     if(res.data.checkActorImage)
     {
       console.log(res.data.checkActorImage);
-      // var x= res.data.checkActorImage;
-      // console.log(x[0]);
-      // console.log(x[1]);
       setMovieActorImage_error_message(res.data.checkActorImage);
     }
     else{
@@ -1163,12 +1096,6 @@ const setActorImage = (index, value) => {
                   </div>
             </div>
 
-            {/* actor 1 errors */}
-            {/* <div className="actorErrors">
-              <div className="movieActorNameError nunito-normal-river-bed-50px"> <strong> {repeatedActorName[0]}  </strong></div>
-              <div className="movieActorRoleError nunito-normal-river-bed-50px"> <strong> { repeatedActorRole[0] } </strong></div>
-           </div>  */}
-
               {/*2nd Actor */}
 
             <div>  
@@ -1179,15 +1106,12 @@ const setActorImage = (index, value) => {
                  <CreatableSelect
                     isSearchable
                     isClearable
-                    // className="addMovieactor"
                     isDisabled={!isFilled[0]}
                     formatCreateLabel={(inputText) => `${inputText}`}
                     onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
                     placeholder="Select or write actor name"
                     options={allActors} 
-                    //onChange={setActorName(i)}
                     onChange={setActorName(1)}
-                    //onInputChange={handleInputChange}
                     theme={(theme) => ({
                       ...theme,
                       borderRadius: 0,
@@ -1220,7 +1144,6 @@ const setActorImage = (index, value) => {
                   <CreatableSelect
                     isSearchable
                     isClearable
-                    // className="addMovieactor-role"
                     placeholder="Select or write actor role"
                     isDisabled={!isFilled[0]}
                     formatCreateLabel={(inputText) => `${inputText}`}
@@ -1279,13 +1202,6 @@ const setActorImage = (index, value) => {
 
                   </div>
             </div>
-
-             {/* actor 2 errors */}
-              {/* <div className="actorErrors"> 
-              <div className="movieActorNameError nunito-normal-river-bed-50px"> <strong> {repeatedActorName[1]}  </strong></div>
-              <div className="movieActorRoleError nunito-normal-river-bed-50px"> <strong> { repeatedActorRole[1] } </strong></div>
-              </div>  */}
-
              {/*3rd Actor */}
 
              <div>  
@@ -1397,12 +1313,6 @@ const setActorImage = (index, value) => {
                   </div>
             </div>
 
-             {/* actor 3 errors */}
-             {/* <div className="actorErrors">
-              <div className="movieActorNameError nunito-normal-river-bed-50px"> <strong> {repeatedActorName[2]}  </strong></div>
-              <div className="movieActorRoleError nunito-normal-river-bed-50px"> <strong> { repeatedActorRole[2] } </strong></div>
-            </div> */}
-
              {/*4th Actor */}
 
              <div>  
@@ -1512,11 +1422,6 @@ const setActorImage = (index, value) => {
                   </div>
             </div>
 
-             {/* actor 4 errors */}
-            {/* <div className="actorErrors">
-              <div className="movieActorNameError nunito-normal-river-bed-50px"> <strong> {repeatedActorName[3]}  </strong></div>
-              <div className="movieActorRoleError nunito-normal-river-bed-50px"> <strong> { repeatedActorRole[3] } </strong></div>
-            </div> */}
 
              {/*5th Actor */}
 
@@ -1641,15 +1546,6 @@ const setActorImage = (index, value) => {
         {id>0 && (
         <button className="addMovieadd-button neuton-bold-white-30px7" onClick={editMovie}>edit</button>)}
 
-               {/* footer */}
-            {/* <footer>
-              <div className="addMoviefooter"> </div>
-              <img className="addMoviefooterLogo" src={props.logo} />
-              <div className="addMoviefooterText1"> {props.footerText1}</div>
-              <div className="addMoviecopyRightText inter-light-bon-jour-35px2">
-                <span>{props.footerText2}</span>
-              </div>
-            </footer> */}
       </div>
     </div>
 

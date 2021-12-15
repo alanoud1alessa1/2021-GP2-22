@@ -49,11 +49,6 @@ function genresPage(props) {
     window.location.reload();
   };
 
-  // const api = Axios.create({
-  //   baseURL: "http://localhost:3000/api/v1",
-  // });
-
-
   let { numOfPage } = useParams();
   numOfPage = parseInt(numOfPage);
 
@@ -65,12 +60,6 @@ function genresPage(props) {
   const [Allposters, setAllposters] = useState([]);
   const [totalRatings, settotalRatings] = useState([]);
   const [ERatings, setERatings] = useState([]);
-  // const [PageNum, setPageNum] = useState(1);
-
-  // const [jj, setJj] = useState(true);
-
-  // const [moviesInfo, setMoviesInfo] = useState([
-  // {'movie_id':1,'title' : 'Toy1'} ,   {'movie_id':3,'title' : 'Toy3'}
   // ]);
   const allGens = [ "Action","Adventure","Animation", "Biography", "Comedy","Crime", "Documentary","Drama", "Family","Fantasy","Film-Noir", "History","Horror",
   "Music","Musical","Mystery", "Romance","Sci-Fi","Short","Sport", "Thriller", "War", "Western"];
@@ -85,20 +74,7 @@ function genresPage(props) {
   else{
     var numOfItrations = 10;
     var numOfGenresToGet = 13
-// setPageNum(2);
   } 
-
-
-  // // const numOfGenres = 0;
-  // let genresArray = [];
-  // //Get All Genres
-  // api.get(`/movies/allGenres/1`).then((response) => {
-  //   for (var i = 0; i < response.data.length; i++) {
-  //     genresArray[i] = response.data[i].genre;
-  //     // numOfGenres = numOfGenres + 1;
-  //   }
-  //   setAllGenres(genresArray);
-  // });
 
   React.useEffect(() => {
     var moviesIdArray = [...moviesId];
@@ -261,13 +237,6 @@ function genresPage(props) {
                 {((numOfPage == 1 )&&
                    <button className="viewMoreButton neuton-bold-white-30px" onClick={refreashPage}>
                                   View more ..
-                                  {/* <div className="arrowIcon"> 
-                                  <IoIosArrowForward size={50}/>
-                                </div> */}
-                                  {/* <img
-                                    className="arrowIcon"
-                                    src={props.arrowIcon}
-                                  /> */}
                                 </button>
     
   )})

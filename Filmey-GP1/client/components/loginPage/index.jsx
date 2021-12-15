@@ -5,7 +5,6 @@ import jwt_decode from "jwt-decode";
 import {useState } from "react";
 import Axios from "axios";
 import Cookies from 'universal-cookie';
-// import ResetPassword from "../resetPassword";
 
 
 function loginPage(props) {

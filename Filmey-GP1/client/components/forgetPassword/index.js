@@ -59,8 +59,7 @@ function loginPage(props) {
     console.log(token);
     const res = Axios.post(API_URL + "node-mail", {
       token: token,
-      // userId: userId,
-      // emaiText:  "<p>Reset your new password Using the link</p> <a href=`http://localhost:1234/resetpassword/${userId}`>Reset Password Link</a>"
+    
     }).then((res) => {});
 
     alert(

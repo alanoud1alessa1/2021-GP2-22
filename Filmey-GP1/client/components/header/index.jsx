@@ -74,15 +74,6 @@ function header(props) {
                 </div>
 
                 {/* Genres */}
-                {/* <div>
-                <button className="refreshGenre" onClick={refreashPage}>
-                    <div>
-                      <div className="genresText darkergrotesque-medium-white-35px2"> 
-                      Genres
-                      </div>
-                    </div>
-                    </button>
-                </div> */}
                 <div onClick={refreashPage}>
                     <div>
                       <div className="genresText darkergrotesque-medium-white-35px2"> 

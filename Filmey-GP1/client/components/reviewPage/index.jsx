@@ -31,12 +31,9 @@ function reviewPage(props) {
     const token=cookies.get('token');
     var decoded = jwt_decode(token);
     username=decoded.user_id;
-    //registered=true;
 
   }
   catch{
-    // registered=false;
-    // console.log("guest user");
   }
   
   let {id} = useParams();
