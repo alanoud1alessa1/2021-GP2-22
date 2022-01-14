@@ -1,8 +1,11 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import "./resetPassword.css";
+import jwt_decode from "jwt-decode";
 import { useState } from "react";
 import Axios from "axios";
+import Cookies from "universal-cookie";
+// import ResetPassword from "../resetPassword";
 
 function loginPage(props) {
   const {
@@ -11,39 +14,66 @@ function loginPage(props) {
     text1,
     text2,
     text3,
+    emailUsername,
+    emailUsernameinputType,
+    emailUsernamePlaceholder,
     password,
     passwordinputType,
+    passwordPlaceholder,
+    text4,
   } = props;
 
   const [email, setEmail] = useState("");
   const [userPassword, setuserPassword] = useState("");
   const [password_error_message, setPassword_Error_message] = useState("");
-  const [incorrectpassword_error_message,setIncorrectpassword_Error_message]=useState('');
 
   const isEnabled = userPassword.length > 0;
 
   var passwordMessage = "";
 
-  
-  //incorrect password
-  const checkPassword = (value) => {
-    if( value.length<8 ){
-      setIncorrectpassword_Error_message('Password length should be at least 8 characters');
-      }
-
-     else {
-      setIncorrectpassword_Error_message('');
-  }
-
-}
+  // const { userId } = useParams();
 
   const API_URL = "http://localhost:3000/api/v1/users";
 
 
   const { token } = useParams();
+  // var token = jwt_decode(token);
 
   const  resetPassword=()=>{
+
     // var decoded = jwt_decode(res.data);
+   
+    const res = Axios.post(API_URL + "/resetPassword", {
+      token: token,
+      newPassword: userPassword,
+    }).then((res) => {
+      
+      console.log(userPassword.length);
+      try{
+    
+      if (res.data.passwordMessage.passwordMessage){
+        
+        passwordMessage=res.data.passwordMessage.passwordMessage;
+        setPassword_Error_message(passwordMessage);
+
+      }
+      else {
+        setPassword_Error_message("");
+      }
+      
+
+    }
+      catch{
+         if (passwordMessage){
+          return;
+        }
+
+        else{
+          alert("Password changed successfully");
+                  window.location = "/login-page";
+          }
+      }
+     });
   };
 
 
@@ -70,7 +100,6 @@ function loginPage(props) {
             {/* login form */}
             <form>
               <div className="inputFildes">
-                
                 {/* New password */}
                 <div className="loginPasswordContainer">
                   <div className="password-2 nunito-semi-bold-white-28px">
@@ -84,14 +113,11 @@ function loginPage(props) {
                     required
                     onChange={(e) => {
                       setuserPassword(e.target.value);
-                      checkPassword(e.target.value); 
-
                     }}
                     minlength="8"
                   />
                   <div className="loginErrorMessage nunito-semi-bold-white-28px">
-                    {password_error_message} 
-                    {incorrectpassword_error_message}
+                    {password_error_message}
                   </div>
                 </div>
 

@@ -5,6 +5,7 @@ import jwt_decode from "jwt-decode";
 import {useState } from "react";
 import Axios from "axios";
 import Cookies from 'universal-cookie';
+// import ResetPassword from "../resetPassword";
 
 
 function loginPage(props) {
@@ -153,7 +154,6 @@ function loginPage(props) {
             {/* login form */}
             <form>
               <div className="inputFildes">
-                
                 {/* username or password */}
                 <div className="emialUsernameContainer">
                   <div className="emailUsername nunito-semi-bold-white-28px">{emailUsername}</div>

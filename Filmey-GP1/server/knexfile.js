@@ -16,3 +16,21 @@ module.exports = {
     },
   },
 };
+
+// module.exports = {
+
+//   development: {
+//     client: process.env.CLIENT,
+//     connection: {
+//       database: process.env.PG_DATABASE,
+//       user :process.env.PG_USER,
+//       password: process.env.PG_PASSWORD,
+//     },
+//     migrations: {
+//       directory: "./server/db/migrations",
+//     },
+//     seeds: {
+//       directory: "./server/db/seeds",
+//     }
+//   }
+// };

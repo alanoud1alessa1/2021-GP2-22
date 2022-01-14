@@ -8,7 +8,12 @@ import jwt_decode from "jwt-decode";
 import Cookies from 'universal-cookie';
 import Select from 'react-select';
 import moment from 'moment';
+// import validate from 'deep-email-validator'
 import validator from 'validator'
+
+
+
+// import { DatePicker } from 'react-nice-dates';
 
 
 function regPage(props) {
@@ -80,17 +85,22 @@ const checkEmail= (value) => {
 
 }
 
+  //var a=[];
   var getGenres=(e)=>{
     console.log(Array.isArray(e)?e.map(x=>x.label):[]);
     getvalue(Array.isArray(e)?e.map(x=>x.label):[]);
+    //a=(Array.isArray(e)?e.map(x=>x.label):[]);
+    //console.log({Displayvalue});
 
   }
   console.log(Displayvalue);
+  //console.log(a[0]);
 
   const API_URL = "http://localhost:3000/api/v1/";
 
   React.useEffect(() => {
 
+    // Axios.get(API_URL + `/movies/allGenres/1`).then((response) => {
       const genresArray = [...allGenres];
       const allGens = [ "Action","Adventure","Animation", "Comedy","Crime", "Documentary","Drama", "Family","History","Horror"];
 
@@ -128,6 +138,7 @@ const checkEmail= (value) => {
     .then((res)=>{
       console.log("inside res");
       
+      //console.log(userPassword.length);
       try{
       if(res.data.usernameMessage.usernameMessage)
       {
@@ -147,11 +158,23 @@ const checkEmail= (value) => {
       else{
         setEmail_Error_message(emailMessage);
       }
+
+      // if (userPassword.length <8){
+      //   console.log("inside password condition");
+      //   setPassword_Error_message("Password length must be at least 8 characters.");
+      //   //console.log(password_error_message);
+      //   //exit();
+      // }
+      // else {
+      //   setPassword_Error_message("");
+      // }
       if (res.data.passwordMessage.passwordMessage){
         console.log("inside password condition");
         
         passwordMessage=res.data.passwordMessage.passwordMessage;
         setPassword_Error_message(passwordMessage);
+        //console.log(password_error_message);
+        //exit();
       }
       else {
         setPassword_Error_message("");
@@ -163,6 +186,9 @@ const checkEmail= (value) => {
          if (passwordMessage||emailMessage||usernameMessage){
           return;
         }
+        // if (password_error_message||email_error_message||username_error_message){
+        //   return;
+        // }
         else{
             console.log("inside res data");
            const cookies = new Cookies();
@@ -201,7 +227,6 @@ const checkEmail= (value) => {
           </div>
 
           <form onSubmit={Register}>
-
             {/* username */}
             <div className="usernameContainer">
             <div className="regErrorMessage nunito-normal-river-bed-18px"> <strong>  {username_error_message}   </strong>  </div>
@@ -345,8 +370,16 @@ const checkEmail= (value) => {
                     onDateChange={(date) => {
                         this.setState({date: date})
                       }}
+                    // customStyles={
+                    //   {dateInput:
+                    //     {  border: 'none',
+                    //     backgroundColor: 'black',
+                    //     color: 'black'
+                    //     }}
+                    // }
                     customStyles={{
                       dateIcon: {
+                        //display: 'none',
                         position: 'absolute',
                         left: 0,
                         top: 400,
@@ -365,7 +398,7 @@ const checkEmail= (value) => {
               <div className="regText7 nunito-normal-river-bed-18px">{text7}</div>
               <div className="multiSelect"> 
 
-                <Select isMulti 
+                <Select isMulti //options={genres} 
                 options={allGenres}
                  onChange={getGenres}
                  closeMenuOnSelect={false} 

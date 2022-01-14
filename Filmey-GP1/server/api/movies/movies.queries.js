@@ -1,6 +1,6 @@
 const db = require("../../db/db");
 
-
+// const bcrypt = require("bcrypt");
 const auth = require("../../auth");
 const tableNames = require("../../constents/tableNames");
 module.exports = {
@@ -109,6 +109,16 @@ module.exports = {
       .orderBy("created_at", "desc");
   },
 
+  //   async addMovie(title, year, length , age_guide ,description, poster , trailer_url) {
+
+  //  const [movie_id] = await db("Movie").select("movie_id").
+  //     const [id] = await db("Movie")
+  //     .insert({ title, year, length , age_guide ,description, poster , trailer_url })
+  //     .returning("movie_id");
+
+  //     return id ;
+  //   },
+
   async getAllGenres() {
     return db("Genre").select("genre");
   },
@@ -161,6 +171,7 @@ module.exports = {
     console.log(checkMovie);
 
     if (checkMovie) {
+      //var message = { 'CheckMovieMessage' : "This movie already exists"};
       var message = "This movie already exists";
 
       return message;
@@ -176,6 +187,7 @@ module.exports = {
       .returning("*");
 
     if (checkPoster) {
+      //var message = { 'PosterMessage' : "This poster is for another movie"};
       var message = "This poster is for another movie";
 
       return message;
@@ -191,6 +203,7 @@ module.exports = {
       .returning("*");
 
     if (checkDescription) {
+      //var message = { 'DescriptionMessage' : "This description is for another movie"};
       var message = "This description is for another movie";
 
       return message;
@@ -206,33 +219,61 @@ module.exports = {
       .returning("*");
 
     if (checkTrailer) {
+      //var message = { 'TrailerMessage' : "This trailer is for another movie"};
       var message = "This trailer is for another movie";
 
       return message;
     }
   },
 
-  async CheckActorImage(actorNames, actorImages) {
-    var length = actorImages.length;
-    var message=[];
-    for (var i = 0; i < length; i++) {
-      console.log(actorImages[i]);
+  // async CheckActorImage(actorNames, actorImages) {
+  //   var length = actorImages.length;
+  //   var message=[];
+  //   for (var i = 0; i < length; i++) {
+  //     console.log(actorImages[i]);
+
+  //     let checkActorImage = await db(tableNames.actor)
+  //       .where({
+  //         actor_image_url: actorImages[i],
+  //       })
+  //       .returning("*")
+  //       .pluck("actor");
+  //     console.log(checkActorImage[0]);
+  //     if (checkActorImage[0]) {
+  //       if (actorNames[i] != checkActorImage[0]) {
+  //         message[i]="Image belongs to another actor";;
+  //       }
+  //     }
+  //   }
+
+  //   return message;
+  // },
+
+  
+  async CheckActorImage(actorNames,actorImages) {
+    var length=actorImages.length;
+    var message;
+    for( var i=0; i<length;i++ ){
+     console.log(actorImages[i]);
 
       let checkActorImage = await db(tableNames.actor)
         .where({
-          actor_image_url: actorImages[i],
-        })
-        .returning("*")
-        .pluck("actor");
-      console.log(checkActorImage[0]);
-      if (checkActorImage[0]) {
-        if (actorNames[i] != checkActorImage[0]) {
-          message[i]="Image belongs to another actor";
+          actor_image_url:actorImages[i],
+        }).returning("*").pluck('actor');
+        console.log(checkActorImage[0]);
+        if(checkActorImage[0])
+        {
+          if(actorNames[i]!=checkActorImage[0])
+          {
+            var index= i.toString();
+            message={actorNumber: index, meesage: "This image belongs to another actor"};
+          }
         }
+        //actorNamesArray.push(checkActorImage[0]);
       }
-    }
 
-    return message;
+      return message;
+
   },
 
   async addMovie(
@@ -276,6 +317,7 @@ module.exports = {
   },
 
   async addGenre(movie_id, genres) {
+    //console.log(genres);
     var arrayofGenreID = new Array();
     for (const genre of genres) {
       //console.log(g);
@@ -285,6 +327,7 @@ module.exports = {
         })
         .returning("*")
         .pluck("genre_id");
+      // console.log(genre_id[0]);
       arrayofGenreID.push(genre_id[0]);
     }
 
@@ -359,6 +402,7 @@ module.exports = {
         console.log("director_id2");
         console.log(director_id);
         arrayofDirectorsID.push(director_id[0].director_id);
+        //arrayofDirectorsID.push(director_id2[0]);
       }
     }
 
@@ -531,6 +575,7 @@ module.exports = {
       arrayofGenres.push(genre[0]);
     }
 
+    //console.log(arrayofGenres);
     let language_ids = await db(tableNames.movie_Language)
       .select("*")
       .where({
@@ -542,6 +587,7 @@ module.exports = {
     var arrayofLanguages = new Array();
 
     for (const id of language_ids) {
+      // console.log(id);
       let language = await db(tableNames.language)
         .select("*")
         .where({
@@ -560,16 +606,19 @@ module.exports = {
         movie_id: id,
       })
       .returning("*");
+    // console.log(movieRoles);
     for (const actorId of movieRoles) {
       console.log(actorId);
       let movieActors = await db(tableNames.actor).select("*").where({
         actor_id: actorId.actor_id,
       });
+      //console.log(movieRoles[0].role);
       movieRole = movieRoles[0].role;
       actorName = movieActors[0].actor;
       actorImage = movieActors[0].actor_image_url;
 
       actorInfoArray.push([{ movieRole, actorName, actorImage }]);
+      //return ActorInfo;
     }
 
     var arrayofDirectors = new Array();
@@ -585,6 +634,7 @@ module.exports = {
     console.log(director_ids);
 
     for (const id of director_ids) {
+      //console.log(actorId);
       let movieDirectors = await db(tableNames.director)
         .select("*")
         .where({
@@ -592,6 +642,8 @@ module.exports = {
         })
         .returning("*")
         .pluck("director");
+      //console.log("movieDirectors");
+      //console.log(movieDirectors);
       arrayofDirectors.push(movieDirectors[0]);
     }
 
@@ -604,9 +656,11 @@ module.exports = {
       })
       .returning("*")
       .pluck("writer_id");
+    //console.log("director_ids");
     console.log(writer_ids);
 
     for (const id of writer_ids) {
+      //console.log(actorId);
       let movieWriter = await db(tableNames.writer)
         .select("*")
         .where({
@@ -614,9 +668,14 @@ module.exports = {
         })
         .returning("*")
         .pluck("writer");
+      //console.log("movieDirectors");
+      //console.log(movieDirectors);
       arrayofWriters.push(movieWriter[0]);
     }
 
+    //   let movieWriters = await db(tableNames.writer).select("*").where({
+    //     movie_id: id,
+    //   }).returning("*").pluck("writer");
     console.log(actorInfoArray);
     console.log(arrayofWriters);
     console.log(arrayofDirectors);
@@ -632,6 +691,17 @@ module.exports = {
       arrayofDirectors,
       arrayofWriters,
     };
+    //return movieGenres;
+    //console.log(movieGenres);
+    // console.log(movieLanguages);
+    // console.log(movieRoles);
+    // console.log(movieDirectors);
+    // console.log(movieWriters);
+
+    //    if(movieInfo){
+    //      console.log(movieInfo);
+    //      return movieInfo;
+    // }
   },
 
   async deleteMovie(movie_id) {
@@ -721,8 +791,35 @@ module.exports = {
         .returning("*");
     }
 
+    // for (const genre of genres) {
+    //   let genre_id = await db("Genre")
+    //     .where({
+    //       genre: genre,
+    //     })
+    //     .returning("*")
+    //     .pluck("genre_id");
+
+    //   // Genre ID
+    //   arrayofNewGenreID.push(genre_id[0]);
+    // }
+    // //Delete rest of genres
+    // for (const genre of genres) {
+    //   let genre_id = await db("Genre")
+    //     .where({
+    //       genre: genre,
+    //     })
+    //     .returning("*")
+    //     .pluck("genre_id");
+
+    //   // Genre ID
+    //   arrayofNewGenreID.push(genre_id[0]);
+    // }
 
     return True;
   },
-}; 
+};
+
+//  1-1   1-3   1-5
+
+// 1-2  1-3   
 
