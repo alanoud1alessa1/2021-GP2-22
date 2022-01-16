@@ -28,6 +28,8 @@ function genreTypePage(props) {
 
   let {genre} = useParams();
   React.useEffect(() => {
+    window.scrollTo(0, 0)
+
     var moviesIdArray = [...moviesId];
     var movieTitlesArray = [...movieTitles];
     var postersArray = [...Allposters];

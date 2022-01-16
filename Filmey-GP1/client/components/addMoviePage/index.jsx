@@ -506,7 +506,7 @@ const setActorImage = (index, value) => {
 
     if(res.data.movieID)
     {
-      alert("Movie added successfully");
+      // alert("Movie added successfully");
       var newMovieID =res.data.movieID;
       window.location = `/movieInfoPage/${newMovieID}`;
     }

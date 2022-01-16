@@ -79,7 +79,7 @@ function loginPage(props) {
           
               const cookies = new Cookies();
               cookies.set('token', res.data, { path: '/' });;
-              alert("Welcome "+username+"!");
+              // alert("Welcome "+username+"!");
               window.location = '/home-page';
 
           }})}
@@ -124,7 +124,7 @@ function loginPage(props) {
               cookies.set('token', res.data, { path: '/' });
               console.log(res.data);
               var decoded = jwt_decode(res.data);
-              alert("Welcome "+decoded.username+"!");
+              // alert("Welcome "+decoded.username+"!");
                window.location = '/home-page';
             
           }})

@@ -6,6 +6,8 @@ import { useState } from "react";
 import Axios from "axios";
 import Cookies from "universal-cookie";
 import ResetPassword from "../resetPassword";
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 function loginPage(props) {
   const {
@@ -63,9 +65,28 @@ function loginPage(props) {
       // emaiText:  "<p>Reset your new password Using the link</p> <a href=`http://localhost:1234/resetpassword/${userId}`>Reset Password Link</a>"
     }).then((res) => {});
 
-    alert(
-      "Check your email! We've sent you instructions for resetting your password."
-    );
+    // alert(
+    //   "Check your email! We've sent you instructions for resetting your password."
+    // );
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <div className='customconfirmAlert'>
+            <h1>Check your email!</h1>
+            <h5>We've sent you instructions for resetting your password.</h5>
+            <button
+            className="yesButton"
+              onClick={() => {
+                onClose();
+              }}
+            >
+              OK
+            </button>
+          </div>
+        );
+      }
+    });
+    
   };
 
 

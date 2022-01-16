@@ -83,7 +83,25 @@ function loginPage(props) {
         }
 
         else{
-          alert("Password changed successfully");
+          // alert("Password changed successfully");
+          confirmAlert({
+            customUI: ({ onClose }) => {
+              return (
+                <div className='customconfirmAlert'>
+                  <h1>Success!</h1>
+                  <h5>Password changed successfully.</h5>
+                  <button
+                  className="yesButton"
+                    onClick={() => {
+                      onClose();
+                    }}
+                  >
+                    OK
+                  </button>
+                </div>
+              );
+            }
+          });
                   window.location = "/login-page";
           }
       }

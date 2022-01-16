@@ -72,7 +72,7 @@ function reviewPage(props) {
       else{
         if(res.data)
         {
-          alert("Thank u! your review has been saved successfully.");
+          // alert("Thank u! your review has been saved successfully.");
           window.location = `/movieInfoPage/${id}`;
         }
       }

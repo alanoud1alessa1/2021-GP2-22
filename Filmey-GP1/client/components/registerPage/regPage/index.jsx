@@ -193,7 +193,7 @@ const checkEmail= (value) => {
             console.log("inside res data");
            const cookies = new Cookies();
             cookies.set('token', res.data, { path: '/' });
-            alert("Welcome "+username+"! you have successfully registerd.");
+            // alert("Welcome "+username+"! you have successfully registerd.");
            window.location = '/home-page';}
           }
       })

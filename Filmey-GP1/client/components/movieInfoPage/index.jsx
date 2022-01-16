@@ -12,6 +12,8 @@ import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 import { FiEdit  } from 'react-icons/fi' ;
 import { RiDeleteBin2Line } from 'react-icons/ri';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 
 function MovieInfoPage(props) {
@@ -24,7 +26,7 @@ function MovieInfoPage(props) {
     ],
     transitionStyle: "fade",
     items:3,
-    
+
   }
   const runCallback = (cb) => {
     return cb();
@@ -118,7 +120,7 @@ function MovieInfoPage(props) {
   var totalUsers;
 
 
-  
+
 
   let { id } = useParams();
   id = parseInt(id);
@@ -128,11 +130,52 @@ function MovieInfoPage(props) {
 
   const addReview = () => {
     if (!registered) {
-      alert("Sorry! you have to login.");
+      // alert("Sorry! you have to login.");
+      confirmAlert({
+        customUI: ({ onClose }) => {
+          return (
+            <div className='customconfirmAlert'>
+              <h1>Sorry!</h1>
+              <h5>You have to login</h5>
+              <button
+              className="yesButton"
+                onClick={() => {
+                  onClose();
+                }}
+              >
+                OK
+              </button>
+            </div>
+          );
+        }
+      });
       return;
     }
     window.location.href = `/reviewPage/${id}`;
   };
+
+  const  confirmDeleteReview = () => {
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <div className='customconfirmAlert'>
+            <h1>Are you sure</h1>
+            <h5>You want to delete this review?</h5>
+            <button  className="noButton" onClick={onClose}>No</button>
+            <button
+            className="yesButton"
+              onClick={() => {
+                //deleteReview();
+                onClose();
+              }}
+            >
+              Yes, Delete it!
+            </button>
+          </div>
+        );
+      }
+    });
+    };
 
   //Rating function
   //var userRating;
@@ -161,27 +204,65 @@ function MovieInfoPage(props) {
 
   const deleteMovie=()=>{
 
-    if (window.confirm("Are you sure you want to delete the movie ?")) {
       const res = Axios.post("http://localhost:3000/api/v1/movies/delete", {
         movie_id: id,
       }).then((res) => {
         if(res.data){
-          alert("Movie has been deleted successfully");
+          // alert("Movie has been deleted successfully");
           window.location = '/home-page';
         }
         else{
           alert("Sorry, an error occured. Please try again");
         }
-        
+
       });
 
-    }
+  }
 
+  const confirmDeleteMovie=()=>{
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <div className='customconfirmAlert'>
+            <h1>Are you sure</h1>
+            <h5>You want to delete this movie?</h5>
+            <button  className="noButton" onClick={onClose}>No</button>
+            <button
+            className="yesButton"
+              onClick={() => {
+                deleteMovie();
+                onClose();
+              }}
+            >
+              Yes, Delete it!
+            </button>
+          </div>
+        );
+      }
+    });
   }
 
   const addRating = (value) => {
     if (!registered) {
-      alert("Sorry! you have to login.");
+      // alert("Sorry! you have to login.");
+      confirmAlert({
+        customUI: ({ onClose }) => {
+          return (
+            <div className='customconfirmAlert'>
+              <h1>Sorry!</h1>
+              <h5>You have to login</h5>
+              <button
+              className="yesButton"
+                onClick={() => {
+                  onClose();
+                }}
+              >
+                OK
+              </button>
+            </div>
+          );
+        }
+      });
       return;
     }
     //console.log(value);
@@ -200,8 +281,26 @@ function MovieInfoPage(props) {
       //rating=value;
       console.log(res.data);
     });
-    alert("Thank u! your rating has been saved successfully.");
-    updateMovieRating();
+    // alert("Thank u! ");
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <div className='customconfirmAlert'>
+            <h1>Thank u!</h1>
+            <h5>Your rating has been saved successfully.</h5>
+            <button
+            className="yesButton"
+              onClick={() => {
+                updateMovieRating();
+                onClose();
+              }}
+            >
+              OK
+            </button>
+          </div>
+        );
+      }
+    });
   };
 
   // React.useEffect(() => { setuserRating(rating) }, [])
@@ -220,11 +319,30 @@ function MovieInfoPage(props) {
         sethaveRated(false);
       }
     });
-    alert("Your rating has been deleted successfully.");
-    updateMovieRating();
+    // alert("Your rating has been deleted successfully.");
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <div className='customconfirmAlert'>
+            <h1>Success!</h1>
+            <h5>Your rating has been deleted successfully.</h5>
+            <button
+            className="yesButton"
+              onClick={() => {
+                updateMovieRating();
+                onClose();
+              }}
+            >
+              OK
+            </button>
+          </div>
+        );
+      }
+    });
   };
 
   React.useEffect(() => {
+    window.scrollTo(0, 0)
     if (registered && !isAdmin) {
       const res = Axios.post("http://localhost:3000/api/v1/users/getRating", {
         userID: decoded.userID,
@@ -484,9 +602,9 @@ function MovieInfoPage(props) {
                     </Link>
 
                   </button>
-                
+
                   {/* delete movie */}
-                  <button className="deleteMovieButton" onClick={deleteMovie}>
+                  <button className="deleteMovieButton" onClick={confirmDeleteMovie}>
                   {/* <Link to="/home-page"> */}
                     <div className="editMovieContainer">
                       <div className="deleteMovieIcon"> <RiDeleteBin2Line size={35}/> </div>
@@ -668,6 +786,10 @@ function MovieInfoPage(props) {
                                       />{" "}
                                     </div>
                                     <div> {userReviews[i]} </div>
+
+                                    {isAdmin&&
+                                    <button className="deleteReviewIcon" onClick={confirmDeleteReview}> <RiDeleteBin2Line size={35}/>  </button>
+                                    }
                                   </div>
                                   <div className="userReview roboto-normal-white-20px">
                                     {reviews[i]}
