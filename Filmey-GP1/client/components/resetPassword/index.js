@@ -26,10 +26,24 @@ function loginPage(props) {
   const [email, setEmail] = useState("");
   const [userPassword, setuserPassword] = useState("");
   const [password_error_message, setPassword_Error_message] = useState("");
+  const [incorrectpassword_error_message,setIncorrectpassword_Error_message]=useState('');
 
   const isEnabled = userPassword.length > 0;
 
   var passwordMessage = "";
+
+  
+  //incorrect password
+  const checkPassword = (value) => {
+    if( value.length<8 ){
+      setIncorrectpassword_Error_message('Password length should be at least 8 characters');
+      }
+
+     else {
+      setIncorrectpassword_Error_message('');
+  }
+
+}
 
   // const { userId } = useParams();
 
@@ -113,11 +127,14 @@ function loginPage(props) {
                     required
                     onChange={(e) => {
                       setuserPassword(e.target.value);
+                      checkPassword(e.target.value); 
+
                     }}
                     minlength="8"
                   />
                   <div className="loginErrorMessage nunito-semi-bold-white-28px">
-                    {password_error_message}
+                    {password_error_message} 
+                    {incorrectpassword_error_message}
                   </div>
                 </div>
 

@@ -259,9 +259,9 @@ else {
 //charecters are not allowed
 const char="";
 const preventChar = (value) => {
-    if(value.match(/['!"#$%&\\'()\*+,\-\.\/:;<=>?@\[\\\]\^_`{|}~']/g,"")){
-      setcharactersErrorMessage('Sorry, punctuations are not allowed');
-      }
+  if(value.charAt(0).match(/['!"#$%&\\'()\*+,\-\.\/:;<=>?@\[\\\]\^_`{|}~']/g,"")){
+    setcharactersErrorMessage('Movie title is not valid');}
+
 
      else {
       setcharactersErrorMessage("");
@@ -492,11 +492,16 @@ const setActorImage = (index, value) => {
     if(res.data.checkActorImage)
     {
       console.log(res.data.checkActorImage);
+      // var x= res.data.checkActorImage;
+      // console.log(x[0]);
+      // console.log(x[1]);
       setMovieActorImage_error_message(res.data.checkActorImage);
     }
     else{
       setMovieActorImage_error_message('');
     }
+
+    console.log(res.data.movieID);
 
 
     if(res.data.movieID)

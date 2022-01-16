@@ -24,8 +24,7 @@ function loginPage(props) {
   } = props;
 
   // const [userId, setUserId] = useState();
-  // var token = "";
-  const [token, setToken] = useState("");
+   var token = "";
   const [email, setEmail] = useState("");
   const [EmailNotExist_Error_message, setEmailNotExist_Error_message] =
     useState("");
@@ -48,7 +47,7 @@ function loginPage(props) {
           return;
         } else {
           setEmailNotExist_Error_message("");
-          setToken(res.data);
+          token=res.data;
           sendEmail();
           setShowResendEmail(true);
         }

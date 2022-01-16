@@ -237,8 +237,8 @@ router.post("/userExist", async (req, res, next) => {
 router.post("/resetPassword", async (req, res, next) => {
 
 const { token  , newPassword} = req.body;
-// const user_id = jwt.decode(token.userID);
-const user_id = 4;
+const user_id = jwt.decode(token).userID;
+//const user_id = 4;
 
 
 var passwordMessage = "";

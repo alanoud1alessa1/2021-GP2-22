@@ -27,7 +27,7 @@ function App() {
         <Route path="/forgetPassword">
           <ForgetPassword {...forgetPassword} />
         </Route>  
-        <Route path="/resetPassword/:userId">
+        <Route path="/resetPassword/:token">
           <ResetPassword {...resetPassword} />
         </Route>
         <Route path="/:path(|home-page)">
