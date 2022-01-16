@@ -16,7 +16,7 @@ module.exports = {
     async login(username, password) {
       // find username
   
-      let user = await db(tableNames.admin)
+      let admin = await db(tableNames.admin)
         .where({
           username: username,
         })
@@ -25,7 +25,7 @@ module.exports = {
           // return console.log(user);
           var message="";
   
-          if (!user)
+          if (!admin)
           {
              message = { 'emailOrUsernameMessage' : "Sorry, email / username does not exists."};
       
@@ -33,7 +33,7 @@ module.exports = {
           }
       
           // // compare pass
-          isAuth = await bcrypt.compare(password, user.password);
+          isAuth = await bcrypt.compare(password, admin.password);
           // console.log(isAuth);
           if (!isAuth)
           {
@@ -43,7 +43,29 @@ module.exports = {
             return message;
       
           } 
-          return "";
+          return { 'adminID' : admin.admin_id};;
+      
+    },
+
+    async deleteReview(review_id) {
+      let deleteMovie=await db(tableNames.review)
+            .where({
+              review_id:review_id,
+            })
+            .update({
+              is_deleted: true,
+            })
+            .returning("*");
+        return deleteMovie;
+    },
+
+    async AdminDeleteReview(review_id,admin_id) {
+      let AdminDeleteReview = await db("Admin_Delete_Review")
+        .insert({
+          review_id: review_id,
+          admin_id:admin_id,
+        }).returning("*");
+        return AdminDeleteReview;
       
     },
 };

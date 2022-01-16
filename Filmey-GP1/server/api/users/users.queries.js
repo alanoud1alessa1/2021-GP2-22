@@ -378,28 +378,68 @@ module.exports = {
   },
 
   async review(userID, movieID, review) {
-    let user = await db(tableNames.review)
-      .where({
-        movie_id: movieID,
-        user_id: userID,
-        review: utf8.decode(review),
-      })
-      .first()
-      .returning("*");
-    if (user) {
-      const message = {
-        reviewErrorMessage: "Sorry, this review has already been added. ",
-      };
-      return message;
-    }
-    //console.log("in deletetUserRating");
+
+    // new version
+
+    let review_id = await db
+      .select("review_id")
+      .from(tableNames.review)
+      .orderBy("review_id", "desc")
+      .returning("*")
+      .pluck("review_id");
+      review_id = review_id[0] + 1;
+      if(!review_id)
+      {
+        review_id=1;
+
+      }
+      console.log(review_id);
+
     let result = await db(tableNames.review)
       .insert({
+        review_id:review_id,
         movie_id: movieID,
         user_id: userID,
         review: utf8.decode(review),
-        //review:review,
       })
+      .returning("*");
+    console.log(result);
+    if (result) {
+      return result;
+    }
+    return;
+  },
+
+  async ifReview(id, userID) {
+    console.log(id, userID);
+    let result = await db(tableNames.review)
+    .where({
+      movie_id: id,
+      user_id: userID,
+    })
+    .returning("*");
+    if (result) {
+      console.log(result);
+      return result;
+    }
+    return;
+  },
+
+  async getUserReview(id,userID) {
+    let result = await db(tableNames.review)
+      .where({ movie_id: id, user_id: userID })
+      .returning("*")
+      .pluck("review");
+    console.log(result[0]);
+    return result;
+  },
+
+  async editReview(userID, movieID, review) {
+    let result = await db(tableNames.review)
+      .update({
+        review: utf8.decode(review),
+      })
+      .where({"movie_id":movieID,"user_id":userID})
       .returning("*");
     if (result) {
       return result;

@@ -39,12 +39,17 @@ function reviewPage(props) {
     // console.log("guest user");
   }
   
-  let {id} = useParams();
-  id = parseInt(id);
 
   const[review,setReview]=useState("");
   var reviewVar=""
   const isEnabled = review.length > 0;
+  
+
+  let { id,isEdit } = useParams();
+  id = parseInt(id);
+  isEdit = parseInt(isEdit);
+
+  console.log(id,isEdit);
 
   const Review=()=>
   {
@@ -59,6 +64,9 @@ function reviewPage(props) {
     {
       reviewVar=utf8.encode(review)
     }
+
+    if(isEdit==0)
+    {
     
     const res =  Axios.post("http://localhost:3000/api/v1/users/Review",{
       userID :decoded.userID,
@@ -72,13 +80,50 @@ function reviewPage(props) {
       else{
         if(res.data)
         {
-          // alert("Thank u! your review has been saved successfully.");
+          //alert("Thank u! your review has been saved successfully.");
           window.location = `/movieInfoPage/${id}`;
         }
       }
 
    })
   }
+  if(isEdit==1)
+    {
+      console.log("in 1");
+    const res =  Axios.post("http://localhost:3000/api/v1/users/editReview",{
+      userID :decoded.userID,
+      movieID:id,
+      review: reviewVar
+    }).then((res)=>{
+        if(res.data)
+        {
+          //alert("Thank u! your review has been saved successfully.");
+          window.location = `/movieInfoPage/${id}`;
+        }
+   })
+  }
+
+}
+
+const[userReview,setUserReview]=useState("");
+
+  React.useEffect(() => {
+  
+  var userID=decoded.userID;
+
+ 
+
+  if(isEdit==1)
+  {
+    Axios.get(`http://localhost:3000/api/v1/users/getUserReview/${id}/${userID}`).then((response) => {
+      console.log(response.data[0]);
+      setUserReview(response.data[0]);
+
+    })
+  }
+
+  })
+
 
 
   return (
@@ -96,7 +141,7 @@ function reviewPage(props) {
             <div className="reviewBody"></div>
             <div>
                 <div className="reviewBox"></div>
-                <textarea id="1" className="writeReview" name="writeReview" placeholder={inputPlaceholder} rows="5" cols="73" maxlength="255" autofocus="true" onChange={
+                <textarea defaultValue={userReview} id="1" className="writeReview" name="writeReview" placeholder={inputPlaceholder} rows="5" cols="73" maxlength="255" autofocus="true" onChange={
                           (e)=>{
                             setReview(e.target.value); 
                           }

@@ -8,6 +8,8 @@ import { useParams } from "react-router-dom";
 import Axios from "axios";
 import { ActionMeta, OnChangeValue } from 'react-select';
 import validator from 'validator';
+import Cookies from "universal-cookie";
+import jwt_decode from "jwt-decode";
 
 
 
@@ -51,6 +53,23 @@ function addMoviePage(props) {
   const [actor4ImageURLErrorMessage, setActor4ImageURLErrorMessage] = useState('')
   const [actor5ImageURLErrorMessage, setActor5ImageURLErrorMessage] = useState('')
   const [charactersErrorMessage, setcharactersErrorMessage] = useState('')
+
+  const [getTitle, setGetTitle] = useState('');
+  const [getTrailer, setGetTrailer] = useState('');
+  const [getPoster, setGetPoster] = useState('');
+  const [getDescription, setGetDescription] = useState('');
+  const [getYear, setGetYear] = useState();
+  const [yearIndex, setYearIndex] = useState();
+  const [getAgeGuide, setGetAgeGuide] = useState();
+  const[getGenres,setGetGenres]= useState([]);
+  const[getLanguages,setGetLanguages]= useState([]);
+  const[getMinutes,setGetMinutes]= useState();
+  const[getHours,setGetHours]= useState();
+  const[getDirectors,setGetDirectors]= useState([]);
+  const[getWriters,setGetWriters]= useState([]);
+  const[getActorNames,setGetActorNames]= useState([]);
+  const[getActorRoles,setGetActorRoles]= useState([]);
+  const[getActorImages,setGetActorImages]= useState([]);
 
 
 // button disabled
@@ -398,6 +417,12 @@ const setActorImage = (index, value) => {
   console.log(actorImageArrayState)
 };
 
+const cookies = new Cookies();
+const token = cookies.get("token");
+var decoded = jwt_decode(token);
+var adminID=decoded.userID;
+console.log(adminID);
+
 
   const addMovie=()=>{
     console.log(length);
@@ -420,6 +445,7 @@ const setActorImage = (index, value) => {
 
    
   const addMovieRes =  Axios.post("http://localhost:3000/api/v1/movies/addMovie",{
+    adminID:adminID,
     title:titleState,
     genres:genreState,
     languages:languageState,
@@ -540,17 +566,361 @@ const setActorImage = (index, value) => {
         minutesArray[i] = {value:i, label: minute++};
     }
 
-    const editMovie=()=>
+  //   const editMovie=()=>
+  //   {
+  //     if(id>0)
+  //   {
+  //     const s =Axios.get(`http://localhost:3000/api/v1/movies/getMovieFormData/${id}`).then((response) => {
+  //     console.log(response.data);
+  //   });
+  // }
+  //   }
+
+  var titleEdited;
+  var genreEdited;
+  var languageEdited;
+  var yearEdited;
+  var lengthEdited;
+  var ageGuideEdited;
+  var trailerEdited;
+  var posterEdited;
+  var descriptionEdited;
+  var directorsEdited=[];
+  var writersEdited=[];
+  var actorNamesEdited;
+  var actorRolesEdited;
+  var actorImagesEdited;
+
+  const editMovie=()=>{
+    // console.log(length);
+    // console.log("length");
+
+    if(titleState)
     {
-      if(id>0)
+      titleEdited=titleState;
+    }
+    else
     {
-      const s =Axios.get(`http://localhost:3000/api/v1/movies/getMovieFormData/${id}`).then((response) => {
-      console.log(response.data);
-    });
-  }
+      titleEdited=getTitle;
     }
 
+    if(genreState)
+    {
+      console.log(getGenresArray);
+      genreEdited=genreState;
+    }
+    else
+    {
+      console.log(getGenresArray);
+      genreEdited=getGenresArray;
+    }
+
+    if(languageState)
+    {
+      languageEdited=languageState;
+    }
+    else
+    {
+      languageEdited=getLanguages;
+    }
+
+    if(yearState)
+    {
+      yearEdited=yearState;
+    }
+    else
+    {
+      yearEdited=getYear;
+    }
+
+    if(hoursState&&minutesState)
+    {
+      console.log(length);
+      lengthEdited=length;
+    }
+    else
+    {
+      console.log(getHours,getMinutes);
+      lengthEdited=getHours + 'h ' + getMinutes+'min';
+    }
+
+    if(ageGuideSate)
+    {
+      ageGuideEdited=ageGuideSate;
+    }
+    else
+    {
+      ageGuideEdited=getAgeGuide;
+    }
+
+    if(trailerState)
+    {
+      trailerEdited=trailerState;
+    }
+    else
+    {
+      trailerEdited=getTrailer;
+    }
+
+    if(posterSate)
+    {
+      posterEdited=posterSate;
+    }
+    else
+    {
+      posterEdited=getPoster;
+    }
+
+    if(descriptionState)
+    {
+      descriptionEdited=descriptionState;
+    }
+    else
+    {
+      descriptionEdited=getDescription;
+    }
+
+    if(directorState)
+    {
+      directorsEdited=directorState;
+    }
+    else
+    {
+      directorsEdited=getDirectors;
+    }
+
+    if(writerState)
+    {
+      writersEdited=writerState;
+    }
+    else
+    {
+      writersEdited=getWriters;
+    }
+
+    if(actorNameArray.length)
+    {
+      actorNamesEdited=actorNameArray;
+    }
+    else
+    {
+      actorNamesEdited=getActorNames;
+    }
+
+    if(actorRoleArray.length)
+    {
+      actorRolesEdited=actorRoleArray;
+    }
+    else
+    {
+      actorRolesEdited=getActorRoles;
+    }
+
+    if(actorImageArray.length)
+    {
+      actorImagesEdited=actorImageArray;
+    }
+    else
+    {
+      actorImagesEdited=getActorImages;
+    }
+
+    console.log
+    ( titleEdited, genreEdited, languageEdited, yearEdited, lengthEdited, ageGuideEdited, trailerEdited, 
+      posterEdited, descriptionEdited, directorsEdited, writersEdited, actorNamesEdited,actorRolesEdited, 
+      actorImagesEdited,
+    );
+
+   
+  const editMovieRes =  Axios.post("http://localhost:3000/api/v1/movies/editMovie",{
+    adminID:adminID,
+    movie_id:id,
+    title:titleEdited,
+    genres:genreEdited,
+    languages:languageEdited,
+    year:yearEdited,
+    length:lengthEdited,
+    age_guide:ageGuideEdited,
+    trailer_url:trailerEdited,
+    poster:posterEdited,
+    description:descriptionEdited,
+    directors:directorsEdited,
+    writers:writersEdited,
+    actorNames:actorNamesEdited,
+    actorRoles:actorRolesEdited,
+    actorImages:actorImagesEdited,
+  }
+  ).then((res)=>{
+    console.log(res)
+  })
+  // .then((res)=>{
+  //   if(res.data.CheckMovieMessage)
+  //   {
+  //     console.log(res.data.CheckMovieMessage);
+  //     setMovieName_error_message(res.data.CheckMovieMessage);
+  //   }
+  //   else{
+  //     setMovieName_error_message('');
+  //   }
+  //   if(res.data.PosterMessage)
+  //   {
+  //     console.log(res.data.PosterMessage);
+  //     setMoviePoster_error_message(res.data.PosterMessage);
+  //   }
+  //   else{
+  //     setMoviePoster_error_message('');
+  //   }
+  //   if(res.data.DescriptionMessage)
+  //   {
+  //     console.log(res.data.DescriptionMessage);
+  //     setMovieDes_error_message(res.data.DescriptionMessage)
+  //   }
+  //   else{
+  //     setMovieDes_error_message('')
+  //   }
+  //   if(res.data.TrailerMessage)
+  //   {
+  //     console.log(res.data.TrailerMessage);
+  //     setMovieTrailer_error_message(res.data.TrailerMessage);
+  //   }
+  //   else{
+  //     setMovieTrailer_error_message('');
+  //   }
+
+  //   if(res.data.checkActorImage)
+  //   {
+  //     console.log(res.data.checkActorImage);
+  //     setMovieActorImage_error_message(res.data.checkActorImage);
+  //   }
+  //   else{
+  //     setMovieActorImage_error_message('');
+  //   }
+
+  //   console.log(res.data.movieID);
+
+
+  //   if(res.data.movieID)
+  //   {
+  //     alert("Movie added successfully");
+  //     var newMovieID =res.data.movieID;
+  //     window.location = `/movieInfoPage/${newMovieID}`;
+  //   }
+  // })
+
+  }
+
+   var getGenresArray=[...getGenres];
+   var getLanguagesArray=[...getLanguages];
+   var getDirectorsArray=[...getDescription];
+   var getWritersArray=[...getWriters];
+   var getActorNamesArray=[...getActorNames];
+   var getActorRolesArray=[...getActorRoles];
+   var getActorImagesArray=[...getActorImages];
+
+
   React.useEffect(() => {
+
+    if(id>0)
+    {
+      const b = Axios.get(`http://localhost:3000/api/v1/movies/getMovieFormData/${id}`).then((response) => {
+      //console.log(response.data);
+      console.log("response.data[0].movieInfo");
+      console.log(response.data);
+      console.log(response.data.movieInfo[0]);
+      console.log(response.data.movieInfo[0].title);
+
+      setGetTitle(response.data.movieInfo[0].title);
+      setGetTrailer(response.data.movieInfo[0].trailer_url);
+      setGetPoster(response.data.movieInfo[0].poster);
+      setGetDescription(response.data.movieInfo[0].description);
+
+      console.log(response.data.movieInfo[0].length);
+      var movieLength=response.data.movieInfo[0].length;
+      setGetHours(movieLength.substring(0, movieLength.indexOf("h")));
+      setGetMinutes(movieLength.substring(movieLength.indexOf(" ")+1, movieLength.indexOf("min")));
+      // console.log("min");
+      // console.log(movieLength.substring(movieLength.indexOf(" ")+1, movieLength.indexOf("min")));
+
+      // console.log(y.substring(0, y.indexOf("h")));
+      // console.log(y.substring(y.indexOf(" ")+1), y.indexOf("min"));
+
+
+
+    
+      
+       setGetYear(response.data.movieInfo[0].year);
+       //console.log(yearsArray[0].label);
+       for (let i = 0; i < yearsArray.length; i++){
+         if(response.data.movieInfo[0].year==yearsArray[i].value)
+         {
+          setYearIndex(i);
+         // console.log("nnn");
+         //varindex=i;
+          //console.log(index);
+          break;
+         }
+       }
+
+       setGetAgeGuide(response.data.movieInfo[0].age_guide)
+     // console.log(response.data.arrayofGenres);
+      //genresArray=response.data.arrayofGenres;
+      //console.log(genresArray);
+      for (var i = 0; i < response.data.arrayofGenres.length; i++) {
+
+        getGenresArray[i] = {value:i, label: response.data.arrayofGenres[i]};
+        console.log(getGenresArray);
+      }
+      setGetGenres(getGenresArray);
+
+      for (var i = 0; i < response.data.arrayofLanguages.length; i++) {
+
+        getLanguagesArray[i] = {value:i, label: response.data.arrayofLanguages[i]};
+       // console.log(getLanguagesArray);
+      }
+      setGetLanguages(getLanguagesArray);
+
+      for (var i = 0; i < response.data.arrayofDirectors.length; i++) {
+
+        getDirectorsArray[i] = {value:i, label: response.data.arrayofDirectors[i]};
+        //console.log(getDirectorsArray);
+      }
+      setGetDirectors(getDirectorsArray);
+
+      for (var i = 0; i < response.data.arrayofWriters.length; i++) {
+
+        getWritersArray[i] = {value:i, label: response.data.arrayofWriters[i]};
+       // console.log(getWritersArray);
+      }
+      setGetWriters(getWritersArray);
+      // console.log(response.data.actorInfoArray);
+      // console.log(response.data.actorInfoArray.length);
+
+      for (var i = 0; i < response.data.actorInfoArray.length; i++) {
+
+        getActorNamesArray[i] = {value:i, label: response.data.actorInfoArray[i][0].actorName};
+        getActorRolesArray[i] = {value:i, label: response.data.actorInfoArray[i][0].movieRole};
+        getActorImagesArray[i] = {value:i, label: response.data.actorInfoArray[i][0].actorImage};
+
+        // console.log(getActorNamesArray);
+        // console.log(getActorRolesArray);
+        // console.log(getActorImagesArray);
+      }
+      setGetActorNames(getActorNamesArray);
+      setGetActorRoles(getActorRolesArray);
+      setGetActorImages(getActorImagesArray);
+      //  y=response.data.movieInfo[0].year;
+      // console.log(getYear);
+      // console.log(y);
+      // setGetAgeGuide(response.data.movieInfo[0].age_guide);
+      // movieAgeGuide=response.data.movieInfo[0].age_guide;
+
+      // console.log(getAgeGuide);
+      // console.log(response.data.movieInfo[0].age_guide);
+      // var x=response.data.movieInfo[0].age_guide;
+      // console.log(x);
+
+    });
+  }
   
       
 
@@ -679,6 +1049,7 @@ const setActorImage = (index, value) => {
           {/* Title */}
           <div className="addMovietitle neuton-bold-white-30px7">{title}</div>
             <input
+              defaultValue={getTitle}
               className="addMovietitle-placholder"
               name="titleplacholder"
               placeholder="Enter movie name"
@@ -696,6 +1067,7 @@ const setActorImage = (index, value) => {
           {/* Genre */}
           <div className="addMovieflex-col-item neuton-bold-white-30px7">{genre}</div>
           <Select 
+                 defaultValue={getGenresArray}
                  isMulti 
                  options={allGenres}
                  onChange={setGenreFunction}
@@ -741,7 +1113,9 @@ const setActorImage = (index, value) => {
                 </Select>
           {/* lanaguage */}
           <div className="addMovielanaguage neuton-bold-white-30px7">{lanaguage}</div>
-          <Select isMulti //options={genres} 
+          <Select 
+                defaultValue={getLanguagesArray}
+                isMulti //options={genres} 
                 // options={allGenres}
                 //  onChange={getGenres}
                 //options={allLanguages}
@@ -835,6 +1209,7 @@ const setActorImage = (index, value) => {
           <div className="addMovietrailer neuton-bold-white-30px7">{trailer}</div>
           <div className="addMovietrailer-container border-1px-black">
           <input
+              defaultValue={getTrailer}
               className="trailerInput"
               name="titleplacholder"
               placeholder="Enter URL of movie trailer"
@@ -855,6 +1230,7 @@ const setActorImage = (index, value) => {
           <div className="addMovieposter neuton-bold-white-30px7">{poster}</div>
           <div className="addMovieposter-container border-1px-black">
              <input
+              defaultValue={getPoster}
               className="trailerInput"
               name="titleplacholder"
               placeholder="Enter URL of movie poster"
@@ -874,6 +1250,7 @@ const setActorImage = (index, value) => {
           <div className="addMoviedescription neuton-bold-white-30px7">{description}</div>
           <div className="addMovieoverlap-group3"> 
             <textarea
+              defaultValue={getDescription}
               className="addMoviedescription-placholder"
               name="descriptionplacholder"
               placeholder={inputPlaceholder2}
@@ -942,6 +1319,7 @@ const setActorImage = (index, value) => {
           {/* Director */}
           <div className="addMovieflex-col-item neuton-bold-white-30px7">{directoradd}</div>
           <CreatableSelect
+          defaultValue={getDirectorsArray}
           isSearchable
           isMulti
           formatCreateLabel={(inputText) => `${inputText}`}
@@ -989,6 +1367,7 @@ const setActorImage = (index, value) => {
           {/* Writer */}
           <div className="addMoviewriter neuton-bold-white-30px7">{writer}</div>
           <CreatableSelect
+          defaultValue={getWritersArray}
           isSearchable
           formatCreateLabel={(inputText) => `${inputText}`}
           onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
@@ -1055,6 +1434,7 @@ const setActorImage = (index, value) => {
 
                   {/* actor name */}
                  <CreatableSelect
+                    defaultValue={getActorNamesArray[0]}
                     isSearchable
                     isClearable
                     className="addMovieactor"
@@ -1177,6 +1557,7 @@ const setActorImage = (index, value) => {
                   {/* actor name */}
                   <div  className="addMovieactor"> 
                  <CreatableSelect
+                    defaultValue={getActorNamesArray[1]}
                     isSearchable
                     isClearable
                     // className="addMovieactor"
@@ -1296,6 +1677,7 @@ const setActorImage = (index, value) => {
                  <CreatableSelect
                     isSearchable
                     isClearable
+                    defaultValue={getActorNamesArray[2]}
                     // className="addMovieactor"
                     formatCreateLabel={(inputText) => `${inputText}`}
                     isDisabled={!isFilled[1]}
@@ -1411,6 +1793,7 @@ const setActorImage = (index, value) => {
                   {/* actor name */}
                   <div className="addMovieactor">
                  <CreatableSelect
+                   defaultValue={getActorNamesArray[3]}
                     isSearchable
                     isClearable
                     // className="addMovieactor"
@@ -1526,6 +1909,7 @@ const setActorImage = (index, value) => {
                   {/* actor name */}
                   <div className="addMovieactor">  
                  <CreatableSelect
+                   defaultValue={getActorNamesArray[4]}
                     isSearchable
                     isClearable
                     // className="addMovieactor"

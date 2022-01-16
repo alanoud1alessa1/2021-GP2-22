@@ -195,15 +195,35 @@ router.post("/deleteRating", async (req, res, next) => {
 });
 
 router.post("/Review", async (req, res, next) => {
-  // const cookies = new Cookies();
-  // const token=cookies.get('token');
-  // var decoded = jwt_decode(token);
-  // console.log(decoded.userID);
   console.log("in review");
   const { userID, movieID, review } = req.body;
   console.log(req.body);
-  //console.log(req.cookies.token);
   const result = await queries.review(userID, movieID, review);
+  return res.json(result);
+});
+
+//Check if user has reviewed movie
+router.get("/ifReview/:id/:userID", async (req, res, next) => {
+  console.log("in ifReview");
+  const { id, userID} = req.params;
+  console.log(req.params);
+  const result = await queries.ifReview(id, userID);
+  return res.json(result);
+});
+
+router.get("/getUserReview/:id/:userID", async (req, res, next) => {
+  console.log("in");
+  const { id,userID } = req.params;
+  console.log(id,userID);
+  const userReview = await queries.getUserReview(id,userID);
+  return res.json(userReview);
+});
+
+router.post("/editReview", async (req, res, next) => {
+  console.log("in edit review");
+  const { userID, movieID, review } = req.body;
+  console.log(req.body);
+  const result = await queries.editReview(userID, movieID, review);
   return res.json(result);
 });
 

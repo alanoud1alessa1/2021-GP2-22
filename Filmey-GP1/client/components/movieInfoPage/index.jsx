@@ -112,6 +112,7 @@ function MovieInfoPage(props) {
   const [numOfCasts, setNumOfCasts] = useState(0);
 
   const [reviews, setReviews] = useState([]);
+  const [reviewsID, setReviewsID] = useState([]);
   const [userReviews, setUserReviews] = useState([]);
   const [EReviews, setEReviews] = useState([]);
 
@@ -125,10 +126,14 @@ function MovieInfoPage(props) {
   let { id } = useParams();
   id = parseInt(id);
 
+  var isEdit;
+  const [hasReviewed, setHasReviewed] = useState();
+
 
 
 
   const addReview = () => {
+    isEdit=0;
     if (!registered) {
       // alert("Sorry! you have to login.");
       confirmAlert({
@@ -151,10 +156,39 @@ function MovieInfoPage(props) {
       });
       return;
     }
-    window.location.href = `/reviewPage/${id}`;
+    window.location.href = `/reviewPage/${id}/${isEdit}`;
   };
 
-  const  confirmDeleteReview = () => {
+  const editReview = () => {
+    isEdit=1;
+    window.location.href = `/reviewPage/${id}/${isEdit}`;
+  };
+
+  // const  confirmDeleteReview = (review_id) => {
+  //   confirmAlert({
+  //     customUI: ({ onClose }) => {
+  //       return (
+  //         <div className='customconfirmAlert'>
+  //           <h1>Are you sure</h1>
+  //           <h5>You want to delete this review?</h5>
+  //           <button  className="noButton" onClick={onClose}>No</button>
+  //           <button
+  //           className="yesButton"
+  //             onClick={() => {
+  //              //deleteReview(review_id);
+  //               //deleteReview();
+  //               onClose();
+  //             }}
+  //           >
+  //             Yes, Delete it!
+  //           </button>
+  //         </div>
+  //       );
+  //     }
+  //   });
+  //   };
+  const  confirmDeleteReview = (review_id) => {
+    console.log(review_id);
     confirmAlert({
       customUI: ({ onClose }) => {
         return (
@@ -165,7 +199,7 @@ function MovieInfoPage(props) {
             <button
             className="yesButton"
               onClick={() => {
-                //deleteReview();
+                deleteReview(review_id);
                 onClose();
               }}
             >
@@ -206,15 +240,15 @@ function MovieInfoPage(props) {
 
       const res = Axios.post("http://localhost:3000/api/v1/movies/delete", {
         movie_id: id,
+        admin_id:decoded.userID,
       }).then((res) => {
         if(res.data){
-          // alert("Movie has been deleted successfully");
           window.location = '/home-page';
         }
         else{
           alert("Sorry, an error occured. Please try again");
         }
-
+        
       });
 
   }
@@ -341,7 +375,46 @@ function MovieInfoPage(props) {
     });
   };
 
+  const deleteReview=(review_id)=>{
+    console.log(review_id);
+
+    // if (window.confirm("Are you sure you want to delete this review ?")) {
+       const res = Axios.post("http://localhost:3000/api/v1/admins/deleteReview", {
+         admin_id:decoded.userID,
+         review_id:review_id,
+       }).then((res) => {
+         if(res.data){
+          // alert("Review has been deleted successfully");
+           window.location = '/home-page';
+         }
+         else{
+         //  alert("Sorry, an error occured. Please try again");
+         }
+         
+       });
+ 
+   }
+   
+
   React.useEffect(() => {
+
+
+    //Check if user has reviewed movie
+    if (registered && !isAdmin) {
+    
+
+      var userID=decoded.userID;
+      api.get(`users/ifReview/${id}/${userID}`).then((response) => {
+        if(response.data[0])
+        {
+          setHasReviewed(true);
+        }
+        else
+        {
+          setHasReviewed(false);
+        }
+      })}
+
     window.scrollTo(0, 0)
     if (registered && !isAdmin) {
       const res = Axios.post("http://localhost:3000/api/v1/users/getRating", {
@@ -474,16 +547,19 @@ function MovieInfoPage(props) {
     api.get(`/movies/review/${id}`).then((response) => {
       const numOfReviews = response.data.length;
       const reviewsArray = [...reviews];
+      const reviewsIDArray = [...reviewsID];
       const usersArray = [...userReviews];
 
       console.log(response);
 
       for (var i = 0; i < numOfReviews; i++) {
-        reviewsArray[i] = response.data[i].review;
-        usersArray[i] = response.data[i].username;
+         reviewsArray[i] = response.data[i];
+         reviewsIDArray[i] = response.data[i].review_id;
+         usersArray[i] = response.data[i].username;
       }
 
       setReviews(reviewsArray);
+      setReviewsID(reviewsIDArray);
       setUserReviews(usersArray);
       setEReviews(usersArray);
     });
@@ -745,20 +821,33 @@ function MovieInfoPage(props) {
                   return row;
                 })}
               </div>
-              {/* reviews */}
-              <div className="reviewsContainer">
+               {/* reviews */}
+               <div className="reviewsContainer">
                 <img className="reviewsLine" src={redLine} />
                 <div className="reviewsText neuton-normal-white-60px5">
                   {reviewsText}
                 </div>
                 <div className="addReview">
-                  {!isAdmin && (
+                  {(!isAdmin && !hasReviewed) &&(
                     <button onClick={addReview}>
                       <img className="reviewIcon" src={reviewIcon} />
                       <img className="reviewIcon2" src={addIcon} />
                       <div>
                         <div className="reviewItText neuton-normal-white-30px">
                           {reviewItText}
+                        </div>
+                      </div>
+                    </button>
+                  )}
+                </div>
+                <div className="addReview">
+                  {(!isAdmin && hasReviewed )&& (
+                    <button onClick={editReview}>
+                      <img className="reviewIcon" src={reviewIcon} />
+                      <img className="reviewIcon2" src={addIcon} />
+                      <div>
+                        <div className="reviewItText neuton-normal-white-30px">
+                          Edit Review
                         </div>
                       </div>
                     </button>
@@ -785,14 +874,25 @@ function MovieInfoPage(props) {
                                         height="30"
                                       />{" "}
                                     </div>
-                                    <div> {userReviews[i]} </div>
+                                    <div> 
+                                    {/* {reviews[i].username} */}
+                                      {userReviews[i]} 
+                                      </div>
 
                                     {isAdmin&&
-                                    <button className="deleteReviewIcon" onClick={confirmDeleteReview}> <RiDeleteBin2Line size={35}/>  </button>
+                                    <button className="deleteReviewIcon" 
+                                    // onClick={confirmDeleteReview}
+                                    onClick={() => {
+                                       console.log(reviewsIDArray[i]);
+                                       confirmDeleteReview(reviewsID[i]);
+                                    }}
+                                    
+                                    > <RiDeleteBin2Line size={35}/>  </button>
                                     }
                                   </div>
                                   <div className="userReview roboto-normal-white-20px">
-                                    {reviews[i]}
+                                    {/* {reviews[i]} */}
+                                    {reviews[i].review}
                                   </div>
                                 </div>
                               }

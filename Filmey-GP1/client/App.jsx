@@ -42,7 +42,7 @@ function App() {
         <Route path="/movieInfoPage/:id">
           <MovieInfoPage {...movieInfoPageData} />
         </Route>
-        <Route path="/reviewPage/:id">
+        <Route path="/reviewPage/:id/:isEdit">
           <ReviewPage {...reviewPageData} />
         </Route>
         <Route path="/addMoviePage/:id">

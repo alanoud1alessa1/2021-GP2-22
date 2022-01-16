@@ -297,16 +297,18 @@ router.get("/allRoles/:id", async (req , res, next) => {
 // });
 
 router.post("/delete", async (req, res, next) => {
-  const {movie_id} = req.body;
-  console.log(movie_id);
+  const {movie_id,admin_id} = req.body;
   try {
-    const result = await queries.deleteMovie(movie_id);
+    const deleteMovie = await queries.deleteMovie(movie_id);
+    const AdminDeleteMovie = await queries.AdminDeleteMovie(movie_id,admin_id);
 
-    if (result) {
-      return res.json(result);
+    if (deleteMovie) {
+      console.log("inside");
+      return res.json(deleteMovie);
     }
     return next();
   } catch (error) {
+    console.log("error");
     console.log(error);
     return next(error);
   }
@@ -382,7 +384,7 @@ router.post("/addMovie", async (req , res, next) => {
   
 
   
-  const {title,genres,languages,year,length,
+  const {adminID,title,genres,languages,year,length,
     age_guide,trailer_url,poster,description,
     directors,writers,actorNames,actorRoles,actorImages } = req.body;
     //console.log(length.length);
@@ -413,6 +415,7 @@ router.post("/addMovie", async (req , res, next) => {
        const director = await queries.addDirector(movieID,directors);
        const writer = await queries.addWriter(movieID,writers);
        const actor = await queries.addActor(movieID,actorNames,actorRoles,actorImages);
+       const AdminAddMovie = await queries.AdminAddMovie(movieID,adminID);
 
        return res.json({"movieID":movieID});
 
@@ -494,7 +497,74 @@ router.post("/updateMovieInfo/:id", async (req, res, next) => {
 //     return next(error);
 //   }
 // });
+router.get("/getMovieFormData/:id", async (req, res, next) => {
+  console.log("inside");
+  const {id} = req.params;
+  try {
+    const data = await queries.getMovieFormData(id);
 
+    if (data) {
+      return res.json(data);
+    }
+    return next();
+  } catch (error) {
+    console.log(error);
+   // res.statusCode = 409;
+    return next(error);
+  }
+}
+);
+
+router.post("/editMovie", async (req , res, next) => {
+  
+  const {adminID,movie_id,title,genres,languages,year,length,
+    age_guide,trailer_url,poster,description,
+    directors,writers,actorNames,actorRoles,actorImages } = req.body;
+
+    var yearConverted=Number(year);
+    //if(CheckMovieMessage||PosterMessage||DescriptionMessage||TrailerMessage||checkActorImage)
+
+    try {
+
+      console.log("in try")
+      
+      const CheckTitleForEditMessage = await queries.CheckTitleForEdit(movie_id,title,yearConverted);
+      const CheckTrailerForEditMessage = await queries.CheckTrailerForEdit(movie_id,trailer_url);
+      const CheckPosterForEditMessage = await queries.CheckPosterForEdit(movie_id,poster);
+      const CheckDescriptionForEditMessage = await queries.CheckDescriptionForEdit(movie_id,description);
+    //   const checkActorImage = await queries.CheckActorImage(actorNames,actorImages);
+    //   console.log(checkActorImage);
+    //  const TrailerMessage = await queries.CheckTrailer(trailer_url);
+      if(CheckTitleForEditMessage||CheckTrailerForEditMessage||CheckPosterForEditMessage||CheckDescriptionForEditMessage)
+     {
+       return res.json({CheckTitleForEditMessage,CheckTrailerForEditMessage,CheckPosterForEditMessage,CheckDescriptionForEditMessage});
+     }
+     
+     if(CheckMovieMessage||PosterMessage||DescriptionMessage||TrailerMessage||checkActorImage[0])
+     {
+       return res.json({CheckMovieMessage,PosterMessage,DescriptionMessage,TrailerMessage,checkActorImage});
+     }
+   }
+   catch{}
+
+
+    try{
+      const movieID = await queries.editMovie(movie_id,title,yearConverted,length,age_guide,trailer_url,poster,description);
+      const genre = await queries.editGenre(movie_id,genres);
+      const language = await queries.editLanguage(movie_id,languages);
+      const director = await queries.editDirector(movie_id,directors);
+      const writer = await queries.editWriter(movie_id,writers);
+      const actor = await queries.editActor(movie_id,actorNames,actorRoles,actorImages);
+      const AdminEditMovie = await queries.AdminEditMovie(movie_id,adminID);
+
+      return res.json({"movieID":movie_id});
+ } catch (error) {
+
+   return next(error);
+ }
+
+
+  })
 
 
 

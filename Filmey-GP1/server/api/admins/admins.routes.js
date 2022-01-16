@@ -21,14 +21,14 @@ router.get("/:id", isAuth, async (req, res, next) => {
   router.post("/login", async (req, res, next) => {
 
     const { username, password } = req.body;
-    const message= await queries.login(username,password);
+    const response= await queries.login(username,password);
 
-    if(message)
+    if(response.passwordMessage||response.emailOrUsernameMessage)
       {
         return res.json(message);
       }
   
-    const user = { username: username, isAdmin:true};
+    const user = { userID:response.adminID,username: username, isAdmin:true};
   
     try {
        const token= jwt.sign(user, process.env.ACCESS_TOKEN_SECERT);
@@ -42,6 +42,22 @@ router.get("/:id", isAuth, async (req, res, next) => {
       //res.status(401);
       return res.json(token);
      // res.sendStatus()
+    }
+  });
+
+  router.post("/deleteReview", async (req, res, next) => {
+    const {admin_id,review_id} = req.body;
+    try {
+      const deleteReview = await queries.deleteReview(review_id);
+      const AdminDeleteMovie = await queries.AdminDeleteReview(review_id,admin_id,);
+  
+      if (deleteReview) {
+        return res.json(deleteReview);
+      }
+      return next();
+    } catch (error) {
+      console.log(error);
+      return next(error);
     }
   });
 

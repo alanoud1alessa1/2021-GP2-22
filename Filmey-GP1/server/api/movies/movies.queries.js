@@ -101,9 +101,11 @@ module.exports = {
 
   async getMovieReviews(movie_id) {
     return db("Review AS R")
-      .select("review", "username")
+      .select(["review", "username","review_id"])
+      //.select(["review", "username"])
       .where({
         movie_id: movie_id,
+        is_deleted:false,
       })
       .leftJoin("User AS U", "R.user_id", "U.user_id")
       .orderBy("created_at", "desc");
@@ -548,6 +550,27 @@ module.exports = {
     return;
   },
 
+  async AdminAddMovie(movie_id,admin_id) {
+    let AdminAddMovie = await db("Admin_Add_Movie")
+      .insert({
+        movie_id: movie_id,
+        admin_id:admin_id,
+      }).returning("*");
+      return AdminAddMovie;
+    
+  },
+
+  async AdminDeleteMovie(movie_id,admin_id) {
+    console.log(movie_id,admin_id);
+    let AdminDeleteMovie = await db("Admin_Delete_Movie")
+      .insert({
+        movie_id: movie_id,
+        admin_id:admin_id,
+      }).returning("*");
+      return AdminDeleteMovie;
+    
+  },
+
   async getMovieFormData(id) {
     let movieInfo = await db(tableNames.movie).select("*").where({
       movie_id: id,
@@ -705,10 +728,34 @@ module.exports = {
   },
 
   async deleteMovie(movie_id) {
-    console.log(movie_id);
-    let result = await db(tableNames.movie).del().where({ movie_id: movie_id });
-    if (result) {
-      return result;
+    let deleteMovie=await db(tableNames.movie)
+          .where({
+            movie_id: movie_id,
+          })
+          .update({
+            is_deleted: true,
+          })
+          .returning("*");
+    // let deleteMovieRating=await db(tableNames.rating)
+    //       .where({
+    //         movie_id: movie_id,
+    //       })
+    //       .update({
+    //         is_deleted: true,
+    //       })
+    //       .returning("*");
+
+    let deleteMovieReview=await db(tableNames.review)
+          .where({
+            movie_id: movie_id,
+          })
+          .update({
+            is_deleted: true,
+          })
+          .returning("*");
+    
+    if (deleteMovie) {
+      return deleteMovie;
     }
     return;
   },
@@ -817,6 +864,705 @@ module.exports = {
 
     return True;
   },
+
+  async getMovieFormData(id) {
+    let movieInfo = await db(tableNames.movie).select("*").where({
+      movie_id: id,
+    });
+
+    let genre_ids = await db("Movie_Genre")
+      .select("*")
+      .where({
+        movie_id: id,
+      })
+      .returning("*")
+      .pluck("genre_id");
+
+    var arrayofGenres = new Array();
+
+    for (const id of genre_ids) {
+      //console.log(id);
+      let genre = await db("Genre")
+        .select("*")
+        .where({
+          genre_id: id,
+        })
+        .returning("*")
+        .pluck("genre");
+      arrayofGenres.push(genre[0]);
+    }
+
+    //console.log(arrayofGenres);
+    let language_ids = await db(tableNames.movie_Language)
+      .select("*")
+      .where({
+        movie_id: id,
+      })
+      .returning("*")
+      .pluck("language_id");
+
+    var arrayofLanguages = new Array();
+
+    for (const id of language_ids) {
+      // console.log(id);
+      let language = await db(tableNames.language)
+        .select("*")
+        .where({
+          language_id: id,
+        })
+        .returning("*")
+        .pluck("language");
+      arrayofLanguages.push(language[0]);
+    }
+
+    var actorInfoArray = new Array();
+
+    let movieRoles = await db(tableNames.role)
+      .select("*")
+      .where({
+        movie_id: id,
+      })
+      .returning("*");
+    // console.log(movieRoles);
+    for (const actorId of movieRoles) {
+      console.log(actorId);
+      let movieActors = await db(tableNames.actor).select("*").where({
+        actor_id: actorId.actor_id,
+      });
+      //console.log(movieRoles[0].role);
+      movieRole = movieRoles[0].role;
+      actorName = movieActors[0].actor;
+      actorImage = movieActors[0].actor_image_url;
+
+      actorInfoArray.push([{ movieRole, actorName, actorImage }]);
+      //return ActorInfo;
+    }
+
+    var arrayofDirectors = new Array();
+
+    let director_ids = await db(tableNames.movie_Director)
+      .select("*")
+      .where({
+        movie_id: id,
+      })
+      .returning("*")
+      .pluck("director_id");
+    console.log("director_ids");
+    console.log(director_ids);
+
+    for (const id of director_ids) {
+      //console.log(actorId);
+      let movieDirectors = await db(tableNames.director)
+        .select("*")
+        .where({
+          director_id: id,
+        })
+        .returning("*")
+        .pluck("director");
+      //console.log("movieDirectors");
+      //console.log(movieDirectors);
+      arrayofDirectors.push(movieDirectors[0]);
+    }
+
+    var arrayofWriters = new Array();
+
+    let writer_ids = await db(tableNames.movie_Writer)
+      .select("*")
+      .where({
+        movie_id: id,
+      })
+      .returning("*")
+      .pluck("writer_id");
+    //console.log("director_ids");
+    console.log(writer_ids);
+
+    for (const id of writer_ids) {
+      //console.log(actorId);
+      let movieWriter = await db(tableNames.writer)
+        .select("*")
+        .where({
+          writer_id: id,
+        })
+        .returning("*")
+        .pluck("writer");
+      //console.log("movieDirectors");
+      //console.log(movieDirectors);
+      arrayofWriters.push(movieWriter[0]);
+    }
+
+    //   let movieWriters = await db(tableNames.writer).select("*").where({
+    //     movie_id: id,
+    //   }).returning("*").pluck("writer");
+    console.log(actorInfoArray);
+    console.log(arrayofWriters);
+    console.log(arrayofDirectors);
+
+    console.log(movieInfo);
+    console.log(arrayofGenres);
+    console.log(arrayofLanguages);
+    return {
+      movieInfo,
+      arrayofGenres,
+      arrayofLanguages,
+      actorInfoArray,
+      arrayofDirectors,
+      arrayofWriters,
+    };
+    //return movieGenres;
+    //console.log(movieGenres);
+    // console.log(movieLanguages);
+    // console.log(movieRoles);
+    // console.log(movieDirectors);
+    // console.log(movieWriters);
+
+    //    if(movieInfo){
+    //      console.log(movieInfo);
+    //      return movieInfo;
+    // }
+  },
+
+  async AdminEditMovie(movie_id,admin_id) {
+    let AdminEditMovie = await db("Admin_Edit_Movie")
+      .insert({
+        movie_id: movie_id,
+        admin_id:admin_id,
+      }).returning("*");
+      return AdminEditMovie;
+    
+  },
+
+  async CheckTitleForEdit(movie_id,title,yearConverted) {
+    //console.log("in CheckTitleForEdit")
+    let movie_idOfTitle = await db(tableNames.movie)
+      .where({
+        title: title,
+        //year: yearConverted,
+      })
+      .first()
+      .returning("*");
+   // console.log("CheckTitleForEdit");
+    console.log(movie_idOfTitle.movie_id);
+    if(movie_idOfTitle.movie_id)
+    {
+      if (movie_id!=movie_idOfTitle.movie_id) 
+      {
+      var message = "This movie already exists";
+      return message;
+      }
+   }
+  },
+  async CheckPosterForEdit(movie_id,poster) {
+    console.log(poster);
+    let movie_idOfPoster = await db(tableNames.movie)
+      .where({
+        poster: poster,
+      }).first().returning("*");
+    console.log("movie_idOfPoster");
+    console.log(movie_idOfPoster.movie_id);
+    if(movie_idOfPoster.movie_id)
+    {
+      if (movie_id!=movie_idOfPoster.movie_id) 
+      {
+      var message = "This poster belongs to another movie";
+      return message;
+      }
+   }
+  },
+
+  async CheckTrailerForEdit(movie_id,trailer_url) {
+    let movie_idOfTrailer = await db(tableNames.movie)
+      .where({
+        trailer_url: trailer_url,
+      }).first().returning("*");
+    if(movie_idOfTrailer.movie_id)
+    {
+      if (movie_id!=movie_idOfTrailer.movie_id) 
+      {
+      var message = "This trailer belongs to another movie";
+      return message;
+      }
+   }
+  },
+
+  async CheckDescriptionForEdit(movie_id,description) {
+    let movie_idOfDescription = await db(tableNames.movie)
+      .where({
+        description: description,
+      }).first().returning("*");
+    if(movie_idOfDescription.movie_id)
+    {
+      if (movie_id!=movie_idOfDescription.movie_id) 
+      {
+      var message = "This description belongs to another movie";
+      return message;
+      }
+   }
+  },
+
+  async editMovie(
+    movie_id,
+    title,
+    yearConverted,
+    length,
+    age_guide,
+    trailer_url,
+    poster,
+    description
+  )
+   {
+    let movie = await db(tableNames.movie).where({
+      movie_id:movie_id,
+    })
+      .update({
+        title: title,
+        year: yearConverted,
+        length: length,
+        age_guide: age_guide,
+        description: description,
+        poster: poster,
+        trailer_url: trailer_url,
+      })
+      .returning("*");
+    if (movie) {
+      return movie[0].movie_id;
+    }
+    return;
+  },
+
+  async editGenre(movie_id, genres) {
+    var arrayofGenreID = new Array();
+    for (const genre of genres) {
+      //console.log(g);
+      try{
+      let genre_id = await db("Genre")
+        .where({
+          genre: genre.label,
+        })
+        .returning("*")
+        .pluck("genre_id");
+        arrayofGenreID.push(genre_id[0]);
+      }
+      catch{
+        let genre_id = await db("Genre")
+        .where({
+          genre: genre,
+        })
+        .returning("*")
+        .pluck("genre_id");
+        arrayofGenreID.push(genre_id[0]);
+      }
+      
+    }
+
+    let delete_Movie_Genre = await db("Movie_Genre").del().where({ movie_id: movie_id });
+    
+    //insert movie id with  genre id
+    for (const id of arrayofGenreID) {
+      let Movie_Genre = await db("Movie_Genre")
+        .insert({
+          movie_id: movie_id,
+          genre_id: id,
+        })
+        .returning("*");
+      console.log(Movie_Genre);
+    }
+    return;
+  },
+
+  async editLanguage(movie_id, languages) {
+    var arrayofLanguageID = new Array();
+    for (const language of languages) {
+      try{
+      let language_id = await db("Language")
+        .where({
+          language: language.label,
+        })
+        .returning("*")
+        .pluck("language_id");
+      arrayofLanguageID.push(language_id[0]);
+      }
+      catch{
+        let language_id = await db("Language")
+        .where({
+          language: language,
+        })
+        .returning("*")
+        .pluck("language_id");
+      arrayofLanguageID.push(language_id[0]);
+
+      }
+    }
+
+    let delete_Movie_Language = await db("Movie_Language").del().where({ movie_id: movie_id });
+
+    //insert movie id with  lanaguage id
+    for (const id of arrayofLanguageID) {
+      let Movie_Language = await db("Movie_Language")
+        .insert({
+          movie_id: movie_id,
+          language_id: id,
+        })
+        .returning("*");
+      console.log(Movie_Language);
+    }
+
+    return;
+  },
+
+  async editDirector(movie_id, directors) {
+    console.log("directors");
+    console.log(directors);
+    let newID = await db
+      .select("director_id")
+      .from(tableNames.director)
+      .orderBy("director_id", "desc")
+      .returning("*")
+      .pluck("director_id");
+    newID = newID[0] + 1;
+
+    var arrayofDirectorsID = new Array();
+    for (const director of directors) {
+      console.log(director);
+      try{
+      let director_id = await db("Director")
+        .where({
+          director: director.label,
+        })
+        .returning("*")
+        .pluck("director_id");
+      if (director_id[0]) {
+        arrayofDirectorsID.push(director_id[0]);
+        console.log(director_id[0]);
+      } else {
+        director_id = await db("Director")
+          .insert({
+            director_id: newID,
+            director: director.label,
+          })
+          .returning("*");
+          newID = newID + 1;
+        console.log("director_id2");
+        console.log(director_id);
+        arrayofDirectorsID.push(director_id[0].director_id);
+        }
+      }
+        catch{
+          console.log("in catch")
+          let director_id = await db("Director")
+        .where({
+          director: director,
+        })
+        .returning("*")
+        .pluck("director_id");
+      if (director_id[0]) {
+        arrayofDirectorsID.push(director_id[0]);
+        console.log(director_id[0]);
+      } else {
+        director_id = await db("Director")
+          .insert({
+            director_id: newID,
+            director: director,
+          })
+          .returning("*");
+          newID = newID + 1;
+        console.log("director_id2");
+        console.log(director_id);
+        arrayofDirectorsID.push(director_id[0].director_id);
+
+        }
+        
+      }
+      
+    }
+    let delete_Movie_Director = await db("Movie_Director").del().where({ movie_id: movie_id });
+
+    //insert movie id with  director id
+    console.log(arrayofDirectorsID);
+    for (const id of arrayofDirectorsID) {
+      console.log(id);
+      let Movie_Director = await db("Movie_Director")
+        .insert({
+          movie_id: movie_id,
+          director_id: id,
+        })
+        .returning("*");
+      console.log(Movie_Director);
+    }
+    return;
+  },
+
+  async editWriter(movie_id, writers) {
+    let newID = await db
+      .select("writer_id")
+      .from(tableNames.writer)
+      .orderBy("writer_id", "desc")
+      .returning("*")
+      .pluck("writer_id");
+    newID = newID[0] + 1;
+
+    var arrayofWritersID = new Array();
+    for (const writer of writers) {
+      try{
+      let writer_id = await db("Writer")
+        .where({
+          writer: writer.label,
+        })
+        .returning("*")
+        .pluck("writer_id");
+      if (writer_id[0]) {
+        arrayofWritersID.push(writer_id[0]);
+      }
+      if (!writer_id[0]) {
+        writer_id = await db("Writer")
+          .insert({
+            writer_id: newID,
+            writer: writer.label,
+          })
+          .returning("*");
+        }
+      }
+        catch{
+          let writer_id = await db("Writer")
+        .where({
+          writer: writer,
+        })
+        .returning("*")
+        .pluck("writer_id");
+      if (writer_id[0]) {
+        arrayofWritersID.push(writer_id[0]);
+      }
+      if (!writer_id[0]) {
+        writer_id = await db("Writer")
+          .insert({
+            writer_id: newID,
+            writer: writer,
+          })
+          .returning("*");
+          newID = newID + 1;
+        console.log(writer_id);
+        arrayofWritersID.push(writer_id[0].writer_id);
+        }
+        
+      }
+    }
+
+   let delete_Movie_Writer = await db("Movie_Writer").del().where({ movie_id: movie_id });
+
+    //insert movie id with  writer id
+    for (const id of arrayofWritersID) {
+      let Movie_Writer = await db("Movie_Writer")
+        .insert({
+          movie_id: movie_id,
+          writer_id: id,
+        })
+        .returning("*");
+      console.log(Movie_Writer);
+    }
+    return;
+  },
+
+
+  // async editActor(movie_id, actorNames, actorRoles, actorImages) {
+  //   let newID = await db
+  //     .select("actor_id")
+  //     .from(tableNames.actor)
+  //     .orderBy("actor_id", "desc")
+  //     .returning("*")
+  //   //  .pluck("actor_id");
+  //   newID = newID + 1;
+  //   cons
+
+  //   var numOfActors = actorNames.length;
+
+  //   var arrayofActorID = new Array();
+
+  //   for (var i = 0; i < numOfActors; i++) {
+  //     let actor = await db(tableNames.actor)
+  //       .where({
+  //         actor: actorNames[i].label,
+  //       })
+  //       .returning("*")
+  //       //.pluck("actor_id");
+  //     if (actor.actor_id) {
+  //       let updateImage = await db(tableNames.actor)
+  //         .update({
+  //           actor_image_url: actorImages[i].label,
+  //         })
+  //         .where({
+  //           actor_id: actor.actor_id,
+  //         })
+  //         .returning("*");
+  //       arrayofActorID.push(actor.actor_id);
+  //     } else {
+  //       actor = await db(tableNames.actor)
+  //         .insert({
+  //           actor_id: newID,
+  //           actor: actorNames[i].label,
+  //           actor_image_url: actorImages[i].label,
+  //         })
+  //         .returning("*");
+  //       newID = newID + 1;
+  //       arrayofActorID.push(actor.actor_id);
+  //     }
+  //   }
+
+  //   console.log(arrayofActorID);
+
+  //   let delete_Movie_Actor_Role = await db("Role").del().where({ movie_id: movie_id });
+
+  //   var rolesIndex = 0;
+  //   for (const id of arrayofActorID) {
+  //     let Role = await db("Role")
+  //       .insert({
+  //         movie_id: movie_id,
+  //         actor_id: id,
+  //         role: actorRoles[rolesIndex].label,
+  //       })
+  //       .returning("*");
+  //     rolesIndex = rolesIndex + 1;
+  //     console.log(Role);
+  //   }
+  //   return;
+  // },
+  async editWriter(movie_id, writers) {
+    let newID = await db
+      .select("writer_id")
+      .from(tableNames.writer)
+      .orderBy("writer_id", "desc")
+      .returning("*")
+      .pluck("writer_id");
+    newID = newID[0] + 1;
+
+    var arrayofWritersID = new Array();
+    for (const writer of writers) {
+      try{
+      let writer_id = await db("Writer")
+        .where({
+          writer: writer.label,
+        })
+        .returning("*")
+        .pluck("writer_id");
+      if (writer_id[0]) {
+        arrayofWritersID.push(writer_id[0]);
+      }
+      if (!writer_id[0]) {
+        writer_id = await db("Writer")
+          .insert({
+            writer_id: newID,
+            writer: writer.label,
+          })
+          .returning("*");
+        }
+      }
+        catch{
+          let writer_id = await db("Writer")
+        .where({
+          writer: writer,
+        })
+        .returning("*")
+        .pluck("writer_id");
+      if (writer_id[0]) {
+        arrayofWritersID.push(writer_id[0]);
+      }
+      if (!writer_id[0]) {
+        writer_id = await db("Writer")
+          .insert({
+            writer_id: newID,
+            writer: writer,
+          })
+          .returning("*");
+          newID = newID + 1;
+        console.log(writer_id);
+        arrayofWritersID.push(writer_id[0].writer_id);
+        }
+        
+      }
+    }
+
+   let delete_Movie_Writer = await db("Movie_Writer").del().where({ movie_id: movie_id });
+
+    //insert movie id with  writer id
+    for (const id of arrayofWritersID) {
+      let Movie_Writer = await db("Movie_Writer")
+        .insert({
+          movie_id: movie_id,
+          writer_id: id,
+        })
+        .returning("*");
+      console.log(Movie_Writer);
+    }
+    return;
+  },
+
+
+  async editActor(movie_id, actorNames, actorRoles, actorImages) {
+    let newID = await db
+      .select("actor_id")
+      .from(tableNames.actor)
+      .orderBy("actor_id", "desc")
+      .returning("*")
+      .pluck("actor_id");
+    newID = newID[0] + 1;
+    console.log("newID");
+    console.log(newID);
+
+    var numOfActors = actorNames.length;
+    console.log(numOfActors);
+
+    var arrayofActorID = new Array();
+
+    for (var i = 0; i < numOfActors; i++) {
+      let actor= await db(tableNames.actor)
+        .where({
+          actor: actorNames[i].label,
+        })
+        .returning("*");
+        //.pluck("actor_id");
+        
+
+      if (actor_id) {
+        let updateImage = await db(tableNames.actor)
+          .update({
+            actor_image_url: actorImages[i].label,
+          })
+          .where({
+            actor_id: actor_id,
+          })
+          .returning("*");
+        arrayofActorID.push(actor_id);
+      } else {
+        actor_id = await db(tableNames.actor)
+          .insert({
+            actor_id: newID,
+            actor: actorNames[i].label,
+            actor_image_url: actorImages[i].label,
+          })
+          .returning("*").actor_id;
+        newID = newID + 1;
+        arrayofActorID.push(actor_id);
+      }
+    }
+
+    console.log(arrayofActorID);
+
+    let delete_Movie_Actor_Role = await db("Role").del().where({ movie_id: movie_id });
+
+    var rolesIndex = 0;
+    for (const id of arrayofActorID) {
+      let Role = await db("Role")
+        .insert({
+          movie_id: movie_id,
+          actor_id: id,
+          role: actorRoles[rolesIndex].label,
+        })
+        .returning("*");
+      rolesIndex = rolesIndex + 1;
+      console.log(Role);
+    }
+    return;
+  return;
+  },
+
 };
 
 //  1-1   1-3   1-5
