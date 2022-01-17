@@ -149,6 +149,7 @@ router.get("/review/:id", async (req, res, next) => {
   try {
 
         const reviews = await queries.getMovieReviews(id);
+        console.log(reviews);
 
     if (reviews) {
       return res.json(reviews);
@@ -296,8 +297,25 @@ router.get("/allRoles/:id", async (req , res, next) => {
 //   // }
 // });
 
+// router.post("/delete", async (req, res, next) => {
+//   const {movie_id,admin_id} = req.body;
+//   console.log(movie_id,admin_id);
+//   try {
+//     const result = await queries.deleteMovie(movie_id);
+//     const AdminDeleteMovie = await queries.AdminDeleteMovie(movie_id,admin_id);
+//     if (result) {
+//       return res.json(result);
+//     }
+//     return next();
+//   } catch (error) {
+//     console.log(error);
+//     return next(error);
+//   }
+// });
+
 router.post("/delete", async (req, res, next) => {
   const {movie_id,admin_id} = req.body;
+  //console.log(movie_id);
   try {
     const deleteMovie = await queries.deleteMovie(movie_id);
     const AdminDeleteMovie = await queries.AdminDeleteMovie(movie_id,admin_id);
@@ -387,7 +405,8 @@ router.post("/addMovie", async (req , res, next) => {
   const {adminID,title,genres,languages,year,length,
     age_guide,trailer_url,poster,description,
     directors,writers,actorNames,actorRoles,actorImages } = req.body;
-    //console.log(length.length);
+    
+    console.log(adminID);
 
     var yearConverted=Number(year);
 
@@ -400,7 +419,7 @@ router.post("/addMovie", async (req , res, next) => {
        console.log(checkActorImage);
       const TrailerMessage = await queries.CheckTrailer(trailer_url);
       
-      if(CheckMovieMessage||PosterMessage||DescriptionMessage||TrailerMessage||checkActorImage[0])
+      if(CheckMovieMessage||PosterMessage||DescriptionMessage||TrailerMessage||checkActorImage)
       {
         return res.json({CheckMovieMessage,PosterMessage,DescriptionMessage,TrailerMessage,checkActorImage});
       }
@@ -416,7 +435,6 @@ router.post("/addMovie", async (req , res, next) => {
        const writer = await queries.addWriter(movieID,writers);
        const actor = await queries.addActor(movieID,actorNames,actorRoles,actorImages);
        const AdminAddMovie = await queries.AdminAddMovie(movieID,adminID);
-
        return res.json({"movieID":movieID});
 
 
@@ -480,6 +498,44 @@ router.post("/updateMovieInfo/:id", async (req, res, next) => {
 }
 );
 
+router.post("/checkTitleForAdd", async (req, res, next) => {
+
+  const {title} = req.body;
+
+  try {
+    const checkTitleForAdd = await queries.checkTitleForAdd(title);
+    if(checkTitleForAdd)
+    {
+      return res.json(checkTitleForAdd);
+    }
+    return;
+    
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
+}
+);
+
+// router.post("/checkTitleForEdit", async (req, res, next) => {
+
+//   const {movie_id,title} = req.body;
+
+//   try {
+//     const checkTitleForEdit= await queries.checkTitleForEdit(movie_id,title);
+//     if(checkTitleForEdit)
+//     {
+//       return res.json(checkTitleForEdit);
+//     }
+//     return;
+    
+//   } catch (error) {
+//     console.log(error);
+//     return next(error);
+//   }
+// }
+// );
+
 
 
 
@@ -497,24 +553,6 @@ router.post("/updateMovieInfo/:id", async (req, res, next) => {
 //     return next(error);
 //   }
 // });
-router.get("/getMovieFormData/:id", async (req, res, next) => {
-  console.log("inside");
-  const {id} = req.params;
-  try {
-    const data = await queries.getMovieFormData(id);
-
-    if (data) {
-      return res.json(data);
-    }
-    return next();
-  } catch (error) {
-    console.log(error);
-   // res.statusCode = 409;
-    return next(error);
-  }
-}
-);
-
 router.post("/editMovie", async (req , res, next) => {
   
   const {adminID,movie_id,title,genres,languages,year,length,
@@ -522,7 +560,7 @@ router.post("/editMovie", async (req , res, next) => {
     directors,writers,actorNames,actorRoles,actorImages } = req.body;
 
     var yearConverted=Number(year);
-    //if(CheckMovieMessage||PosterMessage||DescriptionMessage||TrailerMessage||checkActorImage)
+    
 
     try {
 
@@ -540,10 +578,10 @@ router.post("/editMovie", async (req , res, next) => {
        return res.json({CheckTitleForEditMessage,CheckTrailerForEditMessage,CheckPosterForEditMessage,CheckDescriptionForEditMessage});
      }
      
-     if(CheckMovieMessage||PosterMessage||DescriptionMessage||TrailerMessage||checkActorImage[0])
-     {
-       return res.json({CheckMovieMessage,PosterMessage,DescriptionMessage,TrailerMessage,checkActorImage});
-     }
+    //  if(CheckMovieMessage||PosterMessage||DescriptionMessage||TrailerMessage||checkActorImage[0])
+    //  {
+    //    return res.json({CheckMovieMessage,PosterMessage,DescriptionMessage,TrailerMessage,checkActorImage});
+    //  }
    }
    catch{}
 
@@ -566,6 +604,24 @@ router.post("/editMovie", async (req , res, next) => {
 
   })
 
+  router.get("/getMovieFormData/:id", async (req, res, next) => {
+    console.log("inside");
+    const {id} = req.params;
+    try {
+      const data = await queries.getMovieFormData(id);
+  
+      if (data) {
+        return res.json(data);
+      }
+      return next();
+    } catch (error) {
+      console.log(error);
+      return next(error);
+    }
+  }
+  );
+
 
 
 module.exports = router;
+
