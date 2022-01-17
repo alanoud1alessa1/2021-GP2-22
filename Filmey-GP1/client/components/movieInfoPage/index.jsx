@@ -129,6 +129,8 @@ function MovieInfoPage(props) {
   var isEdit;
   const [hasReviewed, setHasReviewed] = useState();
 
+  
+
 
 
 
@@ -200,6 +202,7 @@ function MovieInfoPage(props) {
             className="yesButton"
               onClick={() => {
                 deleteReview(review_id);
+               // updateReviews();
                 onClose();
               }}
             >
@@ -210,6 +213,32 @@ function MovieInfoPage(props) {
       }
     });
     };
+
+    const  updateReviews =()=>{
+
+      const updateReviews= api.get(`/movies/review/${id}`).then((response) => {
+        const numOfReviews = response.data.length;
+        const reviewsArray = [...reviews];
+        const reviewsIDArray = [...reviewsID];
+        const usersArray = [...userReviews];
+  
+        console.log(response);
+  
+        for (var i = 0; i < numOfReviews; i++) {
+           reviewsArray[i] = response.data[i];
+           reviewsIDArray[i] = response.data[i].review_id;
+           usersArray[i] = response.data[i].username;
+        }
+  
+        setReviews(reviewsArray);
+        setReviewsID(reviewsIDArray);
+        setUserReviews(usersArray);
+        setEReviews(usersArray);
+      });
+
+    }
+
+    
 
   //Rating function
   //var userRating;
@@ -383,13 +412,14 @@ function MovieInfoPage(props) {
          admin_id:decoded.userID,
          review_id:review_id,
        }).then((res) => {
-         if(res.data){
-          // alert("Review has been deleted successfully");
-           window.location = '/home-page';
-         }
-         else{
-         //  alert("Sorry, an error occured. Please try again");
-         }
+         window.location.reload(true);
+        //  if(res.data){
+        //   // alert("Review has been deleted successfully");
+        //    //window.location = '/home-page';
+        //  }
+        //  else{
+        //  //  alert("Sorry, an error occured. Please try again");
+        //  }
          
        });
  
@@ -861,6 +891,8 @@ function MovieInfoPage(props) {
                       const row = [];
                       if (reviews.length > 0) {
                         for (var i = 0; i < reviews.length; i++) {
+                        var review_id=reviews[i].review_id;
+                         console.log(reviews[i].review_id);
                           row.push(
                             <div key={i}>
                               {
@@ -883,8 +915,7 @@ function MovieInfoPage(props) {
                                     <button className="deleteReviewIcon" 
                                     // onClick={confirmDeleteReview}
                                     onClick={() => {
-                                       console.log(reviewsIDArray[i]);
-                                       confirmDeleteReview(reviewsID[i]);
+                                      confirmDeleteReview(review_id);
                                     }}
                                     
                                     > <RiDeleteBin2Line size={35}/>  </button>

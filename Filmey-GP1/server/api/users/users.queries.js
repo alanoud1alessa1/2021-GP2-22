@@ -416,6 +416,7 @@ module.exports = {
     .where({
       movie_id: id,
       user_id: userID,
+      is_deleted:false,
     })
     .returning("*");
     if (result) {

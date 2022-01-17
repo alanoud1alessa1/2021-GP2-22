@@ -1495,6 +1495,74 @@ module.exports = {
   },
 
 
+  // async editActor(movie_id, actorNames, actorRoles, actorImages) {
+  //   let newID = await db
+  //     .select("actor_id")
+  //     .from(tableNames.actor)
+  //     .orderBy("actor_id", "desc")
+  //     .returning("*")
+  //     .pluck("actor_id");
+  //   newID = newID[0] + 1;
+  //   console.log("newID");
+  //   console.log(newID);
+
+  //   var numOfActors = actorNames.length;
+  //   console.log(numOfActors);
+
+  //   var arrayofActorID = new Array();
+
+  //   for (var i = 0; i < numOfActors; i++) {
+  //     let actor= await db(tableNames.actor)
+  //       .where({
+  //         actor: actorNames[i].label,
+  //       })
+  //       .returning("*");
+  //       //.pluck("actor_id");
+        
+
+  //     if (actor_id) {
+  //       let updateImage = await db(tableNames.actor)
+  //         .update({
+  //           actor_image_url: actorImages[i].label,
+  //         })
+  //         .where({
+  //           actor_id: actor_id,
+  //         })
+  //         .returning("*");
+  //       arrayofActorID.push(actor_id);
+  //     } else {
+  //       actor_id = await db(tableNames.actor)
+  //         .insert({
+  //           actor_id: newID,
+  //           actor: actorNames[i].label,
+  //           actor_image_url: actorImages[i].label,
+  //         })
+  //         .returning("*").actor_id;
+  //       newID = newID + 1;
+  //       arrayofActorID.push(actor_id);
+  //     }
+  //   }
+
+  //   console.log(arrayofActorID);
+
+  //   let delete_Movie_Actor_Role = await db("Role").del().where({ movie_id: movie_id });
+
+  //   var rolesIndex = 0;
+  //   for (const id of arrayofActorID) {
+  //     let Role = await db("Role")
+  //       .insert({
+  //         movie_id: movie_id,
+  //         actor_id: id,
+  //         role: actorRoles[rolesIndex].label,
+  //       })
+  //       .returning("*");
+  //     rolesIndex = rolesIndex + 1;
+  //     console.log(Role);
+  //   }
+  //   return;
+  // return;
+  // },
+
   async editActor(movie_id, actorNames, actorRoles, actorImages) {
     let newID = await db
       .select("actor_id")
@@ -1503,33 +1571,28 @@ module.exports = {
       .returning("*")
       .pluck("actor_id");
     newID = newID[0] + 1;
-    console.log("newID");
-    console.log(newID);
 
     var numOfActors = actorNames.length;
-    console.log(numOfActors);
 
     var arrayofActorID = new Array();
 
     for (var i = 0; i < numOfActors; i++) {
-      let actor= await db(tableNames.actor)
+      let actor_id = await db(tableNames.actor)
         .where({
           actor: actorNames[i].label,
         })
-        .returning("*");
-        //.pluck("actor_id");
-        
-
-      if (actor_id) {
+        .returning("*")
+        .pluck("actor_id");
+      if (actor_id[0]) {
         let updateImage = await db(tableNames.actor)
           .update({
             actor_image_url: actorImages[i].label,
           })
           .where({
-            actor_id: actor_id,
+            actor_id: actor_id[0],
           })
           .returning("*");
-        arrayofActorID.push(actor_id);
+        arrayofActorID.push(actor_id[0]);
       } else {
         actor_id = await db(tableNames.actor)
           .insert({
@@ -1537,9 +1600,9 @@ module.exports = {
             actor: actorNames[i].label,
             actor_image_url: actorImages[i].label,
           })
-          .returning("*").actor_id;
+          .returning("*");
         newID = newID + 1;
-        arrayofActorID.push(actor_id);
+        arrayofActorID.push(actor_id[0].actor_id);
       }
     }
 
@@ -1560,7 +1623,6 @@ module.exports = {
       console.log(Role);
     }
     return;
-  return;
   },
 
 };
