@@ -75,6 +75,7 @@ module.exports = {
     return db("Movie AS M")
       .select("M.movie_id", "M.poster" , "R.rating")
       .leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
+      .where("M.is_deleted", "=", false)
       .orderBy("R.rating", "desc")
       .limit(numberofmovies);
   },
@@ -94,6 +95,7 @@ module.exports = {
       .where("G.genre", "=", genreType)
       .leftJoin("Movie AS M", "MG.movie_id", "M.movie_id")
       .leftJoin("Rating AS R", "MG.movie_id", "R.movie_id")
+      .where("M.is_deleted", "=", false)
       .groupBy("MG.movie_id", "title", "poster")
       .orderBy("total_rating", "desc", { nulls: "last" })
       .orderBy("MG.movie_id", "asc")
@@ -101,16 +103,54 @@ module.exports = {
       .limit(limit);
   },
 
-  async getMovieReviews(movie_id) {
+  async getMovieReviews(movie_id , userID) {
+
+
+    // userID = 6
+    // if(userID == 0){
+
+
     return db("Review AS R")
       .select(["review", "username","review_id"])
+      .where("U.user_id", "!=", userID)
+      // .where("is_deleted")
+      // .where("is_deleted", "=", false)
       .where({
         movie_id: movie_id,
         is_deleted:false,
       })
       .leftJoin("User AS U", "R.user_id", "U.user_id")
       .orderBy("created_at", "desc");
-  },
+  // }
+  // else{
+
+  //   userReview =  await db(tableNames.review)
+  //   .where({
+  //     movie_id: movie_id,
+  //     user_id: userID,
+  //   })
+  //   .returning("*");
+
+
+
+  //   allreviews=  db("Review AS R")
+  //   .select(["review", "username","review_id"])
+  //   .where({
+  //     movie_id: movie_id,
+  //     is_deleted:false,
+  //   })
+  //   .leftJoin("User AS U", "R.user_id", "U.user_id")
+  //   .orderBy("created_at", "desc");
+
+
+    // return[userReview , allreviews];
+    // return userReview;
+    // return allreviews;
+
+  // }
+
+
+},
 
   //   async addMovie(title, year, length , age_guide ,description, poster , trailer_url) {
 
@@ -761,14 +801,15 @@ module.exports = {
           })
           .returning("*");
 
-        // let deleteMovieRating=await db(tableNames.rating)
-        //   .where({
-        //     movie_id: movie_id,
-        //   })
-        //   .update({
-        //     is_deleted: true,
-        //   })
-        //   .returning("*");
+        let deleteMovieRating = await db(tableNames.rating)
+        .where({
+          movie_id: movie_id,
+        })
+        .update({
+          is_deleted: true,
+        })
+        .returning("*");
+  
 
     let deleteMovieReview=await db(tableNames.review)
           .where({

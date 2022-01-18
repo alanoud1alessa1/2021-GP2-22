@@ -114,6 +114,7 @@ function MovieInfoPage(props) {
   const [reviews, setReviews] = useState([]);
   const [reviewsID, setReviewsID] = useState([]);
   const [userReviews, setUserReviews] = useState([]);
+  // const [userIdViewReview, setUserIdViewReview] = useState();
   const [EReviews, setEReviews] = useState([]);
 
   const [totalRating, setTotalRating] = useState();
@@ -130,6 +131,29 @@ function MovieInfoPage(props) {
   const [hasReviewed, setHasReviewed] = useState();
 
   
+
+
+  // //View reviews based on user registration
+  // //If registerd and have reviewd --> view user review first one
+
+
+  // // if(!registered || isAdmin){
+  // //   userIdViewReview = 0
+  // //   // setUserIdViewReview(0)
+  // // }
+
+  // var userIdViewReview = 0 
+  // //Check if user has reviewed movie
+  // if (registered && !isAdmin) {
+    
+  //   var userID=decoded.userID;
+  //   api.get(`users/ifReview/${id}/${userID}`).then((response) => {
+  //     if(response.data[0])
+  //     {
+  //       userIdViewReview = userID;
+  //     }
+      
+  //   })}
 
 
 
@@ -189,7 +213,7 @@ function MovieInfoPage(props) {
   //     }
   //   });
   //   };
-  const  confirmDeleteReview = (review_id) => {
+  const  confirmDeleteReview = (isUser , review_id) => {
     console.log(review_id);
     confirmAlert({
       customUI: ({ onClose }) => {
@@ -201,7 +225,7 @@ function MovieInfoPage(props) {
             <button
             className="yesButton"
               onClick={() => {
-                deleteReview(review_id);
+                deleteReview(isUser , review_id);
                // updateReviews();
                 onClose();
               }}
@@ -404,29 +428,72 @@ function MovieInfoPage(props) {
     });
   };
 
-  const deleteReview=(review_id)=>{
+  const deleteReview=(isUser , review_id)=>{
+
     console.log(review_id);
 
-    // if (window.confirm("Are you sure you want to delete this review ?")) {
-       const res = Axios.post("http://localhost:3000/api/v1/admins/deleteReview", {
-         admin_id:decoded.userID,
-         review_id:review_id,
-       }).then((res) => {
-         window.location.reload(true);
-        //  if(res.data){
-        //   // alert("Review has been deleted successfully");
-        //    //window.location = '/home-page';
-        //  }
-        //  else{
-        //  //  alert("Sorry, an error occured. Please try again");
-        //  }
-         
-       });
+    if(isUser){
+        // const res = Axios.post("http://localhost:3000/api/v1/users/deleteReview", {
+        //   review_id:review_id,
+        // }).then((res) => {
+        //   window.location.reload(true);
+          
+        // });
+
+        const res = Axios.post("http://localhost:3000/api/v1/users/deleteReview", {
+    review_id:review_id,
+  }).then((res) => {
+
+    window.location.reload(true);
+    
+  });
+    // window.location.reload(true);
+
+
+  }
+    else{
+// if (window.confirm("Are you sure you want to delete this review ?")) {
+  const res = Axios.post("http://localhost:3000/api/v1/admins/deleteReview", {
+    admin_id:decoded.userID,
+    review_id:review_id,
+  }).then((res) => {
+    window.location.reload(true);
+    
+  });
+
+    }
+
+    
  
    }
    
 
   React.useEffect(() => {
+
+  //   //View reviews based on user registration
+  // //If registerd and have reviewd --> view user review first one
+
+
+  // // if(!registered || isAdmin){
+  // //   userIdViewReview = 0
+  // //   // setUserIdViewReview(0)
+  // // }
+
+  // // var userIdViewReview = 0 
+  // //Check if user has reviewed movie
+  // if (registered && !isAdmin) {
+    
+  //   var userID=decoded.userID;
+  //   api.get(`users/ifReview/${id}/${userID}`).then((response) => {
+
+  //     console.log(response.data[0])
+  //     if(response.data[0])
+  //     {
+
+  //       userIdViewReview = userID;
+  //     }
+      
+  //   })}
 
 
     //Check if user has reviewed movie
@@ -574,19 +641,62 @@ function MovieInfoPage(props) {
     });
 
     //Get Reviews
-    api.get(`/movies/review/${id}`).then((response) => {
+
+    var i = 0
+    var reviewsArray = [...reviews];
+    var reviewsIDArray = [...reviewsID];
+    var usersArray = [...userReviews];
+    //View reviews based on user registration
+  //If registerd and have reviewd --> view user review first one
+
+  var userID = 0 
+  if (registered && !isAdmin) {
+    
+   userID=decoded.userID;
+
+    
+    api.get(`users/ifReview/${id}/${userID}`).then((response) => {
+
+
+      console.log(response.data[0])
+      if(response.data[0])
+      {
+        // var userIdViewReview = userID;
+        reviewsArray[i] = response.data[0];
+        reviewsIDArray[i] = response.data[0].review_id;
+        usersArray[i] = response.data[0].username;
+        i = 1;
+      }
+      
+    }
+    
+    )}
+
+    api.get(`/movies/review/${id}/${userID}`).then((response) => {
       const numOfReviews = response.data.length;
-      const reviewsArray = [...reviews];
-      const reviewsIDArray = [...reviewsID];
-      const usersArray = [...userReviews];
+      console.log("numOfReviews");
+      // const reviewsArray = [...reviews];
+      // const reviewsIDArray = [...reviewsID];
+      // const usersArray = [...userReviews];
+
 
       console.log(response);
 
-      for (var i = 0; i < numOfReviews; i++) {
-         reviewsArray[i] = response.data[i];
-         reviewsIDArray[i] = response.data[i].review_id;
-         usersArray[i] = response.data[i].username;
+      if(i == 1){
+        for (i; i < numOfReviews+1; i++) {
+          reviewsArray[i] = response.data[i-1];
+          reviewsIDArray[i] = response.data[i-1].review_id;
+          usersArray[i] = response.data[i-1].username;
+       }
       }
+      else{
+        for (i; i < numOfReviews; i++) {
+          reviewsArray[i] = response.data[i];
+          reviewsIDArray[i] = response.data[i].review_id;
+          usersArray[i] = response.data[i].username;
+       }
+      }
+  
 
       setReviews(reviewsArray);
       setReviewsID(reviewsIDArray);
@@ -886,11 +996,22 @@ function MovieInfoPage(props) {
                 {/* reviews loop */}
 
                 <div className="userReviews">
+                {hasReviewed &&
+
+<button className="deleteReviewIcon" 
+// onClick={confirmDeleteReview}
+onClick={() => {
+  confirmDeleteReview(true , reviews[0].review_id);
+}}
+
+> <RiDeleteBin2Line size={35}/>  </button>
+}
                   <OwlCarousel className="owl-theme" {...options} nav>
+
                     {runCallback(() => {
                       const row = [];
                       if (reviews.length > 0) {
-                        for (var i = 0; i < reviews.length; i++) {
+                        for (var i = 0; i < reviews.length ; i++) {
                         var review_id=reviews[i].review_id;
                          console.log(reviews[i].review_id);
                           row.push(
@@ -911,11 +1032,13 @@ function MovieInfoPage(props) {
                                       {userReviews[i]} 
                                       </div>
 
+
+
                                     {isAdmin&&
                                     <button className="deleteReviewIcon" 
                                     // onClick={confirmDeleteReview}
                                     onClick={() => {
-                                      confirmDeleteReview(review_id);
+                                      confirmDeleteReview(false, review_id);
                                     }}
                                     
                                     > <RiDeleteBin2Line size={35}/>  </button>
@@ -944,6 +1067,8 @@ function MovieInfoPage(props) {
                       }
                       return row;
                     })}
+
+
                   </OwlCarousel>
                 </div>
               </div>

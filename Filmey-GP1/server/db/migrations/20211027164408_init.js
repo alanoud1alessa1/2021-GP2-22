@@ -1,8 +1,6 @@
 const tableNames = require("../../constents/tableNames")
 
 
-
-
 function references(
   table,
   tableName,
@@ -40,6 +38,7 @@ exports.up = async (knex) => {
       table.text('description','longtext').notNullable();
       table.string("poster", 255).notNullable();
       table.string("trailer_url", 255).notNullable();
+      table.boolean("is_deleted").notNullable().defaultTo(false);
     }),
     await knex.schema.createTable("Admin", (table) => {
         table.increments("admin_id").notNullable();
@@ -103,15 +102,42 @@ exports.up = async (knex) => {
         references(table, "Movie" , "movie")
         references(table, "User" , "user");
         table.integer("rating").notNullable();
+        table.dateTime('created_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
+        table.boolean("is_deleted").notNullable().defaultTo(false);
         table.primary(["movie_id", "user_id"]);
       }),
       await knex.schema.createTable("Review", (table) => {
+        table.increments("review_id").notNullable();
         references(table, "Movie" , "movie")
         references(table, "User" , "user");
         table.string("review", 255).notNullable();
         table.dateTime('created_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
-        table.primary(["movie_id", "user_id" ,"review"]);
-      })
+        table.boolean("is_deleted").notNullable().defaultTo(false);
+      }),
+      await knex.schema.createTable("Admin_Add_Movie", (table) => {
+        references(table, "Movie" , "movie");
+        references(table, "Admin" , "admin");
+        table.dateTime('added_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
+        table.primary(["movie_id", "admin_id"]);
+      }), 
+      await knex.schema.createTable("Admin_Edit_Movie", (table) => {
+        references(table, "Movie" , "movie");
+        references(table, "Admin" , "admin");
+        table.dateTime('edited_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
+        table.primary(["movie_id", "admin_id" , "edited_at"]);
+      }),
+      await knex.schema.createTable("Admin_Delete_Movie", (table) => {
+        references(table, "Movie" , "movie");
+        references(table, "Admin" , "admin");
+        table.dateTime('deleted_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
+        table.primary(["movie_id", "admin_id"]);
+      }), 
+      await knex.schema.createTable("Admin_Delete_Review", (table) => {
+        references(table, "Review" , "review");
+        references(table, "Admin" , "admin");
+        table.dateTime('deleted_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
+        table.primary(["review_id", "admin_id"]);
+      }),
   ]);
 };
 /**

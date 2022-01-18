@@ -289,4 +289,19 @@ if (newPassword.length < 8) {
   } catch (error) {}
 });
 
+router.post("/deleteReview", async (req, res, next) => {
+  const {review_id} = req.body;
+  try {
+    const deleteReview = await queries.deleteReview(review_id);
+
+    if (deleteReview) {
+      return res.json(deleteReview);
+    }
+    return next();
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
+});
+
 module.exports = router;

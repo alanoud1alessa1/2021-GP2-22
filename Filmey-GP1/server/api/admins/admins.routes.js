@@ -25,7 +25,7 @@ router.get("/:id", isAuth, async (req, res, next) => {
 
     if(response.passwordMessage||response.emailOrUsernameMessage)
       {
-        return res.json(message);
+        return res.json(response);
       }
   
     const user = { userID:response.adminID,username: username, isAdmin:true};

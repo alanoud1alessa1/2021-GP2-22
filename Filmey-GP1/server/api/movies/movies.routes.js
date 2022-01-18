@@ -144,11 +144,11 @@ router.get("/genresFilter/:genreType/:limit", async (req, res, next) => {
 
 
 
-router.get("/review/:id", async (req, res, next) => {
-  const { id } = req.params;
+router.get("/review/:id/:userId", async (req, res, next) => {
+  const { id  , userId} = req.params;
   try {
 
-        const reviews = await queries.getMovieReviews(id);
+        const reviews = await queries.getMovieReviews(id , userId);
         console.log(reviews);
 
     if (reviews) {

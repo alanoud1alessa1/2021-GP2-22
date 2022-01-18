@@ -412,12 +412,17 @@ module.exports = {
 
   async ifReview(id, userID) {
     console.log(id, userID);
-    let result = await db(tableNames.review)
+
+
+
+    let result = await db("Review AS R")
+    .select(["review", "username","review_id"])
     .where({
-      movie_id: id,
-      user_id: userID,
-      is_deleted:false,
+      "movie_id": id,
+      "R.user_id": userID,
+      "is_deleted":false,
     })
+    .leftJoin("User AS U", "R.user_id", "U.user_id")
     .returning("*");
     if (result) {
       console.log(result);
@@ -488,4 +493,26 @@ module.exports = {
 
     return updated;
   },
+
+  async deleteReview(review_id) {
+
+    let deleteMovie = await db(tableNames.review)
+      .del()
+      .where({review_id:review_id});
+
+
+      if (deleteMovie) {
+        return deleteMovie;
+      }
+    // let deleteMovie=await db(tableNames.review)
+    //       .where({
+    //         review_id:review_id,
+    //       })
+    //       .update({
+    //         is_deleted: true,
+    //       })
+    //       .returning("*");
+      return deleteMovie;
+  },
+
 };
