@@ -4529,11 +4529,11 @@ left:-20;
 }
 
 .reviewItText {
-  left: 1720px;
+  left: 1710px;
   letter-spacing: 0;
   position: absolute;
   top: 1474px;
-  width: 130px;
+  width: 180px;
 }
 
 .plus {
@@ -4556,8 +4556,9 @@ left:-20;
   height: 39px;
   left: 1680px;
   position: absolute;
-  top: 1475px;
+  top: 1488px;
   width: 35px;
+  color: var(--cardinal);
 }
 
 .addReview{

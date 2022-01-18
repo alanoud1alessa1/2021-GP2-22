@@ -227,6 +227,10 @@ function MovieInfoPage(props) {
               onClick={() => {
                 deleteReview(isUser , review_id);
                // updateReviews();
+                {/* newHere   */}
+                if (isUser){
+                  setHasReviewed(false);
+                }              
                 onClose();
               }}
             >
@@ -405,28 +409,54 @@ function MovieInfoPage(props) {
       if (res.data) {
         sethaveRated(false);
       }
+      updateMovieRating();
     });
     // alert("Your rating has been deleted successfully.");
+    // confirmAlert({
+    //   customUI: ({ onClose }) => {
+    //     return (
+    //       <div className='customconfirmAlert'>
+    //         <h1>Success!</h1>
+    //         <h5>Your rating has been deleted successfully.</h5>
+    //         <button
+    //         className="yesButton"
+    //           onClick={() => {
+    //             updateMovieRating();
+    //             onClose();
+    //           }}
+    //         >
+    //           OK
+    //         </button>
+    //       </div>
+    //     );
+    //   }
+    // });
+
+
+  };
+
+  const  confirmDeleteRating= () => {
     confirmAlert({
       customUI: ({ onClose }) => {
         return (
           <div className='customconfirmAlert'>
-            <h1>Success!</h1>
-            <h5>Your rating has been deleted successfully.</h5>
+            <h1>Are you sure</h1>
+            <h5>You want to delete your rating?</h5>
+            <button  className="noButton" onClick={onClose}>No</button>
             <button
             className="yesButton"
               onClick={() => {
-                updateMovieRating();
+                deleteRating();
                 onClose();
               }}
             >
-              OK
+              Yes, Delete it!
             </button>
           </div>
         );
       }
     });
-  };
+    };
 
   const deleteReview=(isUser , review_id)=>{
 
@@ -798,7 +828,7 @@ function MovieInfoPage(props) {
               {haveRated && (
                 <button
                   className="removeRatingText neuton-normal-white-20px"
-                  onClick={deleteRating}
+                  onClick={confirmDeleteRating}
                 >
                   Remove Rating
                 </button>
@@ -970,8 +1000,7 @@ function MovieInfoPage(props) {
                 <div className="addReview">
                   {(!isAdmin && !hasReviewed) &&(
                     <button onClick={addReview}>
-                      <img className="reviewIcon" src={reviewIcon} />
-                      <img className="reviewIcon2" src={addIcon} />
+                      <div className="reviewIcon" > <FiEdit size={30}/> </div>
                       <div>
                         <div className="reviewItText neuton-normal-white-30px">
                           {reviewItText}
@@ -983,8 +1012,7 @@ function MovieInfoPage(props) {
                 <div className="addReview">
                   {(!isAdmin && hasReviewed )&& (
                     <button onClick={editReview}>
-                      <img className="reviewIcon" src={reviewIcon} />
-                      <img className="reviewIcon2" src={addIcon} />
+                      <div className="reviewIcon" > <FiEdit size={30}/> </div>
                       <div>
                         <div className="reviewItText neuton-normal-white-30px">
                           Edit Review
@@ -996,16 +1024,7 @@ function MovieInfoPage(props) {
                 {/* reviews loop */}
 
                 <div className="userReviews">
-                {hasReviewed &&
 
-<button className="deleteReviewIcon" 
-// onClick={confirmDeleteReview}
-onClick={() => {
-  confirmDeleteReview(true , reviews[0].review_id);
-}}
-
-> <RiDeleteBin2Line size={35}/>  </button>
-}
                   <OwlCarousel className="owl-theme" {...options} nav>
 
                     {runCallback(() => {
@@ -1043,6 +1062,16 @@ onClick={() => {
                                     
                                     > <RiDeleteBin2Line size={35}/>  </button>
                                     }
+
+                                   {/* newHere   */}
+                                   {i==0 && hasReviewed?                                  
+                                    <button className="deleteReviewIcon" 
+                                    // onClick={confirmDeleteReview}
+                                    onClick={() => {
+                                      confirmDeleteReview(true , reviews[0].review_id);
+                                    }}
+
+                                    > <RiDeleteBin2Line size={35}/>  </button>  : ''} 
                                   </div>
                                   <div className="userReview roboto-normal-white-20px">
                                     {/* {reviews[i]} */}
