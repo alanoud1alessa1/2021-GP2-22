@@ -5,6 +5,8 @@ import jwt_decode from "jwt-decode";
 import { useState } from "react";
 import Axios from "axios";
 import Cookies from "universal-cookie";
+import { confirmAlert } from 'react-confirm-alert';
+
 // import ResetPassword from "../resetPassword";
 
 function loginPage(props) {
@@ -70,9 +72,11 @@ function loginPage(props) {
         passwordMessage=res.data.passwordMessage.passwordMessage;
         setPassword_Error_message(passwordMessage);
 
+
       }
       else {
         setPassword_Error_message("");
+  
       }
       
 
@@ -82,7 +86,8 @@ function loginPage(props) {
           return;
         }
 
-        else{
+
+
           // alert("Password changed successfully");
           confirmAlert({
             customUI: ({ onClose }) => {
@@ -103,10 +108,12 @@ function loginPage(props) {
             }
           });
                   window.location = "/login-page";
-          }
+          
       }
      });
   };
+
+  
 
 
   return (

@@ -12,6 +12,12 @@ router.post("/", (req, res) => {
     auth: {
       user: process.env.EMAIL,
       pass: process.env.EMAIL_PASS,
+
+      
+    // user: "Filmey.movies@gmail.com",
+    // pass:"Filmey.movies123",
+
+
     },
   });
 
