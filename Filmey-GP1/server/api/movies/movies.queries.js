@@ -202,24 +202,6 @@ module.exports = {
       .groupByRaw("movie_id");
   },
 
-  async CheckMovie(title, yearConverted) {
-    let checkMovie = await db(tableNames.movie)
-      .where({
-        title: title,
-        year: yearConverted,
-      })
-      .first()
-      .returning("*");
-
-    console.log(checkMovie);
-
-    if (checkMovie) {
-      //var message = { 'CheckMovieMessage' : "This movie already exists"};
-      var message = "This movie already exists";
-
-      return message;
-    }
-  },
 
   async CheckPoster(poster) {
     let checkPoster = await db(tableNames.movie)
@@ -270,10 +252,12 @@ module.exports = {
   },
 
     async checkTitleForAdd(title) {
+      console.log(title);
     let checkTitleForAdd = await db("Movie")
       .where({
         title: title,
       }).first().returning("*");
+      console.log(checkTitleForAdd);
       if(checkTitleForAdd){
         var message = "This movie already exists";
         return message;
@@ -323,11 +307,12 @@ module.exports = {
       if (checkActorImage[0]) {
         if (actorNames[i] != checkActorImage[0]) {
           message[i]="Image belongs to another actor";
+          return message;
         }
       }
     }
 
-    return message;
+    return;
   },
 
   async addMovie(
@@ -932,8 +917,8 @@ module.exports = {
     return True;
   },
 
-   async CheckTitleForEdit(movie_id,title,yearConverted) {
-    //console.log("in CheckTitleForEdit")
+   async checkTitleForEdit(movie_id,title) {
+   //console.log("in CheckTitleForEdit")
     let movie_idOfTitle = await db(tableNames.movie)
       .where({
         title: title,
@@ -941,8 +926,9 @@ module.exports = {
       })
       .first()
       .returning("*");
-   // console.log("CheckTitleForEdit");
-    console.log(movie_idOfTitle.movie_id);
+  //  console.log(movie_idOfTitle);
+  //   console.log(movie_idOfTitle.movie_id);
+  try{
     if(movie_idOfTitle.movie_id)
     {
       if (movie_id!=movie_idOfTitle.movie_id) 
@@ -951,6 +937,10 @@ module.exports = {
       return message;
       }
    }
+  }
+  catch{
+  return;
+  }
   },
 
   async CheckPosterForEdit(movie_id,poster) {
@@ -1287,7 +1277,7 @@ module.exports = {
       if (actor_id[0]) {
         let updateImage = await db(tableNames.actor)
           .update({
-            actor_image_url: actorImages[i].label,
+            actor_image_url: actorImages[i],
           })
           .where({
             actor_id: actor_id[0],
@@ -1299,10 +1289,10 @@ module.exports = {
           .insert({
             actor_id: newID,
             actor: actorNames[i].label,
-            actor_image_url: actorImages[i].label,
+            actor_image_url: actorImages[i],
           })
           .returning("*");
-        newID = newID + 1;
+        //newID = newID + 1;
         arrayofActorID.push(actor_id[0].actor_id);
       }
     }

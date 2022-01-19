@@ -6,6 +6,7 @@ const queries = require("./movies.queries");
 
 const router = express.Router();
 const isAuth = require("../../isAuth");
+const { json } = require("express");
 
 router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
@@ -411,17 +412,15 @@ router.post("/addMovie", async (req , res, next) => {
     var yearConverted=Number(year);
 
   try {
-      
-       const CheckMovieMessage = await queries.CheckMovie(title,yearConverted);
        const PosterMessage = await queries.CheckPoster(poster);
        const DescriptionMessage = await queries.CheckDescription(description);
        const checkActorImage = await queries.CheckActorImage(actorNames,actorImages);
        console.log(checkActorImage);
       const TrailerMessage = await queries.CheckTrailer(trailer_url);
       
-      if(CheckMovieMessage||PosterMessage||DescriptionMessage||TrailerMessage||checkActorImage)
+      if(PosterMessage||DescriptionMessage||TrailerMessage||checkActorImage)
       {
-        return res.json({CheckMovieMessage,PosterMessage,DescriptionMessage,TrailerMessage,checkActorImage});
+        return res.json({PosterMessage,DescriptionMessage,TrailerMessage,checkActorImage});
       }
     }
     catch{}
@@ -504,11 +503,7 @@ router.post("/checkTitleForAdd", async (req, res, next) => {
 
   try {
     const checkTitleForAdd = await queries.checkTitleForAdd(title);
-    if(checkTitleForAdd)
-    {
-      return res.json(checkTitleForAdd);
-    }
-    return;
+    return res.json(checkTitleForAdd);
     
   } catch (error) {
     console.log(error);
@@ -517,24 +512,21 @@ router.post("/checkTitleForAdd", async (req, res, next) => {
 }
 );
 
-// router.post("/checkTitleForEdit", async (req, res, next) => {
+router.post("/checkTitleForEdit", async (req, res, next) => {
 
-//   const {movie_id,title} = req.body;
+  const {movie_id,title} = req.body;
+  console.log(movie_id,title);
 
-//   try {
-//     const checkTitleForEdit= await queries.checkTitleForEdit(movie_id,title);
-//     if(checkTitleForEdit)
-//     {
-//       return res.json(checkTitleForEdit);
-//     }
-//     return;
+  try {
+    const checkTitleForEdit= await queries.checkTitleForEdit(movie_id,title);
+    return res.json(checkTitleForEdit);
     
-//   } catch (error) {
-//     console.log(error);
-//     return next(error);
-//   }
-// }
-// );
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
+}
+);
 
 
 
@@ -566,16 +558,16 @@ router.post("/editMovie", async (req , res, next) => {
 
       console.log("in try")
       
-      const CheckTitleForEditMessage = await queries.CheckTitleForEdit(movie_id,title,yearConverted);
+     // const CheckTitleForEditMessage = await queries.CheckTitleForEdit(movie_id,title,yearConverted);
       const CheckTrailerForEditMessage = await queries.CheckTrailerForEdit(movie_id,trailer_url);
       const CheckPosterForEditMessage = await queries.CheckPosterForEdit(movie_id,poster);
       const CheckDescriptionForEditMessage = await queries.CheckDescriptionForEdit(movie_id,description);
     //   const checkActorImage = await queries.CheckActorImage(actorNames,actorImages);
     //   console.log(checkActorImage);
     //  const TrailerMessage = await queries.CheckTrailer(trailer_url);
-      if(CheckTitleForEditMessage||CheckTrailerForEditMessage||CheckPosterForEditMessage||CheckDescriptionForEditMessage)
+      if(CheckTrailerForEditMessage||CheckPosterForEditMessage||CheckDescriptionForEditMessage)
      {
-       return res.json({CheckTitleForEditMessage,CheckTrailerForEditMessage,CheckPosterForEditMessage,CheckDescriptionForEditMessage});
+       return res.json({CheckTrailerForEditMessage,CheckPosterForEditMessage,CheckDescriptionForEditMessage});
      }
      
     //  if(CheckMovieMessage||PosterMessage||DescriptionMessage||TrailerMessage||checkActorImage[0])

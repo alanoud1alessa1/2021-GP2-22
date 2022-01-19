@@ -1,4 +1,5 @@
 
+
 // export default addMoviePage;
 
 import React from "react";
@@ -13,6 +14,8 @@ import { ActionMeta, OnChangeValue } from 'react-select';
 import validator from 'validator';
 import Cookies from "universal-cookie";
 import jwt_decode from "jwt-decode";
+import AsyncSelect from 'react-select/async';
+import AsyncCreatableSelect from 'react-select/async-creatable';
 
 
 
@@ -31,7 +34,6 @@ function addMoviePage(props) {
   const [descriptionState,setDescription]=useState('');
   const [directorState,setDirector]=useState('');
   const [writerState,setWriter]=useState('');
- // const [actorsArray,setActorArray]=useState([]);
   const [actorImageArrayState,setActorImageArrayState]=useState([]);
   const [actorNameArrayState,setActorNameArrayState]=useState([]);
   const [actorRoleArrayState,setActorRoleArrayState]=useState([]);
@@ -40,7 +42,7 @@ function addMoviePage(props) {
   const [allAgeGuide,setallAgeGuide]=useState([]);
   const [allDirectors,setAllDirectors]=useState([]);
   const [allWriters,setAllWriters]=useState([]);
-  const [allActors,setAllActors]=useState();
+  const [allActors,setAllActors]=useState([]);
   const [allRoles,setAllRoles]=useState([]);
   const [movieName_error_message,setMovieName_error_message]=useState('');
   const [moviePoster_error_message,setMoviePoster_error_message]=useState('');
@@ -58,12 +60,12 @@ function addMoviePage(props) {
   const [charactersErrorMessage, setcharactersErrorMessage] = useState('')
   
 
+  //Edit States
   const [getTitle, setGetTitle] = useState('');
   const [getTrailer, setGetTrailer] = useState('');
   const [getPoster, setGetPoster] = useState('');
   const [getDescription, setGetDescription] = useState('');
   const [getYear, setGetYear] = useState();
-  const [yearIndex, setYearIndex] = useState();
   const [getAgeGuide, setGetAgeGuide] = useState();
   const[getGenres,setGetGenres]= useState([]);
   const[getLanguages,setGetLanguages]= useState([]);
@@ -74,6 +76,19 @@ function addMoviePage(props) {
   const[getActorNames,setGetActorNames]= useState([]);
   const[getActorRoles,setGetActorRoles]= useState([]);
   const[getActorImages,setGetActorImages]= useState([]);
+  const[getActorImagesArrayInHTMLState,setGetActorImagesArrayInHTMLState]= useState([]);
+
+
+  var actorsArray;
+  var rolesArray;
+
+  // movie length
+  var length=hoursState + 'h ' + minutesState+'min';
+    
+  //movie id
+  let { id } = useParams();
+  id = parseInt(id);
+  
 
 // button disabled
   const isFilled = [];
@@ -120,7 +135,11 @@ for (var i = imageLength -1 ; i > -1 ; i-- ) {
  }
 }
 
+
+//Check repeated titles
 const CheckTitle = (value) => {
+
+  //Add 
   if(id==0)
  {
   const CheckTitleResult =  Axios.post("http://localhost:3000/api/v1/movies/checkTitleForAdd",{
@@ -129,22 +148,32 @@ const CheckTitle = (value) => {
 }).then((res)=>{
   if (res.data)
   {
-    console.log(res.data);
+    setMovieName_error_message(res.data);
+  }
+  else
+  {
+    setMovieName_error_message("");
   }
 })
 }
+
+//Edit
 else
  {
-//   const CheckTitleResult =  Axios.post("http://localhost:3000/api/v1/movies/checkTitleForEdit",{
-//     movie_id:id,
-//     title:value,
+  const CheckTitleResult =  Axios.post("http://localhost:3000/api/v1/movies/checkTitleForEdit",{
+    movie_id:id,
+    title:value,
 
-// }).then((res)=>{
-//   if (res.data)
-//   {
-//     console.log(res.data);
-//   }
-// })
+}).then((res)=>{
+  if (res.data)
+  {
+    setMovieName_error_message(res.data);
+  }
+  else
+  {
+    setMovieName_error_message("");
+  }
+})
 }
 }
 
@@ -325,16 +354,20 @@ const preventChar = (value) => {
   && repeatedActorName.length==0 && repeatedActorRole.length==0 && repeatedActorImage.length==0 && trailerURLErrorMessage==""
   && posterURLErrorMessage=="" && actor1ImageURLErrorMessage=="" && actor2ImageURLErrorMessage=="" && actor3ImageURLErrorMessage=="" && actor4ImageURLErrorMessage=="" 
   && actor5ImageURLErrorMessage=="" && charactersErrorMessage=="";
-    
-  var length=hoursState + 'h ' + minutesState+'min';
 
-    let { id } = useParams();
-    id = parseInt(id);
 
 
   var setGenreFunction=(e)=>{
     console.log(Array.isArray(e)?e.map(x=>x.label):[]);
     setGenre(Array.isArray(e)?e.map(x=>x.label):[]);
+
+    var newArrayOfGenres=Array.isArray(e)?e.map(x=>x.label):[];
+    getGenresArray=[];
+    for (var i = 0; i < newArrayOfGenres.length; i++) {
+
+      getGenresArray[i] = {value:i, label: newArrayOfGenres[i]};
+    }
+    setGetGenres(getGenresArray);
 
   }
 
@@ -342,114 +375,75 @@ const preventChar = (value) => {
   var setLanguageFunction=(e)=>{
     console.log(Array.isArray(e)?e.map(x=>x.label):[]);
     setLanaguage(Array.isArray(e)?e.map(x=>x.label):[]);
+
+    var newArrayOfLanguages=Array.isArray(e)?e.map(x=>x.label):[];
+    getLanguagesArray=[];
+    for (var i = 0; i < newArrayOfLanguages.length; i++) {
+
+      getLanguagesArray[i] = {value:i, label: newArrayOfLanguages[i]};
+    }
+    setGetLanguages(getLanguagesArray);
   }
 
   var setDirectorFunction=(e)=>{
     console.log(Array.isArray(e)?e.map(x=>x.label):[]);
     setDirector(Array.isArray(e)?e.map(x=>x.label):[]);
+
+    
+    var newArrayOfDirectors=Array.isArray(e)?e.map(x=>x.label):[];
+    getDirectorsArray=[];
+    for (var i = 0; i < newArrayOfDirectors.length; i++) {
+
+      getDirectorsArray[i] = {value:i, label: newArrayOfDirectors[i]};
+    }
+    setGetDirectors(getDirectorsArray);
+
+
   }
 
   var setWriterFunction=(e)=>{
     console.log(Array.isArray(e)?e.map(x=>x.label):[]);
     setWriter(Array.isArray(e)?e.map(x=>x.label):[]);
+
+    var newArrayOfWriters=Array.isArray(e)?e.map(x=>x.label):[];
+    getWritersArray=[];
+    for (var i = 0; i < newArrayOfWriters.length; i++) {
+
+      getWritersArray[i] = {value:i, label: newArrayOfWriters[i]};
+    }
+    setGetWriters(getWritersArray);
+
   }
 
-//var actorRoleArray=[];
 
 
 var actorNameArray = [...actorNameArrayState];
 var actorImageArray=[...actorImageArrayState];
 var actorRoleArray=[...actorRoleArrayState];
+var getActorNamesArray=[...getActorNames];
 
-// const setActorName  = index =>(newValue, actionMeta) => {
-//   console.log("setActorName");
-//   actorNameArray[index] =newValue.label;
-//   // console.log(actorNameArray);
-//   setActorNameArrayState(actorNameArray);
-//   //console.log(actorNameArrayState);
-//   // console.log("actorImageArray");
-//   // console.log(actorImageArray);
-//   // var actorMessage;
-//   // var actorMessages=[];
-//   // var length=actorNameArray.length;
-
-
-//   // [a , b ,c ]
-//   // for (var i=0;i<length;i++)
-//   // {
-//   //   var actorname=actorNameArray[i];
-//   //   // console.log(x);
-//   //   for (var z=i+1;z<length;z++)
-//   //   {
-//   //     if(actorname==actorNameArray[z])
-//   //     {
-//   //       actorMessage=[z, "This actor has already been choosen"];
-//   //       actorMessages.push(actorMessage);
-//   //       console.log(actorMessages);  
-//   //     } 
-//   //   }
-
-//   // }
-
-//   // for (var i=length-1;i>-1;i--)
-//   // {
-//   //   var actorname=actorNameArray[length-1];
-//   //   // console.log(x);
-//   //   for (var z=i-1;z>-1;z--)
-//   //   {
-//   //     if(actorname==actorNameArray[z])
-//   //     {
-//   //       // actorMessage=[z, "This actor has already been choosen"];
-//   //       actorMessages[z]("This actor has already been choosen");
-//   //       // console.log(actorMessages);  
-//   //     } 
-//   //   }
-
-//   // }
-//   // setActorName_error_message(actorMessages);
-//   const getActorImage =  Axios.get(
-//   `http://localhost:3000/api/v1/movies/getActorImage/${actorNameArray[index]}`
-//   )
-//   .then((res)=>{
-//     console.log(res.data);
-
-//     if(res.data.NoActorImage)
-//     {
-//       actorImageArray[index]="";
-//       console.log(actorImageArray);
-//       setActorImageArrayState(actorImageArray);
-//     }
-//     else{
-//     console.log("else");
-//     actorImageArray[index]=res.data;
-//     console.log(actorImageArray)
-//     setActorImageArrayState(actorImageArray);
-//     }
-//   })
- 
-
-// };
-
-
-// const setActorRole  = index =>(newValue, actionMeta) => {
-//   actorRoleArray[index] =newValue.label;
-//   console.log(actorRoleArray);
-//   setActorRoleArrayState(actorRoleArray);
-//   console.log(actorRoleArrayState);
-// };
-
-// const setActorImage = (index, value) => {
-//   // console.log(index);
-//   // console.log(value);
-//   actorImageArray[index] =value;
-//   console.log(actorImageArray)
-//   setActorImageArrayState(actorImageArray);
-//   console.log(actorImageArrayState)
-// };
 
 const setActorName  = index =>(newValue, actionMeta) => {
-  if(id=0){
-  console.log("setActorName");
+  if(newValue==null)
+  {
+    if(id==0)
+    {
+    actorNameArray[index] =newValue;
+    setActorNameArrayState(actorNameArray);
+    }
+    else
+    {
+      getActorNamesArray[index]=newValue;
+      setGetActorNames(getActorNamesArray);
+    }
+    actorImageArray[index]="";
+    getActorImagesArrayInHTML[index]="";
+    setActorImageArrayState(actorImageArray);
+    setGetActorImagesArrayInHTMLState(getActorImagesArrayInHTML);
+    return;
+  }
+
+  if(id==0){
   actorNameArray[index] =newValue.label;
   setActorNameArrayState(actorNameArray);
   const getActorImage =  Axios.get(
@@ -461,25 +455,29 @@ const setActorName  = index =>(newValue, actionMeta) => {
     if(res.data.NoActorImage)
     {
       actorImageArray[index]="";
-      console.log(actorImageArray);
       setActorImageArrayState(actorImageArray);
+
+      getActorImagesArrayInHTML[index]="";
+      setActorImageArrayState(getActorImagesArrayInHTML);
+
     }
     else{
-    console.log("else");
     actorImageArray[index]=res.data;
-    console.log(actorImageArray)
     setActorImageArrayState(actorImageArray);
+
+    getActorImagesArrayInHTML[index]=res.data;
+    setActorImageArrayState(getActorImagesArrayInHTML);
+
     }
   })
 }
 else
 {
 
-  console.log('in else');
-  console.log(getActorNamesArray[index]);
   getActorNamesArray[index]=newValue;
   setGetActorNames(getActorNamesArray);
-  console.log(getActorNamesArray[index]);
+
+  
   const getActorImage =  Axios.get(
   `http://localhost:3000/api/v1/movies/getActorImage/${newValue.label}`
   )
@@ -487,24 +485,32 @@ else
 
     if(res.data.NoActorImage)
     {
-      getActorImagesArray[index]="";
-      setGetActorImages(getActorImagesArray);
+       getActorImagesArrayInHTML[index]="";
+       setActorImageArrayState(getActorImagesArrayInHTML);
     }
     else{
-      getActorImagesArray[index]={value:index, label: res.data};
-    
-      setGetActorImages(getActorImagesArray);
+       getActorImagesArrayInHTML[index]=res.data;
+       setActorImageArrayState(getActorImagesArrayInHTML);
     }
   })
 
 }
- 
+ setGetActorImagesArrayInHTMLState(getActorImagesArrayInHTML);
+ console.log(getActorImagesArrayInHTML);
 
 };
 
 
 const setActorRole  = index =>(newValue, actionMeta) => {
-  if(id=0)
+  if(id==0&&newValue==null)
+  {
+    console.log(newValue);
+    actorRoleArray[index] =newValue;
+    setActorRoleArrayState(actorRoleArray);
+    return;
+  }
+
+  if(id==0)
   {
   actorRoleArray[index] =newValue.label;
   console.log(actorRoleArray);
@@ -520,32 +526,26 @@ const setActorRole  = index =>(newValue, actionMeta) => {
 };
 
 const setActorImage = (index, value) => {
-  if(id=0)
+  if(id==0)
   {
   actorImageArray[index] =value;
   console.log(actorImageArray)
   setActorImageArrayState(actorImageArray);
   console.log(actorImageArrayState);
   }
-  else
-  {
+    getActorImagesArrayInHTML[index]=value;
+    setGetActorImagesArrayInHTMLState(getActorImagesArrayInHTML);
     getActorImagesArray[index]={value:index, label: value};
     setGetActorImages(getActorImagesArray);
-  }
 };
 
 
 const cookies = new Cookies();
 const token = cookies.get("token");
 var decoded = jwt_decode(token);
-console.log(decoded);
 var adminID=decoded.userID;
-console.log("adminID");
-console.log(adminID);
 
   const addMovie=()=>{
-    console.log(length);
-    console.log("length");
 
     console.log(titleState,
      genreState,
@@ -582,23 +582,6 @@ console.log(adminID);
   }
   )
   .then((res)=>{
-    // if(res.data.CheckMovieMessage.CheckMovieMessage)
-    // {
-    //   console.log(res.data.CheckMovieMessage.CheckMovieMessage);
-    // }
-    if(res.data.CheckMovieMessage)
-    {
-      console.log(res.data.CheckMovieMessage);
-      setMovieName_error_message(res.data.CheckMovieMessage);
-    }
-    else{
-      setMovieName_error_message('');
-    }
-
-    // if(res.data.PosterMessage.PosterMessage)
-    // {
-    //   console.log(res.data.PosterMessage.PosterMessage);
-    // }
     if(res.data.PosterMessage)
     {
       console.log(res.data.PosterMessage);
@@ -607,12 +590,6 @@ console.log(adminID);
     else{
       setMoviePoster_error_message('');
     }
-
-
-    // if(res.data.DescriptionMessage.DescriptionMessage)
-    // {
-    //   console.log(res.data.DescriptionMessage.DescriptionMessage);
-    // }
     if(res.data.DescriptionMessage)
     {
       console.log(res.data.DescriptionMessage);
@@ -621,10 +598,7 @@ console.log(adminID);
     else{
       setMovieDes_error_message('')
     }
-    // if(res.data.TrailerMessage.TrailerMessage)
-    // {
-    //   console.log(res.data.TrailerMessage.TrailerMessage);
-    // }
+  
     if(res.data.TrailerMessage)
     {
       console.log(res.data.TrailerMessage);
@@ -663,7 +637,8 @@ console.log(adminID);
      
       for (var i = 0; i < 72 ; i++) {
         
-        yearsArray[i] = {value:year++, label: year++};
+        yearsArray[i] = {value:year, label: year};
+        year++;
       }
       console.log(yearsArray);
 
@@ -680,16 +655,8 @@ console.log(adminID);
         minutesArray[i] = {value:i, label: minute++};
     }
 
-  //   const editMovie=()=>
-  //   {
-  //     if(id>0)
-  //   {
-  //     const s =Axios.get(`http://localhost:3000/api/v1/movies/getMovieFormData/${id}`).then((response) => {
-  //     console.log(response.data);
-  //   });
-  // }
-  //   }
-
+  
+ //Edit variables to send for backend
   var titleEdited;
   var genreEdited;
   var languageEdited;
@@ -706,8 +673,6 @@ console.log(adminID);
   var actorImagesEdited;
 
   const editMovie=()=>{
-    // console.log(length);
-    // console.log("length");
 
     if(titleState)
     {
@@ -719,13 +684,11 @@ console.log(adminID);
     }
 
     if(genreState)
-    {
-      console.log(getGenresArray);
+    {;
       genreEdited=genreState;
     }
     else
     {
-      console.log(getGenresArray);
       genreEdited=getGenresArray;
     }
 
@@ -747,17 +710,43 @@ console.log(adminID);
       yearEdited=getYear;
     }
 
-    if(hoursState&&minutesState)
+    if(hoursState)
     {
+      console.log("minutesState")
+      console.log(minutesState)
+      if(minutesState)
+      {
+        lengthEdited=hoursState + 'h ' + minutesState+'min';
+      }
+      else
+      {
+        lengthEdited=hoursState + 'h ' + getMinutes+'min';
+      }
       console.log(length);
-      lengthEdited=length;
     }
     else
     {
-      console.log(getHours,getMinutes);
-      lengthEdited=getHours + 'h ' + getMinutes+'min';
+    if(minutesState)
+    { 
+      console.log("minutesState")
+      console.log(minutesState)
+      if(hoursState)
+      {
+        lengthEdited=hoursState + 'h ' + minutesState+'min';
+      }
+      else
+      {
+        lengthEdited=getHours + 'h ' + minutesState+'min';
+      }
+      console.log(length);
     }
-
+    else{
+      {
+        console.log(getHours,getMinutes);
+        lengthEdited=getHours + 'h ' + getMinutes+'min';
+      }
+    }
+  }
     if(ageGuideSate)
     {
       ageGuideEdited=ageGuideSate;
@@ -818,32 +807,90 @@ console.log(adminID);
     }
     else
     {
+      for(let i=0; i<getActorNames.length;i++)
+      {
+        if(getActorNames[i]==null)
+        {
+          getActorNames.splice(i, 1);
+          console.log("getActorNames")
+          console.log(getActorNames)
+
+        }
+      }
       actorNamesEdited=getActorNames;
     }
 
     if(actorRoleArray.length)
     {
+      for(let i=0; i<actorRoleArray.length;i++)
+      {
+        if(!actorRoleArray[i])
+        {
+          actorRoleArray.splice(i, 1);
+
+        }
+      }
       actorRolesEdited=actorRoleArray;
     }
     else
     {
+      for(let i=0; i<getActorRoles.length;i++)
+      {
+        if(getActorRoles[i]==null)
+        {
+          getActorRoles.splice(i, 1);
+          console.log("getActorRoles")
+          console.log(getActorRoles)
+
+        }
+      }
       actorRolesEdited=getActorRoles;
     }
+    
 
-    if(actorImageArray.length)
+    if(getActorImagesArrayInHTML.length)
     {
-      actorImagesEdited=actorImageArray;
+      console.log("getActorImagesArrayInHTML");
+      for(let i=0; i<getActorImagesArrayInHTML.length;i++)
+      {
+        if(!getActorImagesArrayInHTML[i])
+        {
+          getActorImagesArrayInHTML.splice(i, 1);
+
+        }
+      }
+      actorImagesEdited=getActorImagesArrayInHTML;
     }
     else
     {
+      for(let i=0; i<getActorImages.length;i++)
+      {
+        if(getActorImages[i]==null)
+        {
+          getActorImages.splice(i, 1);
+          console.log("getActorImages")
+          console.log(getActorImages)
+
+        }
+      }
       actorImagesEdited=getActorImages;
     }
+
 
     console.log
     ( titleEdited, genreEdited, languageEdited, yearEdited, lengthEdited, ageGuideEdited, trailerEdited, 
       posterEdited, descriptionEdited, directorsEdited, writersEdited, actorNamesEdited,actorRolesEdited, 
       actorImagesEdited,
     );
+
+    if(actorNamesEdited.length!=actorImagesEdited.length||actorNamesEdited.length!=actorRolesEdited.length||actorImagesEdited.length!=actorRolesEdited.length)
+    {
+      console.log(actorNamesEdited.length);
+      console.log(actorRolesEdited.length);
+      console.log(actorImagesEdited.length);
+      console.log("Please fill Top Cast correctly");
+      return;
+    }
 
    
   const editMovieRes =  Axios.post("http://localhost:3000/api/v1/movies/editMovie",{
@@ -865,177 +912,28 @@ console.log(adminID);
     actorImages:actorImagesEdited,
   }
   ).then((res)=>{
-    console.log(res)
+    if(res.data.movieID)
+    {
+      window.location = `/movieInfoPage/${id}`;
+    }
+
+    setMoviePoster_error_message(res.data.CheckPosterForEditMessage);
+    setMovieTrailer_error_message(res.data.CheckTrailerForEditMessage);
+    setMovieDes_error_message(res.data.CheckDescriptionForEditMessage);
+
   })
-  // .then((res)=>{
-  //   if(res.data.CheckMovieMessage)
-  //   {
-  //     console.log(res.data.CheckMovieMessage);
-  //     setMovieName_error_message(res.data.CheckMovieMessage);
-  //   }
-  //   else{
-  //     setMovieName_error_message('');
-  //   }
-  //   if(res.data.PosterMessage)
-  //   {
-  //     console.log(res.data.PosterMessage);
-  //     setMoviePoster_error_message(res.data.PosterMessage);
-  //   }
-  //   else{
-  //     setMoviePoster_error_message('');
-  //   }
-  //   if(res.data.DescriptionMessage)
-  //   {
-  //     console.log(res.data.DescriptionMessage);
-  //     setMovieDes_error_message(res.data.DescriptionMessage)
-  //   }
-  //   else{
-  //     setMovieDes_error_message('')
-  //   }
-  //   if(res.data.TrailerMessage)
-  //   {
-  //     console.log(res.data.TrailerMessage);
-  //     setMovieTrailer_error_message(res.data.TrailerMessage);
-  //   }
-  //   else{
-  //     setMovieTrailer_error_message('');
-  //   }
-
-  //   if(res.data.checkActorImage)
-  //   {
-  //     console.log(res.data.checkActorImage);
-  //     setMovieActorImage_error_message(res.data.checkActorImage);
-  //   }
-  //   else{
-  //     setMovieActorImage_error_message('');
-  //   }
-
-  //   console.log(res.data.movieID);
-
-
-  //   if(res.data.movieID)
-  //   {
-  //     alert("Movie added successfully");
-  //     var newMovieID =res.data.movieID;
-  //     window.location = `/movieInfoPage/${newMovieID}`;
-  //   }
-  // })
-
   }
 
    var getGenresArray=[...getGenres];
    var getLanguagesArray=[...getLanguages];
-   var getDirectorsArray=[...getDescription];
+   var getDirectorsArray=[...getDirectors];
    var getWritersArray=[...getWriters];
-   var getActorNamesArray=[...getActorNames];
    var getActorRolesArray=[...getActorRoles];
    var getActorImagesArray=[...getActorImages];
+   var getActorImagesArrayInHTML=[...getActorImagesArrayInHTMLState];
+
 
   React.useEffect(() => {
-
-    if(id>0)
-    {
-      const b = Axios.get(`http://localhost:3000/api/v1/movies/getMovieFormData/${id}`).then((response) => {
-      //console.log(response.data);
-      console.log("response.data[0].movieInfo");
-      console.log(response.data);
-      console.log(response.data.movieInfo[0]);
-      console.log(response.data.movieInfo[0].title);
-
-      setGetTitle(response.data.movieInfo[0].title);
-      setGetTrailer(response.data.movieInfo[0].trailer_url);
-      setGetPoster(response.data.movieInfo[0].poster);
-      setGetDescription(response.data.movieInfo[0].description);
-
-      console.log(response.data.movieInfo[0].length);
-      var movieLength=response.data.movieInfo[0].length;
-      setGetHours(movieLength.substring(0, movieLength.indexOf("h")));
-      setGetMinutes(movieLength.substring(movieLength.indexOf(" ")+1, movieLength.indexOf("min")));
-      // console.log("min");
-      // console.log(movieLength.substring(movieLength.indexOf(" ")+1, movieLength.indexOf("min")));
-
-      // console.log(y.substring(0, y.indexOf("h")));
-      // console.log(y.substring(y.indexOf(" ")+1), y.indexOf("min"));
-
-
-
-    
-      
-       setGetYear(response.data.movieInfo[0].year);
-       //console.log(yearsArray[0].label);
-       for (let i = 0; i < yearsArray.length; i++){
-         if(response.data.movieInfo[0].year==yearsArray[i].value)
-         {
-          setYearIndex(i);
-         // console.log("nnn");
-          index=i;
-          //console.log(index);
-          break;
-         }
-       }
-
-       setGetAgeGuide(response.data.movieInfo[0].age_guide)
-     // console.log(response.data.arrayofGenres);
-      //genresArray=response.data.arrayofGenres;
-      //console.log(genresArray);
-      for (var i = 0; i < response.data.arrayofGenres.length; i++) {
-
-        getGenresArray[i] = {value:i, label: response.data.arrayofGenres[i]};
-        //console.log(getGenresArray);
-      }
-      setGetGenres(getGenresArray);
-
-      for (var i = 0; i < response.data.arrayofLanguages.length; i++) {
-
-        getLanguagesArray[i] = {value:i, label: response.data.arrayofLanguages[i]};
-       // console.log(getLanguagesArray);
-      }
-      setGetLanguages(getLanguagesArray);
-
-      for (var i = 0; i < response.data.arrayofDirectors.length; i++) {
-
-        getDirectorsArray[i] = {value:i, label: response.data.arrayofDirectors[i]};
-        //console.log(getDirectorsArray);
-      }
-      setGetDirectors(getDirectorsArray);
-
-      for (var i = 0; i < response.data.arrayofWriters.length; i++) {
-
-        getWritersArray[i] = {value:i, label: response.data.arrayofWriters[i]};
-       // console.log(getWritersArray);
-      }
-      setGetWriters(getWritersArray);
-      // console.log(response.data.actorInfoArray);
-      // console.log(response.data.actorInfoArray.length);
-
-      for (var i = 0; i < response.data.actorInfoArray.length; i++) {
-
-        getActorNamesArray[i] = {value:i, label: response.data.actorInfoArray[i][0].actorName};
-        getActorRolesArray[i] = {value:i, label: response.data.actorInfoArray[i][0].movieRole};
-        getActorImagesArray[i] = {value:i, label: response.data.actorInfoArray[i][0].actorImage};
-
-        // console.log(getActorNamesArray);
-        // console.log(getActorRolesArray);
-        // console.log(getActorImagesArray);
-      }
-      setGetActorNames(getActorNamesArray);
-      setGetActorRoles(getActorRolesArray);
-      setGetActorImages(getActorImagesArray);
-      //  y=response.data.movieInfo[0].year;
-      // console.log(getYear);
-      // console.log(y);
-      // setGetAgeGuide(response.data.movieInfo[0].age_guide);
-      // movieAgeGuide=response.data.movieInfo[0].age_guide;
-
-      // console.log(getAgeGuide);
-      // console.log(response.data.movieInfo[0].age_guide);
-      // var x=response.data.movieInfo[0].age_guide;
-      // console.log(x);
-
-    });
-  }
-  
-      
 
     const res =Axios.get("http://localhost:3000/api/v1/movies/allGenres/1").then((response) => {
       const genresArray = [...allGenres];
@@ -1091,8 +989,8 @@ console.log(adminID);
 
     });
 
-    const res5 =Axios.get("http://localhost:3000/api/v1/movies/allActors/1").then((response) => {
-      const actorsArray = [...allWriters];
+    const res5 =Axios.get("http://localhost:3000/api/v1/movies/allActors/1").then((response) => {;
+      actorsArray = [...allActors];
 
       for (var i = 0; i < response.data.length; i++) {
         actorsArray[i] = {value:i, label: response.data[i].actor};
@@ -1102,7 +1000,7 @@ console.log(adminID);
     });
 
     const res6 = Axios.get("http://localhost:3000/api/v1/movies/allRoles/1").then((response) => {
-      const rolesArray = [...allRoles];
+      rolesArray = [...allRoles];
 
       for (var i = 0; i < response.data.length; i++) {
         rolesArray[i] = {value:i, label: response.data[i].role};
@@ -1110,30 +1008,95 @@ console.log(adminID);
       setAllRoles(rolesArray);
 
     });
+
+    if(id>0)
+    {
+      const b = Axios.get(`http://localhost:3000/api/v1/movies/getMovieFormData/${id}`).then((response) => {
+      console.log(response.data);
+      setGetTitle(response.data.movieInfo[0].title);
+      setGetTrailer(response.data.movieInfo[0].trailer_url);
+      setGetPoster(response.data.movieInfo[0].poster);
+      setGetDescription(response.data.movieInfo[0].description);
+      var movieLength=response.data.movieInfo[0].length;
+      setGetHours(movieLength.substring(0, movieLength.indexOf("h")));
+      setGetMinutes(movieLength.substring(movieLength.indexOf(" ")+1, movieLength.indexOf("min")));
+      setGetYear(response.data.movieInfo[0].year);
+      setGetAgeGuide(response.data.movieInfo[0].age_guide)
+
+      for (var i = 0; i < response.data.arrayofGenres.length; i++) {
+
+        getGenresArray[i] = {value:i, label: response.data.arrayofGenres[i]};
+      }
+      setGetGenres(getGenresArray);
+
+      for (var i = 0; i < response.data.arrayofLanguages.length; i++) {
+
+        getLanguagesArray[i] = {value:i, label: response.data.arrayofLanguages[i]};
+      }
+      setGetLanguages(getLanguagesArray);
+
+      for (var i = 0; i < response.data.arrayofDirectors.length; i++) {
+
+        getDirectorsArray[i] = {value:i, label: response.data.arrayofDirectors[i]};
+      }
+      setGetDirectors(getDirectorsArray);
+
+      for (var i = 0; i < response.data.arrayofWriters.length; i++) {
+
+        getWritersArray[i] = {value:i, label: response.data.arrayofWriters[i]};
+      }
+      setGetWriters(getWritersArray);
+
+      for (var i = 0; i < response.data.actorInfoArray.length; i++) {
+        getActorNamesArray[i] = {value:i, label: response.data.actorInfoArray[i][0].actorName};
+        getActorRolesArray[i] = {value:i, label: response.data.actorInfoArray[i][0].movieRole};
+        getActorImagesArrayInHTML[i] = response.data.actorInfoArray[i][0].actorImage;
+      }
+      setGetActorImagesArrayInHTMLState(getActorImagesArrayInHTML);
+      setGetActorNames(getActorNamesArray);
+      setGetActorRoles(getActorRolesArray);
+
+    });
+  }
   }, []);
 
   const runCallback = (cb) => {
     return cb();
   };
 
+  // const loadOptions = (inputValue) => {
+  //   return new Promise((resolve, reject) => {
+  //     // using setTimeout to emulate a call to server
+  //     setTimeout(() => {
+  //       resolve(filter(inputValue));
+  //     }, 2000);
+  //   });
+  // };
+
+  // const filter = (inputValue) =>
+  //   options.filter((option) =>
+  //     option.label.toLowerCase().includes(inputValue.toLowerCase())
+  //   );
+
+  const loadOptions = () => {
+    return allGenres[0].label;
+  };
+  
+
+
+
 
 
   const {
-    addmovietext,
     movieInformation,
     title,
-    inputType,
-    inputPlaceholder,
     genre,
     lanaguage,
-    yearTitle,
     movielenadd,
-    hoursandmins,
     ageguide,
     trailer,
     poster,
     description,
-    inputType2,
     inputPlaceholder2,
     directorWriter,
     directoradd,
@@ -1181,12 +1144,12 @@ console.log(adminID);
 
           {/* Genre */}
           <div className="addMovieflex-col-item neuton-bold-white-30px7">{genre}</div>
-          <Select 
-                 defaultValue={getGenresArray}
+          <AsyncSelect
+                 value={getGenresArray}
+                 isClearable
+                 defaultOptions={allGenres}
                  isMulti 
-                 options={allGenres}
                  onChange={setGenreFunction}
-                 closeMenuOnSelect={false} 
                  isSearchable
                  className="addMoviegenre-container"
                  placeholder="Select movie genres"
@@ -1224,20 +1187,15 @@ console.log(adminID);
                     color: 'white',
                   }),
                 }}
-                 >
-                </Select>
+                />
           {/* lanaguage */}
           <div className="addMovielanaguage neuton-bold-white-30px7">{lanaguage}</div>
-          <Select 
-                 defaultValue={getLanguagesArray}
-                 isMulti //options={genres} 
-                // options={allGenres}
-                //  onChange={getGenres}
-                //options={allLanguages}
-                options={allLanguages}
-                onChange={setLanguageFunction}
-                 //onChange={getGenres}
-                // filterOption={filterOption}
+          <AsyncSelect
+                 value={getLanguagesArray}
+                 isMulti
+                 isClearable
+                 defaultOptions={allLanguages}
+                 onChange={setLanguageFunction}
                  closeMenuOnSelect={false} 
                  isSearchable
                  className="addMovielanaguage-container"
@@ -1276,8 +1234,7 @@ console.log(adminID);
                     color: 'white',
                   }),
                 }}
-                 >
-                </Select>
+                />
 
          <div className="GenreYear">
 
@@ -1287,11 +1244,15 @@ console.log(adminID);
           className="movieYearBox"
           onChange={
             (e)=>{
+              console.log(getYear);
               setYear(e.target.value);
-              //console.log(e.target.value); 
             } 
           }>
-            <option selected disabled hidden className="selectText roboto-normal-pink-swan-16px" value=""> Select movie year</option>
+            {id==0 &&(
+            <option selected disabled hidden className="selectText roboto-normal-pink-swan-16px" value=""> Select movie year</option>)}
+            {id!==0 &&(
+            <option selected className="selectText roboto-normal-pink-swan-16px" value=""> {getYear}</option>)}
+            
             {yearsArray.map((option) => (
               <option value={option.label}>{option.label}</option>
             ))
@@ -1309,7 +1270,10 @@ console.log(adminID);
             setAgeGuide(e.target.value); 
           } 
         }>
-            <option selected disabled hidden className="selectText roboto-normal-pink-swan-16px" value=""> Select movie age guide</option>
+          {id==0&&(
+            <option selected disabled hidden className="selectText roboto-normal-pink-swan-16px" value=""> Select movie age guide</option>)}
+            {id!=0&&(
+            <option selected className="selectText roboto-normal-pink-swan-16px" value=""> {getAgeGuide}</option>)}
             {allAgeGuide.map((option) => (
 
               <option value={option.label}>{option.label}</option>
@@ -1392,10 +1356,13 @@ console.log(adminID);
           onChange={
             (e)=>{
               setHours(e.target.value); 
-              console.log()
             } 
           }>
-            <option selected disabled hidden className="selectText roboto-normal-pink-swan-16px" value=""> Select hours</option>
+            {id==0&&(
+            <option selected disabled hidden className="selectText roboto-normal-pink-swan-16px" value=""> Select hours</option>)}
+            
+            {id!=0&&(
+            <option selected className="selectText roboto-normal-pink-swan-16px" value="">{getHours}</option>)}
             {hoursArray.map((option) => (
               <option value={option.label}>{option.label}</option>
             ))
@@ -1411,10 +1378,13 @@ console.log(adminID);
           onChange={
             (e)=>{
               setMinutes(e.target.value); 
-              console.log()
             } 
           }>
-            <option selected disabled hidden className="selectText roboto-normal-pink-swan-16px" value=""> Select minutes</option>
+            {id==0&&(
+            <option selected disabled hidden className="selectText roboto-normal-pink-swan-16px" value=""> Select minutes</option>)}
+
+            {id!=0&&(
+            <option selected className="selectText roboto-normal-pink-swan-16px" value="">{getMinutes}</option>)}
             {minutesArray.map((option) => (
 
               <option value={option.label}>{option.label}</option>
@@ -1433,15 +1403,15 @@ console.log(adminID);
 
           {/* Director */}
           <div className="addMovieflex-col-item neuton-bold-white-30px7">{directoradd}</div>
-          <CreatableSelect
-          defaultValue={getDirectorsArray}
+          <AsyncCreatableSelect
+          value={getDirectorsArray}
           isSearchable
           isMulti
           formatCreateLabel={(inputText) => `${inputText}`}
           onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
           className="addMoviedirector-container"
           placeholder="Select or write movie directors"
-          options={allDirectors}
+          defaultOptions={allDirectors}
           onChange={setDirectorFunction}
           theme={(theme) => ({
             ...theme,
@@ -1481,16 +1451,15 @@ console.log(adminID);
 
           {/* Writer */}
           <div className="addMoviewriter neuton-bold-white-30px7">{writer}</div>
-          <CreatableSelect
-          defaultValue={getWritersArray}
+          <AsyncCreatableSelect
+          value={getWritersArray}
           isSearchable
           formatCreateLabel={(inputText) => `${inputText}`}
           onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
           isMulti
           className="addMoviewriter-container"
           placeholder="Select or write movie writers"
-         // options={allWriters}
-          options={allWriters}
+          defaultOptions={allWriters}
           onChange={setWriterFunction}
           theme={(theme) => ({
             ...theme,
@@ -1549,7 +1518,7 @@ console.log(adminID);
 
                   {/* actor name */}
                  <CreatableSelect
-                    defaultValue={getActorNamesArray[0]}
+                   value={getActorNamesArray[0]}
                     isSearchable
                     isClearable
                     className="addMovieactor"
@@ -1558,16 +1527,7 @@ console.log(adminID);
                     placeholder="Select or write actor name"
                     options={allActors} 
                     isClearable={true}
-                    // onChange={
-                    //   (e) =>{
-                    //   // actorNameArray[1]=e.target.value
-                    //   console.log(e.target.value)
-                    //   }
-                    // }
                     onChange={setActorName(0)}
-
-
-                    //onInputChange={handleInputChange}
                     theme={(theme) => ({
                       ...theme,
                       borderRadius: 0,
@@ -1595,7 +1555,9 @@ console.log(adminID);
                   
                   {/* actor role */}
                   <CreatableSelect
+                    value={getActorRolesArray[0]}
                     isSearchable
+                    isClearable
                     className="addMovieactor-role"
                     placeholder="Select or write actor role"
                     formatCreateLabel={(inputText) => `${inputText}`}
@@ -1603,12 +1565,6 @@ console.log(adminID);
                     options={allRoles}
                     onChange={setActorRole(0)}
                     isClearable={true}
-
-                  //  onChange={
-                  //   (e) =>{
-                  //   actorRoleArray[1]=e.target
-                  //   }
-                  // }
                     theme={(theme) => ({
                       ...theme,
                       borderRadius: 0,
@@ -1642,10 +1598,7 @@ console.log(adminID);
                     name="actorImage"
                     type="text"
                     required
-                   // value={actorImageArray[0]}
-                  // value={actorImageArrayState[0]}
-                    value={actorImageArray[0]}
-                    //onChange={setActorImage[0]}
+                    value={getActorImagesArrayInHTMLState[0]}
                     onChange={
                       (e) =>{
                         setActorImage(0,e.target.value);
@@ -1672,18 +1625,14 @@ console.log(adminID);
                   {/* actor name */}
                   <div  className="addMovieactor"> 
                  <CreatableSelect
-                    defaultValue={getActorNames[1]}
+                    value={getActorNames[1]}
                     isSearchable
                     isClearable
-                    // className="addMovieactor"
-                    isDisabled={!isFilled[0]}
                     formatCreateLabel={(inputText) => `${inputText}`}
                     onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
                     placeholder="Select or write actor name"
                     options={allActors} 
-                    //onChange={setActorName(i)}
                     onChange={setActorName(1)}
-                    //onInputChange={handleInputChange}
                     theme={(theme) => ({
                       ...theme,
                       borderRadius: 0,
@@ -1716,9 +1665,10 @@ console.log(adminID);
                   <CreatableSelect
                     isSearchable
                     isClearable
+                    value={getActorRolesArray[1]}
                     // className="addMovieactor-role"
                     placeholder="Select or write actor role"
-                    isDisabled={!isFilled[0]}
+                   // isDisabled={!isFilled[0]}
                     formatCreateLabel={(inputText) => `${inputText}`}
                     onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
                     options={allRoles}
@@ -1759,9 +1709,8 @@ console.log(adminID);
                     name="actorImage"
                     type="text"
                     required
-                    disabled={!isFilled[0]}
-                    value={actorImageArray[1]}
-                    //onChange={setActorImage[1]}
+                   //disabled={!isFilled[0]}
+                    defaultValue={getActorImagesArrayInHTML[1]}
                     onChange={
                       (e) =>{
                         setActorImage(1,e.target.value);
@@ -1790,17 +1739,16 @@ console.log(adminID);
                   {/* actor name */}
                   <div className="addMovieactor">
                  <CreatableSelect
-                    defaultValue={getActorNames[2]}
+                    value={getActorNames[2]}
                     isSearchable
                     isClearable
                     // className="addMovieactor"
                     formatCreateLabel={(inputText) => `${inputText}`}
-                    isDisabled={!isFilled[1]}
+                    //isDisabled={!isFilled[1]}
                     onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
                     placeholder="Select or write actor name"
                     options={allActors} 
                     onChange={setActorName(2)}
-                    //onInputChange={handleInputChange}
                     theme={(theme) => ({
                       ...theme,
                       borderRadius: 0,
@@ -1834,12 +1782,13 @@ console.log(adminID);
                   <CreatableSelect
                     isSearchable
                     isClearable
+                    value={getActorRolesArray[2]}
                     // className="addMovieactor-role"
                     placeholder="Select or write actor role"
                     formatCreateLabel={(inputText) => `${inputText}`}
                     onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
                     options={allRoles}
-                    isDisabled={!isFilled[1]}
+                    //isDisabled={!isFilled[1]}
                     onChange={setActorRole(2)}
                     theme={(theme) => ({
                       ...theme,
@@ -1878,10 +1827,8 @@ console.log(adminID);
                     name="actorImage"
                     type="text"
                     required
-                    disabled={!isFilled[1]}
-                    //value={actorImageArrayState[2]}
-                    value={actorImageArray[2]}
-                    //onChange={setActorImage[2]}
+                    //disabled={!isFilled[1]}
+                    defaultValue={getActorImagesArrayInHTML[2]}
                     onChange={
                       (e) =>{
                         setActorImage(2,e.target.value);
@@ -1908,17 +1855,16 @@ console.log(adminID);
                   {/* actor name */}
                   <div className="addMovieactor">
                  <CreatableSelect
-                    defaultValue={getActorNames[3]}
+                    value={getActorNames[3]}
                     isSearchable
                     isClearable
                     // className="addMovieactor"
                     formatCreateLabel={(inputText) => `${inputText}`}
                     onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
                     placeholder="Select or write actor name"
-                    isDisabled={!isFilled[2]}
+                    //isDisabled={!isFilled[2]}
                     options={allActors} 
                     onChange={setActorName(3)}
-                    //onInputChange={handleInputChange}
                     theme={(theme) => ({
                       ...theme,
                       borderRadius: 0,
@@ -1951,12 +1897,13 @@ console.log(adminID);
                   <CreatableSelect
                     isSearchable
                     isClearable
+                    value={getActorRolesArray[3]}
                     // className="addMovieactor-role"
                     placeholder="Select or write actor role"
                     formatCreateLabel={(inputText) => `${inputText}`}
                     onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
                     options={allRoles}
-                    isDisabled={!isFilled[2]}
+                   // isDisabled={!isFilled[2]}
                     onChange={setActorRole(3)}
                     theme={(theme) => ({
                       ...theme,
@@ -1994,10 +1941,8 @@ console.log(adminID);
                     name="actorImage"
                     type="text"
                     required
-                    disabled={!isFilled[2]}
-                    //value={actorImageArrayState[3]}
-                    value={actorImageArray[3]}
-                    //onChange={setActorImage[3]}
+                    //disabled={!isFilled[2]}
+                    defaultValue={getActorImagesArrayInHTML[3]}
                     onChange={
                       (e) =>{
                         setActorImage(3,e.target.value);
@@ -2024,7 +1969,7 @@ console.log(adminID);
                   {/* actor name */}
                   <div className="addMovieactor">  
                  <CreatableSelect
-                    defaultValue={getActorNames[4]}
+                    value={getActorNames[4]}
                     isSearchable
                     isClearable
                     // className="addMovieactor"
@@ -2032,9 +1977,8 @@ console.log(adminID);
                     onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
                     placeholder="Select or write actor name"
                     options={allActors} 
-                    isDisabled={!isFilled[3]}
+                    //isDisabled={!isFilled[3]}
                     onChange={setActorName(4)}
-                    //onInputChange={handleInputChange}
                     theme={(theme) => ({
                       ...theme,
                       borderRadius: 0,
@@ -2070,12 +2014,13 @@ console.log(adminID);
                   <CreatableSelect
                     isSearchable
                     isClearable
+                    value={getActorRolesArray[4]}
                     // className="addMovieactor-role"
                     placeholder="Select or write actor role"
                     formatCreateLabel={(inputText) => `${inputText}`}
                     options={allRoles}
                     onChange={setActorRole(4)}
-                     isDisabled={!isFilled[3]}
+                    // isDisabled={!isFilled[3]}
                     theme={(theme) => ({
                       ...theme,
                       borderRadius: 0,
@@ -2114,10 +2059,8 @@ console.log(adminID);
                     name="actorImage"
                     type="text"
                     required
-                    disabled={!isFilled[3]}
-                    //value={actorImageArrayState[3]}
-                    value={actorImageArray[4]}
-                    //onChange={setActorImage[3]}
+                    //disabled={!isFilled[3]}
+                    defaultValue={getActorImagesArrayInHTML[4]}
                     onChange={
                       (e) =>{
                         setActorImage(4,e.target.value);
@@ -2136,7 +2079,7 @@ console.log(adminID);
         </div> 
 
         {/* disabled={!isEnabled}  */}
-        <button className="addMovieadd-button neuton-bold-white-30px7"  disabled={!isEnabled}  onClick={addMovie}>{addbutton}</button>
+        <button className="addMovieadd-button neuton-bold-white-30px7" disabled={!isEnabled}  onClick={addMovie}>{addbutton}</button>
         {id>0 && (
         <button className="addMovieadd-button neuton-bold-white-30px7" onClick={editMovie}>edit</button>)}
 
@@ -2156,4 +2099,5 @@ console.log(adminID);
 }
 
 export default addMoviePage;
+
 
