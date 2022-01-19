@@ -112,8 +112,8 @@ function MovieInfoPage(props) {
   const [numOfCasts, setNumOfCasts] = useState(0);
 
   const [reviews, setReviews] = useState([]);
-  const [reviewsID, setReviewsID] = useState([]);
-  const [userReviews, setUserReviews] = useState([]);
+  // const [reviewsID, setReviewsID] = useState([]);
+  // const [userReviews, setUserReviews] = useState([]);
   // const [userIdViewReview, setUserIdViewReview] = useState();
   const [EReviews, setEReviews] = useState([]);
 
@@ -129,6 +129,7 @@ function MovieInfoPage(props) {
 
   var isEdit;
   const [hasReviewed, setHasReviewed] = useState();
+  const [userReviewID, setUserReviewID] = useState();
 
   
 
@@ -247,21 +248,21 @@ function MovieInfoPage(props) {
       const updateReviews= api.get(`/movies/review/${id}`).then((response) => {
         const numOfReviews = response.data.length;
         const reviewsArray = [...reviews];
-        const reviewsIDArray = [...reviewsID];
-        const usersArray = [...userReviews];
+        // const reviewsIDArray = [...reviewsID];
+        // const usersArray = [...userReviews];
   
         console.log(response);
   
         for (var i = 0; i < numOfReviews; i++) {
            reviewsArray[i] = response.data[i];
-           reviewsIDArray[i] = response.data[i].review_id;
-           usersArray[i] = response.data[i].username;
+          //  reviewsIDArray[i] = response.data[i].review_id;
+          //  usersArray[i] = response.data[i].username;
         }
   
         setReviews(reviewsArray);
-        setReviewsID(reviewsIDArray);
-        setUserReviews(usersArray);
-        setEReviews(usersArray);
+        // setReviewsID(reviewsIDArray);
+        // setUserReviews(usersArray);
+        setEReviews(reviewsArray);
       });
 
     }
@@ -535,6 +536,7 @@ function MovieInfoPage(props) {
         if(response.data[0])
         {
           setHasReviewed(true);
+          setUserReviewID(response.data[0].review_id);
         }
         else
         {
@@ -674,8 +676,8 @@ function MovieInfoPage(props) {
 
     var i = 0
     var reviewsArray = [...reviews];
-    var reviewsIDArray = [...reviewsID];
-    var usersArray = [...userReviews];
+    // var reviewsIDArray = [...reviewsID];
+    // var usersArray = [...userReviews];
     //View reviews based on user registration
   //If registerd and have reviewd --> view user review first one
 
@@ -693,8 +695,8 @@ function MovieInfoPage(props) {
       {
         // var userIdViewReview = userID;
         reviewsArray[i] = response.data[0];
-        reviewsIDArray[i] = response.data[0].review_id;
-        usersArray[i] = response.data[0].username;
+        // reviewsIDArray[i] = response.data[0].review_id;
+        // usersArray[i] = response.data[0].username;
         i = 1;
       }
       
@@ -715,23 +717,23 @@ function MovieInfoPage(props) {
       if(i == 1){
         for (i; i < numOfReviews+1; i++) {
           reviewsArray[i] = response.data[i-1];
-          reviewsIDArray[i] = response.data[i-1].review_id;
-          usersArray[i] = response.data[i-1].username;
+          // reviewsIDArray[i] = response.data[i-1].review_id;
+          // usersArray[i] = response.data[i-1].username;
        }
       }
       else{
         for (i; i < numOfReviews; i++) {
           reviewsArray[i] = response.data[i];
-          reviewsIDArray[i] = response.data[i].review_id;
-          usersArray[i] = response.data[i].username;
+          // reviewsIDArray[i] = response.data[i].review_id;
+          // usersArray[i] = response.data[i].username;
        }
       }
   
 
       setReviews(reviewsArray);
-      setReviewsID(reviewsIDArray);
-      setUserReviews(usersArray);
-      setEReviews(usersArray);
+      // setReviewsID(reviewsIDArray);
+      // setUserReviews(usersArray);
+      setEReviews(reviewsArray);
     });
   }, []);
 
@@ -1021,83 +1023,60 @@ function MovieInfoPage(props) {
                     </button>
                   )}
                 </div>
-                {/* reviews loop */}
+              {/* reviews loop */}
 
-                <div className="userReviews">
-
+              <div className="userReviews">
                   <OwlCarousel className="owl-theme" {...options} nav>
-
-                    {runCallback(() => {
-                      const row = [];
-                      if (reviews.length > 0) {
-                        for (var i = 0; i < reviews.length ; i++) {
-                        var review_id=reviews[i].review_id;
-                         console.log(reviews[i].review_id);
-                          row.push(
-                            <div key={i}>
-                              {
-                                <div className="userReviewContainer">
-                                  <div className="reviewerUsername neuton-bold-white-20px">
-                                    <div className="reviewerUsernameIcon">
-                                      {" "}
-                                      <img
-                                        src={"/img/regUser.png"}
-                                        width="40"
-                                        height="30"
-                                      />{" "}
-                                    </div>
-                                    <div> 
-                                    {/* {reviews[i].username} */}
-                                      {userReviews[i]} 
-                                      </div>
-
-
-
-                                    {isAdmin&&
-                                    <button className="deleteReviewIcon" 
-                                    // onClick={confirmDeleteReview}
-                                    onClick={() => {
-                                      confirmDeleteReview(false, review_id);
-                                    }}
-                                    
-                                    > <RiDeleteBin2Line size={35}/>  </button>
-                                    }
-
-                                   {/* newHere   */}
-                                   {i==0 && hasReviewed?                                  
-                                    <button className="deleteReviewIcon" 
-                                    // onClick={confirmDeleteReview}
-                                    onClick={() => {
-                                      confirmDeleteReview(true , reviews[0].review_id);
-                                    }}
-
-                                    > <RiDeleteBin2Line size={35}/>  </button>  : ''} 
-                                  </div>
-                                  <div className="userReview roboto-normal-white-20px">
-                                    {/* {reviews[i]} */}
-                                    {reviews[i].review}
-                                  </div>
-                                </div>
-                              }
+                    {reviews.length > 0 ? (
+                      reviews.map((x) => (
+                        <div className="userReviewContainer">
+                          <div className="reviewerUsername neuton-bold-white-20px">
+                            <div className="reviewerUsernameIcon">
+                              {" "}
+                              <img
+                                src={"/img/regUser.png"}
+                                width="40"
+                                height="30"
+                              />{" "}
                             </div>
-                          );
-                        }
-                        return row;
-                      } else {
-                        row.push(
-                          <div key={i}>
-                            {
-                              <div className="noReviews neuton-bold-white-20px">
-                                The movie has no reviews yet.
-                              </div>
-                            }
+                            <div>{x.username}</div>
+
+                            {hasReviewed && x.review_id == userReviewID ? (
+                              <button
+                                className="deleteReviewIcon"
+                                onClick={() => {
+                                  confirmDeleteReview(true, x.review_id);
+                                }}
+                              >
+                                {" "}
+                                <RiDeleteBin2Line size={35} />{" "}
+                              </button>
+                            ) : (
+                              <h1></h1>
+                            )}
+
+                            {isAdmin && (
+                              <button
+                                className="deleteReviewIcon"
+                                onClick={() => {
+                                  confirmDeleteReview(false, x.review_id);
+                                }}
+                              >
+                                {" "}
+                                <RiDeleteBin2Line size={35} />{" "}
+                              </button>
+                            )}
                           </div>
-                        );
-                      }
-                      return row;
-                    })}
-
-
+                          <div className="userReview roboto-normal-white-20px">
+                            {x.review}
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="noReviews neuton-bold-white-20px">
+                        The movie has no reviews yet.
+                      </div>
+                    )}
                   </OwlCarousel>
                 </div>
               </div>
