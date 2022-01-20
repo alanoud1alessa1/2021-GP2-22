@@ -88,53 +88,6 @@ function addMoviePage(props) {
   //movie id
   let { id } = useParams();
   id = parseInt(id);
-  
-
-// button disabled
-  const isFilled = [];
-  for (var i = 0; i < 4 ; i++) {
-   isFilled[i] =  actorNameArrayState.length>i && actorRoleArrayState.length>i  && actorImageArrayState[i]!='';
-  }
-
-// repeated actor name
-  const repeatedActorName = [];
-  const actorsLength = actorNameArrayState.length;
-
-  for (var i = actorsLength -1 ; i > -1 ; i-- ) {
-    const actorName=actorNameArrayState[i];
-
-   for (var j = i-1 ; j>-1 ; j--){
-    if (actorName == actorNameArrayState[j] )
-    repeatedActorName[i] = "Name has already been chosen";
-   }
-  }
-
-// repeated actor role
-const repeatedActorRole = [];
-const RolesLength = actorRoleArrayState.length;
-
-for (var i = RolesLength -1 ; i > -1 ; i-- ) {
-  const actorRole=actorRoleArrayState[i];
-
- for (var j = i-1 ; j>-1 ; j--){
-  if (actorRole == actorRoleArrayState[j] )
-  repeatedActorRole[i] = "Role has already been chosen";
- }
-}
-  
-// repeated actor image
-const repeatedActorImage = [];
-const imageLength = actorImageArrayState.length;
-
-for (var i = imageLength -1 ; i > -1 ; i-- ) {
-  const actorImage=actorImageArrayState[i];
-
- for (var j = i-1 ; j>-1 ; j--){
-  if (actorImage == actorImageArrayState[j] )
-  repeatedActorImage[i] = "Image has already been chosen";
- }
-}
-
 
 //Check repeated titles
 const CheckTitle = (value) => {
@@ -185,6 +138,7 @@ const validatePosterURL = (value) => {
 
   if(value==""){
     setPosterURLErrorMessage('');
+    return;
   }
   if (validator.isURL(value)) {
     if(value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.jpg'
@@ -205,8 +159,10 @@ else {
 
 const validateTrailerURL = (value) => {
   if(value==""){
-    setPosterURLErrorMessage('');
+    setTrailerURLErrorMessage('');
+    return;
   }
+
   //https://www.youtube.com
   if (validator.isURL(value)) {
     if(value.substring(0,value.lastIndexOf('.com'))=="https://www.youtube"){
@@ -222,9 +178,14 @@ const validateTrailerURL = (value) => {
 }
 }
 
+//new alanoud
 const validateActor1ImageURL = (value) => {
-  if(value==" "){
-    setPosterURLErrorMessage('');
+  console.log("in validateActor1ImageURL");
+  console.log(value);
+
+  if(value==""){
+    setActor1ImageURLErrorMessage('');
+    return;
   }
   //.jpg
   if (validator.isURL(value)) {
@@ -234,7 +195,7 @@ const validateActor1ImageURL = (value) => {
     || value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.gif'){
       setActor1ImageURLErrorMessage('');
       }
-
+  
      else {
       setActor1ImageURLErrorMessage("Image URL is not valid");
   }
@@ -242,14 +203,12 @@ const validateActor1ImageURL = (value) => {
 else {
       setActor1ImageURLErrorMessage("Image URL is not valid");
 }
-if(value==" "){
-  setPosterURLErrorMessage('');
-}
 }
 
 const validateActor2ImageURL = (value) => {
   if(value==""){
-    setPosterURLErrorMessage('');
+    setActor2ImageURLErrorMessage('');
+    return;
   }
   //.jpg
   if (validator.isURL(value)) {
@@ -271,7 +230,8 @@ else {
 
 const validateActor3ImageURL = (value) => {
   if(value==""){
-    setPosterURLErrorMessage('');
+    setActor3ImageURLErrorMessage('');
+    return;
   }
   //.jpg
   if (validator.isURL(value)) {
@@ -293,7 +253,8 @@ else {
 
 const validateActor4ImageURL = (value) => {
   if(value==""){
-    setPosterURLErrorMessage('');
+    setActor4ImageURLErrorMessage('');
+    return;
   }
   //.jpg
   if (validator.isURL(value)) {
@@ -315,7 +276,8 @@ else {
 
 const validateActor5ImageURL = (value) => {
   if(value==""){
-    setPosterURLErrorMessage('');
+    setActor5ImageURLErrorMessage('');
+    return;
   }
   //.jpg
   if (validator.isURL(value)) {
@@ -323,15 +285,15 @@ const validateActor5ImageURL = (value) => {
     || value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+5)=='.jpeg'
     || value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.png'
     || value.substring(value.lastIndexOf('.'),value.lastIndexOf('.')+4)=='.gif'){
-      setActor4ImageURLErrorMessage('');
+      setActor5ImageURLErrorMessage('');
       }
 
      else {
-      setActor4ImageURLErrorMessage("Image URL is not valid");
+      setActor5ImageURLErrorMessage("Image URL is not valid");
   }
 }
 else {
-      setActor4ImageURLErrorMessage("Image URL is not valid");
+  setActor5ImageURLErrorMessage("Image URL is not valid");
 }
 }
 
@@ -346,16 +308,6 @@ const preventChar = (value) => {
   }
 
 }
-
-  //button disable
-  const isEnabled = titleState.length > 0 && genreState!='' && languageState!='' && yearState!='' && hoursState!='' 
-  && minutesState!='' && ageGuideSate!='' && trailerState.length>0 && posterSate.length>0 && descriptionState.length>0 
-  && directorState!='' &&  writerState!='' && actorImageArrayState.length>0 && actorNameArrayState.length>0 && actorRoleArrayState.length>0 
-  && repeatedActorName.length==0 && repeatedActorRole.length==0 && repeatedActorImage.length==0 && trailerURLErrorMessage==""
-  && posterURLErrorMessage=="" && actor1ImageURLErrorMessage=="" && actor2ImageURLErrorMessage=="" && actor3ImageURLErrorMessage=="" && actor4ImageURLErrorMessage=="" 
-  && actor5ImageURLErrorMessage=="" && charactersErrorMessage=="";
-
-
 
   var setGenreFunction=(e)=>{
     console.log(Array.isArray(e)?e.map(x=>x.label):[]);
@@ -620,7 +572,7 @@ var adminID=decoded.userID;
 
     if(res.data.movieID)
     {
-      alert("Movie added successfully");
+      // alert("Movie added successfully");
       var newMovieID =res.data.movieID;
       window.location = `/movieInfoPage/${newMovieID}`;
     }
@@ -1108,6 +1060,445 @@ var adminID=decoded.userID;
     addbutton,
   } = props;
 
+  
+  {/* new alanoud */}
+
+if (id==0){
+  console.log(actorNameArrayState)
+  for(let i=0; i<actorNameArrayState.length;i++)
+  {
+    if(actorNameArrayState[i]==null)
+    {
+      actorNameArrayState.splice(i, 1);
+      console.log("actorNameArrayState")
+      console.log(actorNameArrayState)
+    }
+  }
+
+  for(let i=0; i<actorRoleArrayState.length;i++)
+  {
+    if(actorRoleArrayState[i]==null)
+    {
+      actorRoleArrayState.splice(i, 1);
+      console.log("actorRoleArrayState")
+      console.log(actorRoleArrayState)
+    }
+  }
+  console.log(actorImageArrayState)
+
+  for(let i=0; i<actorImageArrayState.length;i++)
+  {
+    if(actorImageArrayState[i]=="")
+    {
+      actorImageArrayState.splice(i, 1);
+      console.log("actorImageArrayState")
+      console.log(actorImageArrayState)
+    }
+  }
+}
+console.log(actorImageArrayState)
+
+
+//movie title
+//have write another title
+if(titleState)
+{
+  titleEdited=titleState;
+}
+  //same default title
+  else {
+  titleEdited=getTitle;
+}
+
+if(genreState)
+{
+  console.log(getGenresArray);
+  genreEdited=genreState;
+}
+else
+{
+  console.log(getGenresArray);
+  genreEdited=getGenresArray;
+}
+
+if(languageState)
+{
+  languageEdited=languageState;
+}
+else
+{
+  languageEdited=getLanguages;
+}
+
+if(yearState)
+{
+  yearEdited=yearState;
+}
+else
+{
+  yearEdited=getYear;
+}
+
+if(hoursState)
+{
+  console.log("minutesState")
+  console.log(minutesState)
+  if(minutesState)
+  {
+    lengthEdited=hoursState + 'h ' + minutesState+'min';
+  }
+  else
+  {
+    lengthEdited=hoursState + 'h ' + getMinutes+'min';
+  }
+  console.log(length);
+}
+else
+{
+if(minutesState)
+{ 
+  console.log("minutesState")
+  console.log(minutesState)
+  if(hoursState)
+  {
+    lengthEdited=hoursState + 'h ' + minutesState+'min';
+  }
+  else
+  {
+    lengthEdited=getHours + 'h ' + minutesState+'min';
+  }
+  console.log(length);
+}
+else{
+  {
+    console.log(getHours,getMinutes);
+    lengthEdited=getHours + 'h ' + getMinutes+'min';
+  }
+}
+}
+
+
+if(ageGuideSate)
+{
+  ageGuideEdited=ageGuideSate;
+}
+else
+{
+  ageGuideEdited=getAgeGuide;
+}
+
+if(trailerState)
+{
+  trailerEdited=trailerState;
+}
+else
+{
+  trailerEdited=getTrailer;
+}
+
+if(posterSate)
+{
+  posterEdited=posterSate;
+}
+else
+{
+  posterEdited=getPoster;
+}
+
+if(descriptionState)
+{
+  descriptionEdited=descriptionState;
+}
+else
+{
+  descriptionEdited=getDescription;
+}
+
+if(directorState)
+{
+  directorsEdited=directorState;
+}
+else
+{
+  directorsEdited=getDirectors;
+}
+
+if(writerState)
+{
+  writersEdited=writerState;
+}
+else
+{
+  writersEdited=getWriters;
+}
+
+if(actorNameArray.length)
+{
+  
+  actorNamesEdited=actorNameArray;
+}
+else
+{
+  for(let i=0; i<getActorNames.length;i++)
+  {
+    if(getActorNames[i]==null)
+    {
+      getActorNames.splice(i, 1);
+      console.log("getActorNames")
+      console.log(getActorNames)
+
+    }
+  }
+  actorNamesEdited=getActorNames;
+}
+
+if(actorRoleArray.length)
+{
+  for(let i=0; i<actorRoleArray.length;i++)
+  {
+    if(!actorRoleArray[i])
+    {
+      actorRoleArray.splice(i, 1);
+
+    }
+  }
+  actorRolesEdited=actorRoleArray;
+}
+else
+{
+  for(let i=0; i<getActorRoles.length;i++)
+  {
+    if(getActorRoles[i]==null)
+    {
+      getActorRoles.splice(i, 1);
+      console.log("getActorRoles")
+      console.log(getActorRoles)
+
+    }
+  }
+  actorRolesEdited=getActorRoles;
+}
+
+
+if(getActorImagesArrayInHTML.length)
+{
+  console.log("in getActorImagesArrayInHTML");
+  console.log(getActorImagesArrayInHTML);
+
+  for(let i=0; i<getActorImagesArrayInHTML.length;i++)
+  {
+    console.log("getActorImagesArrayInHTML[i]")
+
+    console.log(getActorImagesArrayInHTML[i])
+    console.log(!getActorImagesArrayInHTML[i])
+
+     if(!getActorImagesArrayInHTML[i])
+    {
+     getActorImagesArrayInHTML.splice(i, 1);
+
+     }
+
+    
+  }
+  actorImagesEdited=getActorImagesArrayInHTML;
+  console.log("after loop getActorImagesArrayInHTML")
+
+  console.log(getActorImagesArrayInHTML);
+
+}
+else
+{
+  for(let i=0; i<getActorImages.length;i++)
+  {
+    if(getActorImages[i]==null)
+    {
+      getActorImages.splice(i, 1);
+      console.log("getActorImages")
+      console.log(getActorImages)
+
+    }
+  }
+  actorImagesEdited=getActorImages;
+}
+
+console.log
+( titleEdited, genreEdited, languageEdited, yearEdited, lengthEdited, ageGuideEdited, trailerEdited, 
+  posterEdited, descriptionEdited, directorsEdited, writersEdited, actorNamesEdited,actorRolesEdited, 
+  actorImagesEdited,
+);
+
+  console.log(actorNameArrayState)
+  for(let i=0; i<actorNamesEdited.length;i++)
+  {
+    if(actorNamesEdited[i]==null)
+    {
+      actorNamesEdited.splice(i, 1);
+      console.log("actorNamesEdited")
+      console.log(actorNamesEdited)
+    }
+  }
+
+  for(let i=0; i<actorRolesEdited.length;i++)
+  {
+    if(actorRolesEdited[i]==null)
+    {
+      actorRolesEdited.splice(i, 1);
+      console.log("actorRolesEdited")
+      console.log("**********in actorNamesEdited")
+
+      console.log(actorRolesEdited)
+    }
+  }
+  console.log("before")
+
+  console.log(actorImagesEdited)
+
+  for(let i=0; i<actorImagesEdited.length;i++)
+  {
+    console.log("**********before in if")
+    console.log(actorImagesEdited)
+    if(actorImagesEdited[i]=="")
+    {
+      actorImagesEdited.splice(i, 1);
+      console.log("**********in actorNamesEdited")
+      console.log(actorImagesEdited)
+    }
+  }
+  console.log("after")
+  console.log(actorImagesEdited);
+
+//edit empty values
+const emptyTitle = () => {
+  setGetTitle("");
+};
+const emptyDes = () => {
+  setGetDescription("");
+};
+const emptyTrailer = () => {
+  setGetTrailer("");
+};
+const emptyPoster = () => {
+  setGetPoster("");
+};
+
+console.log("alanoud");
+console.log(getActorNames);
+
+// repeated actor name
+const repeatedActorName = [];
+if(id>0){
+  const actorsLength = getActorNames.length;
+  for (var i = actorsLength -1 ; i > -1 ; i-- ) {
+    const actorName=getActorNames[i];
+  
+   for (var j = i-1 ; j>-1 ; j--){
+     if(actorName!=null){
+    if (actorName == getActorNames[j] )
+    repeatedActorName[i] = "Name has already been chosen";
+   }}
+  }
+}
+else{
+  const actorsLength = actorNameArrayState.length;
+for (var i = actorsLength -1 ; i > -1 ; i-- ) {
+  const actorName=actorNameArrayState[i];
+
+ for (var j = i-1 ; j>-1 ; j--){
+   if(actorName!=null){
+  if (actorName == actorNameArrayState[j] )
+  repeatedActorName[i] = "Name has already been chosen";
+ }}
+}
+}
+
+// repeated actor role
+const repeatedActorRole = [];
+if (id>0){
+const RolesLength = getActorRoles.length;
+for (var i = RolesLength -1 ; i > -1 ; i-- ) {
+const actorRole=getActorRoles[i];
+
+for (var j = i-1 ; j>-1 ; j--){
+ if(actorRole!=null){
+if (actorRole == getActorRoles[j] )
+repeatedActorRole[i] = "Role has already been chosen";
+}}
+}
+}
+else{
+const RolesLength = actorRoleArrayState.length;
+for (var i = RolesLength -1 ; i > -1 ; i-- ) {
+const actorRole=actorRoleArrayState[i];
+
+for (var j = i-1 ; j>-1 ; j--){
+ if(actorRole!=null){
+if (actorRole == actorRoleArrayState[j] )
+repeatedActorRole[i] = "Role has already been chosen";
+}}
+}
+}
+
+// repeated actor image
+const repeatedActorImage = [];
+if(id>0){
+  const imageLength = getActorImagesArrayInHTML.length;
+  for (var i = imageLength -1 ; i > -1 ; i-- ) {
+    const actorImage=getActorImagesArrayInHTML[i];
+    
+    for (var j = i-1 ; j>-1 ; j--){
+     if(actorImage!=""){
+    if (actorImage == getActorImagesArrayInHTML[j] )
+    repeatedActorImage[i] = "Image has already been chosen";
+    }}
+  }
+}
+else{
+  const imageLength = actorImageArrayState.length;
+for (var i = imageLength -1 ; i > -1 ; i-- ) {
+const actorImage=actorImageArrayState[i];
+
+for (var j = i-1 ; j>-1 ; j--){
+ if(actorImage!=""){
+if (actorImage == actorImageArrayState[j] )
+repeatedActorImage[i] = "Image has already been chosen";
+}}
+}
+}
+
+// actors disabled
+const isFilled = [];
+if(id>0){
+   for (var i = 0; i < 4 ; i++) {
+    isFilled[i] = true;
+   }
+}
+else{
+  for (var i = 0; i < 4 ; i++) {
+    isFilled[i] =  actorNameArrayState.length>i && actorRoleArrayState.length>i  && actorImageArrayState.length>i;
+   }
+}
+
+const addIsEnabled = titleState.length > 0 && genreState!='' && languageState!='' && yearState!='' && hoursState!='' 
+&& minutesState!='' && ageGuideSate!='' && trailerState.length>0 && posterSate.length>0 && descriptionState.length>0 
+&& directorState!='' &&  writerState!='' && actorImageArrayState.length>0 && actorNameArrayState.length>0 && actorRoleArrayState.length>0 
+&& repeatedActorName.length==0 && repeatedActorRole.length==0 && repeatedActorImage.length==0 && trailerURLErrorMessage==""
+&& posterURLErrorMessage=="" && actor1ImageURLErrorMessage=="" && actor2ImageURLErrorMessage=="" && actor3ImageURLErrorMessage=="" && actor4ImageURLErrorMessage=="" 
+&& actor5ImageURLErrorMessage=="" && charactersErrorMessage=="" && actorNameArrayState.length == actorRoleArrayState.length && actorNameArrayState.length == actorImageArrayState.length;
+
+
+const editIsEnabled =  titleEdited.length>0 &&  genreEdited.length>0 &&  languageEdited.length>0 && yearEdited!='' && lengthEdited.length>0 && ageGuideEdited!="" && trailerEdited.length>0 && 
+posterEdited.length>0 && descriptionEdited.length>0 && directorsEdited.length>0 && writersEdited.length>0 && actorNamesEdited.length>0 && actorRolesEdited.length>0 && 
+actorImagesEdited.length>0 && actorNamesEdited.length == actorRolesEdited.length &&  actorNamesEdited.length == actorImagesEdited.length ;
+
+    if(actorNamesEdited.length!=actorImagesEdited.length||actorNamesEdited.length!=actorRolesEdited.length||actorImagesEdited.length!=actorRolesEdited.length)
+    {
+      console.log(actorNamesEdited.length);
+      console.log(actorRolesEdited.length);
+      console.log(actorImagesEdited.length);
+      console.log("Please fill Top Cast correctly");
+    }
+
+
   return (
     <div className="PageCenter">
      {/* <img className="addMoviebackgroundImage" src="/img/backgroundImage.png" /> */}
@@ -1124,21 +1515,27 @@ var adminID=decoded.userID;
 
           {/* Title */}
           <div className="addMovietitle neuton-bold-white-30px7">{title}</div>
-            <input
-              defaultValue={getTitle}
+              <input
+              // defaultValue={getYear}
+               defaultValue={getTitle}
               className="addMovietitle-placholder"
               name="titleplacholder"
               placeholder="Enter movie name"
               type="text"
               required
+
               onChange={
                 (e)=>{
                   CheckTitle(e.target.value);
-                  setTitle(e.target.value); 
+                  setTitle(e.target.value);
                   preventChar(e.target.value); 
                   
                 } 
               }
+              onFocus={   (e)=>{
+                {emptyTitle();}
+              }}
+
             />
           <div className="movieNameError nunito-normal-river-bed-50px"> <strong> {movieName_error_message} {charactersErrorMessage} </strong></div>
 
@@ -1251,7 +1648,7 @@ var adminID=decoded.userID;
             {id==0 &&(
             <option selected disabled hidden className="selectText roboto-normal-pink-swan-16px" value=""> Select movie year</option>)}
             {id!==0 &&(
-            <option selected className="selectText roboto-normal-pink-swan-16px" value=""> {getYear}</option>)}
+            <option selected disabled hidden className="selectText roboto-normal-pink-swan-16px" value=""> {getYear}</option>)}
             
             {yearsArray.map((option) => (
               <option value={option.label}>{option.label}</option>
@@ -1273,7 +1670,7 @@ var adminID=decoded.userID;
           {id==0&&(
             <option selected disabled hidden className="selectText roboto-normal-pink-swan-16px" value=""> Select movie age guide</option>)}
             {id!=0&&(
-            <option selected className="selectText roboto-normal-pink-swan-16px" value=""> {getAgeGuide}</option>)}
+            <option selected disabled hidden className="selectText roboto-normal-pink-swan-16px" value=""> {getAgeGuide}</option>)}
             {allAgeGuide.map((option) => (
 
               <option value={option.label}>{option.label}</option>
@@ -1287,7 +1684,7 @@ var adminID=decoded.userID;
           {/* Trailer  */}
           <div className="addMovietrailer neuton-bold-white-30px7">{trailer}</div>
           <div className="addMovietrailer-container border-1px-black">
-          <input
+           <input
               defaultValue={getTrailer}
               className="trailerInput"
               name="titleplacholder"
@@ -1300,16 +1697,21 @@ var adminID=decoded.userID;
                   validateTrailerURL(e.target.value);
                 } 
               }
+
+              onFocus={   (e)=>{
+                {emptyTrailer();}
+              }}
             />
           </div>
           <div className="movieTrailerError nunito-normal-river-bed-50px"> <strong> {movieTrailer_error_message} {trailerURLErrorMessage} </strong></div>
           
-
           {/* Poster */}
           <div className="addMovieposter neuton-bold-white-30px7">{poster}</div>
           <div className="addMovieposter-container border-1px-black">
              <input
               defaultValue={getPoster}
+              // value="ho"
+
               className="trailerInput"
               name="titleplacholder"
               placeholder="Enter URL of movie poster"
@@ -1321,6 +1723,11 @@ var adminID=decoded.userID;
                   validatePosterURL(e.target.value);
                 } 
               }
+              onFocus={   (e)=>{
+                { 
+                  emptyPoster();
+                }
+              }}
             />
           </div>
           <div className="moviePosterError nunito-normal-river-bed-50px"> <strong> {moviePoster_error_message}  {posterURLErrorMessage} </strong></div>
@@ -1335,11 +1742,15 @@ var adminID=decoded.userID;
               placeholder={inputPlaceholder2}
               rows="15" 
               cols="154"
+              maxLength={3000}
               onChange={
                 (e)=>{
                   setDescription(e.target.value); 
                 } 
               }
+              onFocus={   (e)=>{
+                {emptyDes();}
+              }}
             >
             </textarea>
           </div>
@@ -1362,7 +1773,7 @@ var adminID=decoded.userID;
             <option selected disabled hidden className="selectText roboto-normal-pink-swan-16px" value=""> Select hours</option>)}
             
             {id!=0&&(
-            <option selected className="selectText roboto-normal-pink-swan-16px" value="">{getHours}</option>)}
+            <option selected  disabled hidden className="selectText roboto-normal-pink-swan-16px" value="">{getHours}</option>)}
             {hoursArray.map((option) => (
               <option value={option.label}>{option.label}</option>
             ))
@@ -1384,7 +1795,7 @@ var adminID=decoded.userID;
             <option selected disabled hidden className="selectText roboto-normal-pink-swan-16px" value=""> Select minutes</option>)}
 
             {id!=0&&(
-            <option selected className="selectText roboto-normal-pink-swan-16px" value="">{getMinutes}</option>)}
+            <option selected disabled hidden className="selectText roboto-normal-pink-swan-16px" value="">{getMinutes}</option>)}
             {minutesArray.map((option) => (
 
               <option value={option.label}>{option.label}</option>
@@ -1628,6 +2039,7 @@ var adminID=decoded.userID;
                     value={getActorNames[1]}
                     isSearchable
                     isClearable
+                    isDisabled={!isFilled[0]}
                     formatCreateLabel={(inputText) => `${inputText}`}
                     onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
                     placeholder="Select or write actor name"
@@ -1668,7 +2080,7 @@ var adminID=decoded.userID;
                     value={getActorRolesArray[1]}
                     // className="addMovieactor-role"
                     placeholder="Select or write actor role"
-                   // isDisabled={!isFilled[0]}
+                    isDisabled={!isFilled[0]}
                     formatCreateLabel={(inputText) => `${inputText}`}
                     onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
                     options={allRoles}
@@ -1709,8 +2121,8 @@ var adminID=decoded.userID;
                     name="actorImage"
                     type="text"
                     required
-                   //disabled={!isFilled[0]}
-                    defaultValue={getActorImagesArrayInHTML[1]}
+                    disabled={!isFilled[0]}
+                    value={getActorImagesArrayInHTMLState[1]}
                     onChange={
                       (e) =>{
                         setActorImage(1,e.target.value);
@@ -1744,7 +2156,7 @@ var adminID=decoded.userID;
                     isClearable
                     // className="addMovieactor"
                     formatCreateLabel={(inputText) => `${inputText}`}
-                    //isDisabled={!isFilled[1]}
+                    isDisabled={!isFilled[1]}
                     onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
                     placeholder="Select or write actor name"
                     options={allActors} 
@@ -1788,7 +2200,7 @@ var adminID=decoded.userID;
                     formatCreateLabel={(inputText) => `${inputText}`}
                     onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
                     options={allRoles}
-                    //isDisabled={!isFilled[1]}
+                    isDisabled={!isFilled[1]}
                     onChange={setActorRole(2)}
                     theme={(theme) => ({
                       ...theme,
@@ -1827,8 +2239,8 @@ var adminID=decoded.userID;
                     name="actorImage"
                     type="text"
                     required
-                    //disabled={!isFilled[1]}
-                    defaultValue={getActorImagesArrayInHTML[2]}
+                    disabled={!isFilled[1]}
+                    value={getActorImagesArrayInHTML[2]}
                     onChange={
                       (e) =>{
                         setActorImage(2,e.target.value);
@@ -1862,7 +2274,7 @@ var adminID=decoded.userID;
                     formatCreateLabel={(inputText) => `${inputText}`}
                     onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
                     placeholder="Select or write actor name"
-                    //isDisabled={!isFilled[2]}
+                    isDisabled={!isFilled[2]}
                     options={allActors} 
                     onChange={setActorName(3)}
                     theme={(theme) => ({
@@ -1903,7 +2315,7 @@ var adminID=decoded.userID;
                     formatCreateLabel={(inputText) => `${inputText}`}
                     onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
                     options={allRoles}
-                   // isDisabled={!isFilled[2]}
+                    isDisabled={!isFilled[2]}
                     onChange={setActorRole(3)}
                     theme={(theme) => ({
                       ...theme,
@@ -1941,8 +2353,8 @@ var adminID=decoded.userID;
                     name="actorImage"
                     type="text"
                     required
-                    //disabled={!isFilled[2]}
-                    defaultValue={getActorImagesArrayInHTML[3]}
+                    disabled={!isFilled[2]}
+                    value={getActorImagesArrayInHTML[3]}
                     onChange={
                       (e) =>{
                         setActorImage(3,e.target.value);
@@ -1977,7 +2389,7 @@ var adminID=decoded.userID;
                     onKeyDown={(e) => !/[a-z]/.test(e.key) &&  !/[A-Z]/.test(e.key) &&  !/ /.test(e.key) && e.preventDefault()}
                     placeholder="Select or write actor name"
                     options={allActors} 
-                    //isDisabled={!isFilled[3]}
+                    isDisabled={!isFilled[3]}
                     onChange={setActorName(4)}
                     theme={(theme) => ({
                       ...theme,
@@ -2020,7 +2432,7 @@ var adminID=decoded.userID;
                     formatCreateLabel={(inputText) => `${inputText}`}
                     options={allRoles}
                     onChange={setActorRole(4)}
-                    // isDisabled={!isFilled[3]}
+                    isDisabled={!isFilled[3]}
                     theme={(theme) => ({
                       ...theme,
                       borderRadius: 0,
@@ -2059,8 +2471,8 @@ var adminID=decoded.userID;
                     name="actorImage"
                     type="text"
                     required
-                    //disabled={!isFilled[3]}
-                    defaultValue={getActorImagesArrayInHTML[4]}
+                    disabled={!isFilled[3]}
+                    value={getActorImagesArrayInHTML[4]}
                     onChange={
                       (e) =>{
                         setActorImage(4,e.target.value);
@@ -2078,12 +2490,12 @@ var adminID=decoded.userID;
 
         </div> 
 
-        {/* disabled={!isEnabled}  */}
-        <button className="addMovieadd-button neuton-bold-white-30px7" disabled={!isEnabled}  onClick={addMovie}>{addbutton}</button>
+        {id==0 && (         
+        <button className="addMovieadd-button neuton-bold-white-30px7" disabled={!addIsEnabled}  onClick={addMovie}>Add</button>)}
         {id>0 && (
-        <button className="addMovieadd-button neuton-bold-white-30px7" onClick={editMovie}>edit</button>)}
+        <button className="addMovieadd-button neuton-bold-white-30px7" disabled={!editIsEnabled} onClick={editMovie}>Edit</button>)}
 
-               {/* footer */}
+    {/* footer */}
             {/* <footer>
               <div className="addMoviefooter"> </div>
               <img className="addMoviefooterLogo" src={props.logo} />
