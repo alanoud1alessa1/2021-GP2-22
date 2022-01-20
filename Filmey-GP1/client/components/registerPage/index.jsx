@@ -2,7 +2,7 @@ import React from "react";
 import  { useState } from 'react';
 import DatePicker from 'react-date-picker';
 import { Link } from "react-router-dom";
-import "./regPage.css";
+import "./registerPage.css";
 import Axios from "axios";
 import jwt_decode from "jwt-decode";
 import Cookies from 'universal-cookie';
@@ -16,7 +16,7 @@ import validator from 'validator'
 // import { DatePicker } from 'react-nice-dates';
 
 
-function regPage(props) {
+function registerPage(props) {
 
   const {
     backgroundImage,
@@ -457,5 +457,5 @@ const checkEmail= (value) => {
   );
 }
 
-export default regPage;
+export default registerPage;
 

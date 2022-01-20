@@ -1,9 +1,9 @@
 
 
-// export default addMoviePage;
+// export default movieForm;
 
 import React from "react";
-import "./addMoviePage.css";
+import "./movieForm.css";
 import Select from 'react-select';
 import Header from "../header";
 import CreatableSelect from 'react-select/creatable';
@@ -20,7 +20,7 @@ import AsyncCreatableSelect from 'react-select/async-creatable';
 
 
 
-function addMoviePage(props) {
+function movieForm(props) {
 
   const [titleState,setTitle]=useState('');
   const [genreState,setGenre]=useState('');
@@ -2510,6 +2510,6 @@ actorImagesEdited.length>0 && actorNamesEdited.length == actorRolesEdited.length
   );
 }
 
-export default addMoviePage;
+export default movieForm;
 
 

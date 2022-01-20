@@ -1,14 +1,14 @@
 import "./App.css";
 import React from "react";
 import { Switch, BrowserRouter as Router, Route } from "react-router-dom";
-import RegPage from "./components/registerPage/regPage";
+import RegisterPage from "./components/registerPage";
 import LoginPage from "./components/loginPage";
 import HomePage from "./components/homePage";
 import GenresPage from "./components/genresPage";
 import GenreTypePage from "./components/genreTypePage";
 import MovieInfoPage from "./components/movieInfoPage";
 import ReviewPage from "./components/reviewPage";
-import AddMoviePage from "./components/addMoviePage";
+import MovieForm from "./components/movieForm";
 import ForgetPassword from "./components/forgetPassword";
 import ResetPassword from "./components/resetPassword";
 
@@ -18,8 +18,8 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/registerPage/reg-page"> 
-          <RegPage {...regPageData} />
+        <Route path="/registerPage"> 
+          <RegisterPage {...registerPageData} />
         </Route>
         <Route path="/login-page">
           <LoginPage {...loginPageData} />
@@ -45,8 +45,8 @@ function App() {
         <Route path="/reviewPage/:id/:isEdit">
           <ReviewPage {...reviewPageData} />
         </Route>
-        <Route path="/addMoviePage/:id">
-          <AddMoviePage {...addMoviePageData} />
+        <Route path="/movieForm/:id">
+          <MovieForm {...movieFormData} />
         </Route>
       </Switch>
     </Router>
@@ -54,7 +54,7 @@ function App() {
 }
 
 export default App;
-const regPageData = {
+const registerPageData = {
     text1: <>Let’s End Boredom <br />Find The Best <br />Movies</>,
     text2: <>Filmey © 2021<br /></>,
     text3: "Get Started",
@@ -312,7 +312,7 @@ const reviewPageData= {
   footerText2: <>Filmey © 2021<br /></>,
 };
 
-const addMoviePageData= {
+const movieFormData= {
   logo: "/img/logo.png",
   addmovietext: "Add Movie",
   movieInformation: "Movie Information",

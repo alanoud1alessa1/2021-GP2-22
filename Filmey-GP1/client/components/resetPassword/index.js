@@ -129,7 +129,7 @@ function loginPage(props) {
             <div className="text1">{text1}</div>
             <div className="regContainer">
               <div className="text2">{text2}</div>
-              <Link to="/registerPage/reg-page">
+              <Link to="/registerPage">
                 <div className="text3Container">
                   <span className="text3">{text3}</span>
                 </div>

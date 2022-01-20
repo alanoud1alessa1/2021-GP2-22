@@ -94,7 +94,7 @@ function header(props) {
                 {/* Add movie */}
                 {isAdmin && (
                 <div>
-                  <Link to="/addMoviePage/0">
+                  <Link to="/movieForm/0">
                       <div className="addMovieText darkergrotesque-medium-white-35px2">
                        Add movie
                     </div>
@@ -118,7 +118,7 @@ function header(props) {
 
                 {!registered && (
                   <div className="clickable">
-                    <Link to="/registerPage/reg-page">
+                    <Link to="/registerPage">
                       <img className="registerIcon" src={"/img/iconly-light-profile@2x.svg"} />
                       <div>
                         <div className="registerText roboto-normal-white-18px2">
