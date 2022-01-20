@@ -222,7 +222,7 @@ function MovieInfoPage(props) {
           <div className='customconfirmAlert'>
             <h1>Are you sure</h1>
             <h5>You want to delete this review?</h5>
-            <button  className="noButton" onClick={onClose}>No</button>
+            <button  className="noButton" onClick={onClose}>Cancel</button>
             <button
             className="yesButton"
               onClick={() => {
@@ -318,7 +318,7 @@ function MovieInfoPage(props) {
           <div className='customconfirmAlert'>
             <h1>Are you sure</h1>
             <h5>You want to delete this movie?</h5>
-            <button  className="noButton" onClick={onClose}>No</button>
+            <button  className="noButton" onClick={onClose}>Cancel</button>
             <button
             className="yesButton"
               onClick={() => {
@@ -443,7 +443,7 @@ function MovieInfoPage(props) {
           <div className='customconfirmAlert'>
             <h1>Are you sure</h1>
             <h5>You want to delete your rating?</h5>
-            <button  className="noButton" onClick={onClose}>No</button>
+            <button  className="noButton" onClick={onClose}>Cancel</button>
             <button
             className="yesButton"
               onClick={() => {
@@ -866,9 +866,9 @@ function MovieInfoPage(props) {
 
               {/* movie information */}
               <div className="movieInfo">
-                <div className="movieTitle">
-                  <div className="movieName">
-                    {title} <span className="movieYear"> ({year})</span>
+                <div className="movieBasicInfo">
+                  <div className="movieTitle">
+                  <div className="movieName"> {title} </div> <span className="movieYear"> ({year})</span>
                   </div>
                   <div className="movieRatingContainer">
                     <img className="star" src="/img/star-2@2x.svg" />
