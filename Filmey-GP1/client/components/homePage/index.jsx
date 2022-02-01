@@ -57,18 +57,40 @@ function homePage(props) {
   React.useEffect(() => {
     let numOfTopMovies = 10;
 
-    api.get(`/movies/topMovies/${numOfTopMovies}`).then((response) => {
+    // api.get(`/movies/topMovies/${numOfTopMovies}`).then((response) => {
+    //   const IdsArray = [...movieIds];
+    //   const postersArray = [...Allposters];
+
+    //   for (var i = 0; i < numOfTopMovies; i++) {
+    //     IdsArray[i] = response.data[i].movie_id;
+    //     postersArray[i] = response.data[i].poster;
+    //   }
+    //   setMovieIds(IdsArray);
+    //   setAllposters(postersArray);
+    // });
+
+
+    api.post('/model/userBasedCF/1').then((response) => {
+
+console.log(response.data)
       const IdsArray = [...movieIds];
       const postersArray = [...Allposters];
 
       for (var i = 0; i < numOfTopMovies; i++) {
-        IdsArray[i] = response.data[i].movie_id;
-        postersArray[i] = response.data[i].poster;
+        IdsArray[i] = response.data[i][0];
+        postersArray[i] = response.data[i][1];
       }
+
       setMovieIds(IdsArray);
       setAllposters(postersArray);
-    });
+
+   });
+
+
   }, []);
+
+
+ 
 
   return (
     <div className="PageCenter">

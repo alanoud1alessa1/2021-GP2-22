@@ -1456,6 +1456,54 @@ module.exports = {
     };
   },
 
+  // async getRecommendedPosters(recommendationIdsArray) {
+  //   var arrayOfPosters = new Array();
+
+  //   for (var i = 0; i < recommendationIdsArray.length; i++) {
+  //     let poster = await db("Movie")
+  //       .select("poster")
+  //       .where({
+  //         movie_id: recommendationIdsArray[i],
+  //       })
+  //       .returning("*").pluck("poster");
+  //       arrayOfPosters.push(poster[0]);
+  //   }
+  //   return arrayOfPosters;
+  // },
+
+  
+  async getRecommendedPosters(recommendationIdsArray) {
+    var arrayOfPosters = new Array();
+
+    // recommendationIdsArray=[1,2,3,4,5,6,7,8,9,10]
+    for (var i = 0; i < recommendationIdsArray.length; i++) {
+      let poster = await db("Movie")
+        .select("movie_id" , "poster")
+        .where({
+          movie_id: recommendationIdsArray[i],
+        })
+        .returning("*");
+        arrayOfPosters.push(poster[0]);
+    }
+    return arrayOfPosters;
+  },
+
+  async getMovieTitle(movieID) {
+    let title = await db("Movie")
+      .select("movie_id")
+      .where({
+        movie_id: movieID,
+      })
+      .returning("*").pluck("title");
+  
+  return title;
+},
+
+async getMovieIDs(numberofmovies) {
+  return db("Movie")
+    .select("movie_id");
+},
+
 
 };
 
