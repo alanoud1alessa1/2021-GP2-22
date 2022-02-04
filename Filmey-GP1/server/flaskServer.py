@@ -13,10 +13,150 @@ from sklearn.metrics import consensus_score
 
 app = Flask(__name__)
 
-model = pickle.load(open('/Users/nouf/Desktop/knnpickle_file2','rb')) 
+
+
+# @app.route('/userBasedCFTraining', methods=['POST'])
+# def userBasedCFTraining():
+#     import pandas as pd
+#     import psycopg2
+#     import pandas.io.sql as sqlio
+#     import pandas as pd
+
+#     conn = psycopg2.connect(
+#         host="localhost",
+#         database="filmey",
+#         user="postgres",
+#         password="pgAdmin123")
+
+#     # Create a cursor to perform database operations
+#     cursor = conn.cursor()
+
+#     import pandas as pd
+
+#     from sklearn.model_selection import cross_val_score
+#     from surprise import Dataset, Reader
+
+#     from surprise.model_selection import cross_validate
+
+#     rating =pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP1\\server\\api\\model\\MLratings&DB.csv', low_memory=False)
+
+#     ratingDB = sqlio.read_sql_query('SELECT *  FROM "Rating"', conn)
+
+#     rating=ratingDB.append(rating)
+
+#     rating.to_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP1\\server\\api\\model\\MLratings&DB.csv', index=False)
+
+
+#     reader = Reader()
+
+#     # get just top 1M rows for faster run time
+#     data = Dataset.load_from_df(rating[['UserID','movieId','Rating']][:], reader)
+
+#     from surprise import KNNWithMeans
+
+#     # To use item-based cosine similarity
+#     sim_options = {
+#         "name": "cosine",
+#         'min_support': 5,
+#         "user_based": True,  # Compute  similarities between items
+#     }
+#     algo = KNNWithMeans(sim_options=sim_options)
+
+
+#     from surprise.model_selection import  train_test_split
+
+#     trainset, testset = train_test_split(data, test_size=0.2)
+#     algo.fit(trainset)
+
+
+
+#     import pickle 
+
+#     # Its important to use binary mode 
+#     try:
+#         knnPickle = open('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP1\\server\\api\\model\\UserBasedKNN', 'wb') 
+#         # source, destination 
+#         pickle.dump(algo, knnPickle)
+#         return jsonify("success")
+
+#     except:
+#         return jsonify("Error")
+    
 
 @app.route('/userBasedCF', methods=['POST'])
 def index():
+    import pandas as pd
+    import psycopg2
+    import pandas.io.sql as sqlio
+    import pandas as pd
+    import pandas as pd
+    from sklearn.model_selection import cross_val_score
+    from surprise import Dataset, Reader
+    from surprise.model_selection import cross_validate
+    import pickle
+    # Get the data from the POST request.
+    data = request.get_json(force=True)
+
+    threshold=data['threshold']
+    userID = data["userID"]
+
+    if(threshold):
+        conn = psycopg2.connect(host="localhost",database="filmey",user="postgres",password="pgAdmin123")
+
+        # Create a cursor to perform database operations
+        cursor = conn.cursor()
+
+
+        rating =pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP1\\server\\api\\model\\ratings.csv', low_memory=False)
+
+        usersId = pd.Series(list(rating['user_id']))
+        userInRating=(usersId==userID).any()
+        if userInRating:
+            return jsonify(userInRating)
+
+        ratingDB = sqlio.read_sql_query('SELECT *  FROM "Rating"', conn)
+
+        rating=ratingDB.append(rating)
+
+        rating.to_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP1\\server\\api\\model\\MLratings&DB.csv', index=False)
+
+
+        reader = Reader()
+
+        # get just top 1M rows for faster run time
+        data = Dataset.load_from_df(rating[['user_id','movie_id','rating']][:], reader)
+
+        from surprise import KNNWithMeans
+
+        # To use item-based cosine similarity
+        sim_options = {
+            "name": "cosine",
+            'min_support': 5,
+            "user_based": True,  # Compute  similarities between items
+        }
+        algo = KNNWithMeans(sim_options=sim_options)
+
+
+        from surprise.model_selection import  train_test_split
+
+        trainset, testset = train_test_split(data, test_size=0.2)
+        algo.fit(trainset)
+
+
+
+ 
+
+        # Its important to use binary mode 
+        try:
+            knnPickle = open('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP1\\server\\api\\model\\UserBasedKNN', 'wb') 
+            # source, destination 
+            pickle.dump(algo, knnPickle)
+            #return jsonify("success")
+
+        except:
+            return jsonify("Error")
+
+    
 
 
     # try:
@@ -46,6 +186,7 @@ def index():
     #         cursor.close()
     #         connection.close()
     #         print("PostgreSQL connection is closed")
+    model = pickle.load(open('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP1\\server\\api\\model\\UserBasedKNN','rb')) 
 
     conn = psycopg2.connect(
         host="localhost",
@@ -56,37 +197,21 @@ def index():
     # Create a cursor to perform database operations
     cursor = conn.cursor()
 
-    # return cursor.feachall()
 
 
-
-# from surprise import Dataset, Reader
-
-# reader = Reader()
-
-# # get just top 100K rows for faster run time
-# data = Dataset.load_from_df(review[['user_id','movie_id','rating']][:], reader)
-
-
-
-    # Get the data from the POST request.
+    
     data = request.get_json(force=True)
-
     movieIdArray = data["filteredMovies"]
-    userID = data["userID"]
-    # return jsonify(movieIdArray)
+    
 
     predectionArray=[]
     for id in movieIdArray:
         predection=model.predict(userID,int(id))
         movieId=predection.iid
-        # return jsonify(movieId)
         predictedRating=predection.est
         predectionArray.append([movieId , predictedRating])
     predectionArray=sorted(predectionArray, key = itemgetter(1) , reverse=True)
     predectionArray=predectionArray[0:10]
-    # return [predectionArray]
-    # return jsonify(predectionArray[0][0])
 
 
 
@@ -108,10 +233,10 @@ from datetime import date
 import datetime
 
 # Load Movies 
-df = pd.read_csv('movieData.csv', low_memory=False)
+df = pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP1\\server\\movieData.csv', low_memory=False)
 
 
-@app.route('/contentBasedRecommendations', methods=['POST'])
+@app.route('/modelBased', methods=['POST'])
 def sec():
 # Function that takes in user fav genres and age  as input and outputs sautible movies
 
@@ -229,6 +354,111 @@ def sec():
     x = get_recommendations(['comedy'], datetime.datetime(2010, 6, 1))
     x = x[:10]
     return jsonify(x)
+
+
+
+
+@app.route('/contentBased', methods=['POST'])
+def third():
+    import pandas as pd
+    import sys
+    import json
+
+    # Load Movies Metadata
+    df2 = pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP1\\server\\movieData.csv', low_memory=False)
+
+
+
+    def create_soup(x):
+        return ''.join(x['genres']) + ' ' +x['language']   + ' ' + x['director'] + ' ' +  x['writer'] +  ' ' +  x['actorsName'] 
+
+        
+        
+        
+    df2['soup'] = df2.apply(create_soup, axis=1)
+
+
+
+    # print(df2['soup'].head(10))
+
+
+
+
+    # print(df2['soup'][0])
+
+
+    # Import CountVectorizer and create the count matrix
+    from sklearn.feature_extraction.text import CountVectorizer
+
+    count = CountVectorizer(stop_words='english')
+    count_matrix = count.fit_transform(df2['soup'])
+
+
+    # Compute the Cosine Similarity matrix based on the count_matrix
+    from sklearn.metrics.pairwise import cosine_similarity
+
+    cosine_sim2 = cosine_similarity(count_matrix, count_matrix)
+
+
+
+    # Reset index of our main DataFrame and construct reverse mapping as before
+    df2 = df2.reset_index()
+    indices = pd.Series(df2.index, index=df2['imdbTitle'])
+
+
+    # Function that takes in movie title as input and outputs most similar movies
+    def get_recommendations(title, cosine_sim2=cosine_sim2):
+        # Get the index of the movie that matches the title
+        idx = indices[title]
+
+        # Get the pairwsie similarity scores of all movies with that movie
+        sim_scores = list(enumerate(cosine_sim2[idx]))
+
+        # Sort the movies based on the similarity scores
+        sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+
+        # Get the scores of the 10 most similar movies
+        sim_scores = sim_scores[0:11]
+        
+        #print ("similarity scores", sim_scores)
+
+
+        # Get the movie indices
+        movie_indices = [i[0] for i in sim_scores]
+
+        # Return the top 10 most similar movies
+        recommendedMovies= df2['movieId'].iloc[movie_indices] 
+        recommendedMovies= recommendedMovies.tolist()
+        return recommendedMovies
+
+    
+    # Get the data from the POST request.
+    data = request.get_json(force=True)
+    recommendedMovies=get_recommendations(data["movieTitle"], cosine_sim2)
+    #return jsonify(recommendedMovies)
+
+
+    conn = psycopg2.connect(
+        host="localhost",
+        database="filmey",
+        user="postgres",
+        password="pgAdmin123")
+
+    # Create a cursor to perform database operations
+    cursor = conn.cursor()
+
+    movies = []
+    for i in recommendedMovies:
+        cursor.execute('SELECT movie_id  ,poster FROM "Movie" WHERE movie_id = %s' ,[i] )
+        movies.append(cursor.fetchall()[0])
+    return jsonify(movies)
+
+
+
+
+
+
+
 
 
         

@@ -501,6 +501,12 @@ function MovieInfoPage(props) {
 
   React.useEffect(() => {
 
+    const recommended = Axios.post(`http://localhost:3000/api/v1/model/contentBased/${id}`).then((res) => {
+          console.log("recommended");
+          console.log(res.data);
+        //  console.log(res.data);
+      });
+
   //   //View reviews based on user registration
   // //If registerd and have reviewd --> view user review first one
 

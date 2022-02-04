@@ -28,12 +28,14 @@ function homePage(props) {
 
   var registered = false;
   var username = "";
+  var userId ;
 
   const cookies = new Cookies();
   try {
     const token = cookies.get("token");
     var decoded = jwt_decode(token);
     username = decoded.username;
+    userId = decoded.userID;
     registered = true;
   } catch {
     registered = false;
@@ -70,9 +72,8 @@ function homePage(props) {
     // });
 
 
-    api.post('/model/userBasedCF/1').then((response) => {
-
-console.log(response.data)
+    api.post(`/model/userBasedCF/${userId}`).then((response) => {
+      console.log(response.data)
       const IdsArray = [...movieIds];
       const postersArray = [...Allposters];
 
