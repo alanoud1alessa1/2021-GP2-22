@@ -29,6 +29,7 @@ function homePage(props) {
   var registered = false;
   var username = "";
   var userId ;
+  var isAdmin;
 
   const cookies = new Cookies();
   try {
@@ -36,6 +37,7 @@ function homePage(props) {
     var decoded = jwt_decode(token);
     username = decoded.username;
     userId = decoded.userID;
+    isAdmin = decoded.isAdmin;
     registered = true;
   } catch {
     registered = false;
@@ -57,6 +59,9 @@ function homePage(props) {
   const [Allposters, setAllposters] = useState([]);
 
   React.useEffect(() => {
+
+    var checkThreshold=false;
+
     let numOfTopMovies = 10;
 
     // api.get(`/movies/topMovies/${numOfTopMovies}`).then((response) => {
@@ -71,7 +76,16 @@ function homePage(props) {
     //   setAllposters(postersArray);
     // });
 
+    //check thresold for registered users only
+    if(registered && !isAdmin)
+    api.post(`/model/checkThreshold/${userId}`).then((response) => {
+      checkThreshold=response.data;
+      console.log(response.data);
+    })
 
+    // call userBasedCF if exceeds threshold
+    if(checkThreshold)
+   {
     api.post(`/model/userBasedCF/${userId}`).then((response) => {
       console.log(response.data)
       const IdsArray = [...movieIds];
@@ -86,6 +100,7 @@ function homePage(props) {
       setAllposters(postersArray);
 
    });
+  }
 
 
   }, []);

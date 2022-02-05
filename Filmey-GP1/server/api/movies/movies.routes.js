@@ -7,6 +7,7 @@ const queries = require("./movies.queries");
 const router = express.Router();
 const isAuth = require("../../isAuth");
 const { json } = require("express");
+const axios = require("axios");
 
 router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
@@ -321,6 +322,17 @@ router.post("/delete", async (req, res, next) => {
     const deleteMovie = await queries.deleteMovie(movie_id);
     const AdminDeleteMovie = await queries.AdminDeleteMovie(movie_id,admin_id);
 
+    //delete movie from contentBased csv file
+    const contentBasedPreprocessing= await axios
+    .post("http://localhost:5000/contentBasedPreprocessing", {
+      movieID: movie_id,
+      status:"Delete",
+    })
+    .then((response) => {
+    })
+
+
+
     if (deleteMovie) {
       console.log("inside");
       return res.json(deleteMovie);
@@ -434,6 +446,16 @@ router.post("/addMovie", async (req , res, next) => {
        const writer = await queries.addWriter(movieID,writers);
        const actor = await queries.addActor(movieID,actorNames,actorRoles,actorImages);
        const AdminAddMovie = await queries.AdminAddMovie(movieID,adminID);
+
+       //add movie to contentBased csv file
+       const contentBasedPreprocessing= await axios
+          .post("http://localhost:5000/contentBasedPreprocessing", {
+            movieID: movieID,
+            status:"Add",
+          })
+          .then((response) => {
+          })
+
        return res.json({"movieID":movieID});
 
 
@@ -586,6 +608,15 @@ router.post("/editMovie", async (req , res, next) => {
       const writer = await queries.editWriter(movie_id,writers);
       const actor = await queries.editActor(movie_id,actorNames,actorRoles,actorImages);
       const AdminEditMovie = await queries.AdminEditMovie(movie_id,adminID);
+
+      //edit movie in contentBased csv file
+      const contentBasedPreprocessing= await axios
+          .post("http://localhost:5000/contentBasedPreprocessing", {
+            movieID: movieID,
+            status:"Edit",
+          })
+          .then((response) => {
+          })
 
       return res.json({"movieID":movie_id});
  } catch (error) {

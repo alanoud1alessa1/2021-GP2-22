@@ -3,6 +3,7 @@ const queries = require("./model.queries");
 const router = express.Router();
 const axios = require("axios");
 const db = require("../../db/db");
+const { json } = require("express");
 // var async = require("async");
 
 router.post("/userBasedCF/:userID", async (req, res, next) => {
@@ -18,25 +19,41 @@ router.post("/userBasedCF/:userID", async (req, res, next) => {
     threshold=false
   }
 
-  const movies = await queries.getfilteredMovies(userID);
-  var topMovieIds = [];
-  for (var i = 0; i < movies.length; i++) {
-    topMovieIds[i] = movies[i].movie_id;
-  }
+  //const movies = await queries.getfilteredMovies(userID);
+  //console.log(movies)
+
+  // var topMovieIds = [];
+  // for (var i = 0; i < movies.length; i++) {
+  //   topMovieIds[i] = movies[i].movie_id;
+  // }
 
   return res.json(
     await axios
       .post("http://localhost:5000/userBasedCF", {
         userID: userID,
         threshold:threshold,
-        filteredMovies: topMovieIds,
+        //filteredMovies: topMovieIds,
       })
       .then((response) => {
-        // console.log("response.data")
-        // console.log(response.data)
         return response.data;
       })
   );
+});
+
+
+router.post("/checkThreshold/:userID", async (req, res, next) => {
+  const { userID } = req.params;
+  
+  var threshold = await queries.checkThreshold(userID);
+  if(threshold.length>=20)
+  {
+    return res.json(true)
+  }
+  else
+  {
+    return res.json(false)
+  }
+
 });
 
 

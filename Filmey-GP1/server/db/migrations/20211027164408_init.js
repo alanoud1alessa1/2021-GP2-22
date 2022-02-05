@@ -20,84 +20,84 @@ function references(
 
 exports.up = async (knex) => {
   await Promise.all([
-    await knex.schema.createTable("User", (table) => {
-      table.increments("user_id").notNullable();
-      table.string("email", 100).unique().notNullable();
-      table.string("username", 30).unique().notNullable();
-      table.string("password", 100).notNullable();
-      table.date("date_of_birth", 30).notNullable();
-      table.string("gender", 6).notNullable();
-      table.string("location", 15).notNullable();
-    }),
-    await knex.schema.createTable("Movie", (table) => {
-      table.increments("movie_id").notNullable();
-      table.string("title", 100).notNullable();
-      table.integer("year").notNullable();
-      table.string("length", 10).notNullable();
-      table.string("age_guide", 10).notNullable();
-      table.text('description','longtext').notNullable();
-      table.string("poster", 255).notNullable();
-      table.string("trailer_url", 255).notNullable();
-      table.boolean("is_deleted").notNullable().defaultTo(false);
-    }),
-    await knex.schema.createTable("Admin", (table) => {
-        table.increments("admin_id").notNullable();
-        table.string("username", 30).unique().notNullable();
-        table.string("password", 100).notNullable();
-      }),
-    await knex.schema.createTable("Genre", (table) => {
-      table.increments("genre_id").notNullable();
-      table.string("genre", 12).notNullable();
-    }),
-    await knex.schema.createTable("Language", (table) => {
-        table.increments("language_id").notNullable();
-        table.string("language", 25).notNullable();
-    }),
-    await knex.schema.createTable("Director", (table) => {
-        table.increments("director_id").notNullable();
-        table.string("director", 40).notNullable();
-    }),
-    await knex.schema.createTable("Writer", (table) => {
-        table.increments("writer_id").notNullable();
-        table.string("writer", 30).notNullable();
-    }),
-    await knex.schema.createTable("Actor", (table) => {
-        table.increments("actor_id").notNullable();
-        table.string("actor", 40).notNullable();
-        table.string("actor_image_url", 255);
+    // await knex.schema.createTable("User", (table) => {
+    //   table.increments("user_id").notNullable();
+    //   table.string("email", 100).unique().notNullable();
+    //   table.string("username", 30).unique().notNullable();
+    //   table.string("password", 100).notNullable();
+    //   table.date("date_of_birth", 30).notNullable();
+    //   table.string("gender", 6).notNullable();
+    //   table.string("location", 15).notNullable();
+    // }),
+    // await knex.schema.createTable("Movie", (table) => {
+    //   table.increments("movie_id").notNullable();
+    //   table.string("title", 100).notNullable();
+    //   table.integer("year").notNullable();
+    //   table.string("length", 10).notNullable();
+    //   table.string("age_guide", 10).notNullable();
+    //   table.text('description','longtext').notNullable();
+    //   table.string("poster", 255).notNullable();
+    //   table.string("trailer_url", 255).notNullable();
+    //   table.boolean("is_deleted").notNullable().defaultTo(false);
+    // }),
+    // await knex.schema.createTable("Admin", (table) => {
+    //     table.increments("admin_id").notNullable();
+    //     table.string("username", 30).unique().notNullable();
+    //     table.string("password", 100).notNullable();
+    //   }),
+    // await knex.schema.createTable("Genre", (table) => {
+    //   table.increments("genre_id").notNullable();
+    //   table.string("genre", 12).notNullable();
+    // }),
+    // await knex.schema.createTable("Language", (table) => {
+    //     table.increments("language_id").notNullable();
+    //     table.string("language", 25).notNullable();
+    // }),
+    // await knex.schema.createTable("Director", (table) => {
+    //     table.increments("director_id").notNullable();
+    //     table.string("director", 40).notNullable();
+    // }),
+    // await knex.schema.createTable("Writer", (table) => {
+    //     table.increments("writer_id").notNullable();
+    //     table.string("writer", 30).notNullable();
+    // }),
+    // await knex.schema.createTable("Actor", (table) => {
+    //     table.increments("actor_id").notNullable();
+    //     table.string("actor", 40).notNullable();
+    //     table.string("actor_image_url", 255);
 
-    }) ,
-    await knex.schema.createTable("Movie_Genre", (table) => {
-        references(table, "Movie" , "movie")
-        references(table, "Genre" , 'genre');
-        table.primary(["movie_id", "genre_id"]);
-     }),
-    await knex.schema.createTable("Movie_Language", (table) => {
-        references(table, "Movie" , "movie")
-        references(table, "Language" , 'language');
-        table.primary(["movie_id", "language_id"]);
-    }),
-    await knex.schema.createTable("Movie_Director", (table) => {
-        references(table, "Movie" , "movie")
-        references(table, "Director" , 'director');
-        table.primary(["movie_id", "director_id"]);
-    }),
-    await knex.schema.createTable("Movie_Writer", (table) => {
-        references(table, "Movie" , "movie")
-        references(table, "Writer" , 'writer');
-        table.primary(["movie_id", "writer_id"]);
-    }),
-    await knex.schema.createTable("Role", (table) => {
-        references(table, "Movie" , "movie")
-        references(table, "Actor" , 'actor');
-        table.string("role", 35);
-        table.primary(["movie_id", "actor_id"]);
-    }),
-    await knex.schema.createTable("User_Genre", (table) => {
-        references(table, "User" , "user");
-        references(table, "Genre" , "genre");
-        table.primary(["user_id", "genre_id"]);
-      }),
+    // }) ,
+    // await knex.schema.createTable("Movie_Genre", (table) => {
+    //     references(table, "Movie" , "movie")
+    //     references(table, "Genre" , 'genre');
+    //     table.primary(["movie_id", "genre_id"]);
+    //  }),
+    // await knex.schema.createTable("Movie_Language", (table) => {
+    //     references(table, "Movie" , "movie")
+    //     references(table, "Language" , 'language');
+    //     table.primary(["movie_id", "language_id"]);
+    // }),
+    // await knex.schema.createTable("Movie_Director", (table) => {
+    //     references(table, "Movie" , "movie")
+    //     references(table, "Director" , 'director');
+    //     table.primary(["movie_id", "director_id"]);
+    // }),
+    // await knex.schema.createTable("Movie_Writer", (table) => {
+    //     references(table, "Movie" , "movie")
+    //     references(table, "Writer" , 'writer');
+    //     table.primary(["movie_id", "writer_id"]);
+    // }),
+    // await knex.schema.createTable("Role", (table) => {
+    //     references(table, "Movie" , "movie")
+    //     references(table, "Actor" , 'actor');
+    //     table.string("role", 35);
+    //     table.primary(["movie_id", "actor_id"]);
+    // }),
+    // await knex.schema.createTable("User_Genre", (table) => {
+    //     references(table, "User" , "user");
+    //     references(table, "Genre" , "genre");
+    //     table.primary(["user_id", "genre_id"]);
+    //   }),
     await knex.schema.createTable("Rating", (table) => {
         references(table, "Movie" , "movie")
         references(table, "User" , "user");
@@ -106,38 +106,38 @@ exports.up = async (knex) => {
         table.boolean("is_deleted").notNullable().defaultTo(false);
         table.primary(["movie_id", "user_id"]);
       }),
-      await knex.schema.createTable("Review", (table) => {
-        table.increments("review_id").notNullable();
-        references(table, "Movie" , "movie")
-        references(table, "User" , "user");
-        table.string("review", 255).notNullable();
-        table.dateTime('created_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
-        table.boolean("is_deleted").notNullable().defaultTo(false);
-      }),
-      await knex.schema.createTable("Admin_Add_Movie", (table) => {
-        references(table, "Movie" , "movie");
-        references(table, "Admin" , "admin");
-        table.dateTime('added_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
-        table.primary(["movie_id", "admin_id"]);
-      }), 
-      await knex.schema.createTable("Admin_Edit_Movie", (table) => {
-        references(table, "Movie" , "movie");
-        references(table, "Admin" , "admin");
-        table.dateTime('edited_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
-        table.primary(["movie_id", "admin_id" , "edited_at"]);
-      }),
-      await knex.schema.createTable("Admin_Delete_Movie", (table) => {
-        references(table, "Movie" , "movie");
-        references(table, "Admin" , "admin");
-        table.dateTime('deleted_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
-        table.primary(["movie_id", "admin_id"]);
-      }), 
-      await knex.schema.createTable("Admin_Delete_Review", (table) => {
-        references(table, "Review" , "review");
-        references(table, "Admin" , "admin");
-        table.dateTime('deleted_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
-        table.primary(["review_id", "admin_id"]);
-      }),
+      // await knex.schema.createTable("Review", (table) => {
+      //   table.increments("review_id").notNullable();
+      //   references(table, "Movie" , "movie")
+      //   references(table, "User" , "user");
+      //   table.string("review", 255).notNullable();
+      //   table.dateTime('created_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
+      //   table.boolean("is_deleted").notNullable().defaultTo(false);
+      // }),
+      // await knex.schema.createTable("Admin_Add_Movie", (table) => {
+      //   references(table, "Movie" , "movie");
+      //   references(table, "Admin" , "admin");
+      //   table.dateTime('added_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
+      //   table.primary(["movie_id", "admin_id"]);
+      // }), 
+      // await knex.schema.createTable("Admin_Edit_Movie", (table) => {
+      //   references(table, "Movie" , "movie");
+      //   references(table, "Admin" , "admin");
+      //   table.dateTime('edited_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
+      //   table.primary(["movie_id", "admin_id" , "edited_at"]);
+      // }),
+      // await knex.schema.createTable("Admin_Delete_Movie", (table) => {
+      //   references(table, "Movie" , "movie");
+      //   references(table, "Admin" , "admin");
+      //   table.dateTime('deleted_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
+      //   table.primary(["movie_id", "admin_id"]);
+      // }), 
+      // await knex.schema.createTable("Admin_Delete_Review", (table) => {
+      //   references(table, "Review" , "review");
+      //   references(table, "Admin" , "admin");
+      //   table.dateTime('deleted_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
+      //   table.primary(["review_id", "admin_id"]);
+      // }),
   ]);
 };
 /**
@@ -152,7 +152,7 @@ exports.up = async (knex) => {
         // .dropTable("Movie_Writer")
         // .dropTable("Role") 
         // .dropTable("User_Genre")
-        // .dropTable("Rating")
+        .dropTable("Rating")
         // .dropTable("Review")
         // .dropTable("Genre")
         // .dropTable("Language")

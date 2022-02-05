@@ -1,33 +1,20 @@
 const db = require("../../db/db");
 module.exports = {
 
-async getfilteredMovies(userID) {
-
-
-  // #filter rated and reviewd moviews
-    return db("Movie AS M")
-      .select("M.movie_id")
-      .leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
-      .where("M.is_deleted", "=", false)
-      .orderBy("R.rating", "desc")
-      // return db("Movie AS M")
-      // .select("M.movie_id")
-      // .rightJoin("Rating AS R", "R.movie_id", "M.movie_id")
-      // .where("R.user_id", "!=", userID)
-      // .andWhere("M.is_deleted", "=", false)
-  },
+// async getfilteredMovies(userID) {
+//   return db("Movie AS M")
+//       .select("M.movie_id", "M.poster" , "R.rating")
+//       .leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
+//       .where("M.is_deleted", "=", false)
+//       .orderBy("R.rating", "desc")
+//   },
 
 async checkThreshold(userID) {
 
-    // #filter rated and reviewd moviews
+    //To check if user exceeds threshold
       return db("Rating")
         .select("movie_id")
         .where("user_id", "=", userID)
-        // return db("Movie AS M")
-        // .select("M.movie_id")
-        // .rightJoin("Rating AS R", "R.movie_id", "M.movie_id")
-        // .where("R.user_id", "!=", userID)
-        // .andWhere("M.is_deleted", "=", false)
     },
   
 
