@@ -548,7 +548,7 @@ def third():
 
 
     def create_soup(x):
-        return ''.join(x['genre']) + ' ' +x['language']   + ' ' + x['director'] + ' ' +  x['writer'] +  ' ' +  x['actors'] 
+        return ''.join(x['genre']) + ' ' +x['language']   + ' ' + x['director'] + ' ' +  x['writer'] +  ' ' +  x['actors'] + ' ' +  x['description']     
 
         
         
