@@ -80,7 +80,6 @@ function homePage(props) {
     if(registered && !isAdmin)
     api.post(`/model/checkThreshold/${userId}`).then((response) => {
       checkThreshold=response.data;
-      console.log(response.data);
     })
 
     // call userBasedCF if exceeds threshold
@@ -91,7 +90,7 @@ function homePage(props) {
       const IdsArray = [...movieIds];
       const postersArray = [...Allposters];
 
-      for (var i = 0; i < numOfTopMovies; i++) {
+      for (var i = 0; i < 20; i++) {
         IdsArray[i] = response.data[i][0];
         postersArray[i] = response.data[i][1];
       }
@@ -137,7 +136,7 @@ function homePage(props) {
               {runCallback(() => {
                 const row = [];
 
-                for (var i = 1; i <= 10; i++) {
+                for (var i = 1; i <= 20; i++) {
                   const id = movieIds[i - 1];
 
                   const url = `/MovieInfoPage/${id}`;

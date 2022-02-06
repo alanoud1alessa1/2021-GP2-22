@@ -8,31 +8,10 @@ const { json } = require("express");
 
 router.post("/userBasedCF/:userID", async (req, res, next) => {
   const { userID } = req.params;
-  
-  var threshold = await queries.checkThreshold(userID);
-  if(threshold.length>=20)
-  {
-    threshold=true
-  }
-  else
-  {
-    threshold=false
-  }
-
-  //const movies = await queries.getfilteredMovies(userID);
-  //console.log(movies)
-
-  // var topMovieIds = [];
-  // for (var i = 0; i < movies.length; i++) {
-  //   topMovieIds[i] = movies[i].movie_id;
-  // }
-
   return res.json(
     await axios
       .post("http://localhost:5000/userBasedCF", {
         userID: userID,
-        threshold:threshold,
-        //filteredMovies: topMovieIds,
       })
       .then((response) => {
         return response.data;

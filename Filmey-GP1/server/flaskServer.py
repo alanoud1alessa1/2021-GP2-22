@@ -96,15 +96,15 @@ def index():
     # Get the data from the POST request.
     data = request.get_json(force=True)
 
-    threshold=data['threshold']
+    #threshold=data['threshold']
     userID = data["userID"]
     
     #Check if model has already been trained with this user 
     rating =pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP1\\server\\api\\model\\MLratings&DB.csv', low_memory=False)
     rating = rating['user_id'].tolist()
-    checkThreshold=rating.count(userID)
-
-    if(threshold and checkThreshold<20 ):
+    numberOrRatingsInModel=rating.count(userID)
+    
+    if(numberOrRatingsInModel<20):
         conn = psycopg2.connect(host="localhost",database="filmey",user="postgres",password="pgAdmin123")
 
         # Create a cursor to perform database operations
@@ -218,7 +218,7 @@ def index():
         predictedRating=predection.est
         predectionArray.append([movieId , predictedRating])
     predectionArray=sorted(predectionArray, key = itemgetter(1) , reverse=True)
-    predectionArray=predectionArray[0:10]
+    predectionArray=predectionArray[0:20]
 
 
     #Get poters of recommended movies
