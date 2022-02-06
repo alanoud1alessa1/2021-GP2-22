@@ -483,11 +483,6 @@ width: 1690px;
 height: auto;
 }  
 
-.owl-theme2 {
-/* top: 300px; */
-width: 20px;
-  /* top: 100px !important; */
-}
 .owl-theme2 .owl-dots   {
     /* background-color: blue; */
     display: flex;   
@@ -510,20 +505,21 @@ width: 20px;
 
 .owl-theme2 .owl-nav [className='reviewsExpandRight']  {
     position: absolute;
-    left: 1690px;
+    left: 1680px;
     top: 130px;  
 }
 
 .owl-theme2 .owl-nav [className='reviewsExpandLeft']  {
   position: absolute;
-  left: -40px;
-  top: 60px;  
+  left: -70px;
+  top: 120px;  
   color: #d41c24;
 }
 
 .owl-theme2 .owl-nav [className='reviewsExpandRight']:hover,
 .owl-theme2 .owl-nav [className='reviewsExpandLeft']:hover{
 background-color: var(--shark);
+transform: scale(2);
 }
 
 .genreMoviePoster{

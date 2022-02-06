@@ -7,8 +7,6 @@ import Axios from "axios";
 import { useState } from "react";
 import Header from "../header";
 import OwlCarousel from "react-owl-carousel";
-import "owl.carousel/dist/assets/owl.carousel.css";
-import "owl.carousel/dist/assets/owl.theme.default.css";
 import { useParams } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
 
@@ -20,7 +18,7 @@ function genresPage(props) {
     // Navigation
     navigation: false,
     navText: [
-      "<div className='reviewsExpandLeft'>  <img className='reviewsExpandLeft' src='/img/expand-left--review-@2x.svg' /> </div>",
+      "<div>  <img className='reviewsExpandLeft' src='/img/expand-left--review-@2x.svg' /> </div>",
       "<div>  <img className='reviewsExpandRight' src='/img/expand-right--review-@2x.svg' /> </div>",
     ],
     transitionStyle: "fade",

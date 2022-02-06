@@ -100,7 +100,7 @@ def index():
     userID = data["userID"]
     
     #Check if model has already been trained with this user 
-    rating =pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP1\\server\\api\\model\\MLratings&DB.csv', low_memory=False)
+    rating =pd.read_csv('C:\\Users\\anox1\\Desktop\\2021-GP1-22\\Filmey-GP1\\server\\api\\model\\MLratings&DB.csv', low_memory=False)
     rating = rating['user_id'].tolist()
     numberOrRatingsInModel=rating.count(userID)
     
@@ -111,7 +111,7 @@ def index():
         cursor = conn.cursor()
 
 
-        rating =pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP1\\server\\api\\model\\ratings.csv', low_memory=False)
+        rating =pd.read_csv('C:\\Users\\anox1\\Desktop\\2021-GP1-22\\Filmey-GP1\\server\\api\\model\\ratings.csv', low_memory=False)
 
         usersId = pd.Series(list(rating['user_id']))
         userInRating=(usersId==userID).any()
@@ -122,7 +122,7 @@ def index():
 
         rating=ratingDB.append(rating)
 
-        rating.to_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP1\\server\\api\\model\\MLratings&DB.csv', index=False)
+        rating.to_csv('C:\\Users\\anox1\\Desktop\\2021-GP1-22\\Filmey-GP1\\server\\api\\model\\MLratings&DB.csv', index=False)
 
 
         reader = Reader()
@@ -152,7 +152,7 @@ def index():
 
         # Its important to use binary mode 
         try:
-            knnPickle = open('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP1\\server\\api\\model\\UserBasedKNN', 'wb') 
+            knnPickle = open('C:\\Users\\anox1\\Desktop\\2021-GP1-22\\Filmey-GP1\\server\\api\\model\\UserBasedKNN', 'wb') 
             # source, destination 
             pickle.dump(algo, knnPickle)
 
@@ -189,7 +189,7 @@ def index():
     #         cursor.close()
     #         connection.close()
     #         print("PostgreSQL connection is closed")
-    model = pickle.load(open('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP1\\server\\api\\model\\UserBasedKNN','rb')) 
+    model = pickle.load(open('C:\\Users\\anox1\\Desktop\\2021-GP1-22\\Filmey-GP1\\server\\api\\model\\UserBasedKNN','rb')) 
 
     conn = psycopg2.connect(
         host="localhost",
@@ -236,7 +236,7 @@ from datetime import date
 import datetime
 
 # Load Movies 
-df = pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP1\\server\\movieData.csv', low_memory=False)
+df = pd.read_csv('C:\\Users\\anox1\\Desktop\\2021-GP1-22\\Filmey-GP1\\server\\movieData.csv', low_memory=False)
 
 
 @app.route('/modelBased', methods=['POST'])
@@ -516,19 +516,19 @@ def contentBasedPreprocessing():
             df['description'][i] = df['description'][i].replace(" " , "")
             df['description'][i] = df['description'][i].replace("," , " ")
             if status=="Add":
-                movieDataFromCSV =pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP1\\server\\movieData.csv', low_memory=False)
+                movieDataFromCSV =pd.read_csv('C:\\Users\\anox1\\Desktop\\2021-GP1-22\\Filmey-GP1\\server\\movieData.csv', low_memory=False)
                 movieData=movieDataFromCSV.append(df)
-                movieData.to_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP1\\server\\movieData.csv',index=False) 
+                movieData.to_csv('C:\\Users\\anox1\\Desktop\\2021-GP1-22\\Filmey-GP1\\server\\movieData.csv',index=False) 
 
             if status=="Edit":
-                movieDataFromCSV =pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP1\\server\\movieData.csv', low_memory=False)
+                movieDataFromCSV =pd.read_csv('C:\\Users\\anox1\\Desktop\\GitHub\\2021-GP1-22\\Filmey-GP1\\server\\movieData.csv', low_memory=False)
                 movieDataFromCSV=movieDataFromCSV.drop(movieDataFromCSV.index[movieDataFromCSV['movie_id']==movieID])
                 movieData=movieDataFromCSV.append(df)
-                movieData.to_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP1\\server\\movieData.csv',index=False) 
+                movieData.to_csv('C:\\Users\\anox1\\Desktop\\2021-GP1-22\\Filmey-GP1\\server\\movieData.csv',index=False) 
     if status=="Delete":
-        movieDataFromCSV =pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP1\\server\\movieData.csv', low_memory=False)
+        movieDataFromCSV =pd.read_csv('C:\\Users\\anox1\\Desktop\\2021-GP1-22\\Filmey-GP1\\server\\movieData.csv', low_memory=False)
         movieDataFromCSV=movieDataFromCSV.drop(movieDataFromCSV.index[movieDataFromCSV['movie_id']==movieID])
-        movieDataFromCSV.to_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP1\\server\\movieData.csv',index=False) 
+        movieDataFromCSV.to_csv('C:\\Users\\anox1\\Desktop\\2021-GP1-22\\Filmey-GP1\\server\\movieData.csv',index=False) 
 
     return jsonify("Done")
 
@@ -543,7 +543,7 @@ def third():
     import json
 
     # Load Movies Metadata
-    df2 = pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP1\\server\\movieData.csv', low_memory=False)
+    df2 = pd.read_csv('C:\\Users\\anox1\\Desktop\\2021-GP1-22\\Filmey-GP1\\server\\movieData.csv', low_memory=False)
 
 
 
@@ -587,7 +587,7 @@ def third():
         sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
 
         # Get the scores of the 10 most similar movies
-        sim_scores = sim_scores[0:11]
+        sim_scores = sim_scores[1:21]
         
         #print ("similarity scores", sim_scores)
 

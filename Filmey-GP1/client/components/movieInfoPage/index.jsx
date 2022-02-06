@@ -17,6 +17,18 @@ import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 
 function MovieInfoPage(props) {
+
+  const similarMoviesOptions = {
+    items: 4,
+    margin: 10,
+
+    navText: [
+      "<div className='similarExpandLeft'>  <img className='reviewsExpandLeft' src='/img/expand-left--review-@2x.svg' /> </div>",
+      "<div>  <img className='similarExpandRight' src='/img/expand-right--review-@2x.svg' /> </div>",
+    ],
+    transitionStyle: "fade",
+  };
+
   const options={
     // Navigation
     navigation : false,
@@ -28,6 +40,8 @@ function MovieInfoPage(props) {
     items:3,
 
   }
+
+
   const runCallback = (cb) => {
     return cb();
   };
@@ -497,15 +511,41 @@ function MovieInfoPage(props) {
     
  
    }
-   
-
+  const [similarMoviesPostersState, setSimilarMoviesPostersState] = useState([]);
+  var similarMoviesPosters =[];  
+  const [movieIds, setMovieIds] = useState([]);
+  const [Allposters, setAllposters] = useState([]);
+  const [moviesRatingState, setMoviesRatingState] = useState([]);
+var ratings =[]
   React.useEffect(() => {
 
-    const recommended = Axios.post(`http://localhost:3000/api/v1/model/contentBased/${id}`).then((res) => {
-          console.log("recommended");
-          console.log(res.data);
-        //  console.log(res.data);
-      });
+   //similar movies
+   const recommended = Axios.post(`http://localhost:3000/api/v1/model/contentBased/${id}`).then((res) => {
+     console.log("similar movies");
+     console.log(res.data);
+     var IdsArray = [...movieIds];
+     var postersArray = [...Allposters];
+
+     for (var i = 0; i < 20; i++) {
+       IdsArray[i] = res.data[i][0];
+       postersArray[i] = res.data[i][1];
+     }
+
+     for (var i = 0; i < 11; i++) {
+      ratings[i] =  IdsArray[i];
+    }
+     setMovieIds(IdsArray);
+     setAllposters(postersArray);
+     setSimilarMoviesPostersState(similarMoviesPosters);
+
+  
+ });
+
+
+
+
+
+
 
   //   //View reviews based on user registration
   // //If registerd and have reviewd --> view user review first one
@@ -677,6 +717,7 @@ function MovieInfoPage(props) {
         setratedMovie(true);
       }
     });
+    
 
     //Get Reviews
 
@@ -740,8 +781,36 @@ function MovieInfoPage(props) {
       // setReviewsID(reviewsIDArray);
       // setUserReviews(usersArray);
       setEReviews(reviewsArray);
+
+         //Get similar movies Ratings
+         const moviesRating=[]
+         console.log(movieIds);
+          
+              for ( var i =0 ; i<11 ; i++){
+               const id = IdsArray[i];
+               api.get(`/movies/rating/${id}`).then((response) => {
+
+               if (response.data.length == 0) {
+                moviesRating[i]=0;
+
+              } else {
+                moviesRating[i]=response.data[0].total_rating;
+              }
+
+               }
+         
+             );
+           }
+           setMoviesRatingState(moviesRating);
+           console.log(moviesRating);
+           console.log(moviesRatingState);
+         
+
     });
   }, []);
+
+
+
 
   return (
     <div className="PageCenter">
@@ -968,7 +1037,6 @@ function MovieInfoPage(props) {
                 <div className="topCastText neuton-normal-white-60px5">
                   {topCastText}
                 </div>
-                <img className="topCastLine" src={redLine} />
 
                 {/* casts loop	 */}
                 {runCallback(() => {
@@ -1001,7 +1069,6 @@ function MovieInfoPage(props) {
               </div>
                {/* reviews */}
                <div className="reviewsContainer">
-                <img className="reviewsLine" src={redLine} />
                 <div className="reviewsText neuton-normal-white-60px5">
                   {reviewsText}
                 </div>
@@ -1086,6 +1153,67 @@ function MovieInfoPage(props) {
                   </OwlCarousel>
                 </div>
               </div>
+
+                <div className="similarMoviesText neuton-normal-white-60px5">
+                Similar Movies
+                </div>
+
+
+                <div className="similarMoviesContainer">
+                              <OwlCarousel
+                                className="similarMovies-owl-theme"
+                                {...similarMoviesOptions}
+                                nav
+                              >
+                                {runCallback(() => {
+                                  const row = [];
+                                  
+                                  for (var i = 0; i < 21; i++) {
+                                     const id = movieIds[i];
+                                     const url = `/movieInfoPage/${id}`;
+                                    const poster = Allposters[i];
+
+                                    // const title = movieTitles[count];
+                                    var rating = moviesRatingState[i];
+
+                                    // if (rating == "0.0") {
+                                    //   rating = "No ratings yet.";
+                                    // }
+                                    row.push(
+                                      <div key={i}>
+                                        {
+                                          <div className="similarMovie">
+                                            {/* <Link to={url}> */}
+                                            <a href={url}>
+                                              <img
+                                                className="similarMoviePoster"
+                                                src= {poster}
+                                                height="652"
+                                                width="512"
+                                              />
+                                              <img
+                                                className="similarStar"
+                                                src="/img/star-2@2x.svg"
+                                              />
+                                              <div className="similarMovieRating neuton-bold-white-30px">
+                                                 {rating}  rating
+                                              </div>
+                                              <div className="similarMovieName neuton-bold-white-30px">
+                                                {/* {title} */} title
+                                              </div> 
+                                            {/* </Link> */}
+                                            </a>
+
+                                          </div>
+                                        }
+                                      </div>
+                                    );
+                                  }
+                                  return row;
+                                })}
+                              </OwlCarousel>
+                            </div>
+
             </main>
 
             {/* footer */}

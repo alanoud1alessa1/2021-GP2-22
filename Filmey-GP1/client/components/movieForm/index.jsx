@@ -829,11 +829,11 @@ var adminID=decoded.userID;
     }
 
 
-    // console.log
-    // ( titleEdited, genreEdited, languageEdited, yearEdited, lengthEdited, ageGuideEdited, trailerEdited, 
-    //   posterEdited, descriptionEdited, directorsEdited, writersEdited, actorNamesEdited,actorRolesEdited, 
-    //   actorImagesEdited,
-    // );
+    console.log
+    ( titleEdited, genreEdited, languageEdited, yearEdited, lengthEdited, ageGuideEdited, trailerEdited, 
+      posterEdited, descriptionEdited, directorsEdited, writersEdited, actorNamesEdited,actorRolesEdited, 
+      actorImagesEdited,
+    );
 
     if(actorNamesEdited.length!=actorImagesEdited.length||actorNamesEdited.length!=actorRolesEdited.length||actorImagesEdited.length!=actorRolesEdited.length)
     {
@@ -1070,6 +1070,8 @@ if (id==0){
     if(actorNameArrayState[i]==null)
     {
       actorNameArrayState.splice(i, 1);
+      console.log("actorNameArrayState")
+      console.log(actorNameArrayState)
     }
   }
 
@@ -1078,6 +1080,8 @@ if (id==0){
     if(actorRoleArrayState[i]==null)
     {
       actorRoleArrayState.splice(i, 1);
+      console.log("actorRoleArrayState")
+      console.log(actorRoleArrayState)
     }
   }
   console.log(actorImageArrayState)
@@ -1087,6 +1091,8 @@ if (id==0){
     if(actorImageArrayState[i]=="")
     {
       actorImageArrayState.splice(i, 1);
+      console.log("actorImageArrayState")
+      console.log(actorImageArrayState)
     }
   }
 }
@@ -1106,10 +1112,12 @@ if(titleState)
 
 if(genreState)
 {
+  console.log(getGenresArray);
   genreEdited=genreState;
 }
 else
 {
+  console.log(getGenresArray);
   genreEdited=getGenresArray;
 }
 
@@ -1133,6 +1141,8 @@ else
 
 if(hoursState)
 {
+  console.log("minutesState")
+  console.log(minutesState)
   if(minutesState)
   {
     lengthEdited=hoursState + 'h ' + minutesState+'min';
@@ -1147,6 +1157,8 @@ else
 {
 if(minutesState)
 { 
+  console.log("minutesState")
+  console.log(minutesState)
   if(hoursState)
   {
     lengthEdited=hoursState + 'h ' + minutesState+'min';
@@ -1232,6 +1244,8 @@ else
     if(getActorNames[i]==null)
     {
       getActorNames.splice(i, 1);
+      console.log("getActorNames")
+      console.log(getActorNames)
 
     }
   }
@@ -1257,6 +1271,8 @@ else
     if(getActorRoles[i]==null)
     {
       getActorRoles.splice(i, 1);
+      console.log("getActorRoles")
+      console.log(getActorRoles)
 
     }
   }
@@ -1266,9 +1282,15 @@ else
 
 if(getActorImagesArrayInHTML.length)
 {
+  console.log("in getActorImagesArrayInHTML");
+  console.log(getActorImagesArrayInHTML);
 
   for(let i=0; i<getActorImagesArrayInHTML.length;i++)
   {
+    console.log("getActorImagesArrayInHTML[i]")
+
+    console.log(getActorImagesArrayInHTML[i])
+    console.log(!getActorImagesArrayInHTML[i])
 
      if(!getActorImagesArrayInHTML[i])
     {
@@ -1279,6 +1301,9 @@ if(getActorImagesArrayInHTML.length)
     
   }
   actorImagesEdited=getActorImagesArrayInHTML;
+  console.log("after loop getActorImagesArrayInHTML")
+
+  console.log(getActorImagesArrayInHTML);
 
 }
 else
@@ -1288,17 +1313,19 @@ else
     if(getActorImages[i]==null)
     {
       getActorImages.splice(i, 1);
+      console.log("getActorImages")
+      console.log(getActorImages)
 
     }
   }
   actorImagesEdited=getActorImages;
 }
 
-// console.log
-// ( titleEdited, genreEdited, languageEdited, yearEdited, lengthEdited, ageGuideEdited, trailerEdited, 
-//   posterEdited, descriptionEdited, directorsEdited, writersEdited, actorNamesEdited,actorRolesEdited, 
-//   actorImagesEdited,
-// );
+console.log
+( titleEdited, genreEdited, languageEdited, yearEdited, lengthEdited, ageGuideEdited, trailerEdited, 
+  posterEdited, descriptionEdited, directorsEdited, writersEdited, actorNamesEdited,actorRolesEdited, 
+  actorImagesEdited,
+);
 
   console.log(actorNameArrayState)
   for(let i=0; i<actorNamesEdited.length;i++)
@@ -1306,6 +1333,8 @@ else
     if(actorNamesEdited[i]==null)
     {
       actorNamesEdited.splice(i, 1);
+      console.log("actorNamesEdited")
+      console.log(actorNamesEdited)
     }
   }
 
@@ -1314,20 +1343,29 @@ else
     if(actorRolesEdited[i]==null)
     {
       actorRolesEdited.splice(i, 1);
+      console.log("actorRolesEdited")
+      console.log("**********in actorNamesEdited")
 
       console.log(actorRolesEdited)
     }
   }
+  console.log("before")
 
   console.log(actorImagesEdited)
 
   for(let i=0; i<actorImagesEdited.length;i++)
   {
+    console.log("**********before in if")
+    console.log(actorImagesEdited)
     if(actorImagesEdited[i]=="")
     {
       actorImagesEdited.splice(i, 1);
+      console.log("**********in actorNamesEdited")
+      console.log(actorImagesEdited)
     }
   }
+  console.log("after")
+  console.log(actorImagesEdited);
 
 //edit empty values
 const emptyTitle = () => {
@@ -1343,6 +1381,8 @@ const emptyPoster = () => {
   setGetPoster("");
 };
 
+console.log("alanoud");
+console.log(getActorNames);
 
 // repeated actor name
 const repeatedActorName = [];
@@ -1452,6 +1492,9 @@ actorImagesEdited.length>0 && actorNamesEdited.length == actorRolesEdited.length
 
     if(actorNamesEdited.length!=actorImagesEdited.length||actorNamesEdited.length!=actorRolesEdited.length||actorImagesEdited.length!=actorRolesEdited.length)
     {
+      console.log(actorNamesEdited.length);
+      console.log(actorRolesEdited.length);
+      console.log(actorImagesEdited.length);
       console.log("Please fill Top Cast correctly");
     }
 

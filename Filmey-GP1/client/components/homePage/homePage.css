@@ -1,568 +1,754 @@
 .homePage {
-    align-items: flex-start;
-    background-color: var(--white);
-    display: flex;
-    min-height: 1366px;
-    overflow: hidden;
-    width: 1912px;
-  }
+  align-items: flex-start;
+  background-color: var(--white);
+  display: flex;
+  min-height: 2200px;
+  overflow: hidden;
+  width: 1912px;
   
-  .homePageContainer {
-    height: 1373px;
-    margin-left: -47px;
-    position: relative;
-    width: 100%;
-  }
-  
-  .header {
-    background-color: var(--black);
-    height: 140px; 
-    top:0px;
-    left: 47px;
-    position: absolute;
-    width: 1920px;
-  }
-  
-  .body {
-    background-color: var(--eerie-black);
-    height: 1000px;
-    left: 47px;
-    position:absolute;
-    top: 130px;
-    width: 1920px;
-  }
-  
-  .moviePoster2 {
-    height: 597px;
-    width: 360px;
-    margin-right: 30px;
-  }
-  
-  .star1 {
-    height: 20px;
-    left: 79px;
-    position: absolute;
-    top: 901px;
-    width: 20px;
-  }
-  
-  .moviePoster1 {
-    height: 598px;
-    width: 297px;
-    margin-right: 30px;
-  }
-  
-  .top10Movies{
-    top: 310px;
-    position: absolute;
-    min-width:1000px;
-  }
+}
 
-  .moviePoster3 {
+.homePageContainer {
+  height: 1373px;
+  margin-left: -47px;
+  position: relative;
+  width: 100%;
+}
+
+.header {
+  background-color: var(--black);
+  height: 140px; 
+  top:0px;
+  left: 47px;
+  position: absolute;
+  width: 1920px;
+}
+
+.homepagebody {
+  background-color: var(--eerie-black);
+  min-height: 10000px;
+  left: 47px;
+  position:absolute;
+  top: 130px;
+  width: 1920px;
+}
+
+.moviePoster2 {
+  height: 597px;
+  width: 360px;
+  margin-right: 30px;
+}
+
+.star1 {
+  height: 20px;
+  left: 79px;
+  position: absolute;
+  top: 901px;
+  width: 20px;
+}
+
+.moviePoster1 {
+  height: 598px;
+  width: 297px;
+  margin-right: 30px;
+}
+
+.top10Movies{
+  top: 310px;
+  position: absolute;
+  min-width:1000px;
+}
+
+.moviePoster3 {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-right: 30px;
+}
+
+.moviesLoop{
+  width: 5340px;
+}
+
+.homeMoviePoster{
+  cursor: pointer;
+  transition: all 0.2s ease;
+  /* margin-right: 30px; */
+  border-radius:50px;
+  /* display:ruby; */
+  /* margin-right: 30px; */
+  /* display: inline-block; 
+  margin:10px; */
+  margin:10px;
+  float:left;
+}
+
+.homeMoviePoster:hover{
+  transform: translate(0, -5px);
+}
+
+.moviePoster3:hover,
+.genresText:hover,
+.homeText:hover {
+  transform: translate(0, -5px);
+}
+
+.moviePoster5 {
+  height: 585px;
+  object-fit: cover;
+  width: 323px;
+}
+
+.moviePoster4 {
+  height: 585px;
+  width: 394px;
+  margin-right: 70px;
+}
+
+.ellipse3 {
+  height: 13px;
+  left: 967px;
+  position: absolute;
+  top: 921px;
+  width: 14px;
+}
+
+.ellipse4 {
+  background-color: var(--white-3);
+  border-radius: 6px/5.5px;
+  height: 11px;
+  left: 990px;
+  position: absolute;
+  top: 921px;
+  width: 12px;
+}
+
+.ellipse5 {
+  background-color: var(--white-3);
+  border-radius: 6px/5.5px;
+  height: 11px;
+  left: 1011px;
+  position: absolute;
+  top: 921px;
+  width: 12px;
+}
+
+.ellipse2 {
+  background-color: var(--white-3);
+  border-radius: 6px/5.5px;
+  height: 11px;
+  left: 946px;
+  position: absolute;
+  top: 921px;
+  width: 12px;
+}
+
+.ellipse1 {
+  background-color: var(--white-3);
+  border-radius: 6px/5.5px;
+  height: 11px;
+  left: 926px;
+  position: absolute;
+  top: 921px;
+  width: 12px;
+}
+
+.expandRight {
+  height: 42px;
+  left: 1016px;
+  position: absolute;
+  top: 906px;
+  width: 41px;
+}
+
+.expandLeft {
+  height: 41px;
+  left: 895px;
+  position: absolute;
+  top: 907px;
+  width: 32px;
+}
+
+.movieName3 {
+  left: 740px;
+  letter-spacing: 0;
+  line-height: 40px;
+  position: absolute;
+  top: 803px;
+  white-space: nowrap;
+  width: 456px;
+}
+
+.movieName2 {
+  left: 356px;
+  letter-spacing: 0;
+  line-height: 40px;
+  opacity: 0.5;
+  position: absolute;
+  top: 929px;
+  white-space: nowrap;
+  width: 456px;
+}
+
+.movieName1 {
+  left: 41px;
+  letter-spacing: 0;
+  line-height: 40px;
+  opacity: 0.5;
+  position: absolute;
+  top: 927px;
+  white-space: nowrap;
+  width: 456px;
+}
+
+.movieName4{
+  left: 1258px;
+  letter-spacing: 0;
+  line-height: 40px;
+  opacity: 0.5;
+  position: absolute;
+  top: 927px;
+  white-space: nowrap;
+  width: 456px;
+}
+
+.movieName5{
+  left: 1656px;
+  letter-spacing: 0;
+  line-height: 40px;
+  opacity: 0.5;
+  position: absolute;
+  top: 926px;
+  white-space: nowrap;
+  width: 456px;
+}
+
+.footerLogo {
+  height: 139px;
+  left: 775px;
+  object-fit: cover;
+  position: absolute;
+  top: 1133px;
+  width: 410px;
+}
+
+.footerText1 {
+  color: var(--white);
+  font-family: var(--font-family-neuton);
+  font-size: var(--font-size-xl2);
+  font-weight: 700;
+  left: 867px;
+  letter-spacing: 0;
+  position: absolute;
+  top: 1286px;
+}
+
+.copyRightText {
+  left: 68px;
+  letter-spacing: 0;
+  position: absolute;
+  top: 1302px;
+  width: 344px;
+}
+
+.span1 {
+  text-decoration: underline;
+}
+
+.rating3 {
+  color: var(--white);
+  font-family: var(--font-family-neuton);
+  font-size: var(--font-size-xxl2);
+  font-weight: 700;
+  left: 781px;
+  letter-spacing: 0.36px;
+  position: absolute;
+  text-align: right;
+  top: 761px;
+  transform: rotate(-0.94deg);
+  width: 31px;
+}
+
+.rating2{
+  left: 395px;
+  letter-spacing: 0.36px;
+  position: absolute;
+  text-align: right;
+  top: 886px;
+  transform: rotate(-0.94deg);
+  width: 31px;
+}
+
+.rating1{
+  left: 85px;
+  letter-spacing: 0.36px;
+  position: absolute;
+  text-align: right;
+  top: 888px;
+  transform: rotate(-0.94deg);
+  width: 31px;
+}
+
+.rating4 {
+  left: 1305px;
+  letter-spacing: 0.36px;
+  position: absolute;
+  text-align: right;
+  top: 889px;
+  transform: rotate(-0.94deg);
+  width: 31px;
+}
+
+.rating5 {
+  left: 1702px;
+  letter-spacing: 0.36px;
+  position: absolute;
+  text-align: right;
+  top: 888px;
+  transform: rotate(-0.94deg);
+  width: 31px;
+}
+
+.line-14 {
+  height: 3px;
+  left: 64px;
+  position: absolute;
+  top: 1080px;
+  width: 1896px;
+}
+
+.rectangle-398 {
+  background-color: var(--eerie-black);
+  height: 93px;
+  left: 65px;
+  position: absolute;
+  top: 18px;
+  width: 1905px;
+}
+
+.registerText {
+  left: 1830px;
+  letter-spacing: 0;
+  line-height: 16px;
+  position: absolute;
+  top: 80px;
+  white-space: nowrap;
+  width: 75px;
+}
+
+.loginText {
+  left: 1750px;
+  letter-spacing: 0;
+  line-height: 16px;
+  position: absolute;
+  top: 79px;
+  white-space: nowrap;
+  width: 52px;
+}
+
+.loginIcon {
+  height: 40px;
+  /* left: 1750px; */
+  left: 1747px;
+  position: absolute;
+  /* top: 37px; */
+  top: 34px;
+  width: 44px;
+}
+
+.registerIcon {
+  height: 40px;
+  /* left: 1837px; */
+  left: 1826px;
+  position: absolute;
+  /* top: 36px; */
+  top: 33px;
+  width: 44px;
+}
+
+
+.genresText {
+  cursor: pointer;
+  left: 425px;
+  letter-spacing: 0;
+  position: absolute;
+  top: 43px;
+  transition: all 0.2s ease;
+  width: 137px;
+}
+
+.headerLogo {
+  height: 87px;
+  left: 20px;
+  object-fit: cover;
+  position: absolute;
+  top: 24px;
+  width: 190px;
+}
+
+.homeText{
+  cursor: pointer;
+  left: 298px;
+  letter-spacing: 0;
+  position: absolute;
+  top: 43px;
+  transition: all 0.2s ease;
+  width: 111px;
+}
+
+.genreType5 {
+  background-color: var(--white-2);
+  border-radius: 6px;
+  height: 21px;
+  left: 1658px;
+  position: absolute;
+  top: 867px;
+  width: 113px;
+}
+
+.genreType4 {
+  background-color: var(--white-2);
+  border-radius: 6px;
+  height: 21px;
+  left: 1265px;
+  position: absolute;
+  top: 866px;
+  width: 113px;
+}
+
+.genreTypeText4 {
+  left: 1278px;
+  letter-spacing: 0;
+  line-height: 16px;
+  position: absolute;
+  top: 869px;
+  white-space: nowrap;
+}
+
+.genreTypeText5 {
+  left: 1672px;
+  letter-spacing: 0;
+  line-height: 16px;
+  position: absolute;
+  top: 870px;
+  white-space: nowrap;
+}
+
+.genreType3 {
+  background-color: var(--white-2);
+  border-radius: 6px;
+  height: 21px;
+  left: 736px;
+  position: absolute;
+  top: 740px;
+  width: 113px;
+}
+
+.genreTypeText3 {
+  left: 749px;
+  letter-spacing: 0;
+  line-height: 16px;
+  position: absolute;
+  top: 743px;
+  white-space: nowrap;
+}
+
+.genreType2 {
+  background-color: var(--white-2);
+  border-radius: 6px;
+  height: 21px;
+  left: 355px;
+  position: absolute;
+  top: 862px;
+  width: 113px;
+}
+
+.genreTypeText2 {
+  left: 368px;
+  letter-spacing: 0;
+  line-height: 16px;
+  position: absolute;
+  top: 865px;
+  white-space: nowrap;
+}
+
+.genreType1 {
+  background-color: var(--white-2);
+  border-radius: 6px;
+  height: 21px;
+  left: 41px;
+  position: absolute;
+  top: 867px;
+  width: 113px;
+}
+
+.fireIcon {
+  height: 89px;
+  left: 205px;
+  position: absolute;
+  top: 159px;
+  width: 72px;
+}
+
+.genreTypeText1{
+  left: 54px;
+  letter-spacing: 0;
+  line-height: 16px;
+  position: absolute;
+  top: 870px;
+  white-space: nowrap;
+}
+
+.top10Text,
+.top10Text.animate-enter {
+  color: var(--white);
+  font-family: var(--font-family-roboto);
+  font-size: 50px;
+  font-weight: 400;
+  left: 140px;
+  letter-spacing: 0;
+  position: absolute;
+  top: 185px;
+  width: 878px;
+transform: scale(1.1);
+}
+
+.star2 {
+  height: 20px;
+  left: 387px;
+  position: absolute;
+  top: 897px;
+  width: 20px;
+}
+
+.star3 {
+  height: 20px;
+  left: 773px;
+  position: absolute;
+  top: 773px;
+  width: 20px;
+}
+
+.star4 {
+  height: 20px;
+  left: 1296px;
+  position: absolute;
+  top: 901px;
+  width: 20px;
+}
+
+.star5 {
+  height: 20px;
+  left: 1692px;
+  position: absolute;
+  top: 900px;
+  width: 20px;
+}
+
+
+@keyframes animate-enter-frames {
+  from{opacity: 0;
+transform: scale(1.1);
+}
+to{opacity: 1;
+transform: scale(1);
+}
+}
+
+.clickable{
     cursor: pointer;
-    transition: all 0.2s ease;
-    margin-right: 30px;
-  }
+}
 
-  .moviesLoop{
-    width: 5340px;
-  }
-  
-  .homeMoviePoster{
-    cursor: pointer;
-    transition: all 0.2s ease;
-    /* margin-right: 30px; */
-    border-radius:50px;
-    /* display:ruby; */
-    /* margin-right: 30px; */
-    /* display: inline-block; 
-    margin:10px; */
-    margin:10px;
-    float:left;
-  }
+.homefooter {
+  /* background-color: var(--eerie-black); */
+  background-color: red;
+  height: 293px;
+  left: 47px;
+  position: absolute;
+  top: 19px;
+  width: 1920px;
+}
 
-  .homeMoviePoster:hover{
-    transform: translate(0, -5px);
-  }
-  
-  .moviePoster3:hover,
-  .genresText:hover,
-  .homeText:hover {
-    transform: translate(0, -5px);
-  }
-  
-  .moviePoster5 {
-    height: 585px;
-    object-fit: cover;
-    width: 323px;
-  }
-  
-  .moviePoster4 {
-    height: 585px;
-    width: 394px;
-    margin-right: 70px;
-  }
-  
-  .ellipse3 {
-    height: 13px;
-    left: 967px;
-    position: absolute;
-    top: 921px;
-    width: 14px;
-  }
-  
-  .ellipse4 {
-    background-color: var(--white-3);
-    border-radius: 6px/5.5px;
-    height: 11px;
-    left: 990px;
-    position: absolute;
-    top: 921px;
-    width: 12px;
-  }
-  
-  .ellipse5 {
-    background-color: var(--white-3);
-    border-radius: 6px/5.5px;
-    height: 11px;
-    left: 1011px;
-    position: absolute;
-    top: 921px;
-    width: 12px;
-  }
-  
-  .ellipse2 {
-    background-color: var(--white-3);
-    border-radius: 6px/5.5px;
-    height: 11px;
-    left: 946px;
-    position: absolute;
-    top: 921px;
-    width: 12px;
-  }
-  
-  .ellipse1 {
-    background-color: var(--white-3);
-    border-radius: 6px/5.5px;
-    height: 11px;
-    left: 926px;
-    position: absolute;
-    top: 921px;
-    width: 12px;
-  }
-  
-  .expandRight {
-    height: 42px;
-    left: 1016px;
-    position: absolute;
-    top: 906px;
-    width: 41px;
-  }
-  
-  .expandLeft {
-    height: 41px;
-    left: 895px;
-    position: absolute;
-    top: 907px;
-    width: 32px;
-  }
-  
-  .movieName3 {
-    left: 740px;
-    letter-spacing: 0;
-    line-height: 40px;
-    position: absolute;
-    top: 803px;
-    white-space: nowrap;
-    width: 456px;
-  }
-  
-  .movieName2 {
-    left: 356px;
-    letter-spacing: 0;
-    line-height: 40px;
-    opacity: 0.5;
-    position: absolute;
-    top: 929px;
-    white-space: nowrap;
-    width: 456px;
-  }
-  
-  .movieName1 {
-    left: 41px;
-    letter-spacing: 0;
-    line-height: 40px;
-    opacity: 0.5;
-    position: absolute;
-    top: 927px;
-    white-space: nowrap;
-    width: 456px;
-  }
-  
-  .movieName4{
-    left: 1258px;
-    letter-spacing: 0;
-    line-height: 40px;
-    opacity: 0.5;
-    position: absolute;
-    top: 927px;
-    white-space: nowrap;
-    width: 456px;
-  }
-  
-  .movieName5{
-    left: 1656px;
-    letter-spacing: 0;
-    line-height: 40px;
-    opacity: 0.5;
-    position: absolute;
-    top: 926px;
-    white-space: nowrap;
-    width: 456px;
-  }
-  
-  .footerLogo {
-    height: 139px;
-    left: 775px;
-    object-fit: cover;
-    position: absolute;
-    top: 1133px;
-    width: 410px;
-  }
-  
-  .footerText1 {
-    color: var(--white);
-    font-family: var(--font-family-neuton);
-    font-size: var(--font-size-xl2);
-    font-weight: 700;
-    left: 867px;
-    letter-spacing: 0;
-    position: absolute;
-    top: 1286px;
-  }
 
-  .copyRightText {
-    left: 68px;
-    letter-spacing: 0;
-    position: absolute;
-    top: 1302px;
-    width: 344px;
-  }
-  
-  .span1 {
-    text-decoration: underline;
-  }
-  
-  .rating3 {
-    color: var(--white);
-    font-family: var(--font-family-neuton);
-    font-size: var(--font-size-xxl2);
-    font-weight: 700;
-    left: 781px;
-    letter-spacing: 0.36px;
-    position: absolute;
-    text-align: right;
-    top: 761px;
-    transform: rotate(-0.94deg);
-    width: 31px;
-  }
-  
-  .rating2{
-    left: 395px;
-    letter-spacing: 0.36px;
-    position: absolute;
-    text-align: right;
-    top: 886px;
-    transform: rotate(-0.94deg);
-    width: 31px;
-  }
-  
-  .rating1{
-    left: 85px;
-    letter-spacing: 0.36px;
-    position: absolute;
-    text-align: right;
-    top: 888px;
-    transform: rotate(-0.94deg);
-    width: 31px;
-  }
-  
-  .rating4 {
-    left: 1305px;
-    letter-spacing: 0.36px;
-    position: absolute;
-    text-align: right;
-    top: 889px;
-    transform: rotate(-0.94deg);
-    width: 31px;
-  }
-  
-  .rating5 {
-    left: 1702px;
-    letter-spacing: 0.36px;
-    position: absolute;
-    text-align: right;
-    top: 888px;
-    transform: rotate(-0.94deg);
-    width: 31px;
-  }
-  
-  .line-14 {
-    height: 3px;
-    left: 64px;
-    position: absolute;
-    top: 1080px;
-    width: 1896px;
-  }
-  
-  .rectangle-398 {
-    background-color: var(--eerie-black);
-    height: 93px;
-    left: 65px;
-    position: absolute;
-    top: 18px;
-    width: 1905px;
-  }
-  
-  .registerText {
-    left: 1830px;
-    letter-spacing: 0;
-    line-height: 16px;
-    position: absolute;
-    top: 80px;
-    white-space: nowrap;
-    width: 75px;
-  }
-  
-  .loginText {
-    left: 1750px;
-    letter-spacing: 0;
-    line-height: 16px;
-    position: absolute;
-    top: 79px;
-    white-space: nowrap;
-    width: 52px;
-  }
-  
-  .loginIcon {
-    height: 40px;
-    /* left: 1750px; */
-    left: 1747px;
-    position: absolute;
-    /* top: 37px; */
-    top: 34px;
-    width: 44px;
-  }
-  
-  .registerIcon {
-    height: 40px;
-    /* left: 1837px; */
-    left: 1826px;
-    position: absolute;
-    /* top: 36px; */
-    top: 33px;
-    width: 44px;
-  }
+.recommendedForYouText,
+.recommendedForYouText.animate-enter {
+color: var(--white);
+font-family: var(--font-family-roboto);
+font-size: 50px;
+font-weight: 400;
+left: 140px;
+letter-spacing: 0;
+position: absolute;
+top: 1080px;
+width: 878px;
+transform: scale(1.1);
+}
 
-  
-  .genresText {
-    cursor: pointer;
-    left: 425px;
-    letter-spacing: 0;
+
+.recommendedForYouContainer{
+/* height: auto; */
+top: 1200px;
+position: absolute;
+width:1700px;
+left: 20px;
+}
+
+.recommendedMovies-owl-theme{
+  width:50px;
+  left: 140px;
+}
+.recommendedMovies-owl-theme .owl-dots   {
+    /* background-color: blue; */
+    display: flex;   
+    align-self: center;
+    justify-content: center;
+    align-content: center;
+    display: none;
+
+    /* width: 10px; */
+    /* height: 10px;
+    margin: 5px 7px;
+    background: #D6D6D6;
+    display: block;
+    border-radius: 30px; */
+}
+.recommendedMovies-owl-theme .owl-dots  [className='owl-dot'],
+.recommendedMovies-owl-theme .owl-dots .owl-dot:hover .span {
+  background: #fd3c3d;
+}
+
+.recommendedMovies-owl-theme .owl-nav [className='recommendedExpandRight']  {
     position: absolute;
-    top: 43px;
-    transition: all 0.2s ease;
-    width: 137px;
+    left: 1670px;
+    top: 170px;  
+}
+
+.recommendedMovies-owl-theme .owl-nav [className='recommendedExpandLeft']  {
+  position: absolute;
+  left: -50px;
+  top: 160px;  
+  color: #d41c24;
+}
+
+.recommendedMovies-owl-theme .owl-nav [className='recommendedExpandLeft']:hover,
+.recommendedMovies-owl-theme .owl-nav [className='recommendedExpandRight']:hover{
+background-color: var(--shark);
+transform: scale(2);
+}
+
+
+.recommendedMovie{
+  color:white;
+  background-color: var(--shark);
+  border-radius: 10px;
+  cursor: pointer;
+  /* min-height: 600px;  */
+  height: 600px; 
+  left: 0px;
+  transition: all 0.2s ease;
+  width: 380px;
+  position: relative;
+}
+  
+.recommendedMoviePoster{
+  width: 240px;
+  height: 450px;
+  border-radius: 10px;
+}
+
+.recommendedStar{
+  top: 470px;
+  position: absolute;
+  display: flex;
+  height: 50px;
+  width: 40px;
+  padding: 6.9px 7.0px;
+  position: absolute;
+  transition: all 0.2s ease;
+  left: -140px;
   }
   
-  .headerLogo {
-    height: 87px;
-    left: 20px;
-    object-fit: cover;
-    position: absolute;
-    top: 24px;
-    width: 190px;
-  }
-  
-  .homeText{
-    cursor: pointer;
-    left: 298px;
-    letter-spacing: 0;
-    position: absolute;
-    top: 43px;
-    transition: all 0.2s ease;
-    width: 111px;
-  }
-  
-  .genreType5 {
-    background-color: var(--white-2);
-    border-radius: 6px;
-    height: 21px;
-    left: 1658px;
-    position: absolute;
-    top: 867px;
-    width: 113px;
-  }
-  
-  .genreType4 {
-    background-color: var(--white-2);
-    border-radius: 6px;
-    height: 21px;
-    left: 1265px;
-    position: absolute;
-    top: 866px;
-    width: 113px;
-  }
-  
-  .genreTypeText4 {
-    left: 1278px;
-    letter-spacing: 0;
-    line-height: 16px;
-    position: absolute;
-    top: 869px;
-    white-space: nowrap;
-  }
-  
-  .genreTypeText5 {
-    left: 1672px;
-    letter-spacing: 0;
-    line-height: 16px;
-    position: absolute;
-    top: 870px;
-    white-space: nowrap;
-  }
-  
-  .genreType3 {
-    background-color: var(--white-2);
-    border-radius: 6px;
-    height: 21px;
-    left: 736px;
-    position: absolute;
-    top: 740px;
-    width: 113px;
-  }
-  
-  .genreTypeText3 {
-    left: 749px;
-    letter-spacing: 0;
-    line-height: 16px;
-    position: absolute;
-    top: 743px;
-    white-space: nowrap;
-  }
-  
-  .genreType2 {
-    background-color: var(--white-2);
-    border-radius: 6px;
-    height: 21px;
-    left: 355px;
-    position: absolute;
-    top: 862px;
-    width: 113px;
-  }
-  
-  .genreTypeText2 {
-    left: 368px;
-    letter-spacing: 0;
-    line-height: 16px;
-    position: absolute;
-    top: 865px;
-    white-space: nowrap;
-  }
-  
-  .genreType1 {
-    background-color: var(--white-2);
-    border-radius: 6px;
-    height: 21px;
-    left: 41px;
-    position: absolute;
-    top: 867px;
-    width: 113px;
-  }
-  
-  .fireIcon {
-    height: 89px;
-    left: 205px;
-    position: absolute;
-    top: 159px;
-    width: 72px;
-  }
-  
-  .genreTypeText1{
-    left: 54px;
-    letter-spacing: 0;
-    line-height: 16px;
-    position: absolute;
-    top: 870px;
-    white-space: nowrap;
-  }
-  
-  .top10Text,
-  .top10Text.animate-enter {
-    color: var(--white);
-    font-family: var(--font-family-roboto);
-    font-size: 50px;
-    font-weight: 400;
-    left: 140px;
-    letter-spacing: 0;
-    position: absolute;
-    top: 185px;
-    width: 878px;
+  .recommendedStar:hover {
   transform: scale(1.1);
   }
   
-  .star2 {
-    height: 20px;
-    left: 387px;
+  .recommendedMovieRating{
+    letter-spacing: 0;
+    text-shadow: 0px 4px 4px #00000040;
+    top: 455px;
+    left: 60px;
     position: absolute;
-    top: 897px;
-    width: 20px;
-  }
+    /* text-align: justify; */
+    margin-top:20px;
+    overflow-wrap: break-word;
+    width:300px;
+    padding-left: 20px;
+    }
+    
+    .recommendedMovieName{
+      letter-spacing: 0;
+      text-shadow: 0px 4px 4px #00000040;
+      top: 510px;
+      left:0px;
+      position: absolute;
+      /* text-align: justify; */
+      margin-top:20px;
+      overflow-wrap: break-word;
+      width: 300px;
+      padding-left: 20px;
+      overflow: hidden;
+      white-space: nowrap; /* Don't forget this one */
+      text-overflow: ellipsis;
+    }
   
-  .star3 {
-    height: 20px;
-    left: 773px;
-    position: absolute;
-    top: 773px;
-    width: 20px;
-  }
-  
-  .star4 {
-    height: 20px;
-    left: 1296px;
-    position: absolute;
-    top: 901px;
-    width: 20px;
-  }
-  
-  .star5 {
-    height: 20px;
-    left: 1692px;
-    position: absolute;
-    top: 900px;
-    width: 20px;
-  }
-  
+    
+.homePagefooter {
+  background-color: var(--black);
+  height: 293px;
+  left: 47px;
+  /* position: absolute; */
+  /* top:   1900px; */
+  width: 100%;
+  /* position: absolute; */
+  position: absolute;
+  left: 35;
+  bottom: -800px;
+}
 
-  @keyframes animate-enter-frames {
-    from{opacity: 0;
-  transform: scale(1.1);
-  }
-  to{opacity: 1;
-  transform: scale(1);
-  }
-  }
 
-  .clickable{
-      cursor: pointer;
-  }
 
-  .homefooter {
-    /* background-color: var(--eerie-black); */
-    background-color: red;
-    height: 293px;
-    left: 47px;
-    position: absolute;
-    top: 19px;
-    width: 1920px;
-  }
+.homePagefooterLogo {
+  height: 139px;
+  left: 720px;
+  object-fit: cover;
+  /* position: absolute;
+  top: 40px; */
+  width: 410px;
+  position: absolute;
+  top: 50px;
+
+}
+
+.homePagefooterText1 {
+  color: var(--white);
+  font-family: var(--font-family-neuton);
+  font-size: var(--font-size-xl2);
+  font-weight: 700;
+  left: 810px;
+  letter-spacing: 0;
+  /* position: absolute;
+  top: 190px; */
+  position: absolute;
+  top: 200px;
+
+}
+
+.homePagecopyRightText {
+  left: 30px;
+  letter-spacing: 0;
+  /* position: absolute;
+  top: 200px; */
+  width: 344px;
+  position: absolute;
+  bottom: 0px;
+
+}
