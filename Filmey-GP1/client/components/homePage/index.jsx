@@ -86,7 +86,8 @@ function homePage(props) {
         IdsArray[i] = response.data[i].movie_id;
         postersArray[i] = response.data[i].poster;
       }
-      setMovieIds(IdsArray);
+
+        setMovieIds(IdsArray);
       setAllposters(postersArray);
     });
 
@@ -112,10 +113,12 @@ function homePage(props) {
     //check thresold for registered users only
      if(registered && !isAdmin)
        api.post(`/model/checkThreshold/${userId}`).then((response) => {
-         checkThreshold=response.data;
-       })
+        checkThreshold=response.data;
+        // checkThreshold=true;
+      })
 
        // call userBasedCF if exceeds threshold
+      //  checkThreshold=true
       if(checkThreshold)
       {
            api.post(`/model/userBasedCF/${userId}`).then((response) => {
@@ -134,6 +137,29 @@ function homePage(props) {
 
       });
      }
+     else{
+      Axios.post("http://localhost:5000/modelBased",{
+        userID :userId,
+     }
+     )
+     .then((response)=>{
+      console.log(response.data)
+      const IdsArray = [...recommendedmovieIds];
+      const postersArray = [...recommendedmoviePosters];
+
+        for (var i = 0; i < response.data.length; i++) {
+        // console.log(response.data.length)
+       similarMoviesIds[i] = response.data[i][0];
+       similarMoviesPosters[i] = response.data[i][1];
+    }
+
+       setRecommendedMovieIds(similarMoviesIds);
+       setRecommendedmoviePosters(similarMoviesPosters);
+       setSimilarMoviesPostersState(similarMoviesPosters);
+ 
+     })
+ 
+   }
 
   }, []);
 
@@ -211,7 +237,7 @@ function homePage(props) {
                   {runCallback(() => {
                     const row = [];
 
-                    for (var i = 0; i < 20; i++) {
+                    for (var i = 0; i < recommendedmovieIds.length; i++) {
                       const id = recommendedmovieIds[i];
                       const url = `/movieInfoPage/${id}`;
                       const poster = recommendedmoviePosters[i];
