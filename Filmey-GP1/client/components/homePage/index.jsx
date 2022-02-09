@@ -8,9 +8,7 @@ import jwt_decode from "jwt-decode";
 import Header from "../header";
 import OwlCarousel from "react-owl-carousel";
 
-
 function homePage(props) {
-
   const options = {
     items: 4,
     margin: 10,
@@ -52,7 +50,6 @@ function homePage(props) {
     registered = true;
   } catch {
     registered = false;
-    console.log("guest user");
   }
 
   const logOut = () => {
@@ -66,16 +63,20 @@ function homePage(props) {
     //  // 'authorization' : token
   });
 
-
   const [movieIds, setMovieIds] = useState([]);
   const [Allposters, setAllposters] = useState([]);
   const [recommendedmovieIds, setRecommendedMovieIds] = useState([]);
   const [recommendedmoviePosters, setRecommendedmoviePosters] = useState([]);
   const [similarMoviesPostersState, setSimilarMoviesPostersState] = useState([]);
+  const [movieTitles, setmovieTitles] = useState([]);
+  const [totalRatings, settotalRatings] = useState([]);
+  const [additionalState, setAdditionalState] = useState([]);
   var similarMoviesPosters = [];
   var similarMoviesIds = [];
 
   React.useEffect(() => {
+
+
     //top 10 movies
     let numOfTopMovies = 10;
     api.get(`/movies/topMovies/${numOfTopMovies}`).then((response) => {
@@ -87,84 +88,79 @@ function homePage(props) {
         postersArray[i] = response.data[i].poster;
       }
 
-        setMovieIds(IdsArray);
+      setMovieIds(IdsArray);
       setAllposters(postersArray);
     });
 
 
-    //similar movies
-    // const recommended = Axios.post(`http://localhost:3000/api/v1/model/contentBased/1`).then((res) => {
-    //   console.log("similar movies");
-    //   console.log(res.data);
-    //   var IdsArray = [...movieIds];
-    //   var postersArray = [...Allposters];
 
-    //   for (var i = 0; i < 20; i++) {
-    //     similarMoviesIds[i] = res.data[i][0];
-    //     similarMoviesPosters[i] = res.data[i][1];
-    //   }
-
-    //   setRecommendedMovieIds(similarMoviesIds);
-    //   setRecommendedmoviePosters(similarMoviesPosters);
-    //   setSimilarMoviesPostersState(similarMoviesPosters);
-    // });
-
-    var checkThreshold = false;
+    // var checkThreshold = false;
     //check thresold for registered users only
-     if(registered && !isAdmin)
-       api.post(`/model/checkThreshold/${userId}`).then((response) => {
-        checkThreshold=response.data;
-        // checkThreshold=true;
-      })
+    if (registered && !isAdmin) {
+      var checkThreshold ;
 
-       // call userBasedCF if exceeds threshold
-      //  checkThreshold=true
-      if(checkThreshold)
-      {
-           api.post(`/model/userBasedCF/${userId}`).then((response) => {
-           console.log(response.data)
-           const IdsArray = [...movieIds];
-           const postersArray = [...Allposters];
+      api.post(`/model/checkThreshold/${userId}`).then((response) => {
+        checkThreshold = response.data;
+        console.log(checkThreshold)
+            // console.log(checkThreshold)
+      // checkThreshold= true;
+      if (checkThreshold) {
+        // userBasedCF
+        Axios.post("http://localhost:5000/userBasedCF", {
+          userID: userId,
+        }).then((response) => {
 
-             for (var i = 0; i < 20; i++) {
+          var movieTitlesArray = [...movieTitles];
+          var ratingsArray = [...totalRatings];
+          var additionalState = [...additionalState];
+
+          for (var i = 0; i < 20; i++) {
             similarMoviesIds[i] = response.data[i][0];
             similarMoviesPosters[i] = response.data[i][1];
-         }
+            movieTitlesArray[i] = response.data[i][2];
+            ratingsArray[i] = response.data[i][3];
+            // console.log(response.data[i][3])
+            additionalState[i] = response.data[i][3];
+            
+          }
 
-            setRecommendedMovieIds(similarMoviesIds);
-            setRecommendedmoviePosters(similarMoviesPosters);
-            setSimilarMoviesPostersState(similarMoviesPosters);
+          setRecommendedMovieIds(similarMoviesIds);
+          setRecommendedmoviePosters(similarMoviesPosters);
+          setSimilarMoviesPostersState(similarMoviesPosters);
+          setmovieTitles(movieTitlesArray);
+          settotalRatings(ratingsArray);
+          setAdditionalState(additionalState);
+        });
+      } else {
+        // Knowladge Base
+        Axios.post("http://localhost:5000/modelBased", {
+          userID: userId,
+        }).then((response) => {
+          var movieTitlesArray = [...movieTitles];
+          var ratingsArray = [...totalRatings];
+          var additionalState = [...additionalState];
+          for (var i = 0; i < response.data.length; i++) {
+            similarMoviesIds[i] = response.data[i][0];
+            similarMoviesPosters[i] = response.data[i][1];
+            movieTitlesArray[i] = response.data[i][2];
+            ratingsArray[i] = response.data[i][3];
+            // console.log(response.data[i][3])
+            additionalState[i] = response.data[i][3];
+          }
 
+          setRecommendedMovieIds(similarMoviesIds);
+          setRecommendedmoviePosters(similarMoviesPosters);
+          setSimilarMoviesPostersState(similarMoviesPosters);
+          setmovieTitles(movieTitlesArray);
+          settotalRatings(ratingsArray);
+          setAdditionalState(additionalState);
+        });
+      }
+        // checkThreshold=true;
       });
-     }
-     else{
-      Axios.post("http://localhost:5000/modelBased",{
-        userID :userId,
-     }
-     )
-     .then((response)=>{
-      console.log(response.data)
-      const IdsArray = [...recommendedmovieIds];
-      const postersArray = [...recommendedmoviePosters];
-
-        for (var i = 0; i < response.data.length; i++) {
-        // console.log(response.data.length)
-       similarMoviesIds[i] = response.data[i][0];
-       similarMoviesPosters[i] = response.data[i][1];
+  
     }
-
-       setRecommendedMovieIds(similarMoviesIds);
-       setRecommendedmoviePosters(similarMoviesPosters);
-       setSimilarMoviesPostersState(similarMoviesPosters);
- 
-     })
- 
-   }
-
   }, []);
-
-
-
 
   return (
     <div className="PageCenter">
@@ -222,12 +218,15 @@ function homePage(props) {
             </marquee>
 
             {/* Title */}
-            {registered &&
+            {registered && !isAdmin &&(
               <div>
-                <h1 className="recommendedForYouText">Recommended For <strong> {username} </strong> </h1>
-              </div>}
+                <h1 className="recommendedForYouText">
+                  Recommended For <strong> {username} </strong>{" "}
+                </h1>
+              </div>
+            )}
 
-            {registered &&
+            {registered && !isAdmin &&(
               <div className="recommendedForYouContainer">
                 <OwlCarousel
                   className="recommendedMovies-owl-theme"
@@ -241,12 +240,11 @@ function homePage(props) {
                       const id = recommendedmovieIds[i];
                       const url = `/movieInfoPage/${id}`;
                       const poster = recommendedmoviePosters[i];
-                      // const title = movieTitles[count];
-                      // var rating = totalRatings[count++];
-
-                      // if (rating == "0.0") {
-                      //   rating = "No ratings yet.";
-                      // }
+                      const title = movieTitles[i];
+                      const rating = totalRatings[i];
+                      if (rating == 0) {
+                        rating = "No ratings yet.";
+                      }
                       row.push(
                         <div key={i}>
                           {
@@ -263,10 +261,10 @@ function homePage(props) {
                                   src="/img/star-2@2x.svg"
                                 />
                                 <div className="recommendedMovieRating neuton-bold-white-30px">
-                                  {/* {rating} */} 5
+                                  {rating}
                                 </div>
                                 <div className="recommendedMovieName neuton-bold-white-30px">
-                                  {/* {title} */} movie name
+                                  {title}
                                 </div>
                               </Link>
                             </div>
@@ -278,7 +276,7 @@ function homePage(props) {
                   })}
                 </OwlCarousel>
               </div>
-            }
+            )}
 
             {/* footer */}
             {/* footer */}

@@ -6,18 +6,18 @@ const db = require("../../db/db");
 const { json } = require("express");
 // var async = require("async");
 
-router.post("/userBasedCF/:userID", async (req, res, next) => {
-  const { userID } = req.params;
-  return res.json(
-    await axios
-      .post("http://localhost:5000/userBasedCF", {
-        userID: userID,
-      })
-      .then((response) => {
-        return response.data;
-      })
-  );
-});
+// router.post("/userBasedCF/:userID", async (req, res, next) => {
+//   const { userID } = req.params;
+//   return res.json(
+//     await axios
+//       .post("http://localhost:5000/userBasedCF", {
+//         userID: userID,
+//       })
+//       .then((response) => {
+//         return response.data;
+//       })
+//   );
+// });
 
 
 router.post("/checkThreshold/:userID", async (req, res, next) => {
@@ -37,22 +37,22 @@ router.post("/checkThreshold/:userID", async (req, res, next) => {
 
 
 
-router.post("/contentBased/:movieId", async (req, res, next) => {
-  const { movieId } = req.params;
+// router.post("/contentBased/:movieId", async (req, res, next) => {
+//   const { movieId } = req.params;
 
-  const title = await queries.getMovieTitle(movieId);
+//   const title = await queries.getMovieTitle(movieId);
 
-  return res.json(
-    await axios
-      .post("http://localhost:5000/contentBased", {
-        movieTitle: title[0],
-      })
-      .then((response) => {
-        console.log("response.data")
-        console.log(response.data)
-        return response.data;
-      })
-  );
-});
+//   return res.json(
+//     await axios
+//       .post("http://localhost:5000/contentBased", {
+//         movieTitle: title[0],
+//       })
+//       .then((response) => {
+//         console.log("response.data")
+//         console.log(response.data)
+//         return response.data;
+//       })
+//   );
+// });
 
 module.exports = router;

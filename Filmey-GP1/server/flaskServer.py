@@ -1,3 +1,4 @@
+from ast import Str
 from lib2to3.pgen2.pgen import DFAState
 from flask import Flask
 import numpy as np
@@ -13,6 +14,7 @@ from sklearn.metrics import consensus_score
 
 
 from flask_cors import CORS, cross_origin
+from sqlalchemy import false
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -38,9 +40,9 @@ def index():
     #Check if model has already been trained with this user 
     rating =pd.read_csv('./api/model/MLratings&DB.csv', low_memory=False)
     rating = rating['user_id'].tolist()
-    numberOrRatingsInModel=rating.count(userID)
-    
-
+    numberOrRatingsInModel=rating.count(str(userID))
+    print(numberOrRatingsInModel)
+    # numberOrRatingsInModel = 21 
     
     if(numberOrRatingsInModel<20):
         conn = psycopg2.connect(host="localhost",database="filmey",user="postgres",password="pgAdmin123")
@@ -134,8 +136,23 @@ def index():
     #Get poters of recommended movies
     movies = []
     for i in predectionArray:
-        cursor.execute('SELECT movie_id  ,poster FROM "Movie" WHERE movie_id = %s' ,[i[0]] )
-        movies.append(cursor.fetchall()[0])
+        # cursor.execute('SELECT movie_id  ,poster FROM "Movie" WHERE movie_id = %s' ,[i[0]] )
+        # movies.append(cursor.fetchall()[0])
+
+        cursor.execute('SELECT movie_id ,poster , title FROM "Movie" WHERE movie_id = %s' ,[i[0]] )
+        info = cursor.fetchall()[0]
+        id = info[0]
+        poster = info[1]
+        title = info[2]
+
+        cursor = conn.cursor()
+        cursor.execute('SELECT ROUND(AVG(rating),1) AS total_rating FROM "Rating" WHERE movie_id = %s GROUP BY movie_id ' ,[i[0]] )
+        rating = cursor.fetchall()
+        if not rating:
+            rating = 0
+        else:
+            rating = rating[0]
+        movies.append([id , poster , title  , rating])
     return jsonify(movies)
 
     
@@ -159,7 +176,6 @@ from datetime import date
 import datetime
 
 # Load Movies 
-df = pd.read_csv('movieData.csv', low_memory=False)
 
 
 @app.route('/modelBased', methods=['POST'])
@@ -178,17 +194,19 @@ def modelBased():
     df = pd.read_csv('movieData.csv', low_memory=False)
     data = request.get_json(force=True)
     userID = data["userID"]
-    param = (str(userID))
+    param1 = (str(userID))
+    param2 = (str(userID),str(userID))
+
 
   
     # Get user Birth date
-    userBirthDate = sqlio.read_sql_query('SELECT date_of_birth  FROM "User"  where user_id=%s',conn, params=[param])
+    userBirthDate = sqlio.read_sql_query('SELECT date_of_birth  FROM "User"  where user_id=%s',conn, params=[param1])
     userBirthDate = userBirthDate['date_of_birth'][0]
 
 
     # Get user favorite genres
     User_favorite_genres = []
-    favorite_genres = sqlio.read_sql_query('SELECT genre  FROM "User_Genre" inner join "Genre" on "Genre".genre_id = "User_Genre".genre_id WHERE user_id= %s',conn , params= [param])
+    favorite_genres = sqlio.read_sql_query('SELECT genre  FROM "User_Genre" inner join "Genre" on "Genre".genre_id = "User_Genre".genre_id WHERE user_id= %s',conn , params= [param1])
 
     for row in favorite_genres.iterrows():
         User_favorite_genres.append(row[1]['genre'])
@@ -197,7 +215,6 @@ def modelBased():
     def get_age(birthdate):
         today = date.today()
         age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
-        #print("age:", age)
         return age
 
 
@@ -280,7 +297,6 @@ def modelBased():
 
             for a in range(len(favGenres)):
                 
-                # print(df['genre'][i])
                 if (favGenres[a] in df['genre'][i]):
                     
                 
@@ -291,24 +307,25 @@ def modelBased():
                             if (sautibleAgeGuide[j] == df['age_guide'][i]):
                                 
                                 sautibleMovies= sautibleMovies.append(df.iloc[i])    
-                                # print(sautibleMovies.append(df.iloc[i]))         
 
                     else:
                     
                         sautibleMovies= sautibleMovies.append(df.iloc[i])
-                        # print(sautibleMovies.append(df.iloc[i]))         
 
 
                     
-            
+        
         sautibleMovies.drop_duplicates(keep = "first", inplace = True)
-        # print(sautibleMovies)
-        # return jsonify("sautibleMovies")
 
-        moviesIds = sautibleMovies['movie_id'].tolist()
-            
-        return moviesIds
 
+        #Get filtered Movies 
+        filteredMovie = sqlio.read_sql_query('SELECT movie_id  FROM "Movie" WHERE movie_id NOT IN(SELECT movie_id FROM "Rating" WHERE user_id=%s AND is_deleted=false) AND movie_id NOT IN(SELECT movie_id FROM "Review" WHERE user_id=%s AND is_deleted=false) AND is_deleted=false', conn, params=param2)
+        movieIdArray = filteredMovie['movie_id'].tolist()
+        movieIdArray = pd.merge(sautibleMovies,filteredMovie ,on='movie_id')
+        movieIdArray = movieIdArray['movie_id'].tolist()
+
+
+        return movieIdArray
 
     knowldgeArray = get_recommendations(User_favorite_genres, userBirthDate)
     knowldgeArray = knowldgeArray[:20]
@@ -318,186 +335,206 @@ def modelBased():
     #Get poters of recommended movies
     movies = []
     for i in knowldgeArray:
-        cursor.execute('SELECT movie_id  ,poster FROM "Movie" WHERE movie_id = %s' ,[i] )
-        movies.append(cursor.fetchall()[0])
+        cursor.execute('SELECT movie_id ,poster , title FROM "Movie" WHERE movie_id = %s' ,[i] )
+        info = cursor.fetchall()[0]
+        id = info[0]
+        poster = info[1]
+        title = info[2]
+
+        cursor = conn.cursor()
+        cursor.execute('SELECT ROUND(AVG(rating),1) AS total_rating FROM "Rating" WHERE movie_id = %s GROUP BY movie_id ' ,[i] )
+        rating = cursor.fetchall()
+        if not rating:
+            rating = 0
+        else:
+            rating = rating[0][0]
+        movies.append([id , poster , title  , rating])
+
+
+    movies=sorted(movies, key = itemgetter(3) , reverse=True)
+    movies = movies[:20]
+
     return jsonify(movies)
     # return jsonify(x)
 
 
 
-# @app.route('/contentBasedPreprocessing', methods=['POST'])
-# def contentBasedPreprocessing():
-#     import psycopg2
-#     import pandas.io.sql as sqlio
+@app.route('/contentBasedPreprocessing', methods=['POST'])
+def contentBasedPreprocessing():
+    import psycopg2
+    import pandas.io.sql as sqlio
 
-#     conn = psycopg2.connect(
-#         host="localhost",
-#         database="filmey",
-#         user="postgres",
-#         password="pgAdmin123")
+    conn = psycopg2.connect(
+        host="localhost",
+        database="filmey",
+        user="postgres",
+        password="pgAdmin123")
 
-#     # Create a cursor to perform database operations
-#     cursor = conn.cursor()
+    # Create a cursor to perform database operations
+    cursor = conn.cursor()
 
-#     data = request.get_json(force=True)
-#     movieID=data['movieID']
-#     status=data['status']
-#     param = (str(movieID))
-#     if status=="Add" or status=="Edit":
-#         movieDB = pd.read_sql_query('SELECT *  FROM "Movie"  where movie_id=%s',conn, params=[param])
+    data = request.get_json(force=True)
+    movieID=data['movieID']
+    status=data['status']
+    param = (str(movieID))
+    if status=="Add" or status=="Edit":
+        movieDB = pd.read_sql_query('SELECT *  FROM "Movie"  where movie_id=%s',conn, params=[param])
         
 
-#         genresDB = sqlio.read_sql_query('SELECT * from "Movie_Genre" inner join "Genre" ON "Movie_Genre".genre_id = "Genre".genre_id where movie_id=%s' , conn,params=[param])
-#         genresDB=genresDB[['movie_id','genre']]
-#         genresDB = genresDB.groupby('movie_id')['genre'].apply(list).reset_index(name="genre")
+        genresDB = sqlio.read_sql_query('SELECT * from "Movie_Genre" inner join "Genre" ON "Movie_Genre".genre_id = "Genre".genre_id where movie_id=%s' , conn,params=[param])
+        genresDB=genresDB[['movie_id','genre']]
+        genresDB = genresDB.groupby('movie_id')['genre'].apply(list).reset_index(name="genre")
 
-#         languagesDB = sqlio.read_sql_query('SELECT * from "Movie_Language" inner join "Language" ON "Movie_Language".language_id = "Language".language_id where movie_id=%s', conn,params=[param])
-#         languagesDB=languagesDB[['movie_id','language']]
-#         languagesDB = languagesDB.groupby('movie_id')['language'].apply(list).reset_index(name="language")
+        languagesDB = sqlio.read_sql_query('SELECT * from "Movie_Language" inner join "Language" ON "Movie_Language".language_id = "Language".language_id where movie_id=%s', conn,params=[param])
+        languagesDB=languagesDB[['movie_id','language']]
+        languagesDB = languagesDB.groupby('movie_id')['language'].apply(list).reset_index(name="language")
 
-#         directorsDB = sqlio.read_sql_query('SELECT * from "Movie_Director" inner join "Director" ON "Movie_Director".director_id = "Director".director_id where movie_id=%s', conn, params=[param])
-#         directorsDB = directorsDB.groupby('movie_id')['director'].apply(list).reset_index(name="director")
+        directorsDB = sqlio.read_sql_query('SELECT * from "Movie_Director" inner join "Director" ON "Movie_Director".director_id = "Director".director_id where movie_id=%s', conn, params=[param])
+        directorsDB = directorsDB.groupby('movie_id')['director'].apply(list).reset_index(name="director")
 
-#         writersDB = sqlio.read_sql_query('SELECT * from "Movie_Writer" inner join "Writer" ON "Movie_Writer".writer_id = "Writer".writer_id where movie_id=%s', conn,params=[param])
-#         writersDB = writersDB.groupby('movie_id')['writer'].apply(list).reset_index(name="writer")
+        writersDB = sqlio.read_sql_query('SELECT * from "Movie_Writer" inner join "Writer" ON "Movie_Writer".writer_id = "Writer".writer_id where movie_id=%s', conn,params=[param])
+        writersDB = writersDB.groupby('movie_id')['writer'].apply(list).reset_index(name="writer")
 
-#         actorsDB = sqlio.read_sql_query('SELECT "Role".movie_id,"Role".actor_id,"Role".role,"Actor".actor,"Actor".actor_image_url from "Role" inner join "Actor" ON "Role".actor_id = "Actor".actor_id where movie_id=%s', conn,params=[param])
+        actorsDB = sqlio.read_sql_query('SELECT "Role".movie_id,"Role".actor_id,"Role".role,"Actor".actor,"Actor".actor_image_url from "Role" inner join "Actor" ON "Role".actor_id = "Actor".actor_id where movie_id=%s', conn,params=[param])
 
-#         actorColumn=actorsDB[['actor','role','actor_image_url']].to_numpy().tolist()
-#         actorColumn=pd.Series(actorColumn)
-#         actorColumn = pd.DataFrame (actorColumn, columns = ['actors'])
-#         actorsDB["actors"]=actorColumn
-#         actorsDB=actorsDB[['movie_id','actors']]
-#         actorsDB = actorsDB.groupby('movie_id')['actors'].apply(list).reset_index(name="actors")
+        actorColumn=actorsDB[['actor','role','actor_image_url']].to_numpy().tolist()
+        actorColumn=pd.Series(actorColumn)
+        actorColumn = pd.DataFrame (actorColumn, columns = ['actors'])
+        actorsDB["actors"]=actorColumn
+        actorsDB=actorsDB[['movie_id','actors']]
+        actorsDB = actorsDB.groupby('movie_id')['actors'].apply(list).reset_index(name="actors")
 
-#         from functools import reduce
-#         dfs = [movieDB,genresDB,languagesDB,directorsDB,writersDB,actorsDB]
-#         movieData = reduce(lambda left,right: pd.merge(left,right,on='movie_id'), dfs)
-#         df=movieData
+        from functools import reduce
+        dfs = [movieDB,genresDB,languagesDB,directorsDB,writersDB,actorsDB]
+        movieData = reduce(lambda left,right: pd.merge(left,right,on='movie_id'), dfs)
+        df=movieData
 
-#         from rake_nltk import Rake
+        from rake_nltk import Rake
 
-#         from imdb import IMDb
-#         ia = IMDb()
+        from imdb import IMDb
+        ia = IMDb()
 
-#         # initializing the new column
-#         df['keywords']=df['description']
+        # initializing the new column
+        df['keywords']=df['description']
 
-#         for i in range(len(df)):
-#             try:
-#                 black_panther = ia.get_movie(df['imdbId'][i], info='keywords')
-#                 print(df['imdbTitle'][i] , ":" , black_panther['keywords'])
-#                 print()
-#                 df['keywords'][i]=black_panther['keywords']
-#             except KeyError:
-#                 print("error in imdb")
-#                 plot = df['description'][i]
-#                 r = Rake()
-#                 key=r.extract_keywords_from_text(plot)
-#                 key_words_dict_scores = r.get_word_degrees()
-#                 df['keywords'][i] = list(key_words_dict_scores.keys())
+        for i in range(len(df)):
+            try:
+                black_panther = ia.get_movie(df['imdbId'][i], info='keywords')
+                print(df['imdbTitle'][i] , ":" , black_panther['keywords'])
+                print()
+                df['keywords'][i]=black_panther['keywords']
+            except KeyError:
+                print("error in imdb")
+                plot = df['description'][i]
+                r = Rake()
+                key=r.extract_keywords_from_text(plot)
+                key_words_dict_scores = r.get_word_degrees()
+                df['keywords'][i] = list(key_words_dict_scores.keys())
                 
-#         df['description']=df['keywords']
-#         df.drop(['keywords'], axis='columns', inplace=True)
+        df['description']=df['keywords']
+        df.drop(['keywords'], axis='columns', inplace=True)
 
-#         for i in range(len(df)):
+        for i in range(len(df)):
             
-#             df['actors'][i] = str(df['actors'][i]).replace("[" , "")
-#             df['actors'][i] = str(df['actors'][i]).replace("]" , "")
-#             df['actors'][i] = str(df['actors'][i]).replace("'" , "")
-#             df['actors'][i] = str(df['actors'][i]).replace('"', "")
-#             df['actors'][i] = str(df['actors'][i]).rstrip()
-#             df['actors'][i] = str(df['actors'][i]).lstrip()
+            df['actors'][i] = str(df['actors'][i]).replace("[" , "")
+            df['actors'][i] = str(df['actors'][i]).replace("]" , "")
+            df['actors'][i] = str(df['actors'][i]).replace("'" , "")
+            df['actors'][i] = str(df['actors'][i]).replace('"', "")
+            df['actors'][i] = str(df['actors'][i]).rstrip()
+            df['actors'][i] = str(df['actors'][i]).lstrip()
 
 
-#             actorList = list(df['actors'][i].split(", "))
+            actorList = list(df['actors'][i].split(", "))
                 
                 
-#             count = 0 
-#             actorNames=[]
+            count = 0 
+            actorNames=[]
             
             
-#             for k in range((len(actorList)//3)):
+            for k in range((len(actorList)//3)):
                 
-#                 actorNames.append(actorList[count]) 
+                actorNames.append(actorList[count]) 
 
-#                 count = count+1
-#                 print(actorNames)
+                count = count+1
+                print(actorNames)
 
 
-#                 actorRole = actorList[count]
-#                 count = count+1
+                actorRole = actorList[count]
+                count = count+1
 
-#                 actorImg = actorList[count]
-#                 count = count+1
+                actorImg = actorList[count]
+                count = count+1
                 
-#                 if ( k == (len(actorList)//3)-1 ):
-#                     df['actors'][i] = actorNames
+                if ( k == (len(actorList)//3)-1 ):
+                    df['actors'][i] = actorNames
 
-#         import re
+        import re
 
-#         for i in range(len(df)):
+        for i in range(len(df)):
             
             
-#             df['genre'][i] = str(df['genre'][i]).replace("[" , "")
-#             df['genre'][i] = str(df['genre'][i]).replace("]" , "")
-#             df['genre'][i] = str(df['genre'][i]).replace("'" , "")
-#             df['genre'][i] = str(df['genre'][i]).replace("," , "")
+            df['genre'][i] = str(df['genre'][i]).replace("[" , "")
+            df['genre'][i] = str(df['genre'][i]).replace("]" , "")
+            df['genre'][i] = str(df['genre'][i]).replace("'" , "")
+            df['genre'][i] = str(df['genre'][i]).replace("," , "")
             
-#             df['language'][i] = str(df['language'][i]).replace("[" , "")
-#             df['language'][i] = str(df['language'][i]).replace("]" , "")
-#             df['language'][i] = str(df['language'][i]).replace("'" , "")
-#             df['language'][i] = str(df['language'][i]).replace("," , "")
+            df['language'][i] = str(df['language'][i]).replace("[" , "")
+            df['language'][i] = str(df['language'][i]).replace("]" , "")
+            df['language'][i] = str(df['language'][i]).replace("'" , "")
+            df['language'][i] = str(df['language'][i]).replace("," , "")
             
-#             df['director'][i] = str(df['director'][i]).replace("[" , "")
-#             df['director'][i] = str(df['director'][i]).replace("]" , "")
-#             df['director'][i] = str(df['director'][i]).replace("'" , "")
-#             df['director'][i] = str(df['director'][i]).replace('"' , "")
-#             df['director'][i] = str(df['director'][i]).rstrip()
-#             df['director'][i] = str(df['director'][i]).lstrip()
-#             df['director'][i] = re.sub("[\(\[].*?[\)\]]", "",  str(df['director'][i]))
-#             df['director'][i] = str(df['director'][i]).replace(" " , "")
-#             df['director'][i] = str(df['director'][i]).replace("," , " ")
+            df['director'][i] = str(df['director'][i]).replace("[" , "")
+            df['director'][i] = str(df['director'][i]).replace("]" , "")
+            df['director'][i] = str(df['director'][i]).replace("'" , "")
+            df['director'][i] = str(df['director'][i]).replace('"' , "")
+            df['director'][i] = str(df['director'][i]).rstrip()
+            df['director'][i] = str(df['director'][i]).lstrip()
+            df['director'][i] = re.sub("[\(\[].*?[\)\]]", "",  str(df['director'][i]))
+            df['director'][i] = str(df['director'][i]).replace(" " , "")
+            df['director'][i] = str(df['director'][i]).replace("," , " ")
             
-#             df['writer'][i] = str(df['writer'][i]).replace("[" , "")
-#             df['writer'][i] = str(df['writer'][i]).replace("]" , "")
-#             df['writer'][i] = str(df['writer'][i]).replace("'" , "")
-#             df['writer'][i] = str(df['writer'][i]).replace('"' , "")
-#             df['writer'][i] = str(df['writer'][i]).rstrip()
-#             df['writer'][i] = str(df['writer'][i]).lstrip()
-#             df['writer'][i] = re.sub("[\(\[].*?[\)\]]", "",  str(df['writer'][i]))
-#             df['writer'][i] = str(df['writer'][i]).replace(" " , "")
-#             df['writer'][i] = str(df['writer'][i]).replace("," , " ")
+            df['writer'][i] = str(df['writer'][i]).replace("[" , "")
+            df['writer'][i] = str(df['writer'][i]).replace("]" , "")
+            df['writer'][i] = str(df['writer'][i]).replace("'" , "")
+            df['writer'][i] = str(df['writer'][i]).replace('"' , "")
+            df['writer'][i] = str(df['writer'][i]).rstrip()
+            df['writer'][i] = str(df['writer'][i]).lstrip()
+            df['writer'][i] = re.sub("[\(\[].*?[\)\]]", "",  str(df['writer'][i]))
+            df['writer'][i] = str(df['writer'][i]).replace(" " , "")
+            df['writer'][i] = str(df['writer'][i]).replace("," , " ")
             
-#             df['actors'][i]  = ",".join(df['actors'][i] )
-#             df['actors'][i] = df['actors'][i].rstrip()
-#             df['actors'][i] = df['actors'][i].lstrip()
-#             df['actors'][i] = re.sub("[\(\[].*?[\)\]]", "",  df['actors'][i])
-#             df['actors'][i] = df['actors'][i].replace(" " , "")
-#             df['actors'][i] = df['actors'][i].replace("," , " ")
+            df['actors'][i]  = ",".join(df['actors'][i] )
+            df['actors'][i] = df['actors'][i].rstrip()
+            df['actors'][i] = df['actors'][i].lstrip()
+            df['actors'][i] = re.sub("[\(\[].*?[\)\]]", "",  df['actors'][i])
+            df['actors'][i] = df['actors'][i].replace(" " , "")
+            df['actors'][i] = df['actors'][i].replace("," , " ")
             
-#             df['description'][i]  = ",".join(df['description'][i] )
-#             df['description'][i] = df['description'][i].rstrip()
-#             df['description'][i] = df['description'][i].lstrip()
-#             df['description'][i] = re.sub("[\(\[]*?[\)\]]", "",  df['description'][i])
-#             df['description'][i] = df['description'][i].replace(" " , "")
-#             df['description'][i] = df['description'][i].replace("," , " ")
-#             if status=="Add":
-#                 movieDataFromCSV =pd.read_csv('movieData.csv', low_memory=False)
-#                 movieData=movieDataFromCSV.append(df)
-#                 movieData.to_csv('movieData.csv',index=False) 
+            df['description'][i]  = ",".join(df['description'][i] )
+            df['description'][i] = df['description'][i].rstrip()
+            df['description'][i] = df['description'][i].lstrip()
+            df['description'][i] = re.sub("[\(\[]*?[\)\]]", "",  df['description'][i])
+            df['description'][i] = df['description'][i].replace(" " , "")
+            df['description'][i] = df['description'][i].replace("," , " ")
 
-#             if status=="Edit":
-#                 movieDataFromCSV =pd.read_csv('movieData.csv', low_memory=False)
-#                 movieDataFromCSV=movieDataFromCSV.drop(movieDataFromCSV.index[movieDataFromCSV['movie_id']==movieID])
-#                 movieData=movieDataFromCSV.append(df)
-#                 movieData.to_csv('movieData.csv',index=False) 
-#     if status=="Delete":
-#         movieDataFromCSV =pd.read_csv('\movieData.csv', low_memory=False)
-#         movieDataFromCSV=movieDataFromCSV.drop(movieDataFromCSV.index[movieDataFromCSV['movie_id']==movieID])
-#         movieDataFromCSV.to_csv('movieData.csv',index=False) 
+            # df['is_deleted'][i] = False
 
-#     return jsonify("Done")
+            if status=="Add":
+                movieDataFromCSV =pd.read_csv('movieData.csv', low_memory=False)
+                movieData=movieDataFromCSV.append(df)
+                movieData.to_csv('movieData.csv',index=False) 
+
+            if status=="Edit":
+                movieDataFromCSV =pd.read_csv('movieData.csv', low_memory=False)
+                movieDataFromCSV=movieDataFromCSV.drop(movieDataFromCSV.index[movieDataFromCSV['movie_id']==movieID])
+                movieData=movieDataFromCSV.append(df)
+                movieData.to_csv('movieData.csv',index=False) 
+    if status=="Delete":
+        movieDataFromCSV =pd.read_csv('movieData.csv', low_memory=False)
+        movieDataFromCSV=movieDataFromCSV.drop(movieDataFromCSV.index[movieDataFromCSV['movie_id']==movieID])
+        movieDataFromCSV.to_csv('movieData.csv',index=False) 
+
+    return jsonify("Done")
 
     
 
@@ -515,7 +552,7 @@ def third():
 
 
     def create_soup(x):
-        return ''.join(x['genre']) + ' ' +x['language']   + ' ' + x['director'] + ' ' +  x['writer'] +  ' ' +  x['actors'] + ' ' +  x['description']     
+        return ''.join(x['genre']) + ' ' +x['language']   + ' ' + x['director'] + ' ' +  x['writer'] +  ' ' +  x['actors'] + ' ' +  x['description']    
 
         
         
@@ -567,26 +604,46 @@ def third():
         recommendedMovies= recommendedMovies.tolist()
         return recommendedMovies
 
-    
-    # Get the data from the POST request.
-    data = request.get_json(force=True)
-    recommendedMovies=get_recommendations(data["movieTitle"], cosine_sim2)
-    #return jsonify(recommendedMovies)
-
-
     conn = psycopg2.connect(
-        host="localhost",
-        database="filmey",
-        user="postgres",
-        password="pgAdmin123")
+    host="localhost",
+    database="filmey",
+    user="postgres",
+    password="pgAdmin123")
 
     # Create a cursor to perform database operations
     cursor = conn.cursor()
 
+    # Get the data from the POST request.
+    data = request.get_json(force=True)
+    movieID =  data['movieID']
+    cursor.execute('SELECT title  FROM "Movie" WHERE movie_id = %s' ,[movieID] )
+    movieTitle = cursor.fetchall()[0][0]
+    recommendedMovies=get_recommendations(movieTitle, cosine_sim2)
+    #return jsonify(recommendedMovies)
+
+
+
+
     movies = []
     for i in recommendedMovies:
-        cursor.execute('SELECT movie_id  ,poster FROM "Movie" WHERE movie_id = %s' ,[i] )
-        movies.append(cursor.fetchall()[0])
+        cursor.execute('SELECT movie_id ,poster , title FROM "Movie" WHERE movie_id = %s' ,[i] )
+        # movies.append(cursor.fetchall()[0])
+        info = cursor.fetchall()[0]
+        id = info[0]
+        poster = info[1]
+        title = info[2]
+
+        cursor = conn.cursor()
+        cursor.execute('SELECT ROUND(AVG(rating),1) AS total_rating FROM "Rating" WHERE movie_id = %s GROUP BY movie_id ' ,[i] )
+        rating = cursor.fetchall()
+        if not rating:
+            rating = 0
+        else:
+            rating = rating[0]
+        movies.append([id , poster , title  , rating])
+
+
+
     return jsonify(movies)
 
 

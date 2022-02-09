@@ -10,14 +10,12 @@ import Header from "../header";
 import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
-import { FiEdit  } from 'react-icons/fi' ;
-import { RiDeleteBin2Line } from 'react-icons/ri';
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-
+import { FiEdit } from "react-icons/fi";
+import { RiDeleteBin2Line } from "react-icons/ri";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 
 function MovieInfoPage(props) {
-
   const similarMoviesOptions = {
     items: 4,
     margin: 10,
@@ -29,18 +27,16 @@ function MovieInfoPage(props) {
     transitionStyle: "fade",
   };
 
-  const options={
+  const options = {
     // Navigation
-    navigation : false,
+    navigation: false,
     navText: [
       "<div className='reviewsExpandLeft'>  <img className='reviewsExpandLeft' src='/img/expand-left--review-@2x.svg' /> </div>",
-      "<div>  <img className='reviewsExpandRight' src='/img/expand-right--review-@2x.svg' /> </div>"
+      "<div>  <img className='reviewsExpandRight' src='/img/expand-right--review-@2x.svg' /> </div>",
     ],
     transitionStyle: "fade",
-    items:3,
-
-  }
-
+    items: 3,
+  };
 
   const runCallback = (cb) => {
     return cb();
@@ -54,28 +50,12 @@ function MovieInfoPage(props) {
     topCastText,
     reviewsText,
     reviewItText,
-    userReview1,
-    username1,
-    userReview2,
-    username2,
-    userReview3,
-    username3,
     logo,
-    homeText,
-    genresText,
     languageText2,
-    loginText,
-    registerText,
-    icon,
     footerText1,
     footerText2,
     playTrailerText,
-    addIcon,
     genreText,
-    redLine,
-    rightArrow,
-    leftArrow,
-    reviewIcon,
     yourRatingText,
   } = props;
 
@@ -92,7 +72,6 @@ function MovieInfoPage(props) {
     registered = true;
   } catch {
     registered = false;
-    console.log("guest user");
   }
 
   const logOut = () => {
@@ -122,21 +101,18 @@ function MovieInfoPage(props) {
   const [castNames, setCastNames] = useState([""]);
   const [castImgs, setCastImgs] = useState([""]);
   const [castRoles, setCastRoles] = useState([""]);
-
   const [numOfCasts, setNumOfCasts] = useState(0);
 
   const [reviews, setReviews] = useState([]);
-  // const [reviewsID, setReviewsID] = useState([]);
-  // const [userReviews, setUserReviews] = useState([]);
-  // const [userIdViewReview, setUserIdViewReview] = useState();
   const [EReviews, setEReviews] = useState([]);
 
   const [totalRating, setTotalRating] = useState();
   const [totalUsersRating, setTotalUsersRating] = useState();
   var totalUsers;
 
-
-
+  const [movieTitles, setmovieTitles] = useState([]);
+  const [totalRatings, settotalRatings] = useState([]);
+  const [additionalState, setAdditionalState] = useState([]);
 
   let { id } = useParams();
   id = parseInt(id);
@@ -145,46 +121,39 @@ function MovieInfoPage(props) {
   const [hasReviewed, setHasReviewed] = useState();
   const [userReviewID, setUserReviewID] = useState();
 
-  
-
-
   // //View reviews based on user registration
   // //If registerd and have reviewd --> view user review first one
-
 
   // // if(!registered || isAdmin){
   // //   userIdViewReview = 0
   // //   // setUserIdViewReview(0)
   // // }
 
-  // var userIdViewReview = 0 
+  // var userIdViewReview = 0
   // //Check if user has reviewed movie
   // if (registered && !isAdmin) {
-    
+
   //   var userID=decoded.userID;
   //   api.get(`users/ifReview/${id}/${userID}`).then((response) => {
   //     if(response.data[0])
   //     {
   //       userIdViewReview = userID;
   //     }
-      
+
   //   })}
 
-
-
-
   const addReview = () => {
-    isEdit=0;
+    isEdit = 0;
     if (!registered) {
       // alert("Sorry! you have to login.");
       confirmAlert({
         customUI: ({ onClose }) => {
           return (
-            <div className='customconfirmAlert'>
+            <div className="customconfirmAlert">
               <h1>Sorry!</h1>
               <h5>You have to login</h5>
               <button
-              className="yesButton"
+                className="yesButton"
                 onClick={() => {
                   onClose();
                 }}
@@ -193,7 +162,7 @@ function MovieInfoPage(props) {
               </button>
             </div>
           );
-        }
+        },
       });
       return;
     }
@@ -201,51 +170,31 @@ function MovieInfoPage(props) {
   };
 
   const editReview = () => {
-    isEdit=1;
+    isEdit = 1;
     window.location.href = `/reviewPage/${id}/${isEdit}`;
   };
 
-  // const  confirmDeleteReview = (review_id) => {
-  //   confirmAlert({
-  //     customUI: ({ onClose }) => {
-  //       return (
-  //         <div className='customconfirmAlert'>
-  //           <h1>Are you sure</h1>
-  //           <h5>You want to delete this review?</h5>
-  //           <button  className="noButton" onClick={onClose}>No</button>
-  //           <button
-  //           className="yesButton"
-  //             onClick={() => {
-  //              //deleteReview(review_id);
-  //               //deleteReview();
-  //               onClose();
-  //             }}
-  //           >
-  //             Yes, Delete it!
-  //           </button>
-  //         </div>
-  //       );
-  //     }
-  //   });
-  //   };
-  const  confirmDeleteReview = (isUser , review_id) => {
-    console.log(review_id);
+  const confirmDeleteReview = (isUser, review_id) => {
     confirmAlert({
       customUI: ({ onClose }) => {
         return (
-          <div className='customconfirmAlert'>
+          <div className="customconfirmAlert">
             <h1>Are you sure</h1>
             <h5>You want to delete this review?</h5>
-            <button  className="noButton" onClick={onClose}>Cancel</button>
+            <button className="noButton" onClick={onClose}>
+              Cancel
+            </button>
             <button
-            className="yesButton"
+              className="yesButton"
               onClick={() => {
-                deleteReview(isUser , review_id);
-               // updateReviews();
-                {/* newHere   */}
-                if (isUser){
+                deleteReview(isUser, review_id);
+                // updateReviews();
+                {
+                  /* newHere   */
+                }
+                if (isUser) {
                   setHasReviewed(false);
-                }              
+                }
                 onClose();
               }}
             >
@@ -253,35 +202,29 @@ function MovieInfoPage(props) {
             </button>
           </div>
         );
-      }
+      },
     });
-    };
+  };
 
-    const  updateReviews =()=>{
+  const updateReviews = () => {
+    const updateReviews = api.get(`/movies/review/${id}`).then((response) => {
+      const numOfReviews = response.data.length;
+      const reviewsArray = [...reviews];
+      // const reviewsIDArray = [...reviewsID];
+      // const usersArray = [...userReviews];
 
-      const updateReviews= api.get(`/movies/review/${id}`).then((response) => {
-        const numOfReviews = response.data.length;
-        const reviewsArray = [...reviews];
-        // const reviewsIDArray = [...reviewsID];
-        // const usersArray = [...userReviews];
-  
-        console.log(response);
-  
-        for (var i = 0; i < numOfReviews; i++) {
-           reviewsArray[i] = response.data[i];
-          //  reviewsIDArray[i] = response.data[i].review_id;
-          //  usersArray[i] = response.data[i].username;
-        }
-  
-        setReviews(reviewsArray);
-        // setReviewsID(reviewsIDArray);
-        // setUserReviews(usersArray);
-        setEReviews(reviewsArray);
-      });
+      for (var i = 0; i < numOfReviews; i++) {
+        reviewsArray[i] = response.data[i];
+        //  reviewsIDArray[i] = response.data[i].review_id;
+        //  usersArray[i] = response.data[i].username;
+      }
 
-    }
-
-    
+      setReviews(reviewsArray);
+      // setReviewsID(reviewsIDArray);
+      // setUserReviews(usersArray);
+      setEReviews(reviewsArray);
+    });
+  };
 
   //Rating function
   //var userRating;
@@ -308,33 +251,31 @@ function MovieInfoPage(props) {
     });
   };
 
-  const deleteMovie=()=>{
+  const deleteMovie = () => {
+    const res = Axios.post("http://localhost:3000/api/v1/movies/delete", {
+      movie_id: id,
+      admin_id: decoded.userID,
+    }).then((res) => {
+      if (res.data) {
+        window.location = "/home-page";
+      } else {
+        alert("Sorry, an error occured. Please try again");
+      }
+    });
+  };
 
-      const res = Axios.post("http://localhost:3000/api/v1/movies/delete", {
-        movie_id: id,
-        admin_id:decoded.userID,
-      }).then((res) => {
-        if(res.data){
-          window.location = '/home-page';
-        }
-        else{
-          alert("Sorry, an error occured. Please try again");
-        }
-        
-      });
-
-  }
-
-  const confirmDeleteMovie=()=>{
+  const confirmDeleteMovie = () => {
     confirmAlert({
       customUI: ({ onClose }) => {
         return (
-          <div className='customconfirmAlert'>
+          <div className="customconfirmAlert">
             <h1>Are you sure</h1>
             <h5>You want to delete this movie?</h5>
-            <button  className="noButton" onClick={onClose}>Cancel</button>
+            <button className="noButton" onClick={onClose}>
+              Cancel
+            </button>
             <button
-            className="yesButton"
+              className="yesButton"
               onClick={() => {
                 deleteMovie();
                 onClose();
@@ -344,9 +285,9 @@ function MovieInfoPage(props) {
             </button>
           </div>
         );
-      }
+      },
     });
-  }
+  };
 
   const addRating = (value) => {
     if (!registered) {
@@ -354,11 +295,11 @@ function MovieInfoPage(props) {
       confirmAlert({
         customUI: ({ onClose }) => {
           return (
-            <div className='customconfirmAlert'>
+            <div className="customconfirmAlert">
               <h1>Sorry!</h1>
               <h5>You have to login</h5>
               <button
-              className="yesButton"
+                className="yesButton"
                 onClick={() => {
                   onClose();
                 }}
@@ -367,35 +308,27 @@ function MovieInfoPage(props) {
               </button>
             </div>
           );
-        }
+        },
       });
       return;
     }
-    //console.log(value);
     rating = value;
-    //console.log(rating);
-    //userRating=value;
+
     setuserRating(value);
-    //userRating=value;
-    //console.log(userRating);
     sethaveRated(true);
     const res = Axios.post("http://localhost:3000/api/v1/users/rating", {
       userID: decoded.userID,
       movieID: id,
       rating: parseInt(value),
-    }).then((res) => {
-      //rating=value;
-      console.log(res.data);
-    });
-    // alert("Thank u! ");
+    }).then((res) => {});
     confirmAlert({
       customUI: ({ onClose }) => {
         return (
-          <div className='customconfirmAlert'>
+          <div className="customconfirmAlert">
             <h1>Thank u!</h1>
             <h5>Your rating has been saved successfully.</h5>
             <button
-            className="yesButton"
+              className="yesButton"
               onClick={() => {
                 updateMovieRating();
                 onClose();
@@ -405,61 +338,34 @@ function MovieInfoPage(props) {
             </button>
           </div>
         );
-      }
+      },
     });
   };
-
-  // React.useEffect(() => { setuserRating(rating) }, [])
-
-  // React.useEffect(() => { setuserRating(rating);
-  // console.log(userRating)})
 
   const deleteRating = () => {
     const res = Axios.post("http://localhost:3000/api/v1/users/deleteRating", {
       userID: decoded.userID,
       movieID: id,
     }).then((res) => {
-      console.log(res.data);
-      console.log("in delete response");
       if (res.data) {
         sethaveRated(false);
       }
       updateMovieRating();
     });
-    // alert("Your rating has been deleted successfully.");
-    // confirmAlert({
-    //   customUI: ({ onClose }) => {
-    //     return (
-    //       <div className='customconfirmAlert'>
-    //         <h1>Success!</h1>
-    //         <h5>Your rating has been deleted successfully.</h5>
-    //         <button
-    //         className="yesButton"
-    //           onClick={() => {
-    //             updateMovieRating();
-    //             onClose();
-    //           }}
-    //         >
-    //           OK
-    //         </button>
-    //       </div>
-    //     );
-    //   }
-    // });
-
-
   };
 
-  const  confirmDeleteRating= () => {
+  const confirmDeleteRating = () => {
     confirmAlert({
       customUI: ({ onClose }) => {
         return (
-          <div className='customconfirmAlert'>
+          <div className="customconfirmAlert">
             <h1>Are you sure</h1>
             <h5>You want to delete your rating?</h5>
-            <button  className="noButton" onClick={onClose}>Cancel</button>
+            <button className="noButton" onClick={onClose}>
+              Cancel
+            </button>
             <button
-            className="yesButton"
+              className="yesButton"
               onClick={() => {
                 deleteRating();
                 onClose();
@@ -469,139 +375,111 @@ function MovieInfoPage(props) {
             </button>
           </div>
         );
-      }
+      },
     });
-    };
+  };
 
-  const deleteReview=(isUser , review_id)=>{
-
-    console.log(review_id);
-
-    if(isUser){
-        // const res = Axios.post("http://localhost:3000/api/v1/users/deleteReview", {
-        //   review_id:review_id,
-        // }).then((res) => {
-        //   window.location.reload(true);
-          
-        // });
-
-        const res = Axios.post("http://localhost:3000/api/v1/users/deleteReview", {
-    review_id:review_id,
-  }).then((res) => {
-
-    window.location.reload(true);
-    
-  });
-    // window.location.reload(true);
-
-
-  }
-    else{
-// if (window.confirm("Are you sure you want to delete this review ?")) {
-  const res = Axios.post("http://localhost:3000/api/v1/admins/deleteReview", {
-    admin_id:decoded.userID,
-    review_id:review_id,
-  }).then((res) => {
-    window.location.reload(true);
-    
-  });
-
+  const deleteReview = (isUser, review_id) => {
+    if (isUser) {
+      const res = Axios.post(
+        "http://localhost:3000/api/v1/users/deleteReview",
+        {
+          review_id: review_id,
+        }
+      ).then((res) => {
+        window.location.reload(true);
+      });
+    } else {
+      const res = Axios.post(
+        "http://localhost:3000/api/v1/admins/deleteReview",
+        {
+          admin_id: decoded.userID,
+          review_id: review_id,
+        }
+      ).then((res) => {
+        window.location.reload(true);
+      });
     }
-
-    
- 
-   }
+  };
   const [similarMoviesPostersState, setSimilarMoviesPostersState] = useState([]);
-  var similarMoviesPosters =[];  
+  var similarMoviesPosters = [];
   const [movieIds, setMovieIds] = useState([]);
   const [Allposters, setAllposters] = useState([]);
   const [moviesRatingState, setMoviesRatingState] = useState([]);
-var ratings =[]
+  var ratings = [];
   React.useEffect(() => {
+    Axios.post("http://localhost:5000/contentBased", {
+      movieID: id,
+    }).then((res) => {
+      var IdsArray = [...movieIds];
+      var postersArray = [...Allposters];
+      var movieTitlesArray = [...movieTitles];
+      var ratingsArray = [...totalRatings];
+      var additionalState = [...additionalState];
 
-   //similar movies
-   const recommended = Axios.post(`http://localhost:3000/api/v1/model/contentBased/${id}`).then((res) => {
-     console.log("similar movies");
-     console.log(res.data);
-     var IdsArray = [...movieIds];
-     var postersArray = [...Allposters];
-
-     for (var i = 0; i < 20; i++) {
-       IdsArray[i] = res.data[i][0];
-       postersArray[i] = res.data[i][1];
-     }
-
-     for (var i = 0; i < 11; i++) {
-      ratings[i] =  IdsArray[i];
-    }
-     setMovieIds(IdsArray);
-     setAllposters(postersArray);
-     setSimilarMoviesPostersState(similarMoviesPosters);
-
-  
- });
+      for (var i = 0; i < 20; i++) {
+        IdsArray[i] = res.data[i][0];
+        postersArray[i] = res.data[i][1];
+        movieTitlesArray[i] = res.data[i][2];
+        ratingsArray[i] = res.data[i][3];
+        additionalState[i] = res.data[i][3];
+      }
 
 
+      setMovieIds(IdsArray);
+      setAllposters(postersArray);
+      setSimilarMoviesPostersState(similarMoviesPosters);
+      setmovieTitles(movieTitlesArray);
+      settotalRatings(ratingsArray);
+      setAdditionalState(additionalState);
+    });
 
+    //   //View reviews based on user registration
+    // //If registerd and have reviewd --> view user review first one
 
+    // // if(!registered || isAdmin){
+    // //   userIdViewReview = 0
+    // //   // setUserIdViewReview(0)
+    // // }
 
+    // // var userIdViewReview = 0
+    // //Check if user has reviewed movie
+    // if (registered && !isAdmin) {
 
+    //   var userID=decoded.userID;
+    //   api.get(`users/ifReview/${id}/${userID}`).then((response) => {
 
-  //   //View reviews based on user registration
-  // //If registerd and have reviewd --> view user review first one
+    //     console.log(response.data[0])
+    //     if(response.data[0])
+    //     {
 
+    //       userIdViewReview = userID;
+    //     }
 
-  // // if(!registered || isAdmin){
-  // //   userIdViewReview = 0
-  // //   // setUserIdViewReview(0)
-  // // }
-
-  // // var userIdViewReview = 0 
-  // //Check if user has reviewed movie
-  // if (registered && !isAdmin) {
-    
-  //   var userID=decoded.userID;
-  //   api.get(`users/ifReview/${id}/${userID}`).then((response) => {
-
-  //     console.log(response.data[0])
-  //     if(response.data[0])
-  //     {
-
-  //       userIdViewReview = userID;
-  //     }
-      
-  //   })}
-
+    //   })}
 
     //Check if user has reviewed movie
     if (registered && !isAdmin) {
-    
-
-      var userID=decoded.userID;
+      var userID = decoded.userID;
       api.get(`users/ifReview/${id}/${userID}`).then((response) => {
-        if(response.data[0])
-        {
+        if (response.data[0]) {
           setHasReviewed(true);
           setUserReviewID(response.data[0].review_id);
-        }
-        else
-        {
+        } else {
           setHasReviewed(false);
         }
-      })}
+      });
+    }
 
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
     if (registered && !isAdmin) {
       const res = Axios.post("http://localhost:3000/api/v1/users/getRating", {
         userID: decoded.userID,
         movieID: id,
       }).then((res) => {
-        console.log(res.data[0]);
         if (res.data[0]) {
           sethaveRated(true);
           setuserRating(res.data[0]);
-          // console.log(res.data);
-          // console.log(res.data);
         }
       });
     }
@@ -717,100 +595,95 @@ var ratings =[]
         setratedMovie(true);
       }
     });
-    
 
     //Get Reviews
 
-    var i = 0
+    var i = 0;
     var reviewsArray = [...reviews];
-    // var reviewsIDArray = [...reviewsID];
-    // var usersArray = [...userReviews];
-    //View reviews based on user registration
-  //If registerd and have reviewd --> view user review first one
 
-  var userID = 0 
+    // var userID = 0;
+    // if (registered && !isAdmin) {
+    //   userID = decoded.userID;
+
+    //   api.get(`users/ifReview/${id}/${userID}`).then((response) => {
+    //     if (response.data[0]) {
+    //       reviewsArray[i] = response.data[0];
+    //       i = 1;
+    //     }
+    //   });
+    // }
+
+    // api.get(`/movies/review/${id}/${userID}`).then((response) => {
+    //   const numOfReviews = response.data.length;
+
+    //   if (i == 1) {
+    //     for (i; i < numOfReviews + 1; i++) {
+    //       reviewsArray[i] = response.data[i - 1];
+
+    //     }
+    //   } else {
+    //     for (i; i < numOfReviews; i++) {
+    //       reviewsArray[i] = response.data[i];
+    //     }
+    //   }
+
+    //   setReviews(reviewsArray);
+    //   setEReviews(reviewsArray);
+    // });
+    var userID = 0 
   if (registered && !isAdmin) {
     
    userID=decoded.userID;
 
     
-    api.get(`users/ifReview/${id}/${userID}`).then((response) => {
-
-
-      console.log(response.data[0])
-      if(response.data[0])
+    api.get(`movies/ifReview/${id}/${userID}`).then((response) => {
+      if(response.data.result[0])
       {
-        // var userIdViewReview = userID;
-        reviewsArray[i] = response.data[0];
-        // reviewsIDArray[i] = response.data[0].review_id;
-        // usersArray[i] = response.data[0].username;
-        i = 1;
-      }
-      
-    }
-    
-    )}
-
-    api.get(`/movies/review/${id}/${userID}`).then((response) => {
-      const numOfReviews = response.data.length;
-      console.log("numOfReviews");
-      // const reviewsArray = [...reviews];
-      // const reviewsIDArray = [...reviewsID];
-      // const usersArray = [...userReviews];
-
-
-      console.log(response);
-
-      if(i == 1){
-        for (i; i < numOfReviews+1; i++) {
-          reviewsArray[i] = response.data[i-1];
-          // reviewsIDArray[i] = response.data[i-1].review_id;
-          // usersArray[i] = response.data[i-1].username;
-       }
-      }
-      else{
-        for (i; i < numOfReviews; i++) {
-          reviewsArray[i] = response.data[i];
-          // reviewsIDArray[i] = response.data[i].review_id;
-          // usersArray[i] = response.data[i].username;
-       }
-      }
-  
-
-      setReviews(reviewsArray);
-      // setReviewsID(reviewsIDArray);
-      // setUserReviews(usersArray);
-      setEReviews(reviewsArray);
-
-         //Get similar movies Ratings
-         const moviesRating=[]
-         console.log(movieIds);
-          
-              for ( var i =0 ; i<11 ; i++){
-               const id = IdsArray[i];
-               api.get(`/movies/rating/${id}`).then((response) => {
-
-               if (response.data.length == 0) {
-                moviesRating[i]=0;
-
-              } else {
-                moviesRating[i]=response.data[0].total_rating;
-              }
-
-               }
-         
-             );
+         reviewsArray[0] = response.data.result[0];
+         const numOfReviews = response.data.reviews.length;
+         console.log(numOfReviews)
+            var j=1
+            for (var i=0; i < numOfReviews; i++) {
+              reviewsArray[j] = response.data.reviews[i];
+              j=j+1;
            }
-           setMoviesRatingState(moviesRating);
-           console.log(moviesRating);
-           console.log(moviesRatingState);
-         
+    }
+    else
+    {
+      const numOfReviews = response.data.reviews.length;
+      for (var i=0; i < numOfReviews; i++) {
+        reviewsArray[i] = response.data.reviews[i];
+     }
+       
+    }
+        
+    setReviews(reviewsArray);
+    setEReviews(reviewsArray);
+    
+    })
+  }
+  else
+  {
+    const updateReviews= api.get(`/movies/review/${id}`).then((response) => {
+            console.log(response.data)
+            const numOfReviews = response.data.length;
+            var reviewsArray = [...reviews];
+      
+            console.log(response);
+      
+            for (var i = 0; i < numOfReviews; i++) {
+              reviewsArray[i] = response.data[i];
+            }
+      
+            setReviews(reviewsArray);
+            setEReviews(reviewsArray);
 
-    });
+          })
+  }
+
+
+
   }, []);
-
-
-
 
   return (
     <div className="PageCenter">
@@ -910,40 +783,45 @@ var ratings =[]
                   Remove Rating
                 </button>
               )}
-
-              {/* edit movie */}
-              ({isAdmin &&
-                  <div>
+              {/* edit movie */}(
+              {isAdmin && (
+                <div>
                   <button className="editMovieButton">
-                  {/* <Link to="/movieForm" > */}
-                  <Link to={`/movieForm/${id}`} >
-
-                    <div className="editMovieContainer">
-                      <div className="editMovieIcon"> <FiEdit size={30}/> </div>
-                      <div className="editMovieText">  Edit  </div>
-                    </div>
+                    {/* <Link to="/movieForm" > */}
+                    <Link to={`/movieForm/${id}`}>
+                      <div className="editMovieContainer">
+                        <div className="editMovieIcon">
+                          {" "}
+                          <FiEdit size={30} />{" "}
+                        </div>
+                        <div className="editMovieText"> Edit </div>
+                      </div>
                     </Link>
-
                   </button>
 
                   {/* delete movie */}
-                  <button className="deleteMovieButton" onClick={confirmDeleteMovie}>
-                  {/* <Link to="/home-page"> */}
+                  <button
+                    className="deleteMovieButton"
+                    onClick={confirmDeleteMovie}
+                  >
+                    {/* <Link to="/home-page"> */}
                     <div className="editMovieContainer">
-                      <div className="deleteMovieIcon"> <RiDeleteBin2Line size={35}/> </div>
-                      <div className="deleteMovieText">  Delete  </div>
+                      <div className="deleteMovieIcon">
+                        {" "}
+                        <RiDeleteBin2Line size={35} />{" "}
+                      </div>
+                      <div className="deleteMovieText"> Delete </div>
                     </div>
                     {/* </Link> */}
                   </button>
-                  </div>
-                  })
-
-
-              {/* movie information */}
+                </div>
+              )}
+              ){/* movie information */}
               <div className="movieInfo">
                 <div className="movieBasicInfo">
                   <div className="movieTitle">
-                  <div className="movieName"> {title} </div> <span className="movieYear"> ({year})</span>
+                    <div className="movieName"> {title} </div>{" "}
+                    <span className="movieYear"> ({year})</span>
                   </div>
                   <div className="movieRatingContainer">
                     <img className="star" src="/img/star-2@2x.svg" />
@@ -1067,15 +945,18 @@ var ratings =[]
                   return row;
                 })}
               </div>
-               {/* reviews */}
-               <div className="reviewsContainer">
+              {/* reviews */}
+              <div className="reviewsContainer">
                 <div className="reviewsText neuton-normal-white-60px5">
                   {reviewsText}
                 </div>
                 <div className="addReview">
-                  {(!isAdmin && !hasReviewed) &&(
+                  {!isAdmin && !hasReviewed && (
                     <button onClick={addReview}>
-                      <div className="reviewIcon" > <FiEdit size={30}/> </div>
+                      <div className="reviewIcon">
+                        {" "}
+                        <FiEdit size={30} />{" "}
+                      </div>
                       <div>
                         <div className="reviewItText neuton-normal-white-30px">
                           {reviewItText}
@@ -1085,9 +966,12 @@ var ratings =[]
                   )}
                 </div>
                 <div className="addReview">
-                  {(!isAdmin && hasReviewed )&& (
+                  {!isAdmin && hasReviewed && (
                     <button onClick={editReview}>
-                      <div className="reviewIcon" > <FiEdit size={30}/> </div>
+                      <div className="reviewIcon">
+                        {" "}
+                        <FiEdit size={30} />{" "}
+                      </div>
                       <div>
                         <div className="reviewItText neuton-normal-white-30px">
                           Edit Review
@@ -1096,9 +980,9 @@ var ratings =[]
                     </button>
                   )}
                 </div>
-              {/* reviews loop */}
+                {/* reviews loop */}
 
-              <div className="userReviews">
+                <div className="userReviews">
                   <OwlCarousel className="owl-theme" {...options} nav>
                     {reviews.length > 0 ? (
                       reviews.map((x) => (
@@ -1153,67 +1037,65 @@ var ratings =[]
                   </OwlCarousel>
                 </div>
               </div>
-
-                <div className="similarMoviesText neuton-normal-white-60px5">
+              <div className="similarMoviesText neuton-normal-white-60px5">
                 Similar Movies
-                </div>
+              </div>
+              <div className="similarMoviesContainer">
+                <OwlCarousel
+                  className="similarMovies-owl-theme"
+                  {...similarMoviesOptions}
+                  nav
+                >
+                  {runCallback(() => {
+                    const row = [];
 
+                    for (var i = 0; i < 21; i++) {
+                      const id = movieIds[i];
+                      const url = `/movieInfoPage/${id}`;
+                      const poster = Allposters[i];
 
-                <div className="similarMoviesContainer">
-                              <OwlCarousel
-                                className="similarMovies-owl-theme"
-                                {...similarMoviesOptions}
-                                nav
-                              >
-                                {runCallback(() => {
-                                  const row = [];
-                                  
-                                  for (var i = 0; i < 21; i++) {
-                                     const id = movieIds[i];
-                                     const url = `/movieInfoPage/${id}`;
-                                    const poster = Allposters[i];
+                      const title = movieTitles[i];
+                      const rating = totalRatings[i];
+                      if (rating == 0) {
+                        rating = "No ratings yet.";
+                      }
 
-                                    // const title = movieTitles[count];
-                                    var rating = moviesRatingState[i];
-
-                                    // if (rating == "0.0") {
-                                    //   rating = "No ratings yet.";
-                                    // }
-                                    row.push(
-                                      <div key={i}>
-                                        {
-                                          <div className="similarMovie">
-                                            {/* <Link to={url}> */}
-                                            <a href={url}>
-                                              <img
-                                                className="similarMoviePoster"
-                                                src= {poster}
-                                                height="652"
-                                                width="512"
-                                              />
-                                              <img
-                                                className="similarStar"
-                                                src="/img/star-2@2x.svg"
-                                              />
-                                              <div className="similarMovieRating neuton-bold-white-30px">
-                                                 {rating}  rating
-                                              </div>
-                                              <div className="similarMovieName neuton-bold-white-30px">
-                                                {/* {title} */} title
-                                              </div> 
-                                            {/* </Link> */}
-                                            </a>
-
-                                          </div>
-                                        }
-                                      </div>
-                                    );
-                                  }
-                                  return row;
-                                })}
-                              </OwlCarousel>
+                      // if (rating == "0.0") {
+                      //   rating = "No ratings yet.";
+                      // }
+                      row.push(
+                        <div key={i}>
+                          {
+                            <div className="similarMovie">
+                              {/* <Link to={url}> */}
+                              <a href={url}>
+                                <img
+                                  className="similarMoviePoster"
+                                  src={poster}
+                                  height="652"
+                                  width="512"
+                                />
+                                <img
+                                  className="similarStar"
+                                  src="/img/star-2@2x.svg"
+                                />
+                                <div className="similarMovieRating neuton-bold-white-30px">
+                                  {rating}
+                                </div>
+                                <div className="similarMovieName neuton-bold-white-30px">
+                                  {title}
+                                </div>
+                                {/* </Link> */}
+                              </a>
                             </div>
-
+                          }
+                        </div>
+                      );
+                    }
+                    return row;
+                  })}
+                </OwlCarousel>
+              </div>
             </main>
 
             {/* footer */}

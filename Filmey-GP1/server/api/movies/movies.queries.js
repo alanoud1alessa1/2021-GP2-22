@@ -1505,6 +1505,43 @@ async getMovieIDs(numberofmovies) {
 },
 
 
+async ifReview(id, userID) {
+  console.log(id, userID);
+
+
+
+  let result = await db("Review AS R")
+  .select(["review", "username","review_id"])
+  .where({
+    "movie_id": id,
+    "R.user_id": userID,
+    "is_deleted":false,
+  })
+  .leftJoin("User AS U", "R.user_id", "U.user_id")
+  .returning("*");
+  if (result) {
+    console.log(result);
+    return result;
+  }
+  return;
+},
+
+async getReviews(movie_id) {
+
+
+  return  db("Review AS R")
+  .select(["review", "username","review_id"])
+  .where({
+    movie_id: movie_id,
+    is_deleted:false,
+  })
+  .leftJoin("User AS U", "R.user_id", "U.user_id")
+  .orderBy("created_at", "desc");
+
+
+
+},
+
 };
 
 //  1-1   1-3   1-5

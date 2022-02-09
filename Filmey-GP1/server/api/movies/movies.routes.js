@@ -641,7 +641,45 @@ router.post("/editMovie", async (req , res, next) => {
       console.log(error);
       return next(error);
     }
-  }
+  },
+
+  router.get("/ifReview/:id/:userID", async (req, res, next) => {
+    console.log("in ifReview");
+    const { id, userID} = req.params;
+    console.log(req.params);
+    const result = await queries.ifReview(id, userID);
+    if(result)
+    { 
+        const reviews = await queries.getMovieReviews(id , userID);
+        console.log({result,reviews});
+  
+      if (reviews) {
+      return res.json({result,reviews});
+       }
+    }
+    return res.json(result);
+  }),
+
+
+  router.get("/review/:id", async (req, res, next) => {
+    const { id} = req.params;
+    try {
+  
+          const reviews = await queries.getReviews(id);
+          console.log(reviews);
+  
+      if (reviews) {
+        return res.json(reviews);
+      }
+      return next();
+    } catch (error) {
+      return next(error);
+    }
+  }),
+  
+  
+  
+
   );
 
 
