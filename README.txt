@@ -20,7 +20,7 @@ To Be Installed:
 
 To Start:
 1. "npm init"
-2. Add UserBasedKNN file to server/api/model folder'
+2. Add UserBasedKNN file to server/api/model folder' [https://drive.google.com/file/d/13dqq_gOWkKA7xT1Av_NOMqnBbyuTh0My/view?usp=sharing]
 
 - In client folder:
 1. delete node-modules 
