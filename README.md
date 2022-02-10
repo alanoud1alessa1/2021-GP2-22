@@ -30,7 +30,7 @@ To start:
 •	“npm start” (to run backend)
 
 -in server folder 
-•	python3 flaskServer.py (to run flaskServer)
+•	python3 flaskServer.py (to run flaskServer).
 
 
 
