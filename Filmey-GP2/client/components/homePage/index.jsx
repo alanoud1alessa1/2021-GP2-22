@@ -59,8 +59,6 @@ function homePage(props) {
 
   const api = Axios.create({
     baseURL: "http://localhost:3000/api/v1",
-    // headers :{
-    //  // 'authorization' : token
   });
 
   const [movieIds, setMovieIds] = useState([]);
@@ -92,7 +90,6 @@ function homePage(props) {
       setAllposters(postersArray);
     });
 
-    // var checkThreshold = false;
     //check thresold for registered users only
     if (registered && !isAdmin) {
       var checkThreshold;
@@ -103,8 +100,6 @@ function homePage(props) {
         checkThreshold = response.data;
         var ifExceedsTwintyRating = response.data[0];
         var ifNeedsReTraining = response.data[1];
-        console.log(ifExceedsTwintyRating);
-        console.log(ifNeedsReTraining);
 
         if (ifExceedsTwintyRating) {
           if (ifNeedsReTraining) {
@@ -120,7 +115,6 @@ function homePage(props) {
                 similarMoviesPosters[i] = response.data[i][1];
                 movieTitlesArray[i] = response.data[i][2];
                 ratingsArray[i] = response.data[i][3];
-                // console.log(response.data[i][3])
                 additionalState[i] = response.data[i][3];
               }
 
@@ -131,7 +125,7 @@ function homePage(props) {
               settotalRatings(ratingsArray);
               setAdditionalState(additionalState);
             });
-
+          // re train model UserCB
             Axios.post("http://localhost:5000/reTrainUserCB", {}).then(
               (response) => {
                 console.log("ReTrain model");
@@ -151,7 +145,6 @@ function homePage(props) {
                 similarMoviesPosters[i] = response.data[i][1];
                 movieTitlesArray[i] = response.data[i][2];
                 ratingsArray[i] = response.data[i][3];
-                // console.log(response.data[i][3])
                 additionalState[i] = response.data[i][3];
               }
 
@@ -176,7 +169,6 @@ function homePage(props) {
               similarMoviesPosters[i] = response.data[i][1];
               movieTitlesArray[i] = response.data[i][2];
               ratingsArray[i] = response.data[i][3];
-              // console.log(response.data[i][3])
               additionalState[i] = response.data[i][3];
             }
 
@@ -308,7 +300,6 @@ function homePage(props) {
               </div>
             )}
 
-            {/* footer */}
             {/* footer */}
             <footer className="homePagefooter">
               <div className="homePagefooter"> </div>

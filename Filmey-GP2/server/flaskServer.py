@@ -624,7 +624,7 @@ def contentBasedPreprocessing():
             df['description'][i] = df['description'][i].replace(" " , "")
             df['description'][i] = df['description'][i].replace("," , " ")
 
-            # df['is_deleted'][i] = False
+            df['is_deleted'][i] = False
 
             if status=="Add":
                 movieDataFromCSV =pd.read_csv('movieData.csv', low_memory=False)

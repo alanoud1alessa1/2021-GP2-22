@@ -25,11 +25,9 @@ function loginPage(props) {
     text4,
   } = props;
 
-  // const [userId, setUserId] = useState();
    var token = "";
   const [email, setEmail] = useState("");
-  const [EmailNotExist_Error_message, setEmailNotExist_Error_message] =
-    useState("");
+  const [EmailNotExist_Error_message, setEmailNotExist_Error_message] = useState("");
   const [showResendEmail, setShowResendEmail] = React.useState(false);
 
   const isEnabled = email.length > 0;
@@ -58,16 +56,11 @@ function loginPage(props) {
   };
 
   const sendEmail = () => {
-    console.log(token);
     const res = Axios.post(API_URL + "node-mail", {
       token: token,
-      // userId: userId,
-      // emaiText:  "<p>Reset your new password Using the link</p> <a href=`http://localhost:1234/resetpassword/${userId}`>Reset Password Link</a>"
     }).then((res) => {});
 
-    // alert(
-    //   "Check your email! We've sent you instructions for resetting your password."
-    // );
+
     confirmAlert({
       customUI: ({ onClose }) => {
         return (

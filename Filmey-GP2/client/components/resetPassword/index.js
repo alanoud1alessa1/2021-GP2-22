@@ -5,7 +5,7 @@ import jwt_decode from "jwt-decode";
 import { useState } from "react";
 import Axios from "axios";
 import Cookies from "universal-cookie";
-import { confirmAlert } from 'react-confirm-alert';
+import { confirmAlert } from "react-confirm-alert";
 
 // import ResetPassword from "../resetPassword";
 
@@ -28,93 +28,69 @@ function loginPage(props) {
   const [email, setEmail] = useState("");
   const [userPassword, setuserPassword] = useState("");
   const [password_error_message, setPassword_Error_message] = useState("");
-  const [incorrectpassword_error_message,setIncorrectpassword_Error_message]=useState('');
+  const [incorrectpassword_error_message, setIncorrectpassword_Error_message] =
+    useState("");
 
   const isEnabled = userPassword.length > 0;
 
   var passwordMessage = "";
 
-  
   //incorrect password
   const checkPassword = (value) => {
-    if( value.length<8 ){
-      setIncorrectpassword_Error_message('Password length should be at least 8 characters');
-      }
+    if (value.length < 8) {
+      setIncorrectpassword_Error_message(
+        "Password length should be at least 8 characters"
+      );
+    } else {
+      setIncorrectpassword_Error_message("");
+    }
+  };
 
-     else {
-      setIncorrectpassword_Error_message('');
-  }
-
-}
-
-  // const { userId } = useParams();
 
   const API_URL = "http://localhost:3000/api/v1/users";
 
-
   const { token } = useParams();
-  // var token = jwt_decode(token);
 
-  const  resetPassword=()=>{
+  const resetPassword = () => {
 
-    // var decoded = jwt_decode(res.data);
-   
     const res = Axios.post(API_URL + "/resetPassword", {
       token: token,
       newPassword: userPassword,
     }).then((res) => {
-      
-      console.log(userPassword.length);
-      try{
-    
-      if (res.data.passwordMessage.passwordMessage){
-        
-        passwordMessage=res.data.passwordMessage.passwordMessage;
-        setPassword_Error_message(passwordMessage);
-
-
-      }
-      else {
-        setPassword_Error_message("");
-  
-      }
-      
-
-    }
-      catch{
-         if (passwordMessage){
+      try {
+        if (res.data.passwordMessage.passwordMessage) {
+          passwordMessage = res.data.passwordMessage.passwordMessage;
+          setPassword_Error_message(passwordMessage);
+        } else {
+          setPassword_Error_message("");
+        }
+      } catch {
+        if (passwordMessage) {
           return;
         }
 
-
-
-          // alert("Password changed successfully");
-          confirmAlert({
-            customUI: ({ onClose }) => {
-              return (
-                <div className='customconfirmAlert'>
-                  <h1>Success!</h1>
-                  <h5>Password changed successfully.</h5>
-                  <button
+        confirmAlert({
+          customUI: ({ onClose }) => {
+            return (
+              <div className="customconfirmAlert">
+                <h1>Success!</h1>
+                <h5>Password changed successfully.</h5>
+                <button
                   className="yesButton"
-                    onClick={() => {
-                      onClose();
-                    }}
-                  >
-                    OK
-                  </button>
-                </div>
-              );
-            }
-          });
-                  window.location = "/login-page";
-          
+                  onClick={() => {
+                    onClose();
+                  }}
+                >
+                  OK
+                </button>
+              </div>
+            );
+          },
+        });
+        window.location = "/login-page";
       }
-     });
+    });
   };
-
-  
-
 
   return (
     <div className="PageCenter">
@@ -152,13 +128,12 @@ function loginPage(props) {
                     required
                     onChange={(e) => {
                       setuserPassword(e.target.value);
-                      checkPassword(e.target.value); 
-
+                      checkPassword(e.target.value);
                     }}
                     minlength="8"
                   />
                   <div className="loginErrorMessage nunito-semi-bold-white-28px">
-                    {password_error_message} 
+                    {password_error_message}
                     {incorrectpassword_error_message}
                   </div>
                 </div>

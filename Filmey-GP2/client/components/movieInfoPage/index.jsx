@@ -121,31 +121,10 @@ function MovieInfoPage(props) {
   const [hasReviewed, setHasReviewed] = useState();
   const [userReviewID, setUserReviewID] = useState();
 
-  // //View reviews based on user registration
-  // //If registerd and have reviewd --> view user review first one
-
-  // // if(!registered || isAdmin){
-  // //   userIdViewReview = 0
-  // //   // setUserIdViewReview(0)
-  // // }
-
-  // var userIdViewReview = 0
-  // //Check if user has reviewed movie
-  // if (registered && !isAdmin) {
-
-  //   var userID=decoded.userID;
-  //   api.get(`users/ifReview/${id}/${userID}`).then((response) => {
-  //     if(response.data[0])
-  //     {
-  //       userIdViewReview = userID;
-  //     }
-
-  //   })}
 
   const addReview = () => {
     isEdit = 0;
     if (!registered) {
-      // alert("Sorry! you have to login.");
       confirmAlert({
         customUI: ({ onClose }) => {
           return (
@@ -188,7 +167,6 @@ function MovieInfoPage(props) {
               className="yesButton"
               onClick={() => {
                 deleteReview(isUser, review_id);
-                // updateReviews();
                 {
                   /* newHere   */
                 }
@@ -210,18 +188,13 @@ function MovieInfoPage(props) {
     const updateReviews = api.get(`/movies/review/${id}`).then((response) => {
       const numOfReviews = response.data.length;
       const reviewsArray = [...reviews];
-      // const reviewsIDArray = [...reviewsID];
-      // const usersArray = [...userReviews];
 
       for (var i = 0; i < numOfReviews; i++) {
         reviewsArray[i] = response.data[i];
-        //  reviewsIDArray[i] = response.data[i].review_id;
-        //  usersArray[i] = response.data[i].username;
+
       }
 
       setReviews(reviewsArray);
-      // setReviewsID(reviewsIDArray);
-      // setUserReviews(usersArray);
       setEReviews(reviewsArray);
     });
   };
@@ -291,7 +264,6 @@ function MovieInfoPage(props) {
 
   const addRating = (value) => {
     if (!registered) {
-      // alert("Sorry! you have to login.");
       confirmAlert({
         customUI: ({ onClose }) => {
           return (
@@ -401,7 +373,9 @@ function MovieInfoPage(props) {
       });
     }
   };
-  const [similarMoviesPostersState, setSimilarMoviesPostersState] = useState([]);
+  const [similarMoviesPostersState, setSimilarMoviesPostersState] = useState(
+    []
+  );
   var similarMoviesPosters = [];
   const [movieIds, setMovieIds] = useState([]);
   const [Allposters, setAllposters] = useState([]);
@@ -425,7 +399,6 @@ function MovieInfoPage(props) {
         additionalState[i] = res.data[i][3];
       }
 
-
       setMovieIds(IdsArray);
       setAllposters(postersArray);
       setSimilarMoviesPostersState(similarMoviesPosters);
@@ -433,30 +406,6 @@ function MovieInfoPage(props) {
       settotalRatings(ratingsArray);
       setAdditionalState(additionalState);
     });
-
-    //   //View reviews based on user registration
-    // //If registerd and have reviewd --> view user review first one
-
-    // // if(!registered || isAdmin){
-    // //   userIdViewReview = 0
-    // //   // setUserIdViewReview(0)
-    // // }
-
-    // // var userIdViewReview = 0
-    // //Check if user has reviewed movie
-    // if (registered && !isAdmin) {
-
-    //   var userID=decoded.userID;
-    //   api.get(`users/ifReview/${id}/${userID}`).then((response) => {
-
-    //     console.log(response.data[0])
-    //     if(response.data[0])
-    //     {
-
-    //       userIdViewReview = userID;
-    //     }
-
-    //   })}
 
     //Check if user has reviewed movie
     if (registered && !isAdmin) {
@@ -597,92 +546,44 @@ function MovieInfoPage(props) {
     });
 
     //Get Reviews
-
     var i = 0;
     var reviewsArray = [...reviews];
+    var userID = 0;
+    if (registered && !isAdmin) {
+      userID = decoded.userID;
 
-    // var userID = 0;
-    // if (registered && !isAdmin) {
-    //   userID = decoded.userID;
+      api.get(`movies/ifReview/${id}/${userID}`).then((response) => {
+        if (response.data.result[0]) {
+          reviewsArray[0] = response.data.result[0];
+          const numOfReviews = response.data.reviews.length;
+          var j = 1;
+          for (var i = 0; i < numOfReviews; i++) {
+            reviewsArray[j] = response.data.reviews[i];
+            j = j + 1;
+          }
+        } else {
+          const numOfReviews = response.data.reviews.length;
+          for (var i = 0; i < numOfReviews; i++) {
+            reviewsArray[i] = response.data.reviews[i];
+          }
+        }
 
-    //   api.get(`users/ifReview/${id}/${userID}`).then((response) => {
-    //     if (response.data[0]) {
-    //       reviewsArray[i] = response.data[0];
-    //       i = 1;
-    //     }
-    //   });
-    // }
+        setReviews(reviewsArray);
+        setEReviews(reviewsArray);
+      });
+    } else {
+      const updateReviews = api.get(`/movies/review/${id}`).then((response) => {
+        const numOfReviews = response.data.length;
+        var reviewsArray = [...reviews];
 
-    // api.get(`/movies/review/${id}/${userID}`).then((response) => {
-    //   const numOfReviews = response.data.length;
+        for (var i = 0; i < numOfReviews; i++) {
+          reviewsArray[i] = response.data[i];
+        }
 
-    //   if (i == 1) {
-    //     for (i; i < numOfReviews + 1; i++) {
-    //       reviewsArray[i] = response.data[i - 1];
-
-    //     }
-    //   } else {
-    //     for (i; i < numOfReviews; i++) {
-    //       reviewsArray[i] = response.data[i];
-    //     }
-    //   }
-
-    //   setReviews(reviewsArray);
-    //   setEReviews(reviewsArray);
-    // });
-    var userID = 0 
-  if (registered && !isAdmin) {
-    
-   userID=decoded.userID;
-
-    
-    api.get(`movies/ifReview/${id}/${userID}`).then((response) => {
-      if(response.data.result[0])
-      {
-         reviewsArray[0] = response.data.result[0];
-         const numOfReviews = response.data.reviews.length;
-         console.log(numOfReviews)
-            var j=1
-            for (var i=0; i < numOfReviews; i++) {
-              reviewsArray[j] = response.data.reviews[i];
-              j=j+1;
-           }
+        setReviews(reviewsArray);
+        setEReviews(reviewsArray);
+      });
     }
-    else
-    {
-      const numOfReviews = response.data.reviews.length;
-      for (var i=0; i < numOfReviews; i++) {
-        reviewsArray[i] = response.data.reviews[i];
-     }
-       
-    }
-        
-    setReviews(reviewsArray);
-    setEReviews(reviewsArray);
-    
-    })
-  }
-  else
-  {
-    const updateReviews= api.get(`/movies/review/${id}`).then((response) => {
-            console.log(response.data)
-            const numOfReviews = response.data.length;
-            var reviewsArray = [...reviews];
-      
-            console.log(response);
-      
-            for (var i = 0; i < numOfReviews; i++) {
-              reviewsArray[i] = response.data[i];
-            }
-      
-            setReviews(reviewsArray);
-            setEReviews(reviewsArray);
-
-          })
-  }
-
-
-
   }, []);
 
   return (
