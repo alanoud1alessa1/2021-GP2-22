@@ -1364,7 +1364,3 @@ module.exports = {
       .orderBy("created_at", "desc");
   },
 };
-
-//  1-1   1-3   1-5
-
-// 1-2  1-3

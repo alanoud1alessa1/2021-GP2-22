@@ -42,7 +42,10 @@ def checkThreshold():
     numOfUserRatings = cursor.fetchall()[0][0]
 
     # Check if model has already been trained with this user 
-    rating =pd.read_csv('./api/model//MLratings&DB.csv', low_memory=False)
+    #Routes:
+    #Ghadah:'C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\api\\model\\MLratings&DB.csv'
+    #NoufD:'./api/model//MLratings&DB.csv'
+    rating =pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\api\\model\\MLratings&DB.csv', low_memory=False)
     rating = rating['user_id'].tolist()
     numberOrRatingsInModel=rating.count(str(userID))
 
@@ -59,18 +62,6 @@ def checkThreshold():
 @app.route('/reTrainUserCB', methods=['POST'])
 def train():
 
-    # # Get the data from the POST request.
-    # data = request.get_json(force=True)
-
-    # #threshold=data['threshold']
-    # userID = data["userID"]
-
-    # #Check if model has already been trained with this user 
-    # rating =pd.read_csv('./api/model/MLratings&DB.csv', low_memory=False)
-    # rating = rating['user_id'].tolist()
-    # numberOrRatingsInModel=rating.count(str(userID))
-    # print(numberOrRatingsInModel)
-    # # numberOrRatingsInModel = 21 
     
     # if(numberOrRatingsInModel<20):
         conn = psycopg2.connect(host="localhost",database="filmey",user="postgres",password="pgAdmin123")
@@ -78,19 +69,21 @@ def train():
         # Create a cursor to perform database operations
         cursor = conn.cursor()
 
+        #Routes:
+        #Ghadah:'C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\api\\model\\ratings.csv'
+        #NoufD:'./api/model/ratings.csv'
 
-        rating =pd.read_csv('./api/model/ratings.csv', low_memory=False)
+        rating =pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\api\\model\\ratings.csv', low_memory=False)
 
-        # usersId = pd.Series(list(rating['user_id']))
-        # userInRating=(usersId==userID).any()
-        # if userInRating:
-        #     return jsonify(userInRating)
 
         ratingDB = sqlio.read_sql_query('SELECT *  FROM "Rating"', conn)
 
         rating=ratingDB.append(rating)
+        #Routes:
+        #Ghadah:'C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\api\\model\\MLratings&DB.csv'
+        #NoufD:'./api/model//MLratings&DB.csv'
 
-        rating.to_csv('./api/model/MLratings&DB.csv', index=False)
+        rating.to_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\api\\model\\MLratings&DB.csv', index=False)
 
 
         reader = Reader()
@@ -110,19 +103,25 @@ def train():
         param_grid = {"sim_options": param_grid}
         algo = KNNWithMeans(sim_options=param_grid)
 
+        from surprise.model_selection import cross_validate
+        cross_validate(algo, data, measures=['RMSE', 'MAE'], cv=5, verbose=True)
 
-        from surprise.model_selection import  train_test_split
 
-        trainset, testset = train_test_split(data, test_size=0.2)
-        algo.fit(trainset)
+        # from surprise.model_selection import  train_test_split
+
+        # trainset, testset = train_test_split(data, test_size=0.2)
+        # algo.fit(trainset)
 
 
 
  
 
         # Its important to use binary mode 
+        #Routes:
+        #Ghadah:'C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\api\\model\\UserBasedKNN'
+        #NoufD:./api/model/UserBasedKNN
         try:
-            knnPickle = open('./api/model/UserBasedKNN', 'wb') 
+            knnPickle = open('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\api\\model\\UserBasedKNN', 'wb') 
             # source, destination 
             pickle.dump(algo, knnPickle)
 
@@ -143,72 +142,12 @@ def index():
 
     #threshold=data['threshold']
     userID = data["userID"]
-    
-    # #Check if model has already been trained with this user 
-    # rating =pd.read_csv('./api/model/MLratings&DB.csv', low_memory=False)
-    # rating = rating['user_id'].tolist()
-    # numberOrRatingsInModel=rating.count(str(userID))
-    # print(numberOrRatingsInModel)
-    # # numberOrRatingsInModel = 21 
-    
-    # if(numberOrRatingsInModel<20):
-    #     conn = psycopg2.connect(host="localhost",database="filmey",user="postgres",password="pgAdmin123")
 
-    #     # Create a cursor to perform database operations
-    #     cursor = conn.cursor()
+    #Routes:
+    #Ghadah:'C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\api\\model\\UserBasedKNN'
+    #NoufD:./api/model/UserBasedKNN
 
-
-    #     rating =pd.read_csv('./api/model/ratings.csv', low_memory=False)
-
-    #     usersId = pd.Series(list(rating['user_id']))
-    #     userInRating=(usersId==userID).any()
-    #     if userInRating:
-    #         return jsonify(userInRating)
-
-    #     ratingDB = sqlio.read_sql_query('SELECT *  FROM "Rating"', conn)
-
-    #     rating=ratingDB.append(rating)
-
-    #     rating.to_csv('./api/model/MLratings&DB.csv', index=False)
-
-
-    #     reader = Reader()
-
-    #     # get just top 1M rows for faster run time
-    #     data = Dataset.load_from_df(rating[['user_id','movie_id','rating']][:], reader)
-
-    #     from surprise import KNNWithMeans
-
-    #     # To use item-based cosine similarity
-    #     sim_options = {
-    #         "name": "cosine",
-    #         'min_support': 5,
-    #         "user_based": True,  # Compute  similarities between items
-    #     }
-    #     algo = KNNWithMeans(sim_options=sim_options)
-
-
-    #     from surprise.model_selection import  train_test_split
-
-    #     trainset, testset = train_test_split(data, test_size=0.2)
-    #     algo.fit(trainset)
-
-
-
- 
-
-    #     # Its important to use binary mode 
-    #     try:
-    #         knnPickle = open('./api/model/UserBasedKNN', 'wb') 
-    #         # source, destination 
-    #         pickle.dump(algo, knnPickle)
-
-    #     except:
-    #         return jsonify("Error")
-
-    
-
-    model = pickle.load(open('./api/model/UserBasedKNN','rb')) 
+    model = pickle.load(open('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\api\\model\\UserBasedKNN','rb')) 
 
     conn = psycopg2.connect(
         host="localhost",
@@ -298,7 +237,12 @@ def modelBased():
     cursor = conn.cursor()
 
 
-    df = pd.read_csv('movieData.csv', low_memory=False)
+    #Routes:
+    #Ghadah:'C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv'
+    #NoufD:'movieData.csv'
+
+
+    df = pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv', low_memory=False)
     data = request.get_json(force=True)
     userID = data["userID"]
     param1 = (str(userID))
@@ -627,19 +571,22 @@ def contentBasedPreprocessing():
             df['is_deleted'][i] = False
 
             if status=="Add":
-                movieDataFromCSV =pd.read_csv('movieData.csv', low_memory=False)
+                   #Routes:
+                   #Ghadah:'C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv'
+                   #NoufD:'movieData.csv'
+                movieDataFromCSV =pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv', low_memory=False)
                 movieData=movieDataFromCSV.append(df)
-                movieData.to_csv('movieData.csv',index=False) 
+                movieData.to_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv',index=False) 
 
             if status=="Edit":
-                movieDataFromCSV =pd.read_csv('movieData.csv', low_memory=False)
+                movieDataFromCSV =pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv', low_memory=False)
                 movieDataFromCSV=movieDataFromCSV.drop(movieDataFromCSV.index[movieDataFromCSV['movie_id']==movieID])
                 movieData=movieDataFromCSV.append(df)
                 movieData.to_csv('movieData.csv',index=False) 
     if status=="Delete":
-        movieDataFromCSV =pd.read_csv('movieData.csv', low_memory=False)
+        movieDataFromCSV =pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv', low_memory=False)
         movieDataFromCSV=movieDataFromCSV.drop(movieDataFromCSV.index[movieDataFromCSV['movie_id']==movieID])
-        movieDataFromCSV.to_csv('movieData.csv',index=False) 
+        movieDataFromCSV.to_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv',index=False) 
 
     return jsonify("Done")
 
@@ -654,7 +601,10 @@ def third():
     import json
 
     # Load Movies Metadata
-    df2 = pd.read_csv('movieData.csv', low_memory=False)
+    #Routes:
+    #Ghadah:'C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv'
+    #NoufD:'movieData.csv'
+    df2 = pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv', low_memory=False)
 
 
 

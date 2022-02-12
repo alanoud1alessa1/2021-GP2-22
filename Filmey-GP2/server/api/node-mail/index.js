@@ -33,8 +33,6 @@ router.post("/", (req, res) => {
     to: email,
     subject: "Reset Password",
     text: "Reset your new password Using the link :" +`${link}`,
-    // html:   "<p>Reset your new password Using the link</p> <a href=`${link}`>Reset Password Link</a>"
-    // '<p>Reset your new password Using the link </p><a href=`http://localhost:1234/resetpassword/${req.body.id}`>Reset Password Link</a>'
   };
 
   transporter.sendMail(mailOptions, (err, res) => {
