@@ -101,15 +101,19 @@ function homePage(props) {
         var ifExceedsTwintyRating = response.data[0];
         var ifNeedsReTraining = response.data[1];
 
+        // ifExceedsTwintyRating = true;
+        // ifNeedsReTraining = true;
+
         if (ifExceedsTwintyRating) {
           if (ifNeedsReTraining) {
             // Knowladge Base
             Axios.post("http://localhost:5000/modelBased", {
               userID: userId,
             }).then((response) => {
+              console.log("modelBased");
               var movieTitlesArray = [...movieTitles];
               var ratingsArray = [...totalRatings];
-              var additionalState = [...additionalState];
+              // var additionalState = [...additionalState];
               for (var i = 0; i < response.data.length; i++) {
                 similarMoviesIds[i] = response.data[i][0];
                 similarMoviesPosters[i] = response.data[i][1];
@@ -124,13 +128,16 @@ function homePage(props) {
               setmovieTitles(movieTitlesArray);
               settotalRatings(ratingsArray);
               setAdditionalState(additionalState);
-            });
-          // re train model UserCB
-            Axios.post("http://localhost:5000/reTrainUserCB", {}).then(
-              (response) => {
-                console.log("ReTrain model");
+
+              if (additionalState) {
+                // re train model UserCB
+                Axios.post("http://localhost:5000/reTrainUserCB", {}).then(
+                  (response) => {
+                    console.log("ReTrain model");
+                  }
+                );
               }
-            );
+            });
           } else {
             // userBasedCF
             Axios.post("http://localhost:5000/userBasedCF", {
