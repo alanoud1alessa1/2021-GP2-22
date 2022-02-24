@@ -11,6 +11,8 @@ import ReviewPage from "./components/reviewPage";
 import MovieForm from "./components/movieForm";
 import ForgetPassword from "./components/forgetPassword";
 import ResetPassword from "./components/resetPassword";
+import WatchlistPage from "./components/watchlistPage";
+
 
 
 
@@ -47,6 +49,9 @@ function App() {
         </Route>
         <Route path="/movieForm/:id">
           <MovieForm {...movieFormData} />
+        </Route>
+        <Route path="/watchlistPage/:genre">
+          <WatchlistPage {...WatchlistPage} />
         </Route>
       </Switch>
     </Router>
@@ -344,6 +349,14 @@ const movieFormData= {
    footerText1: "WE MAKE YOUR DAY",
 };
 
+const watchlistPage= {
+  logo: "/img/logo.png",
+  star:"/img/star-2@2x.svg",
+
+   // Footer
+   footerText2: <>Filmey © 2021<br /></>,
+   footerText1: "WE MAKE YOUR DAY",
+};
 
 
 

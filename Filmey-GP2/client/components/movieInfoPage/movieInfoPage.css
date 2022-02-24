@@ -1673,3 +1673,26 @@ background-color: var(--shark);
         text-overflow: ellipsis;
       }
     
+      .bookMark, 
+      .inWatchList{
+        left: 130px;
+        position: absolute;
+        top: 195px;
+        color: var(--baby-powder);
+        background:none;
+        border:none;
+        cursor: pointer;
+        z-index: 1;
+      }
+      
+      .bookMark:hover{
+        color: var(--celeste);
+      }
+      
+      .inWatchList{
+      color: var(--cardinal);
+      }
+      
+      .inWatchList:hover { 
+        color: red;
+      }

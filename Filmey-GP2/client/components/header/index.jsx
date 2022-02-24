@@ -114,8 +114,10 @@ function header(props) {
           </Link>
         </div>
       )}
+
       {/* registerd user */}
       {registered && (
+      <div>
         <div className="registeredUser">
           <ul>
             <img className="regUserIcon" src="/img/regUser.png" />
@@ -129,7 +131,21 @@ function header(props) {
             </li>
           </ul>
         </div>
+      </div>
       )}
+
+      {/* registerd user and not admin */}
+
+      {registered && !isAdmin && (
+                <div>
+                <Link to="/watchlistPage/comedy">
+                  <div>
+                    <div className="watchlistText darkergrotesque-medium-white-35px2">Watchlist</div>
+                  </div>
+                </Link>
+              </div>
+      )
+      }
     </div>
   );
 }

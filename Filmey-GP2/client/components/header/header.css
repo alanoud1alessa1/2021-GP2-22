@@ -1,6 +1,7 @@
 .genresText:hover,
 .homeText:hover,
-.addMovieText:hover {
+.addMovieText:hover,
+.watchlistText:hover{
   transform: translate(0, -5px);
 }
 
@@ -204,3 +205,14 @@ margin-right: 50px ; */
  z-index: 1;
 }
 
+.watchlistText{
+  left: 1550px;
+  letter-spacing: 0;
+  line-height: 16px;
+  position: absolute;
+  white-space: nowrap;
+  width: 52px;
+  z-index: 1;
+  top: 60px;
+  transition: all 0.2s ease;
+}

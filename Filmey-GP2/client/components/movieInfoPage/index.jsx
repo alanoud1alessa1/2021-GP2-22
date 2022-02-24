@@ -14,6 +14,8 @@ import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
+import { BsFillBookmarkPlusFill } from "react-icons/bs";
+import { BsFillBookmarkCheckFill } from "react-icons/bs";
 
 function MovieInfoPage(props) {
   const similarMoviesOptions = {
@@ -113,6 +115,41 @@ function MovieInfoPage(props) {
   const [movieTitles, setmovieTitles] = useState([]);
   const [totalRatings, settotalRatings] = useState([]);
   const [additionalState, setAdditionalState] = useState([]);
+  const [onWatchList, setOnWatchList] = useState(false);
+
+  const addToWatchlist = () => {
+    if (!registered || isAdmin){
+      confirmAlert({
+        customUI: ({ onClose }) => {
+          return (
+            <div className="customconfirmAlert">
+              <h1>Sorry!</h1>
+              <h5>You have to login</h5>
+              <button
+                className="yesButton"
+                onClick={() => {
+                  onClose();
+                }}
+              >
+                OK
+              </button>
+            </div>
+          );
+        },
+      });
+      return;
+    }
+
+    console.log(onWatchList);
+    setOnWatchList(true);
+    console.log(onWatchList);
+
+  }
+  const removeFromWatchlist = () => {
+    console.log(onWatchList);
+    setOnWatchList(false);
+    console.log(onWatchList);
+  }
 
   let { id } = useParams();
   id = parseInt(id);
@@ -599,7 +636,21 @@ function MovieInfoPage(props) {
             {/* main  */}
             <main>
               <div className="body"></div>
+              <div>
               <img className="moviePoster" src={poster} />
+              {onWatchList && !isAdmin &&
+                <button  className="inWatchList" onClick={removeFromWatchlist}>
+                <BsFillBookmarkCheckFill size={90} />{" "}
+                </button>
+              }
+
+              {!onWatchList && !isAdmin &&
+                <button  className="bookMark" onClick={addToWatchlist}>
+                <BsFillBookmarkPlusFill size={90} />{" "}
+                </button>
+              }
+              </div>
+             
               <div className="trailer">
                 <a
                   className="playTrailerText"
