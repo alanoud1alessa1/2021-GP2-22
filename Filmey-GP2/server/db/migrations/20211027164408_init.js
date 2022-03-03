@@ -33,12 +33,14 @@ exports.up = async (knex) => {
       table.increments("movie_id").notNullable();
       table.string("title", 100).notNullable();
       table.integer("year").notNullable();
-      table.string("length", 10).notNullable();
-      table.string("age_guide", 10).notNullable();
-      table.text('description','longtext').notNullable();
-      table.string("poster", 255).notNullable();
-      table.string("trailer_url", 255).notNullable();
+      table.string("length", 10);
+      table.string("age_guide", 10);
+      table.text('description','longtext');
+      table.string("poster", 255);
+      table.string("trailer_url", 255);
       table.boolean("is_deleted").notNullable().defaultTo(false);
+      table.boolean("is_in_cinema").notNullable().defaultTo(false);
+      table.boolean("is_coming_soon").notNullable().defaultTo(false);
     }),
     await knex.schema.createTable("Admin", (table) => {
         table.increments("admin_id").notNullable();
@@ -137,7 +139,22 @@ exports.up = async (knex) => {
         references(table, "Admin" , "admin");
         table.dateTime('deleted_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
         table.primary(["review_id", "admin_id"]);
-      }),
+      }),   
+      await knex.schema.createTable("Cinema", (table) => {
+        table.increments("cinema_id").notNullable();
+        table.string("name", 20).notNullable();
+        table.string("city", 20).notNullable();
+        table.string("location", 50).notNullable();
+    }), 
+     await knex.schema.createTable("Cinema_Movie", (table) => {
+      references(table, "Cinema" , "cinema");
+      references(table, "Movie" , "movie");
+      table.string("booking_link", 150).notNullable();
+  }),
+    await knex.schema.createTable("Coming_soon", (table) => {
+    table.increments("coming_soon_id").notNullable();
+    table.string("cinema_name", 20).notNullable();
+    table.dateTime('release_date').notNullable();}), 
   ]);
 };
 /**

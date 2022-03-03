@@ -89,107 +89,106 @@ function homePage(props) {
       setMovieIds(IdsArray);
       setAllposters(postersArray);
     });
+//check thresold for registered users only
+if (registered && !isAdmin) {
+  var checkThreshold;
 
-    //check thresold for registered users only
-    if (registered && !isAdmin) {
-      var checkThreshold;
+  Axios.post("http://localhost:5000/checkThreshold", {
+    userID: userId,
+  }).then((response) => {
+    checkThreshold = response.data;
+    var ifExceedsTwintyRating = response.data[0];
+    var ifNeedsReTraining = response.data[1];
 
-      Axios.post("http://localhost:5000/checkThreshold", {
+    // ifExceedsTwintyRating = true;
+    // ifNeedsReTraining = true;
+
+    if (ifExceedsTwintyRating) {
+      if (ifNeedsReTraining) {
+        // Knowladge Base
+        Axios.post("http://localhost:5000/modelBased", {
+          userID: userId,
+        }).then((response) => {
+          console.log("modelBased");
+          var movieTitlesArray = [...movieTitles];
+          var ratingsArray = [...totalRatings];
+          // var additionalState = [...additionalState];
+          for (var i = 0; i < response.data.length; i++) {
+            similarMoviesIds[i] = response.data[i][0];
+            similarMoviesPosters[i] = response.data[i][1];
+            movieTitlesArray[i] = response.data[i][2];
+            ratingsArray[i] = response.data[i][3];
+            additionalState[i] = response.data[i][3];
+          }
+
+          setRecommendedMovieIds(similarMoviesIds);
+          setRecommendedmoviePosters(similarMoviesPosters);
+          setSimilarMoviesPostersState(similarMoviesPosters);
+          setmovieTitles(movieTitlesArray);
+          settotalRatings(ratingsArray);
+          setAdditionalState(additionalState);
+
+          if (additionalState) {
+            // re train model UserCB
+            Axios.post("http://localhost:4000/reTrainUserCB", {}).then(
+              (response) => {
+                console.log("ReTrain model");
+              }
+            );
+          }
+        });
+      } else {
+        // userBasedCF
+        Axios.post("http://localhost:5000/userBasedCF", {
+          userID: userId,
+        }).then((response) => {
+          var movieTitlesArray = [...movieTitles];
+          var ratingsArray = [...totalRatings];
+          var additionalState = [...additionalState];
+
+          for (var i = 0; i < 20; i++) {
+            similarMoviesIds[i] = response.data[i][0];
+            similarMoviesPosters[i] = response.data[i][1];
+            movieTitlesArray[i] = response.data[i][2];
+            ratingsArray[i] = response.data[i][3];
+            additionalState[i] = response.data[i][3];
+          }
+
+          setRecommendedMovieIds(similarMoviesIds);
+          setRecommendedmoviePosters(similarMoviesPosters);
+          setSimilarMoviesPostersState(similarMoviesPosters);
+          setmovieTitles(movieTitlesArray);
+          settotalRatings(ratingsArray);
+          setAdditionalState(additionalState);
+        });
+      }
+    } else {
+      // Knowladge Base
+      Axios.post("http://localhost:5000/modelBased", {
         userID: userId,
       }).then((response) => {
-        checkThreshold = response.data;
-        var ifExceedsTwintyRating = response.data[0];
-        var ifNeedsReTraining = response.data[1];
-
-        // ifExceedsTwintyRating = true;
-        // ifNeedsReTraining = true;
-
-        if (ifExceedsTwintyRating) {
-          if (ifNeedsReTraining) {
-            // Knowladge Base
-            Axios.post("http://localhost:5000/modelBased", {
-              userID: userId,
-            }).then((response) => {
-              console.log("modelBased");
-              var movieTitlesArray = [...movieTitles];
-              var ratingsArray = [...totalRatings];
-              // var additionalState = [...additionalState];
-              for (var i = 0; i < response.data.length; i++) {
-                similarMoviesIds[i] = response.data[i][0];
-                similarMoviesPosters[i] = response.data[i][1];
-                movieTitlesArray[i] = response.data[i][2];
-                ratingsArray[i] = response.data[i][3];
-                additionalState[i] = response.data[i][3];
-              }
-
-              setRecommendedMovieIds(similarMoviesIds);
-              setRecommendedmoviePosters(similarMoviesPosters);
-              setSimilarMoviesPostersState(similarMoviesPosters);
-              setmovieTitles(movieTitlesArray);
-              settotalRatings(ratingsArray);
-              setAdditionalState(additionalState);
-
-              if (additionalState) {
-                // re train model UserCB
-                Axios.post("http://localhost:5000/reTrainUserCB", {}).then(
-                  (response) => {
-                    console.log("ReTrain model");
-                  }
-                );
-              }
-            });
-          } else {
-            // userBasedCF
-            Axios.post("http://localhost:5000/userBasedCF", {
-              userID: userId,
-            }).then((response) => {
-              var movieTitlesArray = [...movieTitles];
-              var ratingsArray = [...totalRatings];
-              var additionalState = [...additionalState];
-
-              for (var i = 0; i < 20; i++) {
-                similarMoviesIds[i] = response.data[i][0];
-                similarMoviesPosters[i] = response.data[i][1];
-                movieTitlesArray[i] = response.data[i][2];
-                ratingsArray[i] = response.data[i][3];
-                additionalState[i] = response.data[i][3];
-              }
-
-              setRecommendedMovieIds(similarMoviesIds);
-              setRecommendedmoviePosters(similarMoviesPosters);
-              setSimilarMoviesPostersState(similarMoviesPosters);
-              setmovieTitles(movieTitlesArray);
-              settotalRatings(ratingsArray);
-              setAdditionalState(additionalState);
-            });
-          }
-        } else {
-          // Knowladge Base
-          Axios.post("http://localhost:5000/modelBased", {
-            userID: userId,
-          }).then((response) => {
-            var movieTitlesArray = [...movieTitles];
-            var ratingsArray = [...totalRatings];
-            var additionalState = [...additionalState];
-            for (var i = 0; i < response.data.length; i++) {
-              similarMoviesIds[i] = response.data[i][0];
-              similarMoviesPosters[i] = response.data[i][1];
-              movieTitlesArray[i] = response.data[i][2];
-              ratingsArray[i] = response.data[i][3];
-              additionalState[i] = response.data[i][3];
-            }
-
-            setRecommendedMovieIds(similarMoviesIds);
-            setRecommendedmoviePosters(similarMoviesPosters);
-            setSimilarMoviesPostersState(similarMoviesPosters);
-            setmovieTitles(movieTitlesArray);
-            settotalRatings(ratingsArray);
-            setAdditionalState(additionalState);
-          });
+        var movieTitlesArray = [...movieTitles];
+        var ratingsArray = [...totalRatings];
+        var additionalState = [...additionalState];
+        for (var i = 0; i < response.data.length; i++) {
+          similarMoviesIds[i] = response.data[i][0];
+          similarMoviesPosters[i] = response.data[i][1];
+          movieTitlesArray[i] = response.data[i][2];
+          ratingsArray[i] = response.data[i][3];
+          additionalState[i] = response.data[i][3];
         }
+
+        setRecommendedMovieIds(similarMoviesIds);
+        setRecommendedmoviePosters(similarMoviesPosters);
+        setSimilarMoviesPostersState(similarMoviesPosters);
+        setmovieTitles(movieTitlesArray);
+        settotalRatings(ratingsArray);
+        setAdditionalState(additionalState);
       });
     }
-  }, []);
+  });
+}
+}, []);
 
   return (
     <div className="PageCenter">
