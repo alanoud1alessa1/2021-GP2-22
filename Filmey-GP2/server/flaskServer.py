@@ -30,7 +30,7 @@ def checkThreshold():
     userID = data["userID"]
 
 
-    conn = psycopg2.connect(host="localhost",database="filmey",user="postgres",password="pgAdmin123")
+    conn = psycopg2.connect(host="localhost"        ,database="filmey",user="postgres",password="pgAdmin123")
 
     # Create a cursor to perform database operations
     cursor = conn.cursor()
@@ -39,7 +39,7 @@ def checkThreshold():
     # Get number of user ratings
     cursor.execute('SELECT COUNT(*) FROM "Rating" WHERE user_id = %s' ,[userID] )
     numOfUserRatings = cursor.fetchall()[0][0]
-
+     
     # Check if model has already been trained with this user 
     #Routes:
     #Ghadah:'C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\api\\model\\MLratings&DB.csv'

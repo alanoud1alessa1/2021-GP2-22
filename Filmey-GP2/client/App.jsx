@@ -50,7 +50,7 @@ function App() {
         <Route path="/movieForm/:id">
           <MovieForm {...movieFormData} />
         </Route>
-        <Route path="/watchlistPage/:genre">
+        <Route path="/watchlistPage">
           <WatchlistPage {...WatchlistPage} />
         </Route>
       </Switch>

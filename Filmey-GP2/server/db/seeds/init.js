@@ -47,40 +47,40 @@ exports.seed = async (knex) => {
 
 
 
-   //Create User2
-   const user2 = {
-    email: "nouf1@gmail.com",
-    username: "Nouf1",
-    password: await bcrypt.hash("12345678", 12),
-    date_of_birth: '2000-01-01',
-    gender: 'F',
-    location:"Riyadh"
-  };
-  const createdUser2 = await insertEntry(knex, "User", user2);
+  //  //Create User2
+  //  const user2 = {
+  //   email: "nouf1@gmail.com",
+  //   username: "Nouf1",
+  //   password: await bcrypt.hash("12345678", 12),
+  //   date_of_birth: '2000-01-01',
+  //   gender: 'F',
+  //   location:"Riyadh"
+  // };
+  // const createdUser2 = await insertEntry(knex, "User", user2);
 
   
-   //Create User3
-   const user3 = {
-    email: "nouf2@gmail.com",
-    username: "Nouf2",
-    password: await bcrypt.hash("12345678", 12),
-    date_of_birth: '2000-01-01',
-    gender: 'F',
-    location:"Riyadh"
-  };
-  const createdUser3 = await insertEntry(knex, "User", user3);
+  //  //Create User3
+  //  const user3 = {
+  //   email: "nouf2@gmail.com",
+  //   username: "Nouf2",
+  //   password: await bcrypt.hash("12345678", 12),
+  //   date_of_birth: '2000-01-01',
+  //   gender: 'F',
+  //   location:"Riyadh"
+  // };
+  // const createdUser3 = await insertEntry(knex, "User", user3);
 
   
-   //Create User4
-   const user4 = {
-    email: "nou34@gmail.com",
-    username: "Nouf3",
-    password: await bcrypt.hash("12345678", 12),
-    date_of_birth: '2000-01-01',
-    gender: 'F',
-    location:"Riyadh"
-  };
-  const createdUser4 = await insertEntry(knex, "User", user4);
+  //  //Create User4
+  //  const user4 = {
+  //   email: "nou34@gmail.com",
+  //   username: "Nouf3",
+  //   password: await bcrypt.hash("12345678", 12),
+  //   date_of_birth: '2000-01-01',
+  //   gender: 'F',
+  //   location:"Riyadh"
+  // };
+  // const createdUser4 = await insertEntry(knex, "User", user4);
 
   
   //Create Admin1
@@ -105,6 +105,28 @@ exports.seed = async (knex) => {
     password: await bcrypt.hash("333", 12),
   };
   const createdAdmin3 = await insertEntry(knex, "Admin", admin3);
+
+
+
+
+
+// //create user with more than 20 ratings
+// //Create user2
+// const user2 = {
+//   email: "noufCB@gmail.com",
+//   username: "NoufCB",
+//   password: await bcrypt.hash("12345678", 12),
+//   date_of_birth: '2000-01-01',
+//   gender: 'F',
+//   location:"Riyadh"
+// };
+// const createdUser2 = await insertEntry(knex, "User", user2);
+
+// // create favorite genres list for user2
+// const list = {
+
+
+// }
 
 
 

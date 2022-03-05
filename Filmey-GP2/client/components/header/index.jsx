@@ -16,6 +16,8 @@ function header(props) {
     const token = cookies.get("token");
     var decoded = jwt_decode(token);
     username = decoded.username;
+    // userId = decoded.userID;
+    // console.log(userId)
     isAdmin = decoded.isAdmin;
     registered = true;
   } catch {
@@ -137,8 +139,10 @@ function header(props) {
       {/* registerd user and not admin */}
 
       {registered && !isAdmin && (
+
                 <div>
-                <Link to="/watchlistPage/comedy">
+
+                <Link to="/watchlistPage">
                   <div>
                     <div className="watchlistText darkergrotesque-medium-white-35px2">Watchlist</div>
                   </div>

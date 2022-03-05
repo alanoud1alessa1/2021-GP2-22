@@ -217,4 +217,81 @@ router.post("/deleteReview", async (req, res, next) => {
   }
 });
 
+
+router.post("/addToWatchList", async (req, res, next) => {
+
+  const { movie_id , user_id } = req.body;
+  try {
+    const addToWatchList = await queries.addToWatchList(movie_id , user_id );
+
+    if (addToWatchList) {
+      return res.json(addToWatchList);
+    }
+    return next();
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
+});
+
+
+router.post("/viewWatchList", async (req, res, next) => {
+
+  const { user_id } = req.body;
+  try {
+    const viewWatchList = await queries.viewWatchList( user_id );
+
+    if (viewWatchList) {
+      return res.json(viewWatchList);
+    }
+    return next();
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
+});
+
+router.post("/deleteWatchList", async (req, res, next) => {
+
+  const { user_id  , movie_id} = req.body;
+  try {
+    const deleteWatchList = await queries.deleteWatchList( user_id  , movie_id);
+
+    if (deleteWatchList) {
+      return res.json(deleteWatchList);
+    }
+    return next();
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
+});
+
+router.post("/isOnWatchList", async (req, res, next) => {
+  const { user_id  , movie_id} = req.body;
+  try {
+    const isOnWatchList = await queries.isOnWatchList( user_id  , movie_id);
+
+    if (isOnWatchList) {
+      if(isOnWatchList.length == 0){
+            // return false;  
+            return res.json(false);
+
+      }
+      else{
+        return res.json(true);
+
+        // return true;
+      }
+
+    }
+    return next();
+  } catch (error) {
+    console.log(error);
+    return next(error);
+  }
+});
+
+
+
 module.exports = router;

@@ -1,125 +1,261 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import "./watchlistPage.css";
 import Header from "../header";
 import { useState } from "react";
 import { BsFillBookmarkCheckFill } from "react-icons/bs";
 import { BsFillBookmarkPlusFill } from "react-icons/bs";
-
+import { Link } from "react-router-dom";
+import Axios from "axios";
+import Cookies from "universal-cookie";
+import jwt_decode from "jwt-decode";
 
 function watchlistPage(props) {
-
   const runCallback = (cb) => {
     return cb();
   };
   const {} = props;
 
-  const [moviesId, setMoviesId] = useState([]);
-  const [movieTitles, setmovieTitles] = useState([]);
-  const [Allposters, setAllposters] = useState([]);
-  const [totalRatings, settotalRatings] = useState([]);
+  var registered = false;
+  var username = "";
+  var user_id;
+  var isAdmin;
 
+  const cookies = new Cookies();
+  try {
+    const token = cookies.get("token");
+    var decoded = jwt_decode(token);
+    username = decoded.username;
+    user_id = decoded.userID;
+    isAdmin = decoded.isAdmin;
+    registered = true;
+  } catch {
+    registered = false;
+  }
+
+  const api = Axios.create({
+    baseURL: "http://localhost:3000/api/v1",
+  });
+
+  const [listMovies, setListMovies] = useState([]);
+  const [onWatchList, setOnWatchList] = useState([]);
 
   React.useEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
 
-    var moviesIdArray = [...moviesId];
-    var movieTitlesArray = [...movieTitles];
-    var postersArray = [...Allposters];
-    var ratingsArray = [...totalRatings];
+    var listMoviesdArray = [...listMovies];
+    var onWatchListArray = [...onWatchList];
 
+    api
+      .post(`Users/viewWatchList`, {
+        user_id: user_id,
+      })
+      .then((response) => {
+        for (var i = 0; i < response.data.length; i++) {
+          listMoviesdArray[i] = response.data[i];
+          onWatchListArray[i] = true;
+        }
 
-
+        //if finish getting all movies --> then set valuse
+        if (listMoviesdArray.length == response.data.length) {
+          console.log(listMoviesdArray);
+          console.log("listMoviesdArray.indecies");
+          console.log(listMoviesdArray.findIndex);
+          setOnWatchList(onWatchListArray);
+          setListMovies(listMoviesdArray);
+        }
+      });
   }, []);
 
+  // const addToWatchlist = () => {
+  //   console.log(onWatchList);
+  //   setOnWatchList(true);
+  //   console.log(onWatchList);
+  // };
 
-  const [onWatchList, setOnWatchList] = useState(false);
+  const removeFromWatchlist = (movie_id) => {
+    console.log("remove");
+    api
+      .post(`Users/deleteWatchList`, {
+        user_id: user_id,
+        movie_id: movie_id,
+      })
+      .then((response) => {
+        if (response) {
+          setOnWatchList(false);
+          console.log(onWatchList);
+          window.location.reload();
 
-  const addToWatchlist = () => {
-    console.log(onWatchList);
-    setOnWatchList(true);
-    console.log(onWatchList);
-  }
-  const removeFromWatchlist = () => {
-    // window.location.reload();
 
-    console.log(onWatchList);
-    setOnWatchList(false);
-    console.log(onWatchList);
-  }
-
+        }
+      });
+  };
 
   return (
     <div className="PageCenter">
       <div className="watchlistPage screen">
         <div className="watchlistPageContainer">
-        <body>
-
+          <body>
             {/* Header */}
-             <header>
-                <Header/> 
+            <header>
+              <Header />
             </header>
 
-          {/* main */}
-          <main>
-            <div className="watchlistbody"></div>
+            {/* main */}
+            <main>
+              <div className="watchlistbody"></div>
 
-            {/* Title */}
-            <div>
-              <h1 className="watchlistTitle neuton-normal-white-60px3"> Watchlist</h1>
-            </div>
+              {/* Title */}
+              <div>
+                <h1 className="watchlistTitle neuton-normal-white-60px3">
+                  {" "}
+                  Watchlist
+                </h1>
+              </div>
               {/* row1  */}
               <div className="movies">
-                {runCallback(() => {
-                  const row = [];
-                  var count = 0;
-                    for (var i = 0; i < 20; i++) {
-                      const id = 0;
-                      const url = `/movieInfoPage/${id}`;
-                      const poster = Allposters[count];
-                      const title = movieTitles[count];
-                      const rating = totalRatings[count++];
-                      if (rating == "0.0"){
-                        rating = "No ratings yet."
-                      }
-
-                      row.push(
-                        <div key={i}>
-                          {
-                            <div className="watchlistMovieContainer" >
-                              {/* <Link to={url}> */}
-                                <img className="watchlistMoviePoster" src={poster} />
+                
+                {listMovies.length > 0 ? (
+                  listMovies.map((x) => (
 
 
-                            {onWatchList && !isAdmin &&
-                            <button  className="movieBookMark" onClick={removeFromWatchlist}>
-                            <BsFillBookmarkCheckFill size={90} />{" "}
-                            </button>
-                            }
+                    <div className="watchlistMovieContainer">
 
-                            {!onWatchList && !isAdmin &&
-                            <button  className="movieInWtchlist" onClick={addToWatchlist}>
-                            <BsFillBookmarkPlusFill size={90} />{" "}
-                            </button>
-                            }
-                               <img className="watchlistStar" src="/img/star-2@2x.svg" />
-                                <div className="watchlistRating neuton-bold-white-30px">
-                                 {rating} movie rating
-                                </div>
-                                <div className="watchlistMovieName neuton-bold-white-30px">{title} movie title</div>
-                              {/* </Link> */}
-                            </div>
-                          }
+                      <Link to={`/movieInfoPage/${x.movie_id}`} >
+                        <img className="genreTypeMoviePoster" src={x.poster} />
+                        <img
+                          className="watchlistStar"
+                          src="/img/star-2@2x.svg"
+                        />
+                        <div className="watchlistRating neuton-bold-white-30px">
+                          {x.total_rating}
                         </div>
-                      );
+                        <div className="watchlistMovieName neuton-bold-white-30px">
+                          {x.title}
+                        </div>
+                      </Link>
+
+                      {/* {onWatchList && ( */}
+
+                      <button
+                        className="movieBookMark"
+                        onClick={() => {
+                          removeFromWatchlist(x.movie_id);
+                        }}
+                      >
+                        <BsFillBookmarkCheckFill size={90} />{" "}
+                      </button>
+                      {/* )} */}
+
+                      {/* {!onWatchList && (
+                         <button
+                           className="movieInWtchlist"
+                           onClick={addToWatchlist(x.movie_id)}
+                         >
+                           <BsFillBookmarkPlusFill size={90} />{" "}
+                         </button>
+                       )} */}
+                    </div>
+                  ))
+                ) : (
+                  <div className="noReviews neuton-bold-white-20px">
+                    No movies in your watch list
+                  </div>
+                )}
+
+
+{/* 
+{runCallback(() => {
+                  const row = [];
+                  for (var i = 0; i < listMovies.length; i++) {
+                    const url = `/movieInfoPage/${listMovies.movie_id}`;
+                  
+
+                    row.push(
+                      <div key={i}>
+                        {
+
+                          <div className="watchlistMovieContainer">
+                             <Link to={url}>
+                               
+                              </Link>
+                  
+                    
+                          </div>
+                        }
+                      </div>
+                    );
                   }
                   return row;
-                })}
+                })}  */}
+
+
+                {/* {runCallback(() => {
+                  const row = [];
+                  for (var i = 0; i < moviesId.length; i++) {
+                    const id = moviesId[i];
+                    const url = `/movieInfoPage/${id}`;
+                    const poster = Allposters[i];
+                    const title = movieTitles[i];
+                    const rating = totalRatings[i];
+                    if (rating == "0.0") {
+                      rating = "No ratings yet.";
+                    }
+
+                    row.push(
+                      <div key={i}>
+                        {
+                          <div className="watchlistMovieContainer">
+                             <Link to={url}>
+                                <img className="genreTypeMoviePoster" src={poster} />
+                                <img className="genreTypeStar" src={props.star} />
+                                <div className="genreTypeRating neuton-bold-white-30px">
+                                 {rating}
+                                </div>
+                                <div className="genreTypeMovieName neuton-bold-white-30px">{title}</div>
+                              </Link>
+
+
+                    
+
+                            {onWatchList && (
+
+                              
+                              <button
+                                className="movieBookMark"
+                                onClick={removeFromWatchlist}
+                              >
+                                <BsFillBookmarkCheckFill size={90} />{" "}
+                              </button>
+                            )}
+
+                            {!onWatchList && (
+                              <button
+                                className="movieInWtchlist"
+                                onClick={addToWatchlist}
+                              >
+                                <BsFillBookmarkPlusFill size={90} />{" "}
+                              </button>
+                            )}
+                            <img
+                              className="watchlistStar"
+                              src="/img/star-2@2x.svg"
+                            />
+                            <div className="watchlistRating neuton-bold-white-30px">
+                              {rating} 
+                            </div>
+                            <div className="watchlistMovieName neuton-bold-white-30px">
+                              {title}
+                            </div>
+                          </div>
+                        }
+                      </div>
+                    );
+                  }
+                  return row;
+                })} */}
               </div>
-
-          </main>
-
-        </body>
+            </main>
+          </body>
         </div>
       </div>
     </div>
@@ -127,3 +263,6 @@ function watchlistPage(props) {
 }
 
 export default watchlistPage;
+
+
+

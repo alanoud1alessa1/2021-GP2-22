@@ -318,4 +318,77 @@ module.exports = {
 
     return deleteMovie;
   },
+
+  async addToWatchList(movie_id , user_id) {
+    let addToWatchList = await db("WatchList")
+      .insert({
+        movie_id: movie_id,
+        user_id: user_id
+      })
+      .returning("*");
+
+    if (addToWatchList) {
+      return true;
+    }else{
+
+      return false;
+    }
+
+    
+  },
+
+  
+
+  async viewWatchList(user_id) {
+    let viewWatchList = await db("WatchList AS WL")
+    .select("WL.movie_id" , "title" , "poster"  ,db.raw("ROUND(AVG(coalesce(rating , 0)),1) AS total_rating"))
+    .where({  
+      "WL.user_id": user_id })
+    .leftJoin("Movie AS M", "WL.movie_id", "M.movie_id")
+    .leftJoin("Rating AS R", "WL.movie_id", "R.movie_id")
+    .groupBy("WL.movie_id", "title", "poster")
+    
+
+    if (viewWatchList) {
+      return viewWatchList;
+
+    }
+    
+   return  ;
+  },
+
+
+
+  async  deleteWatchList(user_id , movie_id) {
+    let deleteWatchList = await db("WatchList AS WL")
+    .del()
+      .where({ movie_id: movie_id, user_id: user_id });
+
+   
+    if (deleteWatchList) {
+      return true;
+
+    }
+    
+   return  ;
+  },
+
+  async  isOnWatchList(user_id , movie_id) {
+    let isOnWatchList = await db("WatchList")
+    .select("*")
+      .where({ movie_id: movie_id, user_id: user_id });
+
+   
+
+
+      if(isOnWatchList){
+              return isOnWatchList;
+      }
+
+
+  
+    
+
+  },
+  
 };

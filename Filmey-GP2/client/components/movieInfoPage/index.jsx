@@ -117,6 +117,13 @@ function MovieInfoPage(props) {
   const [additionalState, setAdditionalState] = useState([]);
   const [onWatchList, setOnWatchList] = useState(false);
 
+  let { id } = useParams();
+  id = parseInt(id);
+
+
+
+
+
   const addToWatchlist = () => {
     if (!registered || isAdmin){
       confirmAlert({
@@ -140,19 +147,41 @@ function MovieInfoPage(props) {
       return;
     }
 
-    console.log(onWatchList);
-    setOnWatchList(true);
-    console.log(onWatchList);
+    api
+    .post(`Users/addToWatchList`, {
+      user_id: decoded.userID,
+      movie_id :id
+    })
+    .then((response) => {
+    
+     if(response){
+       setOnWatchList(true);
+       console.log(onWatchList);
+     }
+    });
+
+    
 
   }
   const removeFromWatchlist = () => {
-    console.log(onWatchList);
-    setOnWatchList(false);
-    console.log(onWatchList);
-  }
 
-  let { id } = useParams();
-  id = parseInt(id);
+    // console.log(onWatchList);
+    setOnWatchList(false);
+    // console.log(onWatchList);
+ api
+   .post(`Users/deleteWatchList`, {
+     user_id: decoded.userID,
+     movie_id :id
+   })
+   .then((response) => {
+   
+    if(response){
+      setOnWatchList(false);
+      // console.log(onWatchList);
+    }
+   });
+
+  }
 
   var isEdit;
   const [hasReviewed, setHasReviewed] = useState();
@@ -225,12 +254,13 @@ function MovieInfoPage(props) {
     const updateReviews = api.get(`/movies/review/${id}`).then((response) => {
       const numOfReviews = response.data.length;
       const reviewsArray = [...reviews];
+      // console.log(response)
 
       for (var i = 0; i < numOfReviews; i++) {
         reviewsArray[i] = response.data[i];
 
       }
-
+// console.log(reviewsArray)
       setReviews(reviewsArray);
       setEReviews(reviewsArray);
     });
@@ -419,6 +449,24 @@ function MovieInfoPage(props) {
   const [moviesRatingState, setMoviesRatingState] = useState([]);
   var ratings = [];
   React.useEffect(() => {
+
+
+if(registered)
+  {  api
+    .post(`Users/isOnWatchList`, {
+      user_id: decoded.userID,
+      movie_id :id
+    })
+    .then((response) => {
+     if(response.data){
+      // console.log("response")
+      // console.log(response.data)
+      setOnWatchList(true);
+      //  console.log(onWatchList);
+     }
+    });}
+
+    
     Axios.post("http://localhost:5000/contentBased", {
       movieID: id,
     }).then((res) => {
@@ -937,7 +985,9 @@ function MovieInfoPage(props) {
                 <div className="userReviews">
                   <OwlCarousel className="owl-theme" {...options} nav>
                     {reviews.length > 0 ? (
+
                       reviews.map((x) => (
+                       
                         <div className="userReviewContainer">
                           <div className="reviewerUsername neuton-bold-white-20px">
                             <div className="reviewerUsernameIcon">
