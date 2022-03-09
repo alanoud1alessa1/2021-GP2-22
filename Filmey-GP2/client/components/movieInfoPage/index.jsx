@@ -708,13 +708,13 @@ if(registered)
               <div className="body"></div>
               <div>
               <img className="moviePoster" src={poster} />  
-              {onWatchList &&
+              {onWatchList && !isAdmin &&
                             <button  className="inWatchList" onClick={removeFromWatchlist}>
                             <BsFillBookmarkCheckFill size={90} />{" "}
                             </button>
               }
 
-              {!onWatchList &&
+              {!onWatchList && !isAdmin &&
                             <button  className="bookMark" onClick={addToWatchlist}>
                             <BsFillBookmarkPlusFill size={90} />{" "}
                             </button>
