@@ -7,6 +7,8 @@ import Cookies from "universal-cookie";
 import jwt_decode from "jwt-decode";
 import Header from "../header";
 import OwlCarousel from "react-owl-carousel";
+import { IoIosArrowForward } from "react-icons/io";
+
 
 function homePage(props) {
   const options = {
@@ -89,106 +91,107 @@ function homePage(props) {
       setMovieIds(IdsArray);
       setAllposters(postersArray);
     });
-//check thresold for registered users only
-if (registered && !isAdmin) {
-  var checkThreshold;
 
-  Axios.post("http://localhost:5000/checkThreshold", {
-    userID: userId,
-  }).then((response) => {
-    checkThreshold = response.data;
-    var ifExceedsTwintyRating = response.data[0];
-    var ifNeedsReTraining = response.data[1];
+    //check thresold for registered users only
+    if (registered && !isAdmin) {
+      var checkThreshold;
 
-    // ifExceedsTwintyRating = true;
-    // ifNeedsReTraining = true;
-
-    if (ifExceedsTwintyRating) {
-      if (ifNeedsReTraining) {
-        // Knowladge Base
-        Axios.post("http://localhost:5000/modelBased", {
-          userID: userId,
-        }).then((response) => {
-          console.log("modelBased");
-          var movieTitlesArray = [...movieTitles];
-          var ratingsArray = [...totalRatings];
-          // var additionalState = [...additionalState];
-          for (var i = 0; i < response.data.length; i++) {
-            similarMoviesIds[i] = response.data[i][0];
-            similarMoviesPosters[i] = response.data[i][1];
-            movieTitlesArray[i] = response.data[i][2];
-            ratingsArray[i] = response.data[i][3];
-            additionalState[i] = response.data[i][3];
-          }
-
-          setRecommendedMovieIds(similarMoviesIds);
-          setRecommendedmoviePosters(similarMoviesPosters);
-          setSimilarMoviesPostersState(similarMoviesPosters);
-          setmovieTitles(movieTitlesArray);
-          settotalRatings(ratingsArray);
-          setAdditionalState(additionalState);
-
-          if (additionalState) {
-            // re train model UserCB
-            Axios.post("http://localhost:4000/reTrainUserCB", {}).then(
-              (response) => {
-                console.log("ReTrain model");
-              }
-            );
-          }
-        });
-      } else {
-        // userBasedCF
-        Axios.post("http://localhost:5000/userBasedCF", {
-          userID: userId,
-        }).then((response) => {
-          var movieTitlesArray = [...movieTitles];
-          var ratingsArray = [...totalRatings];
-          var additionalState = [...additionalState];
-
-          for (var i = 0; i < 20; i++) {
-            similarMoviesIds[i] = response.data[i][0];
-            similarMoviesPosters[i] = response.data[i][1];
-            movieTitlesArray[i] = response.data[i][2];
-            ratingsArray[i] = response.data[i][3];
-            additionalState[i] = response.data[i][3];
-          }
-
-          setRecommendedMovieIds(similarMoviesIds);
-          setRecommendedmoviePosters(similarMoviesPosters);
-          setSimilarMoviesPostersState(similarMoviesPosters);
-          setmovieTitles(movieTitlesArray);
-          settotalRatings(ratingsArray);
-          setAdditionalState(additionalState);
-        });
-      }
-    } else {
-      // Knowladge Base
-      Axios.post("http://localhost:5000/modelBased", {
+      Axios.post("http://localhost:5000/checkThreshold", {
         userID: userId,
       }).then((response) => {
-        var movieTitlesArray = [...movieTitles];
-        var ratingsArray = [...totalRatings];
-        var additionalState = [...additionalState];
-        for (var i = 0; i < response.data.length; i++) {
-          similarMoviesIds[i] = response.data[i][0];
-          similarMoviesPosters[i] = response.data[i][1];
-          movieTitlesArray[i] = response.data[i][2];
-          ratingsArray[i] = response.data[i][3];
-          additionalState[i] = response.data[i][3];
-        }
+        checkThreshold = response.data;
+        var ifExceedsTwintyRating = response.data[0];
+        var ifNeedsReTraining = response.data[1];
 
-        setRecommendedMovieIds(similarMoviesIds);
-        setRecommendedmoviePosters(similarMoviesPosters);
-        setSimilarMoviesPostersState(similarMoviesPosters);
-        setmovieTitles(movieTitlesArray);
-        settotalRatings(ratingsArray);
-        setAdditionalState(additionalState);
+        // ifExceedsTwintyRating = true;
+        // ifNeedsReTraining = true;
+
+        if (ifExceedsTwintyRating) {
+          if (ifNeedsReTraining) {
+            // Knowladge Base
+            Axios.post("http://localhost:5000/modelBased", {
+              userID: userId,
+            }).then((response) => {
+              console.log("modelBased");
+              var movieTitlesArray = [...movieTitles];
+              var ratingsArray = [...totalRatings];
+              // var additionalState = [...additionalState];
+              for (var i = 0; i < response.data.length; i++) {
+                similarMoviesIds[i] = response.data[i][0];
+                similarMoviesPosters[i] = response.data[i][1];
+                movieTitlesArray[i] = response.data[i][2];
+                ratingsArray[i] = response.data[i][3];
+                additionalState[i] = response.data[i][3];
+              }
+
+              setRecommendedMovieIds(similarMoviesIds);
+              setRecommendedmoviePosters(similarMoviesPosters);
+              setSimilarMoviesPostersState(similarMoviesPosters);
+              setmovieTitles(movieTitlesArray);
+              settotalRatings(ratingsArray);
+              setAdditionalState(additionalState);
+
+              if (additionalState) {
+                // re train model UserCB
+                Axios.post("http://localhost:5000/reTrainUserCB", {}).then(
+                  (response) => {
+                    console.log("ReTrain model");
+                  }
+                );
+              }
+            });
+          } else {
+            // userBasedCF
+            Axios.post("http://localhost:5000/userBasedCF", {
+              userID: userId,
+            }).then((response) => {
+              var movieTitlesArray = [...movieTitles];
+              var ratingsArray = [...totalRatings];
+              var additionalState = [...additionalState];
+
+              for (var i = 0; i < 20; i++) {
+                similarMoviesIds[i] = response.data[i][0];
+                similarMoviesPosters[i] = response.data[i][1];
+                movieTitlesArray[i] = response.data[i][2];
+                ratingsArray[i] = response.data[i][3];
+                additionalState[i] = response.data[i][3];
+              }
+
+              setRecommendedMovieIds(similarMoviesIds);
+              setRecommendedmoviePosters(similarMoviesPosters);
+              setSimilarMoviesPostersState(similarMoviesPosters);
+              setmovieTitles(movieTitlesArray);
+              settotalRatings(ratingsArray);
+              setAdditionalState(additionalState);
+            });
+          }
+        } else {
+          // Knowladge Base
+          Axios.post("http://localhost:5000/modelBased", {
+            userID: userId,
+          }).then((response) => {
+            var movieTitlesArray = [...movieTitles];
+            var ratingsArray = [...totalRatings];
+            var additionalState = [...additionalState];
+            for (var i = 0; i < response.data.length; i++) {
+              similarMoviesIds[i] = response.data[i][0];
+              similarMoviesPosters[i] = response.data[i][1];
+              movieTitlesArray[i] = response.data[i][2];
+              ratingsArray[i] = response.data[i][3];
+              additionalState[i] = response.data[i][3];
+            }
+
+            setRecommendedMovieIds(similarMoviesIds);
+            setRecommendedmoviePosters(similarMoviesPosters);
+            setSimilarMoviesPostersState(similarMoviesPosters);
+            setmovieTitles(movieTitlesArray);
+            settotalRatings(ratingsArray);
+            setAdditionalState(additionalState);
+          });
+        }
       });
     }
-  });
-}
-}, []);
+  }, []);
 
   return (
     <div className="PageCenter">
@@ -245,26 +248,28 @@ if (registered && !isAdmin) {
               })}
             </marquee>
 
-            {/* Title */}
-            {registered && !isAdmin && (
-              <div>
-                <h1 className="recommendedForYouText">
-                  Recommended For <strong> {username} </strong>{" "}
-                </h1>
-              </div>
-            )}
 
-            {registered && !isAdmin && (
-              <div className="recommendedForYouContainer">
+            {/* In Cinemas */}
+              <div>
+                <div className="inCinemasText">
+                In Cinemas{" "}
+
+                <div className="arrowIcon"> 
+                     <IoIosArrowForward size={50}/>
+                </div>
+                </div>
+              </div>
+            
+              <div className="InCinemasContainer">
                 <OwlCarousel
-                  className="recommendedMovies-owl-theme"
+                  className="homePage-owl-theme"
                   {...options}
                   nav
                 >
                   {runCallback(() => {
                     const row = [];
 
-                    for (var i = 0; i < recommendedmovieIds.length; i++) {
+                    for (var i = 0; i <10; i++) {
                       const id = recommendedmovieIds[i];
                       const url = `/movieInfoPage/${id}`;
                       const poster = recommendedmoviePosters[i];
@@ -276,22 +281,83 @@ if (registered && !isAdmin) {
                       row.push(
                         <div key={i}>
                           {
-                            <div className="recommendedMovie">
+                            <div className="homePageMovie">
                               <Link to={url}>
                                 <img
-                                  className="recommendedMoviePoster"
+                                  className="homePageMoviePoster"
                                   src={poster}
                                   height="652"
                                   width="512"
                                 />
                                 <img
-                                  className="recommendedStar"
+                                  className="homepageStar"
                                   src="/img/star-2@2x.svg"
                                 />
-                                <div className="recommendedMovieRating neuton-bold-white-30px">
+                                <div className="homePageMovieRating neuton-bold-white-30px">
+                                  {rating} 
+                                </div>
+                                <div className="homePageMovieName neuton-bold-white-30px">
+                                  {title} 
+                                </div>
+                              </Link>
+                            </div>
+                          }
+                        </div>
+                      );
+                    }
+                    return row;
+                  })}
+                </OwlCarousel>
+              </div>
+            
+            {/* Coming Soon to Cinemas*/}
+              <div>
+                <div className="ComingSoonText">
+                Coming Soon to Cinemas {" "}
+
+                <div className="arrowIcon"> 
+                   <IoIosArrowForward size={50}/>
+                </div>
+                </div>
+              </div>
+            
+              <div className="ComingSoonContainer">
+                <OwlCarousel
+                  className="homePage-owl-theme"
+                  {...options}
+                  nav
+                >
+                  {runCallback(() => {
+                    const row = [];
+
+                    for (var i = 0; i <10; i++) {
+                      const id = recommendedmovieIds[i];
+                      const url = `/movieInfoPage/${id}`;
+                      const poster = recommendedmoviePosters[i];
+                      const title = movieTitles[i];
+                      const rating = totalRatings[i];
+                      if (rating == 0) {
+                        rating = "No ratings yet.";
+                      }
+                      row.push(
+                        <div key={i}>
+                          {
+                            <div className="homePageMovie">
+                              <Link to={url}>
+                                <img
+                                  className="homePageMoviePoster"
+                                  src={poster}
+                                  height="652"
+                                  width="512"
+                                />
+                                <img
+                                  className="homepageStar"
+                                  src="/img/star-2@2x.svg"
+                                />
+                                <div className="homePageMovieRating neuton-bold-white-30px">
                                   {rating}
                                 </div>
-                                <div className="recommendedMovieName neuton-bold-white-30px">
+                                <div className="homePageMovieName neuton-bold-white-30px">
                                   {title}
                                 </div>
                               </Link>
@@ -304,11 +370,72 @@ if (registered && !isAdmin) {
                   })}
                 </OwlCarousel>
               </div>
+            
+            
+            {/* Recommended For u */}
+            {registered && !isAdmin && (
+
+               <div>
+                <h1 className="recommendedForYouText">
+                  Recommended For&ensp;<strong> {username} </strong>{" "}
+                </h1> 
+              </div>
             )}
+
+            {registered && !isAdmin && (
+              <div className="recommendedForYouContainer">
+                <OwlCarousel
+                  className="homePage-owl-theme"
+                  {...options}
+                  nav
+                >
+                  {runCallback(() => {
+                    const row = [];
+
+                    for (var i = 0; i <10; i++) {
+                      const id = recommendedmovieIds[i];
+                      const url = `/movieInfoPage/${id}`;
+                      const poster = recommendedmoviePosters[i];
+                      const title = movieTitles[i];
+                      const rating = totalRatings[i];
+                      if (rating == 0) {
+                        rating = "No ratings yet.";
+                      }
+                      row.push(
+                        <div key={i}>
+                          {
+                            <div className="homePageMovie">
+                              <Link to={url}>
+                                <img
+                                  className="homePageMoviePoster"
+                                  src={poster}
+                                  height="652"
+                                  width="512"
+                                />
+                                <img
+                                  className="homepageStar"
+                                  src="/img/star-2@2x.svg"
+                                />
+                                <div className="homePageMovieRating neuton-bold-white-30px">
+                                  {rating} 
+                                </div>
+                                <div className="homePageMovieName neuton-bold-white-30px">
+                                  {title} 
+                                </div>
+                              </Link>
+                            </div>
+                          }
+                        </div>
+                      );
+                    }
+                    return row;
+                  })}
+                </OwlCarousel>
+              </div>
+            )} 
 
             {/* footer */}
             <footer className="homePagefooter">
-              <div className="homePagefooter"> </div>
               <img className="homePagefooterLogo" src={logo} />
               <div className="homePagefooterText1">{footerText1}</div>
               <div className="homePagecopyRightText inter-light-bon-jour-35px2">

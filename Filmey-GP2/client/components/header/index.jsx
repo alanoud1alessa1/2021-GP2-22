@@ -86,6 +86,17 @@ function header(props) {
         </div>
       )}
 
+      {/*Saudi Cinemas*/}
+      {!isAdmin && (
+        <div>
+          <Link to="/cinemasPage">
+            <div className="SaudicinemasText darkergrotesque-medium-white-35px2">
+             Saudi Cinemas
+            </div>
+          </Link>
+        </div>
+      )}
+      
       {/* unregisterd user */}
       {!registered && (
         <div className="clickable">

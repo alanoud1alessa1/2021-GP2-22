@@ -108,7 +108,7 @@ function watchlistPage(props) {
               <div>
                 <h1 className="watchlistTitle neuton-normal-white-60px3">
                   {" "}
-                  Watchlist
+                 {username}'s Watchlist
                 </h1>
               </div>
               {/* row1  */}
@@ -157,7 +157,7 @@ function watchlistPage(props) {
                     </div>
                   ))
                 ) : (
-                  <div className="noReviews neuton-bold-white-20px">
+                  <div className="emptyWatchList neuton-bold-white-20px">
                     No movies in your watch list
                   </div>
                 )}

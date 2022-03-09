@@ -1,7 +1,8 @@
 .genresText:hover,
 .homeText:hover,
 .addMovieText:hover,
-.watchlistText:hover{
+.watchlistText:hover,
+.SaudicinemasText:hover{
   transform: translate(0, -5px);
 }
 
@@ -78,14 +79,15 @@
   z-index: 1;
 }
 
-.addMovieText{
+.addMovieText,
+.SaudicinemasText{
   cursor: pointer;
   left: 600px;
   letter-spacing: 0;
   position: absolute;
   top: 43px;
   transition: all 0.2s ease;
-  width: 137px;
+  width: 200px;
   z-index: 1;
 }
 

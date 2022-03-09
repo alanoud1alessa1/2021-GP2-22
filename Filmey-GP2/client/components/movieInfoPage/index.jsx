@@ -16,11 +16,13 @@ import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import { BsFillBookmarkPlusFill } from "react-icons/bs";
 import { BsFillBookmarkCheckFill } from "react-icons/bs";
+import { GiTicket } from "react-icons/gi";
+import ReactMultiSelectCheckboxes from "react-multiselect-checkboxes";
 
 function MovieInfoPage(props) {
   const similarMoviesOptions = {
     items: 4,
-    margin: 10,
+    margin: 20,
 
     navText: [
       "<div className='similarExpandLeft'>  <img className='reviewsExpandLeft' src='/img/expand-left--review-@2x.svg' /> </div>",
@@ -671,6 +673,26 @@ if(registered)
     }
   }, []);
 
+  const cinemasOptions=[
+    { label: 'VOX', value: "VOX"},
+    { label: 'AMC', value: "AMC"},
+    { label: 'Muvi', value: "Muvi"},]
+
+  const cityOptions = [
+    { label: 'Riyadh', value: "Riyadh"},
+    { label: 'Makkah', value: "Makkah"},
+    { label: 'Medina', value: "Medina"},
+    { label: 'Qassim', value: "Qassim"},
+    { label: 'Sharqia', value: "Sharqia"},
+    { label: 'Asir', value: "Asir"},
+    { label: 'Tabuk', value: "Tabuk"},
+    { label: 'Hail', value: "Hail"},
+    { label: 'Northern Border', value: "Northern Border"},
+    { label: 'Jazan', value: "Jazan"},
+    { label: 'Najran', value: "Najran"},
+    { label: 'AlBaha', value: "AlBaha"},
+    { label: 'Al-Jawf', value: "Al-Jawf"},]
+
   return (
     <div className="PageCenter">
       <div className="movieInfo screen">
@@ -685,20 +707,20 @@ if(registered)
             <main>
               <div className="body"></div>
               <div>
-              <img className="moviePoster" src={poster} />
-              {onWatchList && !isAdmin &&
-                <button  className="inWatchList" onClick={removeFromWatchlist}>
-                <BsFillBookmarkCheckFill size={90} />{" "}
-                </button>
+              <img className="moviePoster" src={poster} />  
+              {onWatchList &&
+                            <button  className="inWatchList" onClick={removeFromWatchlist}>
+                            <BsFillBookmarkCheckFill size={90} />{" "}
+                            </button>
               }
 
-              {!onWatchList && !isAdmin &&
-                <button  className="bookMark" onClick={addToWatchlist}>
-                <BsFillBookmarkPlusFill size={90} />{" "}
-                </button>
+              {!onWatchList &&
+                            <button  className="bookMark" onClick={addToWatchlist}>
+                            <BsFillBookmarkPlusFill size={90} />{" "}
+                            </button>
               }
-              </div>
-             
+              </div> 
+
               <div className="trailer">
                 <a
                   className="playTrailerText"
@@ -806,8 +828,7 @@ if(registered)
                   >
                     {/* <Link to="/home-page"> */}
                     <div className="editMovieContainer">
-                      <div className="deleteMovieIcon">
-                        {" "}
+                      <div>
                         <RiDeleteBin2Line size={35} />{" "}
                       </div>
                       <div className="deleteMovieText"> Delete </div>
@@ -910,7 +931,8 @@ if(registered)
                   </div>
                 </div>
               </div>
-              {/* top cast */}
+
+              {/* top cast section */}
               <div className="topCast">
                 <div className="topCastText neuton-normal-white-60px5">
                   {topCastText}
@@ -945,8 +967,161 @@ if(registered)
                   return row;
                 })}
               </div>
-              {/* reviews */}
-              <div className="reviewsContainer">
+
+              <div className="cinemaMultiSelect">
+                {/* <div> <GrLocation    color="red" size="30px"/> </div> */}
+              <ReactMultiSelectCheckboxes
+                className="cinemaFilter"
+                options= {cinemasOptions}
+                placeholderButtonLabel ="Select cinema"
+                styles={{
+                  dropdownButton: (provided, state)=> ({
+                    ...provided,
+
+                    // width: "200px",
+                    // borderRadius: "50",
+                    // fontSize:"50px",
+                    minHeight: "56",
+                    minWidth: "200",
+                    background:'#fcfcfc',
+                    outline: 'none',            
+                    border: "0px solid black",
+                    fontSize:"16px",
+                    boxShadow: state.isOpen ? '0px 4px 4px var(--cardinal)' :'0px 4px 4px #00000040',
+                    // boxShadow: "4px 4px 4px #E63333",
+                    borderRadius: "50",
+                    padding: "10px 10px 10px 20px",
+                  }),
+                  option: (provided, state) => ({
+                    ...provided,
+                    color: state.isSelected ? 'var(--cardinal)' : 'black',
+                    background: 'white',
+                  }),
+                 }}
+              />
+              </div>
+
+              <div className="cityMultiSelect">
+              <ReactMultiSelectCheckboxes
+                className="cityFilter"
+                options= {cityOptions}
+                placeholderButtonLabel ="Select city"
+                styles={{
+                  dropdownButton: (provided, state)=> ({
+                    ...provided,
+
+                    // width: "200px",
+                    // borderRadius: "50",
+                    // fontSize:"50px",
+                    minHeight: "56",
+                    minWidth: "200",
+                    background:'#fcfcfc',
+                    outline: 'none',            
+                    border: "0px solid black",
+                    fontSize:"16px",
+                    boxShadow: state.isOpen ? '0px 4px 4px var(--cardinal)' :'0px 4px 4px #00000040',
+                    borderRadius: "50",
+                    padding: "10px 30px",
+                  }),
+                  option: (provided, state) => ({
+                    ...provided,
+                    color: state.isSelected ? 'var(--cardinal)' : 'black',
+                    background: 'white',
+                  }),
+                 }}
+              />
+              </div>
+              
+
+             {/* book ticket section  */}
+             <div className="bookTicketText neuton-normal-white-60px5">
+                Book Ticket
+              </div>
+              <div className="bookTicketContainer">
+                <OwlCarousel
+                  className="similarMovies-owl-theme"
+                  {...similarMoviesOptions}
+                  nav
+                >
+                  {runCallback(() => {
+                    const row = [];
+
+                    for (var i = 0; i < 21; i++) {
+                      
+                      row.push(
+                        <div key={i}>
+                          {
+                            <div className="book">
+                                <img
+                                  className="bbok"
+                                  src="/img/ticket2.png"
+                                />
+
+                                
+                              {i==0 &&
+                              <div className="voxLogo">
+                                  <img
+                                  src="/img/voxLogo.png"
+                                  height="110"
+                                  width="110"
+                                  />
+                                </div> }
+
+                                {i==1 && <div className="amcLogo">
+                                  <img
+                                  src="/img/amcLogo.png"
+                                  height="95"
+                                  width="95"
+                                  />
+                                </div> }
+
+                               {i>1 && <div className="muviLogo">
+                                  <img
+                                  src="/img/muviLogo.png"
+                                  height="90"
+                                  width="90"
+                                  />
+                                </div> }
+
+                                <div className="cinemaName">
+                                cinema name - 
+                                <strong> city name </strong>
+                                </div>
+
+                                {/* <div className="cinemaName2">
+                                  Riyadh Park
+                                </div>
+
+                                <div className="cinemaName">
+                                <strong> city name </strong>
+                                </div> */}
+
+                                <div className="cenimaShowTimesContainer">
+                                  <a
+                                    className="cenimaShowTimes"
+                                    href={trailer_url}
+                                    target="_blank"
+                                  >
+                                  <div>
+                                    {" "}
+                                    <GiTicket size={40} />{" "}
+                                  </div>
+                                  <div>  Show Times </div>
+                                  </a>
+                                </div>
+                            </div>
+                          }
+                        </div>
+                      );
+                    }
+                    return row;
+                  })}
+                </OwlCarousel>
+              </div>
+
+
+              {/* reviews section  */}
+             <div className="reviewsContainer">
                 <div className="reviewsText neuton-normal-white-60px5">
                   {reviewsText}
                 </div>
@@ -980,14 +1155,12 @@ if(registered)
                     </button>
                   )}
                 </div>
-                {/* reviews loop */}
+                
 
                 <div className="userReviews">
                   <OwlCarousel className="owl-theme" {...options} nav>
                     {reviews.length > 0 ? (
-
                       reviews.map((x) => (
-                       
                         <div className="userReviewContainer">
                           <div className="reviewerUsername neuton-bold-white-20px">
                             <div className="reviewerUsernameIcon">
@@ -1038,7 +1211,9 @@ if(registered)
                     )}
                   </OwlCarousel>
                 </div>
-              </div>
+              </div> 
+
+              {/* similar movies section */}
               <div className="similarMoviesText neuton-normal-white-60px5">
                 Similar Movies
               </div>
@@ -1062,14 +1237,10 @@ if(registered)
                         rating = "No ratings yet.";
                       }
 
-                      // if (rating == "0.0") {
-                      //   rating = "No ratings yet.";
-                      // }
                       row.push(
                         <div key={i}>
                           {
                             <div className="similarMovie">
-                              {/* <Link to={url}> */}
                               <a href={url}>
                                 <img
                                   className="similarMoviePoster"
@@ -1082,12 +1253,11 @@ if(registered)
                                   src="/img/star-2@2x.svg"
                                 />
                                 <div className="similarMovieRating neuton-bold-white-30px">
-                                  {rating}
+                                  {rating} 
                                 </div>
                                 <div className="similarMovieName neuton-bold-white-30px">
-                                  {title}
+                                  {title} 
                                 </div>
-                                {/* </Link> */}
                               </a>
                             </div>
                           }
@@ -1098,6 +1268,7 @@ if(registered)
                   })}
                 </OwlCarousel>
               </div>
+
             </main>
 
             {/* footer */}
