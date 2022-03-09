@@ -1,0 +1,136 @@
+.cinemasPage {
+    align-items: flex-start;
+    background-color: var(--white);
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
+  
+  
+.cinemasPageContainer {
+    width: 100%;
+    min-height: 100vh;
+    margin-left: -47px;
+    position: relative;
+  }
+  
+.cinemasPageBackground {
+    background-color: #16181b;
+    min-height: 100vh;
+    left: 42px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+  
+.cinemasPageBackgroundImage{
+    min-height: 100vh;
+    left: 42px;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+          
+.cinemasPagefooter {
+  background-color: var(--black);
+  height: 293px;
+  left: 47px;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: -200px;
+}
+
+.cinemasPagefooterLogo {
+  height: 139px;
+  left: 720px;
+  object-fit: cover;
+  width: 410px;
+  position: absolute;
+  top: 50px;
+}
+
+.cinemasPagefooterText1 {
+  color: var(--white);
+  font-family: var(--font-family-neuton);
+  font-size: var(--font-size-xl2);
+  font-weight: 700;
+  left: 810px;
+  letter-spacing: 0;
+  position: absolute;
+  top: 200px;
+}
+
+.cinemasPagecopyRightText {
+  left: 30px;
+  letter-spacing: 0;
+  width: 344px;
+  position: absolute;
+  bottom: 0px;
+}
+
+.cinmeaInfoContainer{
+    position: relative;
+    top:300px;
+    left: 185px;
+    width: 1600px;
+    color:white;
+    background-color: var(--shark);
+    border-radius: 10px;
+    min-height: 1000px;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: center;
+}
+
+.cinemaInfoLogo{
+    left: 100px;
+    top: 90px;
+    position: absolute;
+}
+
+.cinemaInfo{
+    left: 600px;
+    top: 100px;
+    position: absolute;
+}
+
+.aboutText,
+.locationsText{
+    position: absolute;
+    width: 500px;
+    text-decoration-line: underline;
+    text-decoration-color: var(--cardinal);
+    text-decoration-thickness: 5px;
+    text-underline-offset: 5px;
+    border-radius: 6px;
+}
+
+.locationsText{
+    margin-top: 200px;
+}
+
+.cinemaLocation{
+  margin-bottom: 50px;
+  color:white;
+  display: flex;
+  gap: 10px;
+}
+
+.allLocations,
+.aboutCinema{
+  top: 130px;
+  position: absolute; 
+  font-size: 30px;
+}
+
+.cinemaLocationIcon{
+  color:var(--cardinal);
+}
+
+.cinemaLocationName{
+  width: 500px;
+}

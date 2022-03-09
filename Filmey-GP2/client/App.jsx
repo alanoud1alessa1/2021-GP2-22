@@ -12,7 +12,8 @@ import MovieForm from "./components/movieForm";
 import ForgetPassword from "./components/forgetPassword";
 import ResetPassword from "./components/resetPassword";
 import WatchlistPage from "./components/watchlistPage";
-
+import CinemasPage from "./components/cinemasPage";
+import CinemaInfoPage from "./components/cinemaInfoPage";
 
 
 
@@ -51,7 +52,13 @@ function App() {
           <MovieForm {...movieFormData} />
         </Route>
         <Route path="/watchlistPage">
-          <WatchlistPage {...WatchlistPage} />
+          <WatchlistPage {...WatchlistPageData} />
+        </Route>
+        <Route path="/cinemasPage">
+          <CinemasPage {...CinemasPageData} />
+        </Route>
+        <Route path="/cinemaInfoPage/:cinema">
+          <CinemaInfoPage {...CinemaInfoPageData} />
         </Route>
       </Switch>
     </Router>
@@ -349,15 +356,76 @@ const movieFormData= {
    footerText1: "WE MAKE YOUR DAY",
 };
 
-const watchlistPage= {
+const WatchlistPageData= {
   logo: "/img/logo.png",
-  star:"/img/star-2@2x.svg",
+  addmovietext: "Add Movie",
+  movieInformation: "Movie Information",
+  title: "Title",
+  inputType: "text",
+  inputPlaceholder: "e.g MoonNight",
+  genre: "Genre",
+  lanaguage: "Language",
+  year: "Year",
+  movielenadd: "Movie length",
+  hoursandmins: ":",
+  ageguide: "Age guide",
+  trailer: "Trailer",
+  poster: "Poster",
+  description: "Description",
+  inputType2: "text",
+  inputPlaceholder2: "Enter movie description",
+  directorWriter: "Director & Writer",
+  directoradd: "Director",
+  writer: "Writer",
+  topCast: "Top cast",
+  actorname: "Actor name",
+  actorcharacteradd: "Actor role",
+  actorimage: "Actor image",
+  addbutton: "Add",
 
    // Footer
    footerText2: <>Filmey © 2021<br /></>,
    footerText1: "WE MAKE YOUR DAY",
 };
 
+const CinemasPageData = {
+  backgroundImage: "/img/backgroundImage.png",
+  logo: "/img/logo.png",
+  text1: "WELCOME BACK!",
+  text2: "Don’t have a account,",
+  text3: "Register",
+  text5:"Forgot password?",
+  emailUsername: "Email / Username",
+  emailUsernameinputType: "text",
+  emailUsernamePlaceholder: "Enter your name or email",
+  password: "Password",
+  passwordinputType: "password",
+  passwordPlaceholder: "Enter your password",
+  text4: "Log In",
 
+  
+   // Footer
+   footerText2: <>Filmey © 2021<br /></>,
+   footerText1: "WE MAKE YOUR DAY",
+};
 
+const CinemaInfoPageData = {
+  backgroundImage: "/img/backgroundImage.png",
+  logo: "/img/logo.png",
+  text1: "WELCOME BACK!",
+  text2: "Don’t have a account,",
+  text3: "Register",
+  text5:"Forgot password?",
+  emailUsername: "Email / Username",
+  emailUsernameinputType: "text",
+  emailUsernamePlaceholder: "Enter your name or email",
+  password: "Password",
+  passwordinputType: "password",
+  passwordPlaceholder: "Enter your password",
+  text4: "Log In",
 
+  
+   // Footer
+   footerText2: <>Filmey © 2021<br /></>,
+   footerText1: "WE MAKE YOUR DAY",
+};

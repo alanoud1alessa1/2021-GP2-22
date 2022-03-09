@@ -1084,17 +1084,12 @@ if(registered)
                                 </div> }
 
                                 <div className="cinemaName">
-                                cinema name - 
-                                <strong> city name </strong>
+                                   cinema name 
                                 </div>
 
-                                {/* <div className="cinemaName2">
-                                  Riyadh Park
-                                </div>
-
-                                <div className="cinemaName">
+                                <div className="cityName">
                                 <strong> city name </strong>
-                                </div> */}
+                                </div> 
 
                                 <div className="cenimaShowTimesContainer">
                                   <a

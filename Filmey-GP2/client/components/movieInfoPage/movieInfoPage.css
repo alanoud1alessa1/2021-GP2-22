@@ -1717,7 +1717,7 @@ background-color: var(--shark);
         z-index:10;
       }
 
-      .cinemaName{
+      .cityName{
         top: 200px;
         position: absolute;
         flex: 0 0 120px;
@@ -1728,7 +1728,7 @@ background-color: var(--shark);
         font-weight: 700;
       }
 
-      .cinemaName2{
+      .cinemaName{
         top: 160px;
         position: absolute;
         flex: 0 0 120px;
