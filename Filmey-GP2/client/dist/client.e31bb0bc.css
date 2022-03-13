@@ -4142,7 +4142,8 @@ left:-20;
   position: absolute;
 }
 
-.line4 {
+.line4,
+.line5{
   height: 4px;
   position: absolute;
   width: 915px;
@@ -4342,7 +4343,7 @@ left:-20;
 }
 
 .topCast{
-  top: 120px;
+  top: 160px;
   position: absolute;
 }
 
@@ -4653,7 +4654,7 @@ border-radius: 6px;
 .cast1{
   min-height: 340px;
   display: flex;
-  top: 1050px;
+  top: 1030px;
   left: 150px;
   position: relative;
   float:left;
@@ -5408,24 +5409,59 @@ color: var(--cardinal);
   color: red;
   }
 
-  .cinemaMultiSelect,
-  .cityMultiSelect{
-    top: 1650px;
-    left: 500px;
+.cinemaMultiSelect,
+.cityMultiSelect{
+  top: 1650px;
+  left: 500px;
+  position: absolute;
+  z-index: 2;
+  display:flex;
+}
+
+.cinemaMultiSelect{
+  left: 480px;
+}
+
+.cityMultiSelect{
+  left: 700px;
+}
+
+
+.releaseDateText {
+  letter-spacing: 0.37px;
+  position: absolute;
+  top: 20px;
+  width: 295px;
+  }
+
+  .movieReleaseDateContainer{
+    left: 601px;
+    top: 990px;
     position: absolute;
-    z-index: 2;
-    display:flex;
+  }
+  
+  .movieCinemaReleaseDateContainer{
+  left:165px;
+  letter-spacing: 0;
+  position: absolute;
+  top: 20px;
+  width: 873px;
+  display: flex;
+  gap: 30px;
   }
 
-  .cinemaMultiSelect{
-    left: 480px;
+  .watchListHoverText{
+    padding: 5px;
+    color: black;
+    background-color: var(--baby-powder);
+    border: none;
+    box-shadow: none;
   }
 
-  .cityMultiSelect{
-    left: 700px;
+  .movieCinemaReleaseDate{
+    display: flex;
+    gap: 15px;
   }
-
-
 /**
  * Owl Carousel v2.3.4
  * Copyright 2013-2018 David Deutsch

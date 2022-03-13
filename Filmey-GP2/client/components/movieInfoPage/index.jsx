@@ -18,8 +18,29 @@ import { BsFillBookmarkPlusFill } from "react-icons/bs";
 import { BsFillBookmarkCheckFill } from "react-icons/bs";
 import { GiTicket } from "react-icons/gi";
 import ReactMultiSelectCheckboxes from "react-multiselect-checkboxes";
+import Popover from '@mui/material/Popover';
 
 function MovieInfoPage(props) {
+//add to watchlist hover
+  const [addOpen, setaddOpen] = React.useState(null);
+  const addPopoverOpen = (event) => {
+    setaddOpen(event.currentTarget);
+  };
+  const addPopoverClose = () => {
+    setaddOpen(null);
+  };
+  const addIsOpen = Boolean(addOpen);
+
+//remove from watchlist hover
+const [Operemoven, setremoveOpen] = React.useState(null);
+const removePopoverOpen = (event) => {
+  setremoveOpen(event.currentTarget);
+};
+const removePopoverClose = () => {
+  setremoveOpen(null);
+};
+const removeIsOpen = Boolean(Operemoven);
+
   const similarMoviesOptions = {
     items: 4,
     margin: 20,
@@ -127,6 +148,7 @@ function MovieInfoPage(props) {
 
 
   const addToWatchlist = () => {
+    setaddOpen(null);
     if (!registered || isAdmin){
       confirmAlert({
         customUI: ({ onClose }) => {
@@ -166,7 +188,7 @@ function MovieInfoPage(props) {
 
   }
   const removeFromWatchlist = () => {
-
+    setremoveOpen(null);
     // console.log(onWatchList);
     setOnWatchList(false);
     // console.log(onWatchList);
@@ -706,16 +728,66 @@ if(registered)
             {/* main  */}
             <main>
               <div className="body"></div>
+              <Popover
+                id="mouse-over-popover"
+                sx={{
+                  pointerEvents: 'none',
+                }}
+                open={addIsOpen}
+                anchorEl={addOpen}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'center',
+                }}
+                transformOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'center',
+                }}
+                onClose={addPopoverClose}
+                disableRestoreFocus
+              >
+                <div className="watchListHoverText" neuton-normal-white-30px> Add to watchlist </div>
+              </Popover>
+
+              <Popover
+                id="mouse-over-popover"
+                sx={{
+                  pointerEvents: 'none',
+                }}
+                open={removeIsOpen}
+                anchorEl={Operemoven}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'center',
+                }}
+                transformOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'center',
+                }}
+                onClose={removePopoverClose}
+                disableRestoreFocus
+              >
+                <div className="watchListHoverText" neuton-normal-white-30px> Remove from watchlist </div>
+              </Popover>
+
               <div>
               <img className="moviePoster" src={poster} />  
               {onWatchList && !isAdmin &&
-                            <button  className="inWatchList" onClick={removeFromWatchlist}>
+                            <button  className="inWatchList" onClick={removeFromWatchlist}
+                            aria-owns={removeIsOpen ? 'mouse-over-popover' : undefined}
+                            aria-haspopup="true"
+                            onMouseEnter={removePopoverOpen}
+                            onMouseLeave={removePopoverClose}>
                             <BsFillBookmarkCheckFill size={90} />{" "}
                             </button>
               }
 
               {!onWatchList && !isAdmin &&
-                            <button  className="bookMark" onClick={addToWatchlist}>
+                            <button  className="bookMark" onClick={addToWatchlist}
+                            aria-owns={addIsOpen ? 'mouse-over-popover' : undefined}
+                            aria-haspopup="true"
+                            onMouseEnter={addPopoverOpen}
+                            onMouseLeave={addPopoverClose}>
                             <BsFillBookmarkPlusFill size={90} />{" "}
                             </button>
               }
@@ -930,7 +1002,66 @@ if(registered)
                     {languages}
                   </div>
                 </div>
+
+                
+                <div className="movieReleaseDateContainer">
+                  <img className="line5" src="/img/line-5@1x.svg" />
+                  <div className="releaseDateText neuton-bold-white-24px">
+                   Release Date
+                  </div>
+
+                  <div className="movieCinemaReleaseDateContainer roboto-normal-baby-powder-25px">
+                  {runCallback(() => {
+                  const row = [];
+
+                  for (var i = 0; i < 3; i++) {
+                      
+                  row.push(
+                  <div key={i}>
+                  {
+                  <div>
+                    {i==0 &&
+                    <div className="movieCinemaReleaseDate">
+                      <img
+                        src="/img/voxLogo.png"
+                        height="50"
+                        width="40"
+                      /> 
+                      <div>22 May 2021</div>
+                    </div>
+                  }
+
+                  {i==1 &&
+                    <div className="movieCinemaReleaseDate">
+                      <img
+                        src="/img/amcLogo.png"
+                        height="40"
+                        width="60"
+                      /> 
+                      <div>22 May 2021</div>
+                    </div>
+                  }
+
+                  {i==2&& 
+                    <div className="movieCinemaReleaseDate">
+                      <img
+                        src="/img/muviLogo.png"
+                        height="35"
+                        width="60"
+                      /> 
+                      <div>22 May 2021</div>
+                    </div>
+                  }
+                 </div>
+                }
+                </div>
+                    );
+                  }
+                  return row;
+                })}
+                </div>
               </div>
+            </div>
 
               {/* top cast section */}
               <div className="topCast">
@@ -1053,7 +1184,6 @@ if(registered)
                           {
                             <div className="book">
                                 <img
-                                  className="bbok"
                                   src="/img/ticket2.png"
                                 />
 

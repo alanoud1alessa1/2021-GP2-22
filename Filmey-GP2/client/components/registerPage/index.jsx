@@ -425,7 +425,6 @@ function registerPage(props) {
                 format="MM/dd/yyyy"
                 className="datePicker"
                 placeholder="select your birth date"
-                placeholder="select date"
                 dayPlaceholder="date"
                 monthPlaceholder="month"
                 yearPlaceholder="year"

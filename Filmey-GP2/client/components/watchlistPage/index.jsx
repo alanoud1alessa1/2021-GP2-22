@@ -8,11 +8,20 @@ import { Link } from "react-router-dom";
 import Axios from "axios";
 import Cookies from "universal-cookie";
 import jwt_decode from "jwt-decode";
+import Popover from '@mui/material/Popover';
 
 function watchlistPage(props) {
-  const runCallback = (cb) => {
-    return cb();
-  };
+
+//remove from watchlist hover
+const [Operemoven, setremoveOpen] = React.useState(null);
+const removePopoverOpen = (event) => {
+  setremoveOpen(event.currentTarget);
+};
+const removePopoverClose = () => {
+  setremoveOpen(null);
+};
+const removeIsOpen = Boolean(Operemoven);
+
   const {} = props;
 
   var registered = false;
@@ -134,26 +143,40 @@ function watchlistPage(props) {
                         </div>
                       </Link>
 
-                      {/* {onWatchList && ( */}
+                      <Popover
+                        id="mouse-over-popover"
+                        sx={{
+                          pointerEvents: 'none',
+                        }}
+                        open={removeIsOpen}
+                        anchorEl={Operemoven}
+                        anchorOrigin={{
+                          vertical: 'top',
+                          horizontal: 'center',
+                        }}
+                        transformOrigin={{
+                          vertical: 'bottom',
+                          horizontal: 'center',
+                        }}
+                        onClose={removePopoverClose}
+                        disableRestoreFocus
+                      >
+                        <div className="watchListHoverText" neuton-normal-white-30px> Remove from watchlist </div>
+                    </Popover>
 
                       <button
-                        className="movieBookMark"
+                        className="movieInWtchlist"
                         onClick={() => {
                           removeFromWatchlist(x.movie_id);
                         }}
+                        aria-owns={removeIsOpen ? 'mouse-over-popover' : undefined}
+                        aria-haspopup="true"
+                        onMouseEnter={removePopoverOpen}
+                        onMouseLeave={removePopoverClose}
                       >
                         <BsFillBookmarkCheckFill size={90} />{" "}
                       </button>
-                      {/* )} */}
 
-                      {/* {!onWatchList && (
-                         <button
-                           className="movieInWtchlist"
-                           onClick={addToWatchlist(x.movie_id)}
-                         >
-                           <BsFillBookmarkPlusFill size={90} />{" "}
-                         </button>
-                       )} */}
                     </div>
                   ))
                 ) : (
