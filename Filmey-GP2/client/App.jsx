@@ -14,6 +14,8 @@ import ResetPassword from "./components/resetPassword";
 import WatchlistPage from "./components/watchlistPage";
 import CinemasPage from "./components/cinemasPage";
 import CinemaInfoPage from "./components/cinemaInfoPage";
+import InCinemaPage from "./components/inCinemaPage";
+import ComingSoonPage from "./components/comingSoonPage";
 
 
 
@@ -50,6 +52,12 @@ function App() {
         </Route>
         <Route path="/movieForm/:id">
           <MovieForm {...movieFormData} />
+        </Route>
+        <Route path="/inCinemaPage">
+          <InCinemaPage {...inCinemaPage} />
+        </Route>
+        <Route path="/comingSoonPage">
+          <ComingSoonPage {...comingSoonPage} />
         </Route>
         <Route path="/watchlistPage">
           <WatchlistPage {...WatchlistPageData} />
@@ -233,6 +241,81 @@ const genreTypePageData = {
   footerText1: "WE MAKE YOUR DAY",
   footerText2: <>Filmey © 2021<br /></>,
 };
+
+const inCinemaPage = {
+  // Header
+  logo: "/img/logo.png",
+  homeText: "Home",
+  genresText: "Genres",
+  languageText: "AR",
+  loginText: "Login",
+  registerText: "Register",
+  userText: "User",
+  logout: "logout",
+  icon: "/img/iconly-light-profile@2x.svg",
+
+  // main
+  arrowIcon:"/img/expand-right-1@2x.svg",
+  leftArrowIcon:"/img/expand-left@2x.svg" ,
+  rightArrowIcon:"/img/expand-right@2x.svg",
+  star:"/img/star-9@2x.svg",
+  genreTitle: "Comedy",
+  moviePoster: "/img/moonlight-ver2-xlg-2@2x.png",
+  movieName1 : "MOONLIGHT",
+  movieName2 : "MOONLIGHT",
+  movieName3 : "MOONLIGHT",
+  movieName4 : "MOONLIGHT",
+  rating1:"7",
+  rating2:"7",
+  rating3:"7",
+  rating4:"7",
+  genresGenreTypeText1: "Sci-Fi & Fantasy",
+  genresGenreTypeText2: "Sci-Fi & Fantasy",
+  genresGenreTypeText3: "Sci-Fi & Fantasy",
+  genresGenreTypeText4: "Sci-Fi & Fantasy",
+
+  // Footer
+  footerText1: "WE MAKE YOUR DAY",
+  footerText2: <>Filmey © 2021<br /></>,
+};
+
+const comingSoonPage = {
+  // Header
+  logo: "/img/logo.png",
+  homeText: "Home",
+  genresText: "Genres",
+  languageText: "AR",
+  loginText: "Login",
+  registerText: "Register",
+  userText: "User",
+  logout: "logout",
+  icon: "/img/iconly-light-profile@2x.svg",
+
+  // main
+  arrowIcon:"/img/expand-right-1@2x.svg",
+  leftArrowIcon:"/img/expand-left@2x.svg" ,
+  rightArrowIcon:"/img/expand-right@2x.svg",
+  star:"/img/star-9@2x.svg",
+  genreTitle: "Comedy",
+  moviePoster: "/img/moonlight-ver2-xlg-2@2x.png",
+  movieName1 : "MOONLIGHT",
+  movieName2 : "MOONLIGHT",
+  movieName3 : "MOONLIGHT",
+  movieName4 : "MOONLIGHT",
+  rating1:"7",
+  rating2:"7",
+  rating3:"7",
+  rating4:"7",
+  genresGenreTypeText1: "Sci-Fi & Fantasy",
+  genresGenreTypeText2: "Sci-Fi & Fantasy",
+  genresGenreTypeText3: "Sci-Fi & Fantasy",
+  genresGenreTypeText4: "Sci-Fi & Fantasy",
+
+  // Footer
+  footerText1: "WE MAKE YOUR DAY",
+  footerText2: <>Filmey © 2021<br /></>,
+};
+
 
 const movieInfoPageData = {
   // Header

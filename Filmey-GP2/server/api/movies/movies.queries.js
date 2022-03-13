@@ -2706,7 +2706,7 @@ module.exports = {
     )
     // .leftJoin("Movie AS M", "M.movie_id", "R.movie_id")
     .where("cs.movie_id", "=", movieId)
-    // .groupBy("M.movie_id", "poster", "year")
+   
 
   },
 
@@ -2739,7 +2739,7 @@ module.exports = {
     )
     .leftJoin("In_Cinema AS IC", "IC.cinema_id", "C.cinema_id")
     .where("IC.movie_id", "=", movieId,"M.is_deleted", "=", false)
-   // .groupBy("C.movie_id","C.name","C.city","C.location",)
+    .orderBy('C.name', 'desc')
 
   },
 
