@@ -68,6 +68,12 @@ function App() {
         <Route path="/cinemaInfoPage/:cinema">
           <CinemaInfoPage {...CinemaInfoPageData} />
         </Route>
+        <Route path="/inCinemaPage">
+          <CinemaInfoPage {...CinemaInfoPageData} />
+        </Route>
+        <Route path="/comingSoonPage">
+          <CinemaInfoPage {...CinemaInfoPageData} />
+        </Route>
       </Switch>
     </Router>
   );

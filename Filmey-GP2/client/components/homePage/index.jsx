@@ -320,23 +320,16 @@ function homePage(props) {
             </marquee>
 
 
-            {/* In Cinemas */}
-              <div>
-              
-               
-                <div className="inCinemasText">
-               
-                In Cinemas{""}
-                
-               
+            {/* In Cinemas */}              
+               <Link to= "/inCinemaPage">
+                  <div className="inCinemasText">            
+                  In Cinemas{""}
+                  <div className="arrowIcon"> 
+                      <IoIosArrowForward size={50}/>
+                  </div>
+                  </div>
+                </Link> 
 
-                <div className="arrowIcon"> 
-                
-                     <IoIosArrowForward size={50}/>
-                </div>
-                </div>
-              </div>
-            
               <div className="InCinemasContainer">
                 <OwlCarousel
                   className="homePage-owl-theme"
@@ -396,16 +389,15 @@ function homePage(props) {
               </div>
             
             {/* Coming Soon to Cinemas*/}
-              <div>
-                
-                <div className="ComingSoonText">
-                Coming Soon to Cinemas {" "}
+                <Link to="comingSoonPage">
+                  <div className="ComingSoonText">
+                  Coming Soon to Cinemas {" "}
 
-                <div className="arrowIcon"> 
-                   <IoIosArrowForward size={50}/>
-                </div>
-                </div>
-              </div>
+                  <div className="arrowIcon"> 
+                    <IoIosArrowForward size={50}/>
+                  </div>
+                  </div>
+                </Link>
             
               <div className="ComingSoonContainer">
                 <OwlCarousel

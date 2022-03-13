@@ -116,7 +116,7 @@ const [comingSoonMovieRatings, setComingSoonMovieRatings] = useState([]);
 
             {/* Title */}
             <div>
-              <h1 className="genreTypeTitle neuton-normal-white-60px3"> In Cinema </h1>
+              <h1 className="genreTypeTitle neuton-normal-white-60px3"> Coming Soon to Cinemas </h1>
             </div>
               {/* row1  */}
               <div className="movies">

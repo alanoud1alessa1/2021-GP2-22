@@ -1870,3 +1870,9 @@ color: var(--cardinal);
     display: flex;
     gap: 15px;
   }
+
+  .notInCenimas{
+    top: 1780px;
+    left: 150px;
+    position: absolute;
+  }

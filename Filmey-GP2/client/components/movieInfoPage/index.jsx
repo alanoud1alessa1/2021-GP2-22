@@ -1289,10 +1289,15 @@ if(registered)
               
 
              {/* book ticket section  */}
-             {isInCinema && (
              <div className="bookTicketText neuton-normal-white-60px5">
                 Book Ticket
-              </div>)}
+              </div>
+
+              {!isInCinema && 
+              <div className="notInCenimas neuton-bold-white-20px">
+                 The movie not shown in cinemas now.
+              </div> 
+              }
 
               {isInCinema && (
               <div className="bookTicketContainer">
@@ -1320,7 +1325,6 @@ if(registered)
                           {
                             <div className="book">
                                 <img
-                                  className="bbok"
                                   src="/img/ticket2.png"
                                 />
 
@@ -1362,7 +1366,7 @@ if(registered)
                                   <a
                                     className="cenimaShowTimes"
                                     href={bookingLink}
-                                    // target="_blank"
+                                    target="_blank"
                                   >
                                   <div>
                                     {" "}
