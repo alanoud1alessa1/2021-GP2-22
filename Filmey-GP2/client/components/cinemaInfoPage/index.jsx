@@ -3,6 +3,8 @@ import "./cinemaInfoPage.css";
 import Header from "../header";
 import { HiOutlineLocationMarker} from "react-icons/Hi";
 import { useParams } from "react-router-dom";
+import Axios from "axios";
+import { useState } from "react";
 
 function cinemaInfoPage(props) {
 
@@ -10,18 +12,49 @@ function cinemaInfoPage(props) {
     return cb();
   };
 
+  const api = Axios.create({
+    baseURL: "http://localhost:3000/api/v1",
+  });
+
+
       const {
         logo,
         footerText1,
         footerText2,
       } = props;
     
-      React.useEffect(() => {
-        window.scrollTo(0, 0);
-      })
 
+      const [cinemaCitys, setCinemaCitys] = useState([]);
+      const [cinemaLocations, setCinemaLocations] = useState([]);
+      const [numOfLocations, setNumOfLocations] = useState(0);
+
+     
       let { cinema } = useParams();
       console.log(cinema);
+
+      React.useEffect(() => {
+
+         
+
+        api.get(`/cinema/cinemaLocations/${cinema}`).then((response) => {
+          //console.log(response.data)
+          setNumOfLocations(response.data.length)
+          var cinemaCityArray = [...cinemaCitys];
+          var cinemaLocationArray = [...cinemaLocations];
+
+          for (var i = 0; i < response.data.length; i++) {
+            cinemaCityArray[i]=response.data[i].city
+            cinemaLocationArray[i]=response.data[i].location
+          }
+
+          setCinemaCitys(cinemaCityArray);
+          setCinemaLocations(cinemaLocationArray);
+        })
+        window.scrollTo(0, 0);
+      }, []);
+
+      // let { cinema } = useParams();
+      // console.log(cinema);
       
 
   return (
@@ -95,13 +128,13 @@ function cinemaInfoPage(props) {
                 <div className="allLocations"> 
                 {runCallback(() => {
                   const row = [];
-                  for (var i = 0; i < 5; i++) {
+                  for (var i = 0; i < numOfLocations; i++) {
                     row.push(
                       <div key={i}>
                         {
                          <div className="cinemaLocation">
                             <div className="cinemaLocationIcon"> <HiOutlineLocationMarker size="30px"/> </div>
-                            <div className="cinemaLocationName">  MALL - Riyadh </div>
+                            <div className="cinemaLocationName">  {cinemaLocations[i]} - {cinemaCitys[i]} </div>
                           </div>
                         }
                       </div>
