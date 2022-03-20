@@ -39,13 +39,14 @@ function cinemasPage(props) {
                     target="_blank"
                     >
                     <img
+                      className="cinemaLogo"
                       src="/img/amcLogo.png"
-                      height="250"
+                      height="200"
                       width="350"
                     />
                     </a>
                   <div className="cinemaDescription">
-                  AMC Cinemas is dedicated to innovating the way you see movies. Don’t just visit a cinema; experience the AMC difference of premium formats that bring you superior acoustics, richer imagery, and a choice between Real D® 3D, Dolby Cinema®, and IMAX® technologies. Taste our special menu of elevated cinema favorites and enjoy bolder flavors, wider variety, and superior quality movie snacks. Reserve your seats when you purchase tickets online and on our app and relax into the spacious comforts of our luxe recliners. Come and enjoy the very best of cutting-edge entertainment when you choose AMC Cinemas.
+                  <strong> AMC Cinemas </strong> is dedicated to innovating the way you see movies. Don’t just visit a cinema; experience the AMC difference of premium formats that bring you superior acoustics, richer imagery, and a choice between Real D® 3D, Dolby Cinema®, and IMAX® technologies. Taste our special menu of elevated cinema favorites and enjoy bolder flavors, wider variety, and superior quality movie snacks. Reserve your seats when you purchase tickets online and on our app and relax into the spacious comforts of our luxe recliners. Come and enjoy the very best of cutting-edge entertainment when you choose AMC Cinemas.
                   </div>
                    <div className="readMoreCinemaDes">
                     <Link to="/cinemaInfoPage/amc"> 
@@ -64,13 +65,14 @@ function cinemasPage(props) {
                     target="_blank"
                   >
                   <img
+                      className="cinemaLogo"
                       src="/img/muviLogo.png"
-                      height="200"
+                      height="180"
                       width="350"
                     />
                   </a>
                   <div className="cinemaDescription">
-                  muvi Cinemas is the first home-grown cinema brand and the market leader in terms of screen count in the Kingdom of Saudi Arabia. Established in 2019 with headquarters in Riyadh, it is owned and operated by muvi Cinemas Co. muvi continues its expansion plan in the upcoming years across the kingdom offering state-of-the-art technology, diverse and immersive experiences combined with unlimited options from our delicious menu to give moviegoers complete and exceptional cinema experience.
+                  <strong> Muvi Cinemas </strong>is the first home-grown cinema brand and the market leader in terms of screen count in the Kingdom of Saudi Arabia. Established in 2019 with headquarters in Riyadh, it is owned and operated by muvi Cinemas Co. muvi continues its expansion plan in the upcoming years across the kingdom offering state-of-the-art technology, diverse and immersive experiences combined with unlimited options from our delicious menu to give moviegoers complete and exceptional cinema experience.
                   </div>    
                   <div className="readMoreCinemaDes">
                     <Link to="/cinemaInfoPage/muvi"> 
@@ -90,14 +92,15 @@ function cinemasPage(props) {
                     target="_blank"
                   >
                   <img
+                      className="cinemaLogo"
                       src="/img/voxLogo.png"
-                      height="250"
-                      width="200"
+                      height="160"
+                      width="300"
                     />
                   </a>
                   
                   <div className="cinemaDescription">
-                  VOX Cinemas, the MENA region’s largest cinema operator, is honoured to be awarded one of the first licenses to operate cinemas in Saudi Arabia. Its brand-new cinema, which will be the first multiplex in Saudi Arabia will open at Riyadh Park Mall. VOX Cinemas will start delivering on an ambitious plan to bring its world-class cinema entertainment portfolio to Saudi Arabia and support the growth of audio-visual and creative talent across the Kingdom.VOX Cinemas features high-resolution digital projection systems, immersive digital 3D content, expansive MAX screens, Dolby Atmos and 7.1 multidimensional surround sound systems as well as premium experiences such as IMAX with Laser, THEATRE, GOLD, 4DX and KIDS, designed especially for our little movie fans.
+                  <strong> VOX Cinemas </strong>  the MENA region’s largest cinema operator, is honoured to be awarded one of the first licenses to operate cinemas in Saudi Arabia. Its brand-new cinema, which will be the first multiplex in Saudi Arabia will open at Riyadh Park Mall. VOX Cinemas will start delivering on an ambitious plan to bring its world-class cinema entertainment portfolio to Saudi Arabia and support the growth of audio-visual and creative talent across the Kingdom. VOX Cinemas parent company Majid Al Futtaim, the leading shopping mall, communities, retail and leisure pioneer across the Middle East...
                   </div>   
                   <div className="readMoreCinemaDes">
                     <Link to="/cinemaInfoPage/vox"> 

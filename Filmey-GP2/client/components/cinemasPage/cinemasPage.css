@@ -49,7 +49,6 @@
     display: flex;
     justify-content: center;
     position: relative;
-    top:300px;
   }
   
   .cinmeaContainer{
@@ -69,14 +68,19 @@
 
   .cinemasContainer{
     top:0px;
-    left: 120px;
+    left: 130px;
     position: absolute;
     display: flex;
     gap: 50px;
+    top: 220px;
   }
   
   .cinemaDescription{
-    margin-top: 80px;
+    top: 250px;
+    left: 0px;
+    padding: 0px 20px;
+    position: absolute;
+    text-align: justify;
   }
 
       
@@ -87,7 +91,7 @@
   width: 100%;
   position: absolute;
   left: 0;
-  bottom: -200px;
+  bottom: 700px;
 }
 
 .cinemasPagefooterLogo {
@@ -154,3 +158,4 @@
 .readMoreText:hover{
   color: var(--white);
 }
+

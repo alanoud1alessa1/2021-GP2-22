@@ -7506,7 +7506,6 @@ box-shadow: 0px 5px 10px  var(--cardinal);
     display: flex;
     justify-content: center;
     position: relative;
-    top:300px;
   }
   
   .cinmeaContainer{
@@ -7526,14 +7525,19 @@ box-shadow: 0px 5px 10px  var(--cardinal);
 
   .cinemasContainer{
     top:0px;
-    left: 120px;
+    left: 130px;
     position: absolute;
     display: flex;
     gap: 50px;
+    top: 220px;
   }
   
   .cinemaDescription{
-    margin-top: 80px;
+    top: 250px;
+    left: 0px;
+    padding: 0px 20px;
+    position: absolute;
+    text-align: justify;
   }
 
       
@@ -7544,7 +7548,7 @@ box-shadow: 0px 5px 10px  var(--cardinal);
   width: 100%;
   position: absolute;
   left: 0;
-  bottom: -200px;
+  bottom: 700px;
 }
 
 .cinemasPagefooterLogo {
@@ -7611,6 +7615,8 @@ box-shadow: 0px 5px 10px  var(--cardinal);
 .readMoreText:hover{
   color: var(--white);
 }
+
+
 .cinemasPage {
     align-items: flex-start;
     background-color: var(--white);
@@ -7687,13 +7693,13 @@ box-shadow: 0px 5px 10px  var(--cardinal);
 
 .cinmeaInfoContainer{
     position: relative;
-    top:300px;
-    left: 185px;
-    width: 1600px;
-    color:white;
-    background-color: var(--shark);
+    top: 180px;
+    left: 105px;
+    width: 1800px;
+    color:black;
+    /* background-color: var( --celeste); */
     border-radius: 10px;
-    min-height: 1000px;
+    min-height: 800px;
     transition: all 0.2s ease;
     display: flex;
     justify-content: center;
@@ -7703,6 +7709,7 @@ box-shadow: 0px 5px 10px  var(--cardinal);
     left: 100px;
     top: 90px;
     position: absolute;
+    /* background-color: var( --celeste); */
 }
 
 .cinemaInfo{
@@ -7723,30 +7730,47 @@ box-shadow: 0px 5px 10px  var(--cardinal);
 }
 
 .locationsText{
-    margin-top: 200px;
+  top: 420px;
 }
 
 .cinemaLocation{
   margin-bottom: 50px;
   color:white;
-  display: flex;
+  display:flex;
   gap: 10px;
+  /* margin-left: 20px; */
+  /* background-color: rgba(255, 255, 255, 0.8); */
+  /* border: 1px solid rgba(0, 0, 0, 0.8); */
+  /* padding: 50px; */
+  /* font-size: 30px; */
+  /* text-align: center; */
 }
 
-.allLocations,
+.allLocations{
+  top: 130px;
+  position: absolute; 
+  font-size: 30px;
+  display: grid;
+  grid-template-columns: 600px 800px;
+}
+
 .aboutCinema{
   top: 130px;
   position: absolute; 
   font-size: 30px;
+  width: 1100px;
+  text-align: justify;
+  overflow-y: scroll;
+  overflow-wrap: break-word;
+  padding-right: 30px;
+  height: 240px;
 }
 
 .cinemaLocationIcon{
   color:var(--cardinal);
 }
 
-.cinemaLocationName{
-  width: 500px;
-}
+
 .genresPage {
     align-items: flex-start;
     background-color: var(--white);
