@@ -89,9 +89,9 @@ function cinemaInfoPage(props) {
                     target="_blank"
                   >
                   <img
-                      src="/img/voxLogo.png"
-                      height="200"
-                      width="400"
+                      src="/img/voxWhite.png"
+                      height="350"
+                      width="250"
                     />
                   </a>
                 </div> 
@@ -144,7 +144,7 @@ function cinemaInfoPage(props) {
                         {
                          <div className="cinemaLocation">
                             <div className="cinemaLocationIcon"> <HiOutlineLocationMarker size="30px"/> </div>
-                            <div className="cinemaLocationName">  {cinemaLocations[i]} - <strong> {cinemaCitys[i]}</strong> </div>
+                            <div className="cinemaLocationsName">  {cinemaLocations[i]} - <strong> {cinemaCitys[i]}</strong> </div>
                           </div>
                         }
                       </div>

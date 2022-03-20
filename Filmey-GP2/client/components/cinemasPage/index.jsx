@@ -72,7 +72,7 @@ function cinemasPage(props) {
                     />
                   </a>
                   <div className="cinemaDescription">
-                  <strong> Muvi Cinemas </strong>is the first home-grown cinema brand and the market leader in terms of screen count in the Kingdom of Saudi Arabia. Established in 2019 with headquarters in Riyadh, it is owned and operated by muvi Cinemas Co. muvi continues its expansion plan in the upcoming years across the kingdom offering state-of-the-art technology, diverse and immersive experiences combined with unlimited options from our delicious menu to give moviegoers complete and exceptional cinema experience.
+                  <strong> uvi Cinemas </strong>is the first home-grown cinema brand and the market leader in terms of screen count in the Kingdom of Saudi Arabia. Established in 2019 with headquarters in Riyadh, it is owned and operated by muvi Cinemas Co. muvi continues its expansion plan in the upcoming years across the kingdom offering state-of-the-art technology, diverse and immersive experiences combined with unlimited options from our delicious menu to give moviegoers complete and exceptional cinema experience.
                   </div>    
                   <div className="readMoreCinemaDes">
                     <Link to="/cinemaInfoPage/muvi"> 
@@ -93,9 +93,9 @@ function cinemasPage(props) {
                   >
                   <img
                       className="cinemaLogo"
-                      src="/img/voxLogo.png"
+                      src="/img/voxwhite.png"
                       height="160"
-                      width="300"
+                      width="160"
                     />
                   </a>
                   

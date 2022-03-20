@@ -1695,8 +1695,8 @@ background-color: var(--shark);
       }
 
       .voxLogo{
-        left: 40px;
-        top: 20px;
+        left: 15px;
+        top: 50px;
         position: absolute;
         white-space: nowrap;
         z-index:10;
@@ -1729,7 +1729,7 @@ background-color: var(--shark);
         font-weight: 700;
       }
 
-      .cinemaName{
+      .cinemaLocationName{
         top: 160px;
         position: absolute;
         flex: 0 0 120px;
@@ -1737,7 +1737,8 @@ background-color: var(--shark);
         font-family: var(--font-family-neuton);
         font-size: var(--font-size-xxl5);
         font-style: normal;
-        font-weight: 700;
+        font-weight: 500;
+        white-space: nowrap;
       }
 
 

@@ -1140,9 +1140,9 @@ if(registered)
                     {cinemaName=="vox" &&
                     <div className="movieCinemaReleaseDate">
                       <img
-                        src="/img/voxLogo.png"
-                        height="50"
-                        width="40"
+                        src="/img/voxWhite.png"
+                        height="40"
+                        width="30"
                       /> 
                       <div>{date}</div>
                     </div>
@@ -1333,8 +1333,8 @@ if(registered)
                               <div className="voxLogo">
                                   <img
                                   src="/img/voxLogo.png"
-                                  height="110"
-                                  width="110"
+                                  height="52"
+                                  width="52"
                                   />
                                 </div> }
 
@@ -1354,7 +1354,7 @@ if(registered)
                                   />
                                 </div> }
 
-                                <div className="cinemaName">
+                                <div className="cinemaLocationName">
                                    {location}
                                 </div>
 
