@@ -1877,3 +1877,7 @@ color: var(--cardinal);
     left: 150px;
     position: absolute;
   }
+
+  .emptyCinemasResult{
+    width: 800px;
+  }

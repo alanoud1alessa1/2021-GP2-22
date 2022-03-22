@@ -19,6 +19,7 @@ import { BsFillBookmarkCheckFill } from "react-icons/bs";
 import { GiTicket } from "react-icons/gi";
 import ReactMultiSelectCheckboxes from "react-multiselect-checkboxes";
 import Popover from '@mui/material/Popover';
+import { GlobalStyles } from "@mui/styled-engine";
 
 function MovieInfoPage(props) {
 //add to watchlist hover
@@ -146,7 +147,59 @@ const removeIsOpen = Boolean(Operemoven);
   const [cinemaCity, setCinemaCity] = useState([]);
   const [cinemaLocation, setcinemaLocation] = useState([]);
   const [cinemaBookingLink, setCinemaBookingLink] = useState([]);
-  const [numOfCinemas, setNumfCinemas] = useState(0);
+  const [cinemasOptions, setCinemasOptions] = useState([]);
+  const [cityOptions, setCityOptions] = useState([]);
+  const [allcinemaInfo, setallCinemaInfo] = useState([]);
+  const [cinemaInfo, setCinemaInfo] = useState([]);
+  const [, forceRender] = useState({});
+  const [selectedCinemasState, setSelectedCinemasState] = useState(["vox","amc","muvi"]);
+  const [selectedCityState, setSelectedCityState] = useState([]);
+
+   var selectedCity =[]
+  //default value
+  for (var i=0 ; i<cityOptions.length ; i++){
+    selectedCity.push(cityOptions[i].value);
+  }
+
+   var selectedCinemas=[]
+  //default value
+  for (var i=0 ; i<cinemasOptions.length ; i++){
+    selectedCinemas.push(cinemasOptions[i].value);
+  }
+
+  const filterCinemasName = (e) => {
+    for (var i=0 ; i<e.length ; i++){
+      selectedCinemas[i]=e[i].value
+    }
+
+    var length = e.length
+    if (length != 0) {
+    for (var i=length ; i<selectedCinemas.length ; i++){
+      selectedCinemas[i]=""
+    }
+  }
+  setSelectedCinemasState(selectedCinemas)
+  var cinemasNameArray = allcinemaInfo.filter( x=> selectedCinemas.includes(x.name) == true );
+  var cinemasCityArray = cinemasNameArray.filter( x=> selectedCityState.includes(x.city.toLowerCase()) == true );
+  setCinemaInfo(cinemasCityArray)  
+  };
+
+  const filterCinemasCity = (e) => {
+  for (var i=0 ; i<e.length ; i++){
+    selectedCity[i]=e[i].value
+  }
+
+  var length = e.length
+  if (length != 0) {
+  for (var i=length ; i<selectedCity.length ; i++){
+    selectedCity[i]=""
+  }
+}
+  setSelectedCityState(selectedCity)
+  var cinemasNameArray = allcinemaInfo.filter( x=> selectedCinemasState.includes(x.name) == true );
+  var cinemasCityArray = cinemasNameArray.filter( x=> selectedCity.includes(x.city.toLowerCase()) == true );
+  setCinemaInfo(cinemasCityArray)  
+  }
 
   //Movie Status
   const [isInCinema, setIsInCinema] = useState();
@@ -158,40 +211,8 @@ const removeIsOpen = Boolean(Operemoven);
   const [releaseDateCinemaName, setReleaseDateCinemaName] = useState([]);
 
 
-
-  const [selectedCity, setSelectedCity] = useState([]);
-
-
   let { id } = useParams();
   id = parseInt(id);
-
-
-  function onChange(value, event) {
-    //console.log(event.option.value)
-    if (event.action === "select-option" && event.option.value ===
-    "*") {
-      setSelectedCity(this.options)
-
-       //this.setState(this.options);
-    } else if (event.action === "deselect-option" &&
-    event.option.value === "*") {
-      setSelectedCity([])
-      //this.setState([]);
-    } else if (event.action === "deselect-option") {
-      setSelectedCity(value.filter(o => o.value !== "*"))
-     // this.setState(value.filter(o => o.value !== "*"));
-    } else if (value.length === this.options.length - 1) {
-      setSelectedCity(this.options)
-      //this.setState(this.options);
-    } else {
-      setSelectedCity(value)
-      //this.setState(value);
-    }
-
-    console.log(selectedCity)
-  }
-
-
 
 
   const addToWatchlist = () => {
@@ -236,11 +257,8 @@ const removeIsOpen = Boolean(Operemoven);
   }
   const removeFromWatchlist = () => {
     setremoveOpen(null);
-    // console.log(onWatchList);
     setOnWatchList(false);
-    // console.log(onWatchList);
- api
-   .post(`Users/deleteWatchList`, {
+ api.post(`Users/deleteWatchList`, {
      user_id: decoded.userID,
      movie_id :id
    })
@@ -248,7 +266,6 @@ const removeIsOpen = Boolean(Operemoven);
    
     if(response){
       setOnWatchList(false);
-      // console.log(onWatchList);
     }
    });
 
@@ -325,13 +342,11 @@ const removeIsOpen = Boolean(Operemoven);
     const updateReviews = api.get(`/movies/review/${id}`).then((response) => {
       const numOfReviews = response.data.length;
       const reviewsArray = [...reviews];
-      // console.log(response)
 
       for (var i = 0; i < numOfReviews; i++) {
         reviewsArray[i] = response.data[i];
 
       }
-// console.log(reviewsArray)
       setReviews(reviewsArray);
       setEReviews(reviewsArray);
     });
@@ -519,9 +534,8 @@ const removeIsOpen = Boolean(Operemoven);
   const [Allposters, setAllposters] = useState([]);
   const [moviesRatingState, setMoviesRatingState] = useState([]);
   var ratings = [];
+
   React.useEffect(() => {
-
-
 if(registered)
   {  api
     .post(`Users/isOnWatchList`, {
@@ -530,10 +544,7 @@ if(registered)
     })
     .then((response) => {
      if(response.data){
-      // console.log("response")
-      // console.log(response.data)
       setOnWatchList(true);
-      //  console.log(onWatchList);
      }
     });}
 
@@ -753,14 +764,13 @@ if(registered)
     console.log("inCinmas")
     api.get(`/movies/inCinemas/${id}`).then((response) => {
       console.log(response.data)
-
+      setallCinemaInfo(response.data)
+      setCinemaInfo(response.data)
         var cinemaIdsArray = [...cinemaIds];
         var cinemaCitysArrays = [...cinemaCity];
         var cinemaLocationsArray = [...cinemaLocation];
         var cinemaNamesArray = [...cinemaNames];
         var cinemaBookingLinksArray = [...cinemaBookingLink];
-
-        setNumfCinemas(response.data.length)
 
         for (var i = 0; i < response.data.length; i++) {
           cinemaIdsArray[i] = response.data[i].cinema_id;
@@ -768,7 +778,6 @@ if(registered)
           cinemaLocationsArray[i] = response.data[i].location;
           cinemaNamesArray[i]= response.data[i].name;
           cinemaBookingLinksArray[i]= response.data[i].booking_link;
-          // console.log(cinemaBookinfLinksArray)
          }
          setCinemaBookingLink(cinemaBookingLinksArray);
          setCinemaIds(cinemaIdsArray);
@@ -776,7 +785,27 @@ if(registered)
          setcinemaLocation(cinemaLocationsArray);
          setCinemaNames(cinemaNamesArray);
         
+        cinemaNamesArray= cinemaNamesArray.filter((value, index, self) => self. indexOf(value) === index)
+         for (var i=0 ; i<cinemaNamesArray.length ; i++){
+          cinemaNamesArray[i]={ label: cinemaNamesArray[i].toUpperCase() , value: cinemaNamesArray[i]}
+         }
+         setCinemasOptions(cinemaNamesArray)
 
+         for (var i=0 ; i<cinemaCitysArrays.length ; i++){
+          cinemaCitysArrays[i]= cinemaCitysArrays[i].toLowerCase()
+         }
+         cinemaCitysArrays= cinemaCitysArrays.filter((value, index, self) => self. indexOf(value) === index)
+
+         for (var i=0 ; i<cinemaCitysArrays.length ; i++){
+          cinemaCitysArrays[i]={ label: cinemaCitysArrays[i].charAt(0).toUpperCase() + cinemaCitysArrays[i].slice(1) , value: cinemaCitysArrays[i]}
+         }
+         setCityOptions(cinemaCitysArrays)
+
+         var cinemaCityArray = [];
+         for (var i=0 ; i<cinemaCitysArrays.length ; i++){
+          cinemaCityArray[i]=cinemaCitysArrays[i].value 
+         }
+         setSelectedCityState(cinemaCityArray)
     });
 
         //Get movie status
@@ -803,31 +832,9 @@ if(registered)
           
           setReleaseDate(releaseDateArray)
           setReleaseDateCinemaName(releaseDateCinemaNameArray)
-      
-            
     
         });
   }, []);
-
-  const cinemasOptions=[
-    { label: 'VOX', value: "VOX"},
-    { label: 'AMC', value: "AMC"},
-    { label: 'Muvi', value: "Muvi"},]
-
-  const cityOptions = [
-    { label: 'Riyadh', value: "Riyadh"},
-    { label: 'Makkah', value: "Makkah"},
-    { label: 'Medina', value: "Medina"},
-    { label: 'Qassim', value: "Qassim"},
-    { label: 'Sharqia', value: "Sharqia"},
-    { label: 'Asir', value: "Asir"},
-    { label: 'Tabuk', value: "Tabuk"},
-    { label: 'Hail', value: "Hail"},
-    { label: 'Northern Border', value: "Northern Border"},
-    { label: 'Jazan', value: "Jazan"},
-    { label: 'Najran', value: "Najran"},
-    { label: 'AlBaha', value: "AlBaha"},
-    { label: 'Al-Jawf', value: "Al-Jawf"},]
 
   return (
     <div className="PageCenter">
@@ -1221,19 +1228,19 @@ if(registered)
              
 
               <div className="cinemaMultiSelect">
-                {/* <div> <GrLocation    color="red" size="30px"/> </div> */}
                 {isInCinema && (
               <ReactMultiSelectCheckboxes
                 className="cinemaFilter"
+                onInputChange={() => forceRender({})}
                 options= {cinemasOptions}
-                placeholderButtonLabel ="Select cinema"
+                placeholderButtonLabel ="Select Cinema"
+                onChange={(e) => {
+                  filterCinemasName(e)
+                 }}
+
                 styles={{
                   dropdownButton: (provided, state)=> ({
                     ...provided,
-
-                    // width: "200px",
-                    // borderRadius: "50",
-                    // fontSize:"50px",
                     minHeight: "56",
                     minWidth: "200",
                     background:'#fcfcfc',
@@ -1241,7 +1248,6 @@ if(registered)
                     border: "0px solid black",
                     fontSize:"16px",
                     boxShadow: state.isOpen ? '0px 4px 4px var(--cardinal)' :'0px 4px 4px #00000040',
-                    // boxShadow: "4px 4px 4px #E63333",
                     borderRadius: "50",
                     padding: "10px 10px 10px 20px",
                   }),
@@ -1258,16 +1264,15 @@ if(registered)
               {isInCinema && (
               <ReactMultiSelectCheckboxes
                 className="cityFilter"
+                onInputChange={() => forceRender({})}
                 options= {cityOptions}
-                onChange={onChange}
-                placeholderButtonLabel ="Select city"
+                onChange={(e) => {
+                  filterCinemasCity(e)
+                }}
+                placeholderButtonLabel ="Select City"
                 styles={{
                   dropdownButton: (provided, state)=> ({
                     ...provided,
-
-                    // width: "200px",
-                    // borderRadius: "50",
-                    // fontSize:"50px",
                     minHeight: "56",
                     minWidth: "200",
                     background:'#fcfcfc',
@@ -1276,7 +1281,7 @@ if(registered)
                     fontSize:"16px",
                     boxShadow: state.isOpen ? '0px 4px 4px var(--cardinal)' :'0px 4px 4px #00000040',
                     borderRadius: "50",
-                    padding: "10px 30px",
+                    padding: "10px 10px 10px 20px",
                   }),
                   option: (provided, state) => ({
                     ...provided,
@@ -1290,7 +1295,7 @@ if(registered)
 
              {/* book ticket section  */}
              <div className="bookTicketText neuton-normal-white-60px5">
-                Book Ticket
+                Book Ticket 
               </div>
 
               {!isInCinema && 
@@ -1306,86 +1311,71 @@ if(registered)
                   {...similarMoviesOptions}
                   nav
                 >
-                  {runCallback(() => {
-                    const row = [];
+                    {cinemaInfo.length !=0 ? (
+                      cinemaInfo.map((x) => (
+                        <div> 
+                        <div className="book">
+                            <img
+                              src="/img/ticket2.png"
+                            />
+                            
+                          {x.name=="vox"&&
+                          <div className="voxLogo">
+                              <img
+                              src="/img/voxLogo.png"
+                              height="52"
+                              width="52"
+                              />
+                            </div> }
 
-                    for (var i = 0; i < numOfCinemas; i++) {
-                     
-                      const city = cinemaCity[i];
-                      const location = cinemaLocation[i];
-                      const cinemaName = cinemaNames[i];
-                      const bookingLink = cinemaBookingLink[i];
-                      const id = cinemaIds[i];
-                      // console.log(cinemaBookingLink[i])
-                      console.log(cinemaName)
+                            {x.name=="amc" && <div className="amcLogo">
+                              <img
+                              src="/img/amcLogo.png"
+                              height="95"
+                              width="95"
+                              />
+                            </div> }
 
-                      
-                      row.push(
-                        <div key={i}>
-                          {
-                            <div className="book">
-                                <img
-                                  src="/img/ticket2.png"
-                                />
+                           {x.name=="muvi" && <div className="muviLogo">
+                              <img
+                              src="/img/muviLogo.png"
+                              height="90"
+                              width="90"
+                              />
+                            </div> }
 
-                                
-                              {cinemaName=="vox"&&
-                              <div className="voxLogo">
-                                  <img
-                                  src="/img/voxLogo.png"
-                                  height="52"
-                                  width="52"
-                                  />
-                                </div> }
-
-                                {cinemaName=="amc" && <div className="amcLogo">
-                                  <img
-                                  src="/img/amcLogo.png"
-                                  height="95"
-                                  width="95"
-                                  />
-                                </div> }
-
-                               {cinemaName=="muvi" && <div className="muviLogo">
-                                  <img
-                                  src="/img/muviLogo.png"
-                                  height="90"
-                                  width="90"
-                                  />
-                                </div> }
-
-                                <div className="cinemaLocationName">
-                                   {location}
-                                </div>
-
-                                <div className="cityName">
-                                <strong> {city} </strong>
-                                </div> 
-
-                                <div className="cenimaShowTimesContainer">
-                                  <a
-                                    className="cenimaShowTimes"
-                                    href={bookingLink}
-                                    target="_blank"
-                                  >
-                                  <div>
-                                    {" "}
-                                    <GiTicket size={40} />{" "}
-                                  </div>
-                                  <div>  Show Times </div>
-                                  </a>
-                                </div>
+                            <div className="cinemaLocationName">
+                               {x.location.charAt(0).toUpperCase() + x.location.slice(1)}
                             </div>
-                          }
+
+                            <div className="cityName">
+                            <strong> {x.city.charAt(0).toUpperCase() + x.city.slice(1)} </strong>
+                            </div> 
+
+                            <div className="cenimaShowTimesContainer">
+                              <a
+                                className="cenimaShowTimes"
+                                href={x.booking_link}
+                                target="_blank"
+                              >
+                              <div>
+                                {" "}
+                                <GiTicket size={40} />{" "}
+                              </div>
+                              <div>  Show Times </div>
+                              </a>
+                            </div>
                         </div>
-                      );
-                    }
-                    return row;
-                  })}
+                        </div>
+                      ))
+                    ) : (
+                      <div className="emptyCinemasResult neuton-bold-white-20px">
+                      The movie not shown in the selected cinema and city.
+                      </div>
+                    )}
                 </OwlCarousel>
               </div>
               )}
-
 
               {/* reviews section  */}
              <div className="reviewsContainer">
@@ -1423,7 +1413,6 @@ if(registered)
                   )}
                 </div>
                 
-
                 <div className="userReviews">
                   <OwlCarousel className="owl-theme" {...options} nav>
                     {reviews.length > 0 ? (
