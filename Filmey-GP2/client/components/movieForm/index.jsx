@@ -1956,7 +1956,7 @@ function movieForm(props) {
                 }
                 placeholder="Select or write actor name"
                 options={allActors}
-                isClearable={true}
+                // isClearable={true}
                 onChange={setActorName(0)}
                 theme={(theme) => ({
                   ...theme,
@@ -2000,7 +2000,7 @@ function movieForm(props) {
                 }
                 options={allRoles}
                 onChange={setActorRole(0)}
-                isClearable={true}
+                // isClearable={true}
                 theme={(theme) => ({
                   ...theme,
                   borderRadius: 0,

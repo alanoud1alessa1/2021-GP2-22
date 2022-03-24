@@ -778,71 +778,167 @@ module.exports = {
   },
 
   async checkTitleForEdit(movie_id, title) {
-    let movie_idOfTitle = await db(tableNames.movie)
+    let movieOfTitle = await db(tableNames.movie)
+    .select('*')
       .where({
         title: title,
       })
-      .first()
       .returning("*");
 
+      //get row of given movie_id
+      let movie = await db(tableNames.movie)
+    .select('*')
+      .where({
+        movie_id: movie_id,
+      })
+      .returning("*");
+      
     try {
-      if (movie_idOfTitle.movie_id) {
-        if (movie_id != movie_idOfTitle.movie_id) {
-          var message = "This movie already exists";
+      if (movieOfTitle[0].movie_id) {
+        if (movie_id != movieOfTitle[0].movie_id) {
+          if (movie[0].is_in_cinema==false && movie[0].is_coming_soon==false)
+          {
+            console.log('This movie already exists')
+            var message = "This movie already exists";
+            return message;
+
+          }
+          else{
+            if(movieOfTitle[0].is_in_cinema==false && movieOfTitle[0].is_coming_soon==false)
+          {
+            console.log('This movie already exists')
+            var message = "This movie already exists";
           return message;
         }
       }
+        }
+      }
     } catch {
+      console.log("catch")
       return;
     }
   },
 
   async CheckPosterForEdit(movie_id, poster) {
     console.log(poster);
-    let movie_idOfPoster = await db(tableNames.movie)
+    let movieOfPoster = await db(tableNames.movie)
+    .select('*')
+    .where({
+      poster: poster,
+      // is_coming_soon:true,
+    })
+    .returning("*");
+
+    //get row of given movie_id
+    let movie = await db(tableNames.movie)
+    .select('*')
       .where({
-        poster: poster,
+        movie_id: movie_id,
       })
-      .first()
       .returning("*");
-    console.log("movie_idOfPoster");
-    console.log(movie_idOfPoster.movie_id);
-    if (movie_idOfPoster.movie_id) {
-      if (movie_id != movie_idOfPoster.movie_id) {
+
+    if (movieOfPoster[0].movie_id) {
+      if (movie_id != movieOfPoster[0].movie_id) {
+        if (movie[0].is_in_cinema==false && movie[0].is_coming_soon==false)
+          {
+            console.log('This movie already exists')
+            var message = "This movie already exists";
+            return message;
+
+          }
+        else
+        {
+        if(movieOfPoster[0].is_in_cinema==false && movieOfPoster[0].is_coming_soon==false)
+        {
         var message = "This poster belongs to another movie";
         return message;
+        }
+      }
       }
     }
   },
 
   async CheckTrailerForEdit(movie_id, trailer_url) {
-    let movie_idOfTrailer = await db(tableNames.movie)
+    console.log('inside CheckTrailerForEdit')
+    let movieOfTrailer = await db(tableNames.movie)
+      .select('*')
       .where({
         trailer_url: trailer_url,
       })
-      .first()
       .returning("*");
-    if (movie_idOfTrailer.movie_id) {
-      if (movie_id != movie_idOfTrailer.movie_id) {
+
+      //get row of given movie_id
+      let movie = await db(tableNames.movie)
+    .select('*')
+      .where({
+        movie_id: movie_id,
+      })
+      .returning("*");
+
+    if (movieOfTrailer[0].movie_id) {
+      if (movie_id != movieOfTrailer[0].movie_id) {
+        if (movie[0].is_in_cinema==false && movie[0].is_coming_soon==false)
+          {
+            console.log('This movie already exists')
+            var message = "This movie already exists";
+            return message;
+
+          }
+        else{
+        if(movieOfTrailer[0].is_in_cinema==false && movieOfTrailer[0].is_coming_soon==false)
+        {
         var message = "This trailer belongs to another movie";
         return message;
+        }
+      }
       }
     }
   },
 
   async CheckDescriptionForEdit(movie_id, description) {
-    let movie_idOfDescription = await db(tableNames.movie)
+    // print('in CheckDescriptionForEdit')
+    let movieOfDescription = await db(tableNames.movie)
+    .select('*')
+    .where({
+      description: description,
+    })
+    .returning("*");
+
+    //get row of given movie_id
+    let movie = await db(tableNames.movie)
+    .select('*')
       .where({
-        description: description,
+        movie_id: movie_id,
       })
-      .first()
       .returning("*");
-    if (movie_idOfDescription.movie_id) {
-      if (movie_id != movie_idOfDescription.movie_id) {
+
+    if (movieOfDescription[0].movie_id) {
+      if (movie_id != movieOfDescription[0].movie_id) {
+        if (movie[0].is_in_cinema==false && movie[0].is_coming_soon==false)
+          {
+            console.log('This movie already exists')
+            var message = "This movie already exists";
+            return message;
+
+          }
+        else{
+        if(movieOfDescription[0].is_in_cinema==false && movieOfDescription[0].is_coming_soon==false)
+        {
         var message = "This description belongs to another movie";
         return message;
+        }
+      }
       }
     }
+      
+
+
+    // if (movie_idOfDescription.movie_id) {
+    //   if (movie_id != movie_idOfDescription.movie_id) {
+    //     var message = "This description belongs to another movie";
+    //     return message;
+    //   }
+    // }
   },
 
   async editMovie(

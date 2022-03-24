@@ -540,6 +540,7 @@ router.post("/checkTitleForEdit", async (req, res, next) => {
 
   try {
     const checkTitleForEdit = await queries.checkTitleForEdit(movie_id, title);
+    console.log(checkTitleForEdit)
     return res.json(checkTitleForEdit);
   } catch (error) {
     console.log(error);
@@ -570,7 +571,7 @@ router.post("/editMovie", async (req, res, next) => {
   var yearConverted = Number(year);
 
   try {
-    console.log("in try");
+    console.log("edit11 movie");
 
     const CheckTrailerForEditMessage = await queries.CheckTrailerForEdit(
       movie_id,
@@ -580,8 +581,11 @@ router.post("/editMovie", async (req, res, next) => {
       movie_id,
       poster
     );
+    console.log('CheckDescriptionForEditMessage')
     const CheckDescriptionForEditMessage =
       await queries.CheckDescriptionForEdit(movie_id, description);
+    console.log('CheckDescriptionForEditMessage')
+    console.log(CheckDescriptionForEditMessage)
 
     if (
       CheckTrailerForEditMessage ||
@@ -594,9 +598,12 @@ router.post("/editMovie", async (req, res, next) => {
         CheckDescriptionForEditMessage,
       });
     }
-  } catch {}
+  } catch {
+    console.log('in catch')
+  }
 
   try {
+    console.log("no error messages")
     const movieID = await queries.editMovie(
       movie_id,
       title,
@@ -623,7 +630,7 @@ router.post("/editMovie", async (req, res, next) => {
     const contentBasedPreprocessing = await axios
       .post("http://localhost:5000/contentBasedPreprocessing", {
         movieID: movieID,
-        status: "Edit",
+        status: "SaudiCinema",
       })
       .then((response) => {});
 
