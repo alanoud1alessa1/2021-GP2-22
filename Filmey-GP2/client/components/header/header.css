@@ -218,3 +218,10 @@ margin-right: 50px ; */
   top: 60px;
   transition: all 0.2s ease;
 }
+
+.searchBar{
+  position: absolute;
+  left: 850px;
+  top: 50px;
+  width: 30%;
+}

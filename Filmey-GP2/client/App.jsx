@@ -16,6 +16,7 @@ import CinemasPage from "./components/cinemasPage";
 import CinemaInfoPage from "./components/cinemaInfoPage";
 import InCinemaPage from "./components/inCinemaPage";
 import ComingSoonPage from "./components/comingSoonPage";
+import SearchPage from "./components/searchPage";
 
 
 
@@ -73,6 +74,9 @@ function App() {
         </Route>
         <Route path="/comingSoonPage">
           <CinemaInfoPage {...CinemaInfoPageData} />
+        </Route>
+        <Route path="/searchPage/:searchText">
+          <SearchPage {...SearchPageData} />
         </Route>
       </Switch>
     </Router>
@@ -512,6 +516,29 @@ const CinemaInfoPageData = {
   passwordinputType: "password",
   passwordPlaceholder: "Enter your password",
   text4: "Log In",
+
+  
+   // Footer
+   footerText2: <>Filmey © 2021<br /></>,
+   footerText1: "WE MAKE YOUR DAY",
+};
+
+const SearchPageData = {
+  backgroundImage: "/img/backgroundImage.png",
+  logo: "/img/logo.png",
+  text1: "WELCOME BACK!",
+  text2: "Don’t have a account,",
+  text3: "Register",
+  text5:"Forgot password?",
+  emailUsername: "Email / Username",
+  emailUsernameinputType: "text",
+  emailUsernamePlaceholder: "Enter your name or email",
+  password: "Password",
+  passwordinputType: "password",
+  passwordPlaceholder: "Enter your password",
+  text4: "Log In",
+  star:"/img/star-9@2x.svg",
+
 
   
    // Footer

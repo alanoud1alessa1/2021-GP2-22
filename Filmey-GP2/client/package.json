@@ -43,6 +43,7 @@
     "react-multiselect-checkboxes": "^0.1.1",
     "react-owl-carousel": "^2.3.3",
     "react-router-dom": "5.2.0",
+    "react-search-autocomplete": "^6.1.1",
     "react-select": "^5.2.1",
     "reactstrap": "^9.0.0",
     "src": "^1.1.2",

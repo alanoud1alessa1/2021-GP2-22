@@ -5,11 +5,48 @@ import { useState } from "react";
 import Cookies from "universal-cookie";
 import jwt_decode from "jwt-decode";
 import "./header.css";
+import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 
 function header(props) {
   var registered = false;
   var username = "";
   var isAdmin = false;
+  const [searchInput, setSearchInput] = useState('');
+  const searchOptions = [
+    {
+      id: 0,
+      name: "Cobol",
+    },
+    {
+      id: 1,
+      name: "JavaScript",
+    },
+    {
+      id: 2,
+      name: "Basic",
+    },
+    {
+      id: 3,
+      name: "PHP",
+    },
+    {
+      id: 4,
+      name: "Java",
+    },
+  ];
+
+  const handleOnSearch = (string, results) => {
+    setSearchInput(string)
+  }
+
+  const handleOnSelect = (searchText) => {
+    if (searchText==undefined){
+    window.location.href = `/searchPage/${searchInput}`;
+    }
+    else{
+    window.location.href = `/searchPage/${searchText.name}`;
+  }
+  }
 
   const cookies = new Cookies();
   try {
@@ -97,6 +134,24 @@ function header(props) {
         </div>
       )}
       
+      <div  className="searchBar" >
+      <ReactSearchAutocomplete
+            items={searchOptions}
+            onSearch={handleOnSearch}
+            onSelect={handleOnSelect}
+            placeholder="Search for a movie, directior, actor.."
+            styling={{
+              backgroundColor: "black",
+              color: "white",
+              iconColor: "var(--cardinal)",
+              placeholderColor: "white",
+              hoverBackgroundColor: "var(--river-bed)",
+              clearIconMargin: "3px 8px 0 0",
+              lineColor: "white",
+              zIndex: 2,
+            }}
+      /></div> 
+
       {/* unregisterd user */}
       {!registered && (
         <div className="clickable">
