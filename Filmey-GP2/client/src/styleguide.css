@@ -1,0 +1,424 @@
+  
+:root { 
+
+  --baby-powder: #fcfcfc;
+  --black: #000000;
+  --bon-jour: #e2e2e280;
+  --cardinal:  #E63333;
+  --chicago: #625d5d;
+  --pink-swan: #b8b5b5;
+  --river-bed: #444b59;
+  --white: #ffffff;
+  --eerie-black: #16181b;
+  --white-2: #ffffff80;
+  --white-3: #ffffff4c;
+  --celeste: #d0cbcb;
+  --shark: #1f2125;
+
+  /* login and reg pages  */
+  --font-size-l: 24px;
+  --font-size-m: 18px;
+  --font-size-s: 16px;
+  --font-size-xl: 28px;
+  --font-size-xxl: 35px;
+  --font-size-xxxl: 60px;
+  --font-size-xxxxl: 64px;
+
+  /* homepage */
+  --font-size-l2: 18px;
+  --font-size-m2: 12px;
+  --font-size-xl2: 24px;
+  --font-size-xxl2: 30px;
+  --font-size-xxxl2: 32px;
+  --font-size-xxxxl2: 35px;
+  --font-size-xxxxxl2: 60px;
+  
+ 
+  /* genrePage */
+  --font-size-l3: 15px;
+  --font-size-m3: 12px;
+  --font-size-xl3: 18px;
+  --font-size-xxl3: 24px;
+  --font-size-xxxl3: 30px;
+  --font-size-xxxxl3: 35px;
+  --font-size-xxxxxl3: 60px;
+
+
+ /* genreTypePage */
+  --font-size-l4: 15px;
+  --font-size-m4: 12px;
+  --font-size-xl4: 18px;
+  --font-size-xxl4: 24px;
+  --font-size-xxxl4: 30px;
+  --font-size-xxxxl4: 35px;
+  --font-size-xxxxxl4: 60px;
+
+   /* movieInfoPage */
+  --font-size-l5: 18px;
+  --font-size-m5: 16px;
+  --font-size-xl5: 20px;
+  --font-size-xxl5: 24px;
+  --font-size-xxxl5: 25px;
+  --font-size-xxxxl5: 30px;
+  --font-size-xxxxxl5: 35px;
+
+  /* reviewPage */
+  --font-size-m6: 35px;
+  --font-size-s6: 30px;
+  --font-size-xs6: 28px;
+  --font-size-xxs6: 24px;
+  --font-size-xxxs6: 20px;
+  --font-size-xxxxs6: 15px;
+
+  --font-family-inter: "Inter", Helvetica;
+  --font-family-nunito: "Nunito", Helvetica;
+  --font-family-overpass: "Overpass", Helvetica;
+  --font-family-quattrocento_sans: "Quattrocento Sans", Helvetica;
+  --font-family-roboto: "Roboto", Helvetica;
+  --font-family-darker_grotesque: "Darker Grotesque", Helvetica;
+  --font-family-neuton: "Neuton", Helvetica;
+
+}
+
+/* 1 for login and reg pages , 2 for homePage , 3 for genrePage ,4 genreTypePage, 5 movieInfoPage*/
+.nunito-normal-river-bed-18px {
+  color: var(--river-bed);
+  font-family: var(--font-family-nunito);
+  font-size: var(--font-size-m1);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.roboto-normal-pink-swan-16px {
+  font-family: var(--font-family-roboto);
+  font-size: var(--font-size-s1);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.inter-light-bon-jour-35px1 {
+  color: var(--bon-jour);
+  font-family: var(--font-family-inter);
+  font-size: var(--font-size-xxl);
+  font-style: normal;
+  font-weight: 300;
+}
+
+.roboto-bold-white-28px {
+  color: var(--white);
+  font-family: var(--font-family-roboto);
+  font-size: var(--font-size-xl);
+  font-style: normal;
+  font-weight: 700;
+}
+
+.nunito-normal-black-18px {
+  color: var(--black);
+  font-family: var(--font-family-nunito);
+  font-size: var(--font-size-m1);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.nunito-semi-bold-white-28px {
+  color: var(--white);
+  font-family: var(--font-family-nunito);
+  font-size: var(--font-size-xl);
+  font-style: normal;
+  font-weight: 600;
+}
+
+.border-2px-cardinal {
+  border: 2px solid var(--cardinal);
+}
+
+.border-2px-chicago {
+  border: 2px solid var(--chicago);
+}
+
+
+.roboto-medium-white-32px {
+  color: var(--white);
+  font-family: var(--font-family-roboto);
+  font-size: var(--font-size-xxxl2);
+  font-style: normal;
+  font-weight: 500;
+}
+
+.roboto-normal-cardinal-12px2 {
+  color: var(--cardinal);
+  font-family: var(--font-family-roboto);
+  font-size: var(--font-size-m2);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.neuton-bold-white-30px2 {
+  color: var(--white-2);
+  font-family: var(--font-family-neuton);
+  font-size: var(--font-size-xxl2);
+  font-style: normal;
+  font-weight: 700;
+}
+
+.inter-light-bon-jour-35px2 {
+  color: var(--bon-jour);
+  font-family: var(--font-family-inter);
+  font-size: var(--font-size-xxxxl2);
+  font-style: normal;
+  font-weight: 300;
+}
+
+.roboto-normal-white-18px2 {
+  color: var(--white);
+  font-family: var(--font-family-roboto);
+  font-size: var(--font-size-l2);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.darkergrotesque-medium-white-35px2 {
+  color: var(--white);
+  font-family: var(--font-family-darker_grotesque);
+  font-size: var(--font-size-xxxxl2);
+  font-style: normal;
+  font-weight: 500;
+}
+
+
+.roboto-medium-white-15px {
+  color: var(--white);
+  font-family: var(--font-family-roboto);
+  font-size: var(--font-size-l3);
+  font-style: normal;
+  font-weight: 500;
+}
+
+.neuton-bold-white-30px3 {
+  color: var(--white);
+  font-family: var(--font-family-neuton);
+  font-size: var(--font-size-xxxl3);
+  font-style: normal;
+  font-weight: 700;
+}
+
+.roboto-normal-cardinal-12px3 {
+  color: var(--cardinal);
+  font-family: var(--font-family-roboto);
+  font-size: var(--font-size-m3);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.inter-light-bon-jour-35px3 {
+  color: var(--bon-jour);
+  font-family: var(--font-family-inter);
+  font-size: var(--font-size-xxxxl3);
+  font-style: normal;
+  font-weight: 300;
+}
+
+.neuton-normal-white-60px3 {
+  color: var(--white);
+  font-family: var(--font-family-neuton);
+  font-size: var(--font-size-xxxxxl3);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.roboto-normal-white-18px3 {
+  color: var(--white);
+  font-family: var(--font-family-roboto);
+  font-size: var(--font-size-xl3);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.darkergrotesque-medium-white-35px3 {
+  color: var(--white);
+  font-family: var(--font-family-darker_grotesque);
+  font-size: var(--font-size-xxxxl3);
+  font-style: normal;
+  font-weight: 500;
+}
+
+/* genreTypePage */
+
+.roboto-medium-white-15px {
+  color: var(--white);
+  font-family: var(--font-family-roboto);
+  font-size: var(--font-size-l4);
+  font-style: normal;
+  font-weight: 500;
+}
+
+.neuton-bold-white-30px {
+  color: var(--white);
+  font-family: var(--font-family-neuton);
+  font-size: var(--font-size-xxxl4);
+  font-style: normal;
+  font-weight: 700;
+}
+
+.roboto-normal-cardinal-12px {
+  color: var(--cardinal);
+  font-family: var(--font-family-roboto);
+  font-size: var(--font-size-m4);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.inter-light-bon-jour-35px4 {
+  color: var(--bon-jour);
+  font-family: var(--font-family-inter);
+  font-size: var(--font-size-xxxxl4);
+  font-style: normal;
+  font-weight: 300;
+}
+
+.roboto-normal-white-18px4 {
+  color: var(--white);
+  font-family: var(--font-family-roboto);
+  font-size: var(--font-size-xl4);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.darkergrotesque-medium-white-35px4 {
+  color: var(--white);
+  font-family: var(--font-family-darker_grotesque);
+  font-size: var(--font-size-xxxxl4);
+  font-style: normal;
+  font-weight: 500;
+}
+
+/* Movie info page */
+.neuton-bold-white-20px {
+  color: var(--white);
+  font-family: var(--font-family-neuton);
+  font-size: var(--font-size-xl5);
+  font-style: normal;
+  font-weight: 700;
+}
+
+.inter-light-bon-jour-35px5 {
+  color: var(--bon-jour);
+  font-family: var(--font-family-inter);
+  font-size: var(--font-size-xxxxxl5);
+  font-style: normal;
+  font-weight: 300;
+}
+
+.neuton-bold-white-24px {
+  color: var(--white);
+  font-family: var(--font-family-neuton);
+  font-size: var(--font-size-xxl5);
+  font-style: normal;
+  font-weight: 700;
+}
+
+.roboto-normal-white-15px {
+  color: var(--white);
+  font-family: var(--font-family-roboto);
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.neuton-normal-white-20px {
+  color: var(--white);
+  font-family: var(--font-family-neuton);
+  font-size: var(--font-size-xl5);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.roboto-bold-celeste-16px {
+  color: var(--celeste);
+  font-family: var(--font-family-roboto);
+  font-size: var(--font-size-m5);
+  font-style: normal;
+  font-weight: 700;
+}
+
+.roboto-bold-celeste-18px {
+  color: var(--celeste);
+  font-family: var(--font-family-roboto);
+  font-size: var(--font-size-l5);
+  font-style: normal;
+  font-weight: 700;
+}
+
+.roboto-normal-white-18px5 {
+  color: var(--white);
+  font-family: var(--font-family-roboto);
+  font-size: var(--font-size-l5);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.darkergrotesque-medium-white-35px5 {
+  color: var(--white);
+  font-family: var(--font-family-darker_grotesque);
+  font-size: var(--font-size-xxxxxl5);
+  font-style: normal;
+  font-weight: 500;
+}
+
+.neuton-normal-white-30px {
+  color: var(--white);
+  font-family: var(--font-family-neuton);
+  font-size: var(--font-size-xxxxxl5);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.roboto-normal-baby-powder-25px {
+  color: var(--baby-powder);
+  font-family: var(--font-family-roboto);
+  font-size: var(--font-size-xxxl5);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.roboto-normal-white-25px {
+  color: var(--white);
+  font-family: var(--font-family-roboto);
+  font-size: var(--font-size-xxxl5);
+  font-style: normal;
+  font-weight: 400;
+}
+
+.neuton-normal-white-60px5 {
+  color: var(--white);
+  font-family: var(--font-family-neuton);
+  font-size: 60px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+/* reviewPage */
+
+.inter-light-bon-jour-35px6 {
+  color: var(--bon-jour);
+  font-family: var(--font-family-inter);
+  font-size: var(--font-size-m6);
+  font-style: normal;
+  font-weight: 300;
+}
+
+.darkergrotesque-medium-white-30px6 {
+  color: var(--white);
+  font-family: var(--font-family-darker_grotesque);
+  font-size: var(--font-size-s6);
+  font-style: normal;
+  font-weight: 500;
+}
+
+.neuton-bold-white-30px7 {
+  color: var(--white);
+  font-family: var(--font-family-neuton);
+  font-size: 45px;
+  font-style: normal;
+  font-weight: 700;
+}
