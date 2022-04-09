@@ -218,3 +218,36 @@ margin-right: 50px ; */
   top: 60px;
   transition: all 0.2s ease;
 }
+
+.searchBarContainer{
+  position: absolute;
+  left: 850px;
+  top: 40px;  
+  display: inline-block;
+  width: 520px;
+  border: 1px solid white;
+  height: 60px;
+  border-radius: 10px;
+  color: "white";
+}
+
+.searchDropdown{
+  border: 10px solid black !important;
+  background-color: black !important;
+  border-radius: 5px;
+  height: 50px;
+  left:3px;
+  border:0px;
+  outline:0px;
+  width: 140px;
+  height: 55px;
+  color: "white" !important;
+}
+
+.searchBar{
+  position: absolute;
+  left: 980px;
+  top: 50px;  
+  height: 10px;
+  width: 20%;
+}

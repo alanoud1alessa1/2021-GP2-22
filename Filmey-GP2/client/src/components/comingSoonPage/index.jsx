@@ -147,7 +147,11 @@ const [comingSoonMovieRatings, setComingSoonMovieRatings] = useState([]);
                             <div className="genreTypeMovieContainer" >
                               <Link to={url}>
                                 <img className="genreTypeMoviePoster" src={poster} />
-                                <img className="genreTypeStar" src={props.star} />
+                                <img className="genreTypeStar" 
+                                src= {
+                                  require("../../static/img/star-2@2x.svg")
+                                    .default
+                                }   />
                                 <div className="genreTypeRating neuton-bold-white-30px">
                                  {rating}
                                 </div>

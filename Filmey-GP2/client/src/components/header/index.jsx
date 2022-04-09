@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import Cookies from "universal-cookie";
 import jwt_decode from "jwt-decode";
 import "./header.css";
+import { ReactSearchAutocomplete } from "react-search-autocomplete";
+import Select from "react-select";
+import { useState } from "react";
 
 //import Images
 import logo from "../../dist/img/Logo.png";
@@ -33,6 +36,114 @@ function header(props) {
   const refreashPage = () => {
     window.location = "/genresPage/1";
   };
+
+  const [searchType, setSearchType] = useState('Movie');
+
+  const handleChangeSelect = e => {
+    setSearchType(e.value);
+    console.log(searchType);
+  }
+
+  const customStyles = {
+    control: (base, state) => ({
+      ...base,
+      color:'white',
+      background: "black",
+      borderColor: "black",
+      boxShadow: state.isFocused ? null : null,
+      "&:hover": {
+        background: "black"
+      },
+    }),
+    singleValue:(provided) => ({
+      ...provided,
+      color:'white',
+      borderColor: "black",
+
+    }),  
+    option: (provided, state) => ({
+      ...provided,
+      background:"black",
+      color:'white',
+      borderColor: "black",
+
+      "&:hover": {
+        background: "var(--river-bed)"
+      },
+      top:0,
+      zIndex: 1,
+
+    }),
+    menu: base => ({
+        ...base,
+        background:"black",
+        marginTop:0,   
+        color:'white',  
+    }),
+    menuList: base => ({
+      ...base,
+      // kill the white space on first and last option
+      padding: 0,
+      background:"black",
+      color:'white',  
+    })
+  }
+
+  const searchOptions = [
+    {
+      id: 0,
+      name: "Cobol"
+    },
+    {
+      id: 1,
+      name: "JavaScript"
+    },
+    {
+      id: 2,
+      name: "Basic"
+    },
+    {
+      id: 3,
+      name: "PHP"
+    },
+    {
+      id: 4,
+      name: "Java"
+    }
+  ];
+
+  
+  const [searchInput, setSearchInput] = useState('');
+  const searchTypeOptions = [
+    {
+      label: "Movie",
+      value: "Movie",
+    },
+    {
+      label: "Director",
+      value: "Director",
+    },
+    {
+      label: "Actor",
+      value: "Actor",
+    },
+  ];
+
+  const handleOnSearch = (string, results) => {
+    setSearchInput(string)
+  }
+
+  const handleOnSelect = (searchText) => {
+    if (searchText==undefined){
+      if(searchInput!=""){
+        window.location.href = `/searchPage/${searchType}/${searchInput}`;
+      }
+    }
+    else{
+    window.location.href = `/searchPage/${searchType}/${searchText.name}`;
+  }
+  }
+
 
   return (
     <div className="header">
@@ -78,6 +189,56 @@ function header(props) {
           </Link>
         </div>
       )}
+
+      {/* search */}
+      <div  className="searchBarContainer">
+      <Select
+          className="searchDropdown"
+          styles={customStyles}
+          defaultValue={searchTypeOptions[0]}
+          options={searchTypeOptions}
+          value={searchTypeOptions.find(obj => obj.value === searchType)}
+          onChange={handleChangeSelect} 
+          theme={(theme) => ({
+            ...theme,
+            borderRadius: 0,
+            colors: {
+            ...theme.colors,
+              neutral80: 'white',
+            },
+          })}
+        />
+      </div>
+      <div className="searchBar">
+      <ReactSearchAutocomplete
+            items={searchOptions}
+            onSearch={handleOnSearch}
+            onSelect={handleOnSelect}
+            placeholder= {`Search for ${searchType}`}
+            maxResults= "3"
+            fuseOptions={
+            {
+              location: 0,
+              threshold: 0.1,
+              minMatchCharLength: 0,
+              maxPatternLength: 1,
+            }
+            }
+            styling={{
+              backgroundColor: "black",
+              color: "white",
+              iconColor: "var(--cardinal)",
+              placeholderColor: "white",
+              hoverBackgroundColor: "var(--river-bed)",
+              clearIconMargin: "3px 8px 5px 5px",
+              zIndex: 4,
+              outline: "none",
+              border: '1px solid balck',
+
+            }}
+      />
+      </div>
+
 
       {/* unregisterd user */}
       {!registered && (
