@@ -18,25 +18,28 @@ function searchPage(props) {
   console.log(searchText)
 
 
+
   const [listMovies, setListMovies] = useState([]);
 
   React.useEffect(() => {
     window.scrollTo(0, 0)
-    var numOfTopMovies=10
-    var listMoviesdArray = [...listMovies];
-
-    api.get(`/movies/whatsOnMovies/${numOfTopMovies}`).then((response) => {
-      console.log(response)
+      var listMoviesdArray = [...listMovies];
+  
+      api.get(`/movies/search/${searchType}/${searchText}`).then((response) => {
+        console.log(response.data)
         for (var i = 0; i < response.data.length; i++) {
-          listMoviesdArray[i] = response.data[i];
-        }
-        if (listMoviesdArray.length == response.data.length) {
-          console.log('whatsOnMovies')
-          console.log(response.data)
-          setListMovies(listMoviesdArray);  
-        }
-        });
-  })
+              listMoviesdArray[i] = response.data[i];
+            }
+            if (listMoviesdArray.length == response.data.length) {
+              console.log('results')
+              console.log(response.data)
+              setListMovies(listMoviesdArray);  
+            }
+    
+      })
+
+  }, []);
+
 
 
   return (

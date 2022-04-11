@@ -2,6 +2,8 @@
 const db = require("../../db/db");
 const auth = require("../../auth");
 const tableNames = require("../../constents/tableNames");
+// sw = require('stopword')
+const { removeStopwords} =require('stopword')
 
 module.exports = {
   async get(movie_id) {
@@ -1533,15 +1535,61 @@ module.exports = {
     return;
   },
 
-  async getReviews(movie_id) {
-    return db("Review AS R")
-      .select(["review", "username", "review_id"])
-      .where({
-        movie_id: movie_id,
-        is_deleted: false,
-      })
-      .leftJoin("User AS U", "R.user_id", "U.user_id")
-      .orderBy("created_at", "desc");
+  async searchByMovie(searchText) {
+    var string=removeStopwords(searchText.split(' '))
+        return db("Movie")
+        .select('*')
+       .whereRaw( 'LOWER(title) LIKE LOWER(?)', [`%${string}%`])
   },
+
+  async searchByDirector(searchText) {
+    return db("Movie AS M")
+    .select('*')
+    .leftJoin("Movie_Director AS MD", "MD.movie_id", "M.movie_id")
+    .leftJoin("Director AS D", "D.director_id", "MD.director_id")
+    .whereRaw( 'LOWER(D.director) LIKE LOWER(?)', [`%${searchText}%`])
+},
+
+async searchByWriter(searchText) {
+  return db("Movie AS M")
+  .select('*')
+  .leftJoin("Movie_Writer AS MW", "MW.movie_id", "M.movie_id")
+  .leftJoin("Writer AS W", "W.writer_id", "MW.writer_id")
+  .whereRaw( 'LOWER(W.writer) LIKE LOWER(?)', [`%${searchText}%`])
+},
+
+async searchByActor(searchText) {
+  return db("Movie AS M")
+  .select('*')
+  .leftJoin("Role AS R", "M.movie_id", "R.movie_id")
+  .leftJoin("Actor AS A", "A.actor_id", "R.actor_id")
+  .whereRaw( 'LOWER(actor) LIKE LOWER(?)', [`%${searchText}%`])
+},
+
+async searchOptions(searchType) {
+  if (searchType=="Movie")
+  {
+    return db("Movie")
+    .select('*')
+  }
+  if (searchType=="Actor")
+  {
+    return db("Actor")
+    .select('*')
+  }
+  if (searchType=="Director")
+  {
+    return db("Director")
+    .select('*')
+  }
+
+  if (searchType=="Writer")
+  {
+    return db("Writer")
+    .select('*')
+  }
+  
+},
+
 };
 

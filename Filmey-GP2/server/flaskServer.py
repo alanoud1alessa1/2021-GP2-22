@@ -438,14 +438,20 @@ def contentBasedPreprocessing():
     movieID=data['movieID']
     status=data['status']
     param = (str(movieID))
-    # status="SaudiCinema"
+
+    if status=="Edit":
+        movie=pd.read_sql_query('SELECT *  FROM "Movie" where movie_id=%s',conn,params=[param])
+        if movie['is_in_cinema'][0]==True or movie['is_coming_soon'][0]==True:
+            status="SaudiCinema"
+
+ 
 
     print('##########################################################################')
 
     if status=="SaudiCinema":
         
-        movieDB = pd.read_sql_query('SELECT *  FROM "Movie" where is_deleted=false',conn)
-                
+        # movieDB = pd.read_sql_query('SELECT *  FROM "Movie" where is_deleted=false',conn)
+        movieDB = pd.read_sql_query('SELECT *  FROM "Movie" WHERE is_deleted=false AND is_in_cinema=true OR is_coming_soon=true',conn)
 
         genresDB = sqlio.read_sql_query('SELECT * from "Movie_Genre" inner join "Genre" ON "Movie_Genre".genre_id = "Genre".genre_id',conn)
         genresDB=genresDB[['movie_id','genre']]
@@ -601,11 +607,16 @@ def contentBasedPreprocessing():
                 # print(df)
 
         print(df)
-        df.to_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv',index=False) 
+        movieDataFromCSV =pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv', low_memory=False)
+        common = movieDataFromCSV.merge(df,on='title', how = 'inner' ,indicator=False)
+        newMovieDF=movieDataFromCSV[~movieDataFromCSV['movie_id'].isin(common['movie_id_x'])]
+        newMovieDF=newMovieDF.append(df)
+        newMovieDF=newMovieDF.drop(columns=['is_in_cinema','is_coming_soon'])
+        newMovieDF.to_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv',index=False) 
         return jsonify("Done")
     if status=="Add" or status=="Edit":
         
-        movieDB = pd.read_sql_query('SELECT *  FROM "Movie"  where movie_id=%s where is_deleted=false',conn, params=[param])
+        movieDB = pd.read_sql_query('SELECT *  FROM "Movie"  WHERE movie_id=%s AND is_deleted=false',conn, params=[param])
         
 
         genresDB = sqlio.read_sql_query('SELECT * from "Movie_Genre" inner join "Genre" ON "Movie_Genre".genre_id = "Genre".genre_id where movie_id=%s' , conn,params=[param])
@@ -746,19 +757,21 @@ def contentBasedPreprocessing():
 
             df['is_deleted'][i] = False
 
-            if status=="Add":
-                   #Routes:
-                   #Ghadah:'C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv'
-                   #NoufD:'movieData.csv'
-                movieDataFromCSV =pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv', low_memory=False)
-                movieData=movieDataFromCSV.append(df)
-                movieData.to_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv',index=False) 
+        if status=="Add":
+                #Routes:
+                #Ghadah:'C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv'
+                #NoufD:'movieData.csv'
+            movieDataFromCSV =pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv', low_memory=False)
+            movieData=movieDataFromCSV.append(df)
+            movieData=movieData.drop(columns=['is_in_cinema','is_coming_soon'])
+            movieData.to_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv',index=False) 
 
-            if status=="Edit":
-                movieDataFromCSV =pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv', low_memory=False)
-                movieDataFromCSV=movieDataFromCSV.drop(movieDataFromCSV.index[movieDataFromCSV['movie_id']==movieID])
-                movieData=movieDataFromCSV.append(df)
-                movieData.to_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv',index=False) 
+        if status=="Edit":
+            movieDataFromCSV =pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv', low_memory=False)
+            movieDataFromCSV=movieDataFromCSV.drop(movieDataFromCSV.index[movieDataFromCSV['movie_id']==movieID])
+            movieData=movieDataFromCSV.append(df)
+            movieData=movieData.drop(columns=['is_in_cinema','is_coming_soon'])
+            movieData.to_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv',index=False) 
     if status=="Delete":
         movieDataFromCSV =pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv', low_memory=False)
         movieDataFromCSV=movieDataFromCSV.drop(movieDataFromCSV.index[movieDataFromCSV['movie_id']==movieID])

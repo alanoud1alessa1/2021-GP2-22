@@ -341,7 +341,7 @@ module.exports = {
 
   async viewWatchList(user_id) {
     let viewWatchList = await db("WatchList AS WL")
-    .select("WL.movie_id" , "title" , "poster"  ,db.raw("ROUND(AVG(coalesce(rating , 0)),1) AS total_rating"))
+    .select("WL.movie_id" , "title" , "poster" ,db.raw("ROUND(AVG(coalesce(rating , 0)),1) AS total_rating"))
     .where({  
       "WL.user_id": user_id })
     .leftJoin("Movie AS M", "WL.movie_id", "M.movie_id")

@@ -689,6 +689,85 @@ router.get(
     }
   }),
 
+  //Search for movie
+  router.get("/search/:searchType/:searchText", async (req, res, next) => {
+    const { searchType } = req.params;
+    const { searchText } = req.params;
+
+    console.log(searchType,searchText)
+
+    try {
+      var results=''
+      if (searchType=="Movie")
+      {
+        results = await queries.searchByMovie(searchText);
+        console.log(results);
+      }
+
+      if (searchType=="Director")
+      {
+        results = await queries.searchByDirector(searchText);
+        console.log(results);
+      }
+
+      if (searchType=="Actor")
+      {
+        results = await queries.searchByActor(searchText);
+        console.log(results);
+      }
+
+      if (searchType=="Writer")
+      {
+        results = await queries.searchByWriter(searchText);
+        console.log(results);
+      }
+
+      if (results) {
+        return res.json(results);
+      }
+      return next();
+    } catch (error) {
+      return next(error);
+    }
+  }),
+
+  //Get Search Options
+  router.get("/searchOptions/:searchType", async (req, res, next) => {
+    const { searchType } = req.params;
+
+    console.log(searchType)
+
+    try {
+      // var results=''
+      // if (searchType=="Movie")
+      // {
+      //   results = await queries.searchOptions(searchType);
+      //   console.log(results);
+      // }
+
+      // if (searchType=="Director")
+      // {
+      //   results = await queries.searchOptions(searchType);
+      //   console.log(results);
+      // }
+
+      // if (searchType=="Actor")
+      // {
+        results = await queries.searchOptions(searchType);
+        console.log('results');
+        // console.log(results);
+      // }
+
+
+      if (results) {
+        return res.json(results);
+      }
+      return next();
+    } catch (error) {
+      return next(error);
+    }
+  }),
+
   
 
   

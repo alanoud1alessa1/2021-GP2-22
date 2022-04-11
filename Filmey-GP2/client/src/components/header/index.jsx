@@ -6,11 +6,13 @@ import "./header.css";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import Select from "react-select";
 import { useState } from "react";
+import api from "../../api/axiosAPI"
 
 //import Images
 import logo from "../../dist/img/Logo.png";
 import profileImg from "../../dist/img/iconly-light-profile@2x.svg";
 import regUserImg from "../../dist/img/regUser.png";
+
 
 function header(props) {
   var registered = false;
@@ -38,9 +40,42 @@ function header(props) {
   };
 
   const [searchType, setSearchType] = useState('Movie');
+  const [searchOptions, setSearchOptions] = useState([]);
+  const [searchOptions2, setSearchOptions2] = useState([]);
 
   const handleChangeSelect = e => {
     setSearchType(e.value);
+    var type=e.value;
+    var optionArray=[...searchOptions];
+    var optionArray2=[...searchOptions2];
+
+    api.get(`/movies/searchOptions/${type}`).then((response) => {
+      console.log(response.data)
+      if (type=="Actor")
+      {
+      for (var i = 0; i < response.data.length; i++) {
+        optionArray[i]={id:i,name:response.data[i].actor}
+        optionArray2[i]={key:i.toString,value:response.data[i].actor}
+          }
+      }
+      if (type=="Director")
+      {
+      for (var i = 0; i < response.data.length; i++) {
+        optionArray[i]={id:i,name:response.data[i].director}
+          }
+      }
+
+      if (type=="Writer")
+      {
+      for (var i = 0; i < response.data.length; i++) {
+        optionArray[i]={id:i,name:response.data[i].writer}
+          }
+      }
+      setSearchOptions2(optionArray2)
+      setSearchOptions(optionArray)
+      console.log(optionArray)
+  
+    })
     console.log(searchType);
   }
 
@@ -89,28 +124,7 @@ function header(props) {
     })
   }
 
-  const searchOptions = [
-    {
-      id: 0,
-      name: "Cobol"
-    },
-    {
-      id: 1,
-      name: "JavaScript"
-    },
-    {
-      id: 2,
-      name: "Basic"
-    },
-    {
-      id: 3,
-      name: "PHP"
-    },
-    {
-      id: 4,
-      name: "Java"
-    }
-  ];
+ 
 
   
   const [searchInput, setSearchInput] = useState('');
@@ -127,6 +141,11 @@ function header(props) {
       label: "Actor",
       value: "Actor",
     },
+    {
+      label: "Writer",
+      value: "Writer",
+    },
+
   ];
 
   const handleOnSearch = (string, results) => {
@@ -134,6 +153,7 @@ function header(props) {
   }
 
   const handleOnSelect = (searchText) => {
+    console.log(searchText)
     if (searchText==undefined){
       if(searchInput!=""){
         window.location.href = `/searchPage/${searchType}/${searchInput}`;
@@ -143,6 +163,21 @@ function header(props) {
     window.location.href = `/searchPage/${searchType}/${searchText.name}`;
   }
   }
+
+  React.useEffect(() => {
+    window.scrollTo(0, 0)
+    var optionArray=[...searchOptions];
+      api.get(`/movies/searchOptions/${searchType}`).then((response) => {
+        console.log(response.data)
+        for (var i = 0; i < response.data.length; i++) {
+          optionArray[i]={id:i,name:response.data[i].title}
+            }
+        setSearchOptions(optionArray)
+        console.log(optionArray)
+    
+      })
+
+  }, []);
 
 
   return (
@@ -211,6 +246,7 @@ function header(props) {
       </div>
       <div className="searchBar">
       <ReactSearchAutocomplete
+            // items={searchOptions}
             items={searchOptions}
             onSearch={handleOnSearch}
             onSelect={handleOnSelect}
@@ -237,6 +273,7 @@ function header(props) {
 
             }}
       />
+     
       </div>
 
 
