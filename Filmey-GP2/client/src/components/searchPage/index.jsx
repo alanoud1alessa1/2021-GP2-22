@@ -20,6 +20,7 @@ function searchPage(props) {
 
 
   const [listMovies, setListMovies] = useState([]);
+  const [resultMessage, setResultMessage] = useState();
 
   React.useEffect(() => {
     window.scrollTo(0, 0)
@@ -27,6 +28,11 @@ function searchPage(props) {
   
       api.get(`/movies/search/${searchType}/${searchText}`).then((response) => {
         console.log(response.data)
+        if(response.data.length==0)
+            {
+              setResultMessage('No results found for "'+searchText+'"')
+            }
+
         for (var i = 0; i < response.data.length; i++) {
               listMoviesdArray[i] = response.data[i];
             }
@@ -35,6 +41,7 @@ function searchPage(props) {
               console.log(response.data)
               setListMovies(listMoviesdArray);  
             }
+            
     
       })
 
@@ -91,7 +98,7 @@ function searchPage(props) {
                   ))
                 ) : (
                   <div className="emptyWatchList neuton-bold-white-20px">
-                   No results found for "{searchText}"
+                   {resultMessage}
                   </div>
                 )}
               </div>

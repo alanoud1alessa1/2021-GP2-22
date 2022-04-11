@@ -3,7 +3,7 @@ const db = require("../../db/db");
 const auth = require("../../auth");
 const tableNames = require("../../constents/tableNames");
 // sw = require('stopword')
-const { removeStopwords} =require('stopword')
+//const { removeStopwords} =require('stopword')
 
 module.exports = {
   async get(movie_id) {
@@ -1535,11 +1535,19 @@ module.exports = {
     return;
   },
 
-  async searchByMovie(searchText) {
-    var string=removeStopwords(searchText.split(' '))
+  async searchByExactMovieName(searchText) {
+    // var string=removeStopwords(searchText.split(' '))
+    // console.log(string)
         return db("Movie")
         .select('*')
-       .whereRaw( 'LOWER(title) LIKE LOWER(?)', [`%${string}%`])
+       .whereRaw( 'LOWER(title) LIKE LOWER(?)', [`%${searchText}%`])
+  },
+  async searchSimilarMovies(searchText) {
+    //var string=removeStopwords(searchText.split(' '))
+    //console.log(string)
+        return db("Movie")
+        .select('*')
+       .whereRaw( 'LOWER(title) LIKE LOWER(?)', [`%${searchText}%`])
   },
 
   async searchByDirector(searchText) {

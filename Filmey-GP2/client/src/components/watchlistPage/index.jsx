@@ -51,6 +51,7 @@ const removeIsOpen = Boolean(Operemoven);
 
   const [listMovies, setListMovies] = useState([]);
   const [onWatchList, setOnWatchList] = useState([]);
+  const [resultMessage, setResultMessage] = useState();
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
@@ -63,6 +64,11 @@ const removeIsOpen = Boolean(Operemoven);
         user_id: user_id,
       })
       .then((response) => {
+        if (response.data.length==0)
+        {
+          setResultMessage('No movies in your watch list')
+        }
+        
         for (var i = 0; i < response.data.length; i++) {
           listMoviesdArray[i] = response.data[i];
           onWatchListArray[i] = true;
@@ -76,6 +82,7 @@ const removeIsOpen = Boolean(Operemoven);
           setOnWatchList(onWatchListArray);
           setListMovies(listMoviesdArray);
         }
+
       });
   }, []);
 
@@ -187,7 +194,7 @@ const removeIsOpen = Boolean(Operemoven);
                   ))
                 ) : (
                   <div className="emptyWatchList neuton-bold-white-20px">
-                    No movies in your watch list
+                    {resultMessage}
                   </div>
                 )}
 

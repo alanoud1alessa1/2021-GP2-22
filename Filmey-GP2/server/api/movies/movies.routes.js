@@ -8,6 +8,7 @@ const router = express.Router();
 const isAuth = require("../../isAuth");
 const { json } = require("express");
 const axios = require("axios");
+const { removeStopwords} =require('stopword')
 
 router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
@@ -698,10 +699,18 @@ router.get(
 
     try {
       var results=''
+      var results1=''
+      var results2=''
       if (searchType=="Movie")
       {
-        results = await queries.searchByMovie(searchText);
-        console.log(results);
+        var string=removeStopwords(searchText.split(' ')).toString().replaceAll(","," ")
+        // console.log('string')
+        // console.log(string)
+        results1 = await queries.searchByExactMovieName(searchText);
+        // console.log(results);
+        results2 = await queries.searchSimilarMovies(string);
+        results=results1.concat(results2)
+        results = Array.from(new Set(results.map(el => JSON.stringify(el)))).map(el => JSON.parse(el));
       }
 
       if (searchType=="Director")
@@ -738,25 +747,8 @@ router.get(
     console.log(searchType)
 
     try {
-      // var results=''
-      // if (searchType=="Movie")
-      // {
-      //   results = await queries.searchOptions(searchType);
-      //   console.log(results);
-      // }
-
-      // if (searchType=="Director")
-      // {
-      //   results = await queries.searchOptions(searchType);
-      //   console.log(results);
-      // }
-
-      // if (searchType=="Actor")
-      // {
         results = await queries.searchOptions(searchType);
         console.log('results');
-        // console.log(results);
-      // }
 
 
       if (results) {
