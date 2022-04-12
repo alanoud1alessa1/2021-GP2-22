@@ -1536,42 +1536,82 @@ module.exports = {
   },
 
   async searchByExactMovieName(searchText) {
-    // var string=removeStopwords(searchText.split(' '))
-    // console.log(string)
-        return db("Movie")
-        .select('*')
-       .whereRaw( 'LOWER(title) LIKE LOWER(?)', [`%${searchText}%`])
+        return db("Movie As M")
+        .select(
+          'M.title',
+          'M.poster',
+          'M.year',
+        db.raw("ROUND(AVG(rating),1)::int AS total_rating"),
+      )
+      .leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
+      .where("M.is_deleted", "=", false)
+      .whereRaw( 'LOWER(title) LIKE LOWER(?)', [`%${searchText}%`])
+      .groupBy("M.movie_id", "M.poster","M.title")
   },
   async searchSimilarMovies(searchText) {
-    //var string=removeStopwords(searchText.split(' '))
-    //console.log(string)
-        return db("Movie")
-        .select('*')
-       .whereRaw( 'LOWER(title) LIKE LOWER(?)', [`%${searchText}%`])
+        return db("Movie As M")
+        .select(
+          'M.title',
+          'M.poster',
+          'M.year',
+        db.raw("ROUND(AVG(rating),1)::int AS total_rating"),
+      )
+      .leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
+      .where("M.is_deleted", "=", false)
+      .whereRaw( 'LOWER(title) LIKE LOWER(?)', [`%${searchText}%`])
+      .groupBy("M.movie_id", "M.poster","M.title")
+      
   },
 
   async searchByDirector(searchText) {
-    return db("Movie AS M")
-    .select('*')
+    return db("Movie As M")
+        .select(
+          'M.title',
+          'M.poster',
+          'M.year',
+         db.raw("ROUND(AVG(rating),1)::int AS total_rating"),
+      )
+     .leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
+    .where("M.is_deleted", "=", false)
     .leftJoin("Movie_Director AS MD", "MD.movie_id", "M.movie_id")
     .leftJoin("Director AS D", "D.director_id", "MD.director_id")
-    .whereRaw( 'LOWER(D.director) LIKE LOWER(?)', [`%${searchText}%`])
+    .where("D.director","=",searchText)
+    // .whereRaw( 'LOWER(D.director) LIKE LOWER(?)', [`%${searchText}%`])
+     .groupBy("M.movie_id", "M.poster","M.title")
+   
 },
 
 async searchByWriter(searchText) {
-  return db("Movie AS M")
-  .select('*')
+  return db("Movie As M")
+        .select(
+          'M.title',
+          'M.poster',
+          'M.year',
+        db.raw("ROUND(AVG(rating),1)::int AS total_rating"),
+      )
+  .leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
+  .where("M.is_deleted", "=", false)
   .leftJoin("Movie_Writer AS MW", "MW.movie_id", "M.movie_id")
   .leftJoin("Writer AS W", "W.writer_id", "MW.writer_id")
-  .whereRaw( 'LOWER(W.writer) LIKE LOWER(?)', [`%${searchText}%`])
+  .where("W.writer","=",searchText)
+  // .whereRaw( 'LOWER(W.writer) LIKE LOWER(?)', [`%${searchText}%`])
+  .groupBy("M.movie_id", "M.poster","M.title")
 },
 
 async searchByActor(searchText) {
-  return db("Movie AS M")
-  .select('*')
+  return db("Movie As M")
+  .select(
+    'M.title',
+    'M.poster',
+    'M.year',
+  db.raw("ROUND(AVG(rating),1)::int AS total_rating"),
+)
+.leftJoin("Rating AS Rate", "M.movie_id", "Rate.movie_id")
+.where("M.is_deleted", "=", false)
   .leftJoin("Role AS R", "M.movie_id", "R.movie_id")
   .leftJoin("Actor AS A", "A.actor_id", "R.actor_id")
   .whereRaw( 'LOWER(actor) LIKE LOWER(?)', [`%${searchText}%`])
+  .groupBy("M.movie_id", "M.poster","M.title")
 },
 
 async searchOptions(searchType) {

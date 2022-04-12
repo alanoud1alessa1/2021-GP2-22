@@ -6,7 +6,8 @@ import "./header.css";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import Select from "react-select";
 import { useState } from "react";
-import api from "../../api/axiosAPI"
+import api from "../../api/axiosAPI";
+
 
 //import Images
 import logo from "../../dist/img/Logo.png";
@@ -41,13 +42,13 @@ function header(props) {
 
   const [searchType, setSearchType] = useState('Movie');
   const [searchOptions, setSearchOptions] = useState([]);
-  const [searchOptions2, setSearchOptions2] = useState([]);
 
   const handleChangeSelect = e => {
     setSearchType(e.value);
     var type=e.value;
     var optionArray=[...searchOptions];
-    var optionArray2=[...searchOptions2];
+    optionArray=[];
+
 
     api.get(`/movies/searchOptions/${type}`).then((response) => {
       console.log(response.data)
@@ -55,7 +56,6 @@ function header(props) {
       {
       for (var i = 0; i < response.data.length; i++) {
         optionArray[i]={id:i,name:response.data[i].actor}
-        optionArray2[i]={key:i.toString,value:response.data[i].actor}
           }
       }
       if (type=="Director")
@@ -71,7 +71,6 @@ function header(props) {
         optionArray[i]={id:i,name:response.data[i].writer}
           }
       }
-      setSearchOptions2(optionArray2)
       setSearchOptions(optionArray)
       console.log(optionArray)
   
@@ -245,11 +244,12 @@ function header(props) {
         />
       </div>
       <div className="searchBar">
+    
       <ReactSearchAutocomplete
-            // items={searchOptions}
-            items={searchOptions}
+             items={searchOptions}
             onSearch={handleOnSearch}
             onSelect={handleOnSelect}
+            
             placeholder= {`Search for ${searchType}`}
             maxResults= "3"
             fuseOptions={
@@ -272,8 +272,10 @@ function header(props) {
               border: '1px solid balck',
 
             }}
+          
       />
-     
+      
+    
       </div>
 
 

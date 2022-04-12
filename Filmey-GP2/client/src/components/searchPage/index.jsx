@@ -34,6 +34,7 @@ function searchPage(props) {
             }
 
         for (var i = 0; i < response.data.length; i++) {
+              console.log( response.data.length)
               listMoviesdArray[i] = response.data[i];
             }
             if (listMoviesdArray.length == response.data.length) {
@@ -86,9 +87,15 @@ function searchPage(props) {
                               .default
                           }  
                         />
+                        {x.total_rating!= null ? (
                         <div className="watchlistRating neuton-bold-white-30px">
                           {x.total_rating}
                         </div>
+                        ): (
+                          <div className="watchlistRating neuton-bold-white-30px">
+                          No ratings yet.
+                        </div>
+                        )}
                         <div className="watchlistMovieName neuton-bold-white-30px">
                           {x.title}
                         </div>
