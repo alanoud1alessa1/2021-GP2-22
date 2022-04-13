@@ -152,17 +152,21 @@ function header(props) {
   }
 
   const handleOnSelect = (searchText) => {
-    console.log(searchText)
-    if (searchText==undefined){
-      if(searchInput!=""){
-        window.location.href = `/searchPage/${searchType}/${searchInput}`;
-      }
-    }
-    else{
-    window.location.href = `/searchPage/${searchType}/${searchText.name}`;
+    if (searchText!=undefined){
+       window.location.href = `/searchPage/${searchType}/${searchText.name}`;
   }
   }
 
+  const handleOnKeypress = () => {
+    if(searchInput!=""){
+      window.location.href = `/searchPage/${searchType}/${searchInput}`;
+  }
+  }
+
+  const handleOnClear = () => {
+    setSearchInput("")
+}
+  
   React.useEffect(() => {
     window.scrollTo(0, 0)
     var optionArray=[...searchOptions];
@@ -243,13 +247,19 @@ function header(props) {
           })}
         />
       </div>
-      <div className="searchBar">
-    
+
+      <div className="searchBar"
+        tabIndex={0}
+        onKeyPress={(e) => {
+          if (e.key === "Enter") {    
+            handleOnKeypress()
+          }
+      }}>
       <ReactSearchAutocomplete
              items={searchOptions}
             onSearch={handleOnSearch}
             onSelect={handleOnSelect}
-            
+            onClear={handleOnClear}
             placeholder= {`Search for ${searchType}`}
             maxResults= "3"
             fuseOptions={
@@ -272,10 +282,7 @@ function header(props) {
               border: '1px solid balck',
 
             }}
-          
       />
-      
-    
       </div>
 
 

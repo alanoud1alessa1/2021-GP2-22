@@ -242,6 +242,7 @@ margin-right: 50px ; */
   width: 140px;
   height: 55px;
   color: "white" !important;
+  z-index: 2;
 }
 
 .searchBar{
