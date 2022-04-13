@@ -1539,6 +1539,7 @@ module.exports = {
   async searchByExactMovieName(searchText) {
         return db("Movie As M")
         .select(
+          'M.movie_id',
           'M.title',
           'M.poster',
           'M.year',
@@ -1548,10 +1549,12 @@ module.exports = {
       .where("M.is_deleted", "=", false)
       .whereRaw( 'LOWER(title) LIKE LOWER(?)', [`%${searchText}%`])
       .groupBy("M.movie_id", "M.poster","M.title")
+      .orderBy("M.year", "desc")
   },
   async searchSimilarMovies(searchText) {
         return db("Movie As M")
         .select(
+          'M.movie_id',
           'M.title',
           'M.poster',
           'M.year',
@@ -1561,30 +1564,35 @@ module.exports = {
       .where("M.is_deleted", "=", false)
       .whereRaw( 'LOWER(title) LIKE LOWER(?)', [`%${searchText}%`])
       .groupBy("M.movie_id", "M.poster","M.title")
+      .orderBy("M.year", "desc")
       
   },
 
   async searchByDirector(searchText) {
     return db("Movie As M")
         .select(
+          'M.movie_id',
           'M.title',
           'M.poster',
           'M.year',
          db.raw("ROUND(AVG(rating),1)::int AS total_rating"),
       )
+      .where("M.is_deleted", "=", false)
      .leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
-    .where("M.is_deleted", "=", false)
+    
     .leftJoin("Movie_Director AS MD", "MD.movie_id", "M.movie_id")
     .leftJoin("Director AS D", "D.director_id", "MD.director_id")
-    .where("D.director","=",searchText)
-    // .whereRaw( 'LOWER(D.director) LIKE LOWER(?)', [`%${searchText}%`])
+    //.where("D.director","=",searchText)
+     .whereRaw( 'LOWER(director) LIKE LOWER(?)', [`%${searchText}%`])
      .groupBy("M.movie_id", "M.poster","M.title")
+     .orderBy("M.year", "desc")
    
 },
 
 async searchByWriter(searchText) {
   return db("Movie As M")
         .select(
+          'M.movie_id',
           'M.title',
           'M.poster',
           'M.year',
@@ -1594,9 +1602,10 @@ async searchByWriter(searchText) {
   .where("M.is_deleted", "=", false)
   .leftJoin("Movie_Writer AS MW", "MW.movie_id", "M.movie_id")
   .leftJoin("Writer AS W", "W.writer_id", "MW.writer_id")
-  .where("W.writer","=",searchText)
-  // .whereRaw( 'LOWER(W.writer) LIKE LOWER(?)', [`%${searchText}%`])
+ // .where("W.writer","=",searchText)
+  .whereRaw( 'LOWER(writer) LIKE LOWER(?)', [`%${searchText}%`])
   .groupBy("M.movie_id", "M.poster","M.title")
+  .orderBy("M.year", "desc")
 },
 
 async searchByActor(searchText) {
@@ -1613,6 +1622,7 @@ async searchByActor(searchText) {
   .leftJoin("Actor AS A", "A.actor_id", "R.actor_id")
   .whereRaw( 'LOWER(actor) LIKE LOWER(?)', [`%${searchText}%`])
   .groupBy("M.movie_id", "M.poster","M.title")
+  .orderBy("M.year", "desc")
 },
 
 async searchOptions(searchType) {
