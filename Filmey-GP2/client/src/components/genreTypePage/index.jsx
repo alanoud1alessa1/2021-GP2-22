@@ -10,9 +10,6 @@ import Footer from "../Footer";
 
 
 
-
-
-
 function genreTypePage(props) {
 
   const runCallback = (cb) => {
@@ -24,45 +21,55 @@ function genreTypePage(props) {
   //   baseURL: "http://localhost:3000/api/v1",
   // });
 
-  const [moviesId, setMoviesId] = useState([]);
-  const [movieTitles, setmovieTitles] = useState([]);
-  const [Allposters, setAllposters] = useState([]);
-  const [totalRatings, settotalRatings] = useState([]);
-
+  const [listMovies, setListMovies] = useState([]);
+  const [sortType, setSortType] = useState('');
 
 
   let {genre} = useParams();
   React.useEffect(() => {
     window.scrollTo(0, 0)
+    var listMoviesdArray = [...listMovies];
 
-    var moviesIdArray = [...moviesId];
-    var movieTitlesArray = [...movieTitles];
-    var postersArray = [...Allposters];
-    var ratingsArray = [...totalRatings];
 
 
 
       api.get(`/movies/genresFilter/${genre}/48`).then((response) => {
+
         for (var i = 0; i < response.data.length; i++) {
-          moviesIdArray[i] = response.data[i].movie_id;
-          movieTitlesArray[i] = response.data[i].title;
-          postersArray[i] = response.data[i].poster;
-          ratingsArray[i] = response.data[i].total_rating;
-
+          console.log( response.data.length)
+          listMoviesdArray[i] = response.data[i];
         }
-
-        //if finish getting all movies --> then set valuse
-        if (moviesIdArray.length == response.data.length) {
-          console.log(movieTitlesArray);
-          setMoviesId(moviesIdArray);
-          setmovieTitles(movieTitlesArray);
-          setAllposters(postersArray);
-          settotalRatings(ratingsArray);
-
+        if (listMoviesdArray.length == response.data.length) {
+          console.log('results')
+          console.log(response.data)
+          setListMovies(listMoviesdArray);  
         }
-      });
+        
+      const sortArray = type => {
+        const types = {
+          total_rating: 'total_rating',
+          title: 'title',
+          year: 'year',
+        };
+        const sortProperty = types[type];
+        console.log("sortProperty")
 
-  }, []);
+        console.log(sortProperty)
+        var sorted=[];
+        if (sortProperty=="title"){
+          sorted = [...listMoviesdArray].sort((a, b) => a[sortProperty].toString().localeCompare(b[sortProperty]));
+      }
+      else {
+        sorted = [...listMoviesdArray].sort((a, b) => b[sortProperty] - a[sortProperty])
+      }
+        console.log(sorted)
+        setListMovies(sorted);
+  };
+    
+
+    sortArray(sortType);
+  });
+}, [sortType]); 
 
 
 
@@ -86,41 +93,57 @@ function genreTypePage(props) {
             <div>
               <h1 className="genreTypeTitle neuton-normal-white-60px3">{genre}</h1>
             </div>
-              {/* row1  */}
-              <div className="movies">
-                {runCallback(() => {
-                  const row = [];
-                  var count = 0;
-                    for (var i = 0; i < moviesId.length; i++) {
-                      const id = moviesId[count];
-                      const url = `/movieInfoPage/${id}`;
-                      const poster = Allposters[count];
-                      const title = movieTitles[count];
-                      const rating = totalRatings[count++];
-                      if (rating == "0.0"){
-                        rating = "No ratings yet."
-                      }
 
-                      row.push(
-                        <div key={i}>
-                          {
-                            <div className="genreTypeMovieContainer" >
-                              <Link to={url}>
-                                <img className="genreTypeMoviePoster" src={poster} />
-                                <img className="genreTypeStar" src={props.star} />
-                                <div className="genreTypeRating neuton-bold-white-30px">
-                                 {rating}
-                                </div>
-                                <div className="genreTypeMovieName neuton-bold-white-30px">{title}</div>
-                              </Link>
-                            </div>
-                          }
-                        </div>
-                      );
-                  }
-                  return row;
-                })}
-              </div>
+              {/* sorting */}
+              <div className="SortbyText neuton-normal-white-30px">
+                <strong> Sort by: </strong>
+              </div> 
+              <select className= "sortMoviesSelect neuton-normal-white-60px3" onChange={(e) => setSortType(e.target.value)} > 
+              <option className= "sortMoviesSelectOption" 
+                defaultChecke                  
+                selected
+                disabled 
+                hidden>
+                Select..
+              </option>
+              <option value="title">Alphabetical</option>
+              <option value="total_rating">Movie Rating</option>
+              <option value="year">Release Date</option>
+            </select>
+
+            <div className="movies">
+            {listMovies.length > 0 ? (
+                listMovies.map((x) => (
+                  <div className="watchlistMovieContainer">
+
+                    <Link to={`/movieInfoPage/${x.movie_id}`} >
+                      <img className="genreTypeMoviePoster" src={x.poster} />
+                      <img
+                        className="watchlistStar"
+                        src={
+                          require("../../static/img/star-2@2x.svg")
+                            .default
+                        }  
+                      />
+                      {x.total_rating!= null ? (
+                      <div className="watchlistRating neuton-bold-white-30px">
+                        {x.total_rating}
+                      </div>
+                      ): (
+                        <div className="watchlistRating neuton-bold-white-30px">
+                        No ratings yet.
+                      </div>
+                      )}
+                      <div className="watchlistMovieName neuton-bold-white-30px">
+                      {x.title} {" "} ({x.year})
+                      </div>
+                    </Link>
+
+                  </div>
+                ))
+              ) : (""
+              )}
+            </div>
 
           </main>
           {/* footer */}

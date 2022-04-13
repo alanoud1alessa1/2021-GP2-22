@@ -18,7 +18,7 @@ function searchPage(props) {
   console.log(searchText)
 
 
-
+  const [sortType, setSortType] = useState('');
   const [listMovies, setListMovies] = useState([]);
   const [resultMessage, setResultMessage] = useState();
 
@@ -43,10 +43,35 @@ function searchPage(props) {
               setListMovies(listMoviesdArray);  
             }
             
-    
-      })
+          const sortArray = type => {
+            const types = {
+              total_rating: 'total_rating',
+              title: 'title',
+              year: 'year',
+              more_relevant: 'more_relevant',
+            };
+            const sortProperty = types[type];
+            console.log("sortProperty")
+  
+            console.log(sortProperty)
+            var sorted=[];
 
-  }, []);
+          if (sortProperty!="more_relevant"){
+            if (sortProperty=="title"){
+              sorted = [...listMoviesdArray].sort((a, b) => a[sortProperty].toString().localeCompare(b[sortProperty]));
+          }
+          else {
+            sorted = [...listMoviesdArray].sort((a, b) => b[sortProperty] - a[sortProperty])
+          }
+            console.log(sorted)
+            setListMovies(sorted);
+        }
+      };
+        
+  
+        sortArray(sortType);
+      });
+    }, [sortType]); 
 
 
 
@@ -71,6 +96,25 @@ function searchPage(props) {
                  
                 </h1>
               </div>
+
+            {/* sorting */}
+            <div className="SortbyText neuton-normal-white-30px">
+              <strong> Sort by: </strong>
+            </div> 
+            <select className= "sortMoviesSelect neuton-normal-white-60px3" onChange={(e) => setSortType(e.target.value)} > 
+              <option className= "sortMoviesSelectOption" 
+                defaultChecke                  
+                selected
+                disabled 
+                hidden>
+                Select..
+              </option>
+              <option value="title">Alphabetical</option>
+              <option value="more_relevant">More Relevant</option>
+              <option value="total_rating">Movie Rating</option>
+              <option value="year">Release Date</option>
+            </select>
+            
               {/* row1  */}
               <div className="movies">
                 
@@ -97,7 +141,7 @@ function searchPage(props) {
                         </div>
                         )}
                         <div className="watchlistMovieName neuton-bold-white-30px">
-                          {x.title}
+                        {x.title} {" "} ({x.year})
                         </div>
                       </Link>
 

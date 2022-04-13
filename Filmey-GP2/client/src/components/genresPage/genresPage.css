@@ -507,15 +507,13 @@ height: auto;
     position: absolute;
     left: 1680px;
     top: 130px;  
-    color: #d41c24;
-
+    color: var( --baby-powder);
 }
-
 .owl-theme2 .owl-nav [className='reviewsExpandLeft']  {
   position: absolute;
   left: -70px;
   top: 120px;  
-  color: #d41c24;
+  color: var( --baby-powder);
 }
 
 .owl-theme2 .owl-nav [className='reviewsExpandRight']:hover,

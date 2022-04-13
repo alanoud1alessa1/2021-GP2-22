@@ -87,6 +87,7 @@ module.exports = {
         "MG.movie_id",
         "title",
         "poster",
+        "year",
         db.raw("ROUND(AVG(coalesce(rating , 0)),1) AS total_rating")
       )
       .from("Movie_Genre AS MG")
@@ -95,7 +96,7 @@ module.exports = {
       .leftJoin("Movie AS M", "MG.movie_id", "M.movie_id")
       .leftJoin("Rating AS R", "MG.movie_id", "R.movie_id")
       .where("M.is_deleted", "=", false)
-      .groupBy("MG.movie_id", "title", "poster")
+      .groupBy("MG.movie_id", "title", "poster","year")
       .orderBy("total_rating", "desc", { nulls: "last" })
       .orderBy("MG.movie_id", "asc")
       .limit(limit);

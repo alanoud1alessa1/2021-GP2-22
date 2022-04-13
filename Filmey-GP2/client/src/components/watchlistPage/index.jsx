@@ -16,6 +16,8 @@ import Footer from "../Footer";
 
 function watchlistPage(props) {
 
+const [sortType, setSortType] = useState('');
+
 //remove from watchlist hover
 const [Operemoven, setremoveOpen] = React.useState(null);
 const removePopoverOpen = (event) => {
@@ -83,8 +85,31 @@ const removeIsOpen = Boolean(Operemoven);
           setListMovies(listMoviesdArray);
         }
 
-      });
-  }, []);
+        const sortArray = type => {
+          const types = {
+            total_rating: 'total_rating',
+            title: 'title',
+            year: 'year',
+          };
+          const sortProperty = types[type];
+          console.log("sortProperty")
+
+          console.log(sortProperty)
+          var sorted=[];
+          if (sortProperty=="title"){
+           sorted = [...listMoviesdArray].sort((a, b) => a[sortProperty].toString().localeCompare(b[sortProperty]));
+        }
+        else{
+          sorted = [...listMoviesdArray].sort((a, b) => b[sortProperty] - a[sortProperty])
+        }
+          console.log(sorted)
+          setListMovies(sorted);
+        };
+   
+
+      sortArray(sortType);
+    });
+  }, [sortType]); 
 
   // const addToWatchlist = () => {
   //   console.log(onWatchList);
@@ -131,6 +156,24 @@ const removeIsOpen = Boolean(Operemoven);
                  {username}'s Watchlist
                 </h1>
               </div>
+
+              {/* sorting */}
+            <div className="SortbyText neuton-normal-white-30px">
+              <strong> Sort by: </strong>
+            </div> 
+            <select className= "sortMoviesSelect neuton-normal-white-60px3" onChange={(e) => setSortType(e.target.value)} > 
+              <option className= "sortMoviesSelectOption" 
+                defaultChecke                  
+                selected
+                disabled 
+                hidden>
+                Select..
+              </option>
+              <option value="title">Alphabetical</option>
+              <option value="total_rating">Movie Rating</option>
+              <option value="year">Release Date</option>
+            </select>
+
               {/* row1  */}
               <div className="movies">
                 
@@ -152,7 +195,7 @@ const removeIsOpen = Boolean(Operemoven);
                           {x.total_rating}
                         </div>
                         <div className="watchlistMovieName neuton-bold-white-30px">
-                          {x.title}
+                          {x.title} {" "} ({x.year})
                         </div>
                       </Link>
 

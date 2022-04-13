@@ -1507,7 +1507,7 @@ width: 1600px;
     position: absolute;
     left: 1610px;
     top: 80px;  
-    color: #d41c24;
+    color: var( --baby-powder);
 
 }
 
@@ -1515,7 +1515,7 @@ width: 1600px;
   position: absolute;
   left: -10px;
   top: 40px;  
-  color: #d41c24;
+  color: var( --baby-powder);
 }
 
 .owl-theme .owl-nav [className='reviewsExpandRight']:hover,
@@ -1600,7 +1600,7 @@ background-color: var(--shark);
       position: absolute;
       left: 1680px;
       top: 180px;  
-      color: #d41c24;
+      color: var( --baby-powder);
 
   }
   
@@ -1608,7 +1608,7 @@ background-color: var(--shark);
     position: absolute;
     left: -50px;
     top: 180px;  
-    color: #d41c24;
+    color: var( --baby-powder);
   }
   
   .similarMovies-owl-theme .owl-nav [className='similarExpandLeft']:hover,

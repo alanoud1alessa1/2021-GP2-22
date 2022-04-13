@@ -655,7 +655,7 @@ left: 20px;
     position: absolute;
     left: 1670px;
     top: 170px;  
-    color: #d41c24;
+    color: var( --baby-powder);
 
 }
 
@@ -663,7 +663,7 @@ left: 20px;
   position: absolute;
   left: -50px;
   top: 160px;  
-  color: #d41c24;
+  color: var( --baby-powder);
 }
 
 .homePage-owl-theme .owl-nav [className='recommendedExpandLeft']:hover,
