@@ -29,13 +29,8 @@ function inCinemaPage(props) {
 //   const [totalRatings, settotalRatings] = useState([]);
 
 //Coming Soon Variables and constans
-const [comingSoonMovieIds, setComingSoonMovieIds] = useState([]);
-const [comingSoonMovieTitles, setComingSoonMovieTitles] = useState([]);
-const [comingSoonMoviePosters, setComingSoonMoviePosters] = useState([]);
-const [numOfComingSoonMovie, setNumOfComingSoonMovie] = useState(0);
-const [comingSoonMovieRatings, setComingSoonMovieRatings] = useState([]);
-
-
+const [listMovies, setListMovies] = useState([]);
+const [sortType, setSortType] = useState('');
 
 
  // let {genre} = useParams();
@@ -43,62 +38,50 @@ const [comingSoonMovieRatings, setComingSoonMovieRatings] = useState([]);
     window.scrollTo(0, 0)
 
     var numOfTopMovies=10
+    var listMoviesdArray = [...listMovies];
 
      //Get coming soon
      api.get(`/movies/comingSoonMovies/${numOfTopMovies}`).then((response) => {
       
+      console.log('comingSoonMovies')
+      console.log(response.data)
 
-        var comingSoonIdsArray = [...comingSoonMovieIds];
-        var comingSoonTitlesArray = [...comingSoonMovieTitles];
-        var comingSoonPostersArray = [...comingSoonMoviePosters];
-        var comingSoonRatingsArray = [...comingSoonMovieRatings];
-        setNumOfComingSoonMovie(response.data.movies.length)
+      for (var i = 0; i < response.data.movies.length; i++) {
+        console.log( response.data.length)
+        listMoviesdArray[i] = response.data.movies[i];
+      }
+      if (listMoviesdArray.length == response.data.movies.length) {
+        console.log('results')
+        console.log(response.data)
+        setListMovies(listMoviesdArray);  
+      }
+      
+    const sortArray = type => {
+      const types = {
+        total_rating: 'total_rating',
+        title: 'title',
+        year: 'year',
+      };
+      const sortProperty = types[type];
+      console.log("sortProperty")
+
+      console.log(sortProperty)
+      var sorted=[];
+      if (sortProperty=="title"){
+        sorted = [...listMoviesdArray].sort((a, b) => a[sortProperty].toString().localeCompare(b[sortProperty]));
+    }
+    else {
+      sorted = [...listMoviesdArray].sort((a, b) => b[sortProperty] - a[sortProperty])
+    }
+      console.log(sorted)
+      setListMovies(sorted);
+};
   
-        for (var i = 0; i < response.data.movies.length; i++) {
-          comingSoonIdsArray[i] = response.data.movies[i].movie_id;
-          comingSoonTitlesArray[i] = response.data.movies[i].title;
-          comingSoonPostersArray[i] = response.data.movies[i].poster;
-          console.log(response.data.movies[i].total_rating)
-          comingSoonRatingsArray[i]= response.data.movies[i].total_rating;
-         }
-  
-         setComingSoonMovieIds(comingSoonIdsArray);
-         setComingSoonMovieTitles(comingSoonTitlesArray);
-         setComingSoonMoviePosters(comingSoonPostersArray);
-         setComingSoonMovieRatings(comingSoonRatingsArray);
-       
-      });
-  
-    
 
-    // var moviesIdArray = [...moviesId];
-    // var movieTitlesArray = [...movieTitles];
-    // var postersArray = [...Allposters];
-    // var ratingsArray = [...totalRatings];
+  sortArray(sortType);
+});
+}, [sortType]); 
 
-
-
-    //   api.get(`/movies/genresFilter/${genre}/48`).then((response) => {
-    //     for (var i = 0; i < response.data.length; i++) {
-    //       moviesIdArray[i] = response.data[i].movie_id;
-    //       movieTitlesArray[i] = response.data[i].title;
-    //       postersArray[i] = response.data[i].poster;
-    //       ratingsArray[i] = response.data[i].total_rating;
-
-    //     }
-
-    //     //if finish getting all movies --> then set valuse
-    //     if (moviesIdArray.length == response.data.length) {
-    //       console.log(movieTitlesArray);
-    //       setMoviesId(moviesIdArray);
-    //       setmovieTitles(movieTitlesArray);
-    //       setAllposters(postersArray);
-    //       settotalRatings(ratingsArray);
-
-    //     }
-    //  });
-
-  }, []);
 
 
 
@@ -122,49 +105,57 @@ const [comingSoonMovieRatings, setComingSoonMovieRatings] = useState([]);
             <div>
               <h1 className="genreTypeTitle neuton-normal-white-60px3"> Coming Soon to Cinemas </h1>
             </div>
-              {/* row1  */}
-              <div className="movies">
-                {runCallback(() => {
-                  const row = [];
-                  var count = 0;
-                    for (var i = 0; i < numOfComingSoonMovie; i++) {
-                      const id = comingSoonMovieIds[i];
-                      const url = `/movieInfoPage/${id}`;
-                      const poster = comingSoonMoviePosters[i];
-                      const title =comingSoonMovieTitles[i];
-                      var rating = comingSoonMovieRatings[i];
-                      if ( rating == 0 ||  rating == null ) {
-                        rating = "No ratings yet.";
-                      }
-                      else
-                      {
-                        rating = whatsOnMovieRatings[i];
-                      }
 
-                      row.push(
-                        <div key={i}>
-                          {
-                            <div className="genreTypeMovieContainer" >
-                              <Link to={url}>
-                                <img className="genreTypeMoviePoster" src={poster} />
-                                <img className="genreTypeStar" 
-                                src= {
-                                  require("../../static/img/star-2@2x.svg")
-                                    .default
-                                }   />
-                                <div className="genreTypeRating neuton-bold-white-30px">
-                                 {rating}
-                                </div>
-                                <div className="genreTypeMovieName neuton-bold-white-30px">{title}</div>
-                              </Link>
-                            </div>
-                          }
-                        </div>
-                      );
-                  }
-                  return row;
-                })}
-              </div>
+            {/* sorting */}
+            <div className="SortbyText neuton-normal-white-30px">
+              <strong> Sort by: </strong>
+            </div> 
+            <select className= "sortMoviesSelect neuton-normal-white-60px3" onChange={(e) => setSortType(e.target.value)} > 
+              <option className= "sortMoviesSelectOption" 
+                defaultChecke                  
+                selected
+                disabled 
+                hidden>
+                Select..
+              </option>
+              <option value="title">Alphabetical</option>
+              <option value="total_rating">Movie Rating</option>
+              <option value="year">Release Date</option>
+            </select>
+
+            <div className="movies">
+            {listMovies.length > 0 ? (
+                listMovies.map((x) => (
+                  <div className="watchlistMovieContainer">
+
+                    <Link to={`/movieInfoPage/${x.movie_id}`} >
+                      <img className="genreTypeMoviePoster" src={x.poster} />
+                      <img
+                        className="watchlistStar"
+                        src={
+                          require("../../static/img/star-2@2x.svg")
+                            .default
+                        }  
+                      />
+                      {x.total_rating!= null ? (
+                      <div className="watchlistRating neuton-bold-white-30px">
+                        {x.total_rating}
+                      </div>
+                      ): (
+                        <div className="watchlistRating neuton-bold-white-30px">
+                        No ratings yet.
+                      </div>
+                      )}
+                      <div className="watchlistMovieName neuton-bold-white-30px">
+                      {x.title} {" "} ({x.year})
+                      </div>
+                    </Link>
+
+                  </div>
+                ))
+              ) : (""
+              )}
+            </div>
 
           </main>
           {/* footer */}
