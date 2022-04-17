@@ -2,8 +2,7 @@
 const db = require("../../db/db");
 const auth = require("../../auth");
 const tableNames = require("../../constents/tableNames");
-// sw = require('stopword')
-//const { removeStopwords} =require('stopword')
+
 
 module.exports = {
   async get(movie_id) {
@@ -66,6 +65,7 @@ module.exports = {
   },
 
   async getTopMovies(numberofmovies) {
+
     return db("Movie AS M")
       .select(
         "M.movie_id",

@@ -52,6 +52,7 @@
     "react-select": "^5.2.1",
     "react-slick": "^0.28.1",
     "reactstrap": "^9.0.0",
+    "serve": "^13.0.2",
     "slick-carousel": "^1.8.1",
     "src": "^1.1.2",
     "universal-cookie": "^4.0.4",

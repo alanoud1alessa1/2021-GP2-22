@@ -30,9 +30,10 @@
     "node-fetch": "^3.0.0",
     "node-jsx": "^0.13.3",
     "nodemailer": "^6.7.2",
-    "pg": "^8.7.1",
+    "pg": "^8.7.3",
     "react-modal": "^3.14.3",
     "remove-stopwords": "^1.0.3",
+    "sqlite3": "^5.0.3",
     "stopword": "^2.0.1",
     "utf8": "^3.0.0"
   },
