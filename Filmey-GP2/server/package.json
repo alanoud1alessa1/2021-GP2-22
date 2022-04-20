@@ -35,7 +35,8 @@
     "remove-stopwords": "^1.0.3",
     "sqlite3": "^5.0.3",
     "stopword": "^2.0.1",
-    "utf8": "^3.0.0"
+    "utf8": "^3.0.0",
+    "waitress": "^0.1.5"
   },
   "devDependencies": {
     "@types/jest": "^25.2.3",

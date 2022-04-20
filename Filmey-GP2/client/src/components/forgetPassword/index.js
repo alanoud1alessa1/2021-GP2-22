@@ -9,6 +9,8 @@ import ResetPassword from "../resetPassword";
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import Footer from "../Footer";
+import api from "../../api/axiosAPI"
+
 
 
 
@@ -40,7 +42,7 @@ function loginPage(props) {
   // const api = "http://localhost:3000/api/v1/";
 
   const UserExist = () => {
-    const res = Axios.post(api + "Users/userExist", {
+    const res = api.post(api + "Users/userExist", {
       email: email,
     }).then((res) => {
       if (res.data) {
@@ -59,7 +61,7 @@ function loginPage(props) {
   };
 
   const sendEmail = () => {
-    const res = Axios.post(api + "node-mail", {
+    const res = api.post(api + "node-mail", {
       token: token,
     }).then((res) => {});
 

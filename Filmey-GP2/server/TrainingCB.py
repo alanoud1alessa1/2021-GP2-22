@@ -7,6 +7,8 @@ import pandas.io.sql as sqlio
 from surprise import Dataset, Reader
 from flask_cors import CORS
 from sqlalchemy import false
+from surprise import KNNWithMeans
+from surprise.model_selection import cross_validate
 
 
 
@@ -27,7 +29,7 @@ def train():
         #Ghadah:'C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\api\\model\\ratings.csv'
         #NoufD:'./api/model/ratings.csv'
 
-        rating =pd.read_csv('./api/model//ratings.csv', low_memory=False)
+        rating =pd.read_csv('./ratings.csv', low_memory=False)
 
 
         ratingDB = sqlio.read_sql_query('SELECT *  FROM "Rating"', conn)
@@ -37,7 +39,7 @@ def train():
         #Ghadah:'C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\api\\model\\MLratings&DB.csv'
         #NoufD:'./api/model//MLratings&DB.csv'
 
-        rating.to_csv('./api/model//MLratings&DB.csv', index=False)
+        rating.to_csv('./MLratings&DB.csv', index=False)
 
 
         reader = Reader()
@@ -45,7 +47,7 @@ def train():
         # get just top 1M rows for faster run time
         data = Dataset.load_from_df(rating[['user_id','movie_id','rating']][:], reader)
 
-        from surprise import KNNWithMeans
+        
 
         # To use item-based cosine similarity
         param_grid = {'k': 60,
@@ -57,7 +59,7 @@ def train():
         param_grid = {"sim_options": param_grid}
         algo = KNNWithMeans(sim_options=param_grid)
 
-        from surprise.model_selection import cross_validate
+        
         cross_validate(algo, data, measures=['RMSE', 'MAE'], cv=5, verbose=True)
 
 
@@ -75,7 +77,7 @@ def train():
         #Ghadah:'C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\api\\model\\UserBasedKNN'
         #NoufD:./api/model/UserBasedKNN
         try:
-            knnPickle = open('./api/model/UserBasedKNN', 'wb') 
+            knnPickle = open('./UserBasedKNN', 'wb') 
             # source, destination 
             pickle.dump(algo, knnPickle)
             print("re trained the model")

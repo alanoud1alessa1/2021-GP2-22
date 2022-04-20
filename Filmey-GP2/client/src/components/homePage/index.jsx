@@ -11,6 +11,7 @@ import Footer from "../Footer"
 import OwlCarousel from "react-owl-carousel";
 import { IoIosArrowForward } from "react-icons/io";
 import api from "../../api/axiosAPI"
+import flaskAPI from "../../api/flaskAPI"
 
 
 function homePage(props) {
@@ -165,7 +166,7 @@ function homePage(props) {
     if (registered && !isAdmin) {
       var checkThreshold;
 
-      Axios.post("http://localhost:5000/checkThreshold", {
+      flaskAPI.post("/checkThreshold", {
         userID: userId,
       }).then((response) => {
         checkThreshold = response.data;
@@ -178,7 +179,7 @@ function homePage(props) {
         if (ifExceedsTwintyRating) {
           if (ifNeedsReTraining) {
             // Knowladge Base
-            Axios.post("http://localhost:5000/modelBased", {
+            flaskAPI.post("/modelBased", {
               userID: userId,
             }).then((response) => {
               console.log("modelBased");
@@ -202,7 +203,7 @@ function homePage(props) {
 
               if (additionalState) {
                 // re train model UserCB
-                Axios.post("http://localhost:5000/reTrainUserCB", {}).then(
+                flaskAPI.post("/reTrainUserCB", {}).then(
                   (response) => {
                     console.log("ReTrain model");
                   }
@@ -211,7 +212,7 @@ function homePage(props) {
             });
           } else {
             // userBasedCF
-            Axios.post("http://localhost:5000/userBasedCF", {
+            flaskAPI.post("/userBasedCF", {
               userID: userId,
             }).then((response) => {
               var movieTitlesArray = [...movieTitles];
@@ -236,7 +237,7 @@ function homePage(props) {
           }
         } else {
           // Knowladge Base
-          Axios.post("http://localhost:5000/modelBased", {
+          flaskAPI.post("/modelBased", {
             userID: userId,
           }).then((response) => {
             var movieTitlesArray = [...movieTitles];

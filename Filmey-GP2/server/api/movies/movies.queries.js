@@ -65,7 +65,6 @@ module.exports = {
   },
 
   async getTopMovies(numberofmovies) {
-
     return db("Movie AS M")
       .select(
         "M.movie_id",

@@ -21,6 +21,7 @@ import ReactMultiSelectCheckboxes from "react-multiselect-checkboxes";
 import Popover from "@mui/material/Popover";
 import { GlobalStyles } from "@mui/styled-engine";
 import api from "../../api/axiosAPI";
+import flaskAPI from "../../api/flaskAPI"
 import Footer from "../Footer";
 
 import voxWhite from "../../dist/img/voxWhite.png";
@@ -572,7 +573,7 @@ function MovieInfoPage(props) {
         });
     }
 
-    Axios.post("http://localhost:5000/contentBased", {
+    flaskAPI.post("/contentBased", {
       movieID: id,
     }).then((res) => {
       var IdsArray = [...movieIds];

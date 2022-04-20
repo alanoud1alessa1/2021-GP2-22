@@ -1,7 +1,4 @@
-from ast import Str
-from lib2to3.pgen2.pgen import DFAState
-from unittest import result
-import numpy as np
+# Import libraries 
 from flask import Flask, request, jsonify
 import pickle
 from operator import itemgetter
@@ -10,12 +7,20 @@ import pandas as pd
 import pandas.io.sql as sqlio
 from sklearn.metrics import consensus_score
 from surprise import Dataset, Reader
-
-
-
-
-from flask_cors import CORS, cross_origin
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.feature_extraction.text import CountVectorizer  
+from surprise.model_selection import cross_validate
+from surprise import KNNWithMeans
+from waitress import serve
+from functools import reduce
+import re
+from rake_nltk import Rake
+from datetime import date
+from imdb import IMDb
+from flask_cors import CORS
 from sqlalchemy import false
+
+
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -30,7 +35,7 @@ def checkThreshold():
     userID = data["userID"]
 
 
-    conn = psycopg2.connect(host="localhost"        ,database="filmey",user="postgres",password="pgAdmin123")
+    conn = psycopg2.connect(host="localhost",database="filmey",user="postgres",password="pgAdmin123")
 
     # Create a cursor to perform database operations
     cursor = conn.cursor()
@@ -44,7 +49,7 @@ def checkThreshold():
     #Routes:
     #Ghadah:'C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\api\\model\\MLratings&DB.csv'
     #NoufD:'./api/model//MLratings&DB.csv'
-    rating =pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\api\\model\\MLratings&DB.csv', low_memory=False)
+    rating =pd.read_csv('./api/model/MLratings&DB.csv', low_memory=False)
     rating = rating['user_id'].tolist()
     numberOrRatingsInModel=rating.count(str(userID))
 
@@ -58,87 +63,83 @@ def checkThreshold():
     return jsonify(result)
 
 
-# @app.route('/reTrainUserCB', methods=['POST'])
-# def train():
+@app.route('/reTrainUserCB', methods=['POST'])
+def train():
 
     
-#     # if(numberOrRatingsInModel<20):
-#         conn = psycopg2.connect(host="localhost",database="filmey",user="postgres",password="pgAdmin123")
+    # if(numberOrRatingsInModel<20):
+        conn = psycopg2.connect(host="localhost",database="filmey",user="postgres",password="pgAdmin123")
 
-#         # Create a cursor to perform database operations
-#         cursor = conn.cursor()
+        # Create a cursor to perform database operations
+        cursor = conn.cursor()
 
-#         #Routes:
-#         #Ghadah:'C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\api\\model\\ratings.csv'
-#         #NoufD:'./api/model/ratings.csv'
+        #Routes:
+        #Ghadah:'C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\api\\model\\ratings.csv'
+        #NoufD:'./api/model/ratings.csv'
 
-#         rating =pd.read_csv('./api/model//ratings.csv', low_memory=False)
-
-
-#         ratingDB = sqlio.read_sql_query('SELECT *  FROM "Rating"', conn)
-
-#         rating=ratingDB.append(rating)
-#         #Routes:
-#         #Ghadah:'C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\api\\model\\MLratings&DB.csv'
-#         #NoufD:'./api/model//MLratings&DB.csv'
-
-#         rating.to_csv('./api/model//MLratings&DB.csv', index=False)
+        rating =pd.read_csv('./api/model/ratings.csv', low_memory=False)
 
 
-#         reader = Reader()
+        ratingDB = sqlio.read_sql_query('SELECT *  FROM "Rating"', conn)
 
-#         # get just top 1M rows for faster run time
-#         data = Dataset.load_from_df(rating[['user_id','movie_id','rating']][:], reader)
+        rating=ratingDB.append(rating)
+        #Routes:
+        #Ghadah:'C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\api\\model\\MLratings&DB.csv'
+        #NoufD:'./api/model//MLratings&DB.csv'
 
-#         from surprise import KNNWithMeans
-
-#         # To use item-based cosine similarity
-#         param_grid = {'k': 60,
-#               'sim_options': {"name": "cosine",
-#                               "min_support":  5,
-#                               "user_based": True,
-#                              }
-#               }
-#         param_grid = {"sim_options": param_grid}
-#         algo = KNNWithMeans(sim_options=param_grid)
-
-#         from surprise.model_selection import cross_validate
-#         cross_validate(algo, data, measures=['RMSE', 'MAE'], cv=5, verbose=True)
+        rating.to_csv('./api/model/MLratings&DB.csv', index=False)
 
 
-#         # from surprise.model_selection import  train_test_split
+        reader = Reader()
 
-#         # trainset, testset = train_test_split(data, test_size=0.2)
-#         # algo.fit(trainset)
+        # get just top 1M rows for faster run time
+        data = Dataset.load_from_df(rating[['user_id','movie_id','rating']][:], reader)
+
+
+
+        # To use item-based cosine similarity
+        param_grid = {'k': 60,
+              'sim_options': {"name": "cosine",
+                              "min_support":  5,
+                              "user_based": True,
+                             }
+              }
+        param_grid = {"sim_options": param_grid}
+        algo = KNNWithMeans(sim_options=param_grid)
+
+       
+        cross_validate(algo, data, measures=['RMSE', 'MAE'], cv=5, verbose=True)
+
+
+        # from surprise.model_selection import  train_test_split
+
+        # trainset, testset = train_test_split(data, test_size=0.2)
+        # algo.fit(trainset)
 
 
 
  
 
-#         # Its important to use binary mode 
-#         #Routes:
-#         #Ghadah:'C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\api\\model\\UserBasedKNN'
-#         #NoufD:./api/model/UserBasedKNN
-#         try:
-#             knnPickle = open('./api/model/UserBasedKNN', 'wb') 
-#             # source, destination 
-#             pickle.dump(algo, knnPickle)
-#             print("re trained the model")
+        # Its important to use binary mode 
+        #Routes:
+        #Ghadah:'C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\api\\model\\UserBasedKNN'
+        #NoufD:./api/model/UserBasedKNN
+        try:
+            knnPickle = open('./api/model/UserBasedKNN', 'wb') 
+            # source, destination 
+            pickle.dump(algo, knnPickle)
+            print("re trained the model")
 
-#             return jsonify("re trained the model")
+            return jsonify("re trained the model")
 
-#         except:
-#             return jsonify("Error")
+        except:
+            return jsonify("Error")
 
 
 
 @app.route('/userBasedCF', methods=['POST'])
 def index():
-    import psycopg2
-    import pandas.io.sql as sqlio
-    import pandas as pd
-    from surprise import Dataset, Reader
-    import pickle
+    
     # Get the data from the POST request.
     data = request.get_json(force=True)
 
@@ -220,8 +221,7 @@ def index():
 
 
 
-from datetime import date
-import datetime
+
 
 # Load Movies 
 
@@ -244,7 +244,7 @@ def modelBased():
     #NoufD:'movieData.csv'
 
 
-    df = pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv', low_memory=False)
+    df = pd.read_csv('movieData.csv', low_memory=False)
     data = request.get_json(force=True)
     userID = data["userID"]
     param1 = (str(userID))
@@ -422,8 +422,7 @@ def modelBased():
 
 @app.route('/contentBasedPreprocessing', methods=['POST'])
 def contentBasedPreprocessing():
-    import psycopg2
-    import pandas.io.sql as sqlio
+
 
     conn = psycopg2.connect(
         host="localhost",
@@ -476,7 +475,7 @@ def contentBasedPreprocessing():
         actorsDB=actorsDB[['movie_id','actors']]
         actorsDB = actorsDB.groupby('movie_id')['actors'].apply(list).reset_index(name="actors")
 
-        from functools import reduce
+
         dfs = [movieDB,genresDB,languagesDB,directorsDB,writersDB,actorsDB]
         # movieData=movieDB.join(genresDB,on="movie_id", how='left')
         movieData = pd.merge(movieDB, genresDB,on=['movie_id'], how='left')
@@ -488,9 +487,7 @@ def contentBasedPreprocessing():
         # movieData = reduce(lambda left,right: pd.merge(left,right,on='movie_id'), dfs)
         df=movieData
         print(df)
-        from rake_nltk import Rake
-
-        from imdb import IMDb
+   
         ia = IMDb()
 
         # initializing the new column
@@ -550,7 +547,7 @@ def contentBasedPreprocessing():
                 if ( k == (len(actorList)//3)-1 ):
                     df['actors'][i] = actorNames
 
-        import re
+
 
         for i in range(len(df)):
             print('df',i)
@@ -642,14 +639,12 @@ def contentBasedPreprocessing():
         actorsDB=actorsDB[['movie_id','actors']]
         actorsDB = actorsDB.groupby('movie_id')['actors'].apply(list).reset_index(name="actors")
 
-        from functools import reduce
+
         dfs = [movieDB,genresDB,languagesDB,directorsDB,writersDB,actorsDB]
         movieData = reduce(lambda left,right: pd.merge(left,right,on='movie_id'), dfs)
         df=movieData
 
-        from rake_nltk import Rake
 
-        from imdb import IMDb
         ia = IMDb()
 
         # initializing the new column
@@ -706,7 +701,6 @@ def contentBasedPreprocessing():
                 if ( k == (len(actorList)//3)-1 ):
                     df['actors'][i] = actorNames
 
-        import re
 
         for i in range(len(df)):
             
@@ -761,21 +755,21 @@ def contentBasedPreprocessing():
                 #Routes:
                 #Ghadah:'C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv'
                 #NoufD:'movieData.csv'
-            movieDataFromCSV =pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv', low_memory=False)
+            movieDataFromCSV =pd.read_csv('movieData.csv', low_memory=False)
             movieData=movieDataFromCSV.append(df)
             movieData=movieData.drop(columns=['is_in_cinema','is_coming_soon'])
-            movieData.to_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv',index=False) 
+            movieData.to_csv('movieData.csv',index=False) 
 
         if status=="Edit":
-            movieDataFromCSV =pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv', low_memory=False)
+            movieDataFromCSV =pd.read_csv('movieData.csv', low_memory=False)
             movieDataFromCSV=movieDataFromCSV.drop(movieDataFromCSV.index[movieDataFromCSV['movie_id']==movieID])
             movieData=movieDataFromCSV.append(df)
             movieData=movieData.drop(columns=['is_in_cinema','is_coming_soon'])
-            movieData.to_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv',index=False) 
+            movieData.to_csv('movieData.csv',index=False) 
     if status=="Delete":
-        movieDataFromCSV =pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv', low_memory=False)
+        movieDataFromCSV =pd.read_csv('movieData.csv', low_memory=False)
         movieDataFromCSV=movieDataFromCSV.drop(movieDataFromCSV.index[movieDataFromCSV['movie_id']==movieID])
-        movieDataFromCSV.to_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv',index=False) 
+        movieDataFromCSV.to_csv('movieData.csv',index=False) 
 
     return jsonify("Done")
 
@@ -785,15 +779,13 @@ def contentBasedPreprocessing():
 
 @app.route('/contentBased', methods=['POST'])
 def third():
-    import pandas as pd
-    import sys
-    import json
+
 
     # Load Movies Metadata
     #Routes:
     #Ghadah:'C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv'
     #NoufD:'movieData.csv'
-    df2 = pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv', low_memory=False)
+    df2 = pd.read_csv('movieData.csv', low_memory=False)
 
 
 
@@ -852,14 +844,15 @@ def third():
 
 
     # Import CountVectorizer and create the count matrix
-    from sklearn.feature_extraction.text import CountVectorizer
+   
+
 
     count = CountVectorizer(stop_words='english')
     count_matrix = count.fit_transform(df2['soup'])
 
 
     # Compute the Cosine Similarity matrix based on the count_matrix
-    from sklearn.metrics.pairwise import cosine_similarity
+    
 
     cosine_sim2 = cosine_similarity(count_matrix, count_matrix)
 
@@ -953,6 +946,8 @@ def third():
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)
+
+    # serve(app, host="0.0.0.0", port=5000)
     # index()
     # sec()
 
