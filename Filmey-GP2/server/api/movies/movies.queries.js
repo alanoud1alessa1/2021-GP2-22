@@ -1649,5 +1649,16 @@ async searchOptions(searchType) {
   
 },
 
+async getReviews(movie_id) {
+  return db("Review AS R")
+    .select(["review", "username", "review_id"])
+    .where({
+      movie_id: movie_id,
+      is_deleted: false,
+    })
+    .leftJoin("User AS U", "R.user_id", "U.user_id")
+    .orderBy("created_at", "desc");
+},
+
 };
 
