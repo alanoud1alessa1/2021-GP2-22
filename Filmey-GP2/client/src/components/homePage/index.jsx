@@ -174,7 +174,7 @@ function homePage(props) {
         var ifNeedsReTraining = response.data[1];
 
         // ifExceedsTwintyRating = true;
-        // ifNeedsReTraining = true;
+        // ifNeedsReTraining = false;
 
         if (ifExceedsTwintyRating) {
           if (ifNeedsReTraining) {
@@ -185,13 +185,13 @@ function homePage(props) {
               console.log("modelBased");
               var movieTitlesArray = [...movieTitles];
               var ratingsArray = [...totalRatings];
-              // var additionalState = [...additionalState];
+              var additionalStateArray = [...additionalState];
               for (var i = 0; i < response.data.length; i++) {
                 similarMoviesIds[i] = response.data[i][0];
                 similarMoviesPosters[i] = response.data[i][1];
                 movieTitlesArray[i] = response.data[i][2];
                 ratingsArray[i] = response.data[i][3];
-                additionalState[i] = response.data[i][3];
+                additionalStateArray[i] = response.data[i][3];
               }
 
               setRecommendedMovieIds(similarMoviesIds);
@@ -199,9 +199,9 @@ function homePage(props) {
               setSimilarMoviesPostersState(similarMoviesPosters);
               setmovieTitles(movieTitlesArray);
               settotalRatings(ratingsArray);
-              setAdditionalState(additionalState);
+              setAdditionalState(additionalStateArray);
 
-              if (additionalState) {
+              if (additionalStateArray) {
                 // re train model UserCB
                 flaskAPI.post("/reTrainUserCB", {}).then(
                   (response) => {
@@ -217,14 +217,14 @@ function homePage(props) {
             }).then((response) => {
               var movieTitlesArray = [...movieTitles];
               var ratingsArray = [...totalRatings];
-              var additionalState = [...additionalState];
+              var additionalStateArray = [...additionalState];
 
               for (var i = 0; i < 20; i++) {
                 similarMoviesIds[i] = response.data[i][0];
                 similarMoviesPosters[i] = response.data[i][1];
                 movieTitlesArray[i] = response.data[i][2];
                 ratingsArray[i] = response.data[i][3];
-                additionalState[i] = response.data[i][3];
+                additionalStateArray[i] = response.data[i][3];
               }
 
               setRecommendedMovieIds(similarMoviesIds);
@@ -232,7 +232,7 @@ function homePage(props) {
               setSimilarMoviesPostersState(similarMoviesPosters);
               setmovieTitles(movieTitlesArray);
               settotalRatings(ratingsArray);
-              setAdditionalState(additionalState);
+              setAdditionalState(additionalStateArray);
             });
           }
         } else {
@@ -242,13 +242,13 @@ function homePage(props) {
           }).then((response) => {
             var movieTitlesArray = [...movieTitles];
             var ratingsArray = [...totalRatings];
-            var additionalState = [...additionalState];
+            var additionalStateArray = [...additionalState];
             for (var i = 0; i < response.data.length; i++) {
               similarMoviesIds[i] = response.data[i][0];
               similarMoviesPosters[i] = response.data[i][1];
               movieTitlesArray[i] = response.data[i][2];
               ratingsArray[i] = response.data[i][3];
-              additionalState[i] = response.data[i][3];
+              additionalStateArray[i] = response.data[i][3];
             }
 
             setRecommendedMovieIds(similarMoviesIds);
@@ -256,7 +256,7 @@ function homePage(props) {
             setSimilarMoviesPostersState(similarMoviesPosters);
             setmovieTitles(movieTitlesArray);
             settotalRatings(ratingsArray);
-            setAdditionalState(additionalState);
+            setAdditionalState(additionalStateArray);
           });
         }
       });

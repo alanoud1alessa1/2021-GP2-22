@@ -23,7 +23,10 @@ from sqlalchemy import false
 
 app = Flask(__name__)
 cors = CORS(app)
+# cors = CORS(app, resources={r"/contentBased": {"origins": "*"}})
 app.config['CORS_HEADERS'] = 'Content-Type'
+
+
 
 @app.route('/checkThreshold', methods=['POST'])
 def checkThreshold():
@@ -899,14 +902,15 @@ def third():
     recommendedMovies=get_recommendations(movieID, cosine_sim2)
     #return jsonify(recommendedMovies)
 
-
+    # print("###################recommendedMovies.length")
+    # print(len(recommendedMovies))
 
 
     movies = []
     for i in recommendedMovies:
         print(i)
         cursor.execute('SELECT movie_id ,poster , title FROM "Movie" WHERE movie_id = %s' ,[i] )
-        # print(cursor.fetchall())
+        # print(cursor.fetchall()[0][0])
         # movies.append(cursor.fetchall()[0])
         info = cursor.fetchall()[0]
         print(info)
@@ -924,8 +928,15 @@ def third():
         movies.append([id , poster , title  , rating])
 
 
-
-    return jsonify(movies)
+ 
+    
+    response =jsonify(movies)
+    print("############movies##############")
+    print(movies)
+    print("############response##############")
+    print(response)
+    return response
+    # response.headers.add('Access-Control-Allow-Origin', '*')
 
 
 

@@ -576,26 +576,32 @@ function MovieInfoPage(props) {
     flaskAPI.post("/contentBased", {
       movieID: id,
     }).then((res) => {
+      console.log(res.data)
       var IdsArray = [...movieIds];
       var postersArray = [...Allposters];
       var movieTitlesArray = [...movieTitles];
       var ratingsArray = [...totalRatings];
-      var additionalState = [...additionalState];
+      var additionalStateArray = [...additionalState];
 
       for (var i = 0; i < 20; i++) {
         IdsArray[i] = res.data[i][0];
         postersArray[i] = res.data[i][1];
         movieTitlesArray[i] = res.data[i][2];
         ratingsArray[i] = res.data[i][3];
-        additionalState[i] = res.data[i][3];
+        additionalStateArray[i] = res.data[i][3];
       }
+      console.log(IdsArray)
+      console.log(postersArray)
+      console.log(movieTitlesArray)
+      console.log(ratingsArray)
+      console.log(additionalStateArray)
 
       setMovieIds(IdsArray);
       setAllposters(postersArray);
       setSimilarMoviesPostersState(similarMoviesPosters);
       setmovieTitles(movieTitlesArray);
       settotalRatings(ratingsArray);
-      setAdditionalState(additionalState);
+      setAdditionalState(additionalStateArray);
     });
 
     //Check if user has reviewed movie
@@ -1560,7 +1566,7 @@ function MovieInfoPage(props) {
                       const poster = Allposters[i];
 
                       const title = movieTitles[i];
-                      const rating = totalRatings[i];
+                      var rating = totalRatings[i];
                       if (rating == 0) {
                         rating = "No ratings yet.";
                       }
