@@ -6,15 +6,13 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import Cookies from "universal-cookie";
 import jwt_decode from "jwt-decode";
-// import Axios from "axios";
 import utf8 from "utf8";
 import Filter from "bad-words";
-import api from "../../api/axiosAPI";
 import Footer from "../Footer";
+import { Container } from "react-bootstrap";
+import api from "../../api/axiosAPI";
 
-
-
-function reviewPage(props) {
+const reviewPage = (props) => {
   const {
     logo,
     homeText,
@@ -42,7 +40,6 @@ function reviewPage(props) {
   let { id, isEdit } = useParams();
   id = parseInt(id);
   isEdit = parseInt(isEdit);
-
 
   const Review = () => {
     const filter = new Filter();
@@ -93,40 +90,31 @@ function reviewPage(props) {
       });
     }
   });
-
   return (
-    <div className="PageCenter">
-      <div className="reviewPage screen">
-        <div className="reviewPageContainer"></div>
-
-        {/* Header */}
-        <header>
-          <Header />
-        </header>
-
-        {/* main */}
-        <main>
-          <div className="reviewBody"></div>
-          <div>
-            <div className="reviewBox"></div>
+    <div>
+      {/* header  */}
+      <Header />
+      {/* main content  */}
+      <div className="review-page">
+        <Container className="py-5">
+          <div className="text-center">
             <textarea
               defaultValue={userReview}
               id="1"
-              className="writeReview"
+              className="write-review"
               name="writeReview"
               placeholder={inputPlaceholder}
               rows="5"
-              cols="73"
               maxlength="255"
               autofocus="true"
               onChange={(e) => {
                 setReview(e.target.value);
               }}
             ></textarea>
-            <div className="submitButton">
+            <div className="text-center">
               <button
                 type="submit"
-                className="submitButtonContainer"
+                className="review-submit-btn"
                 onClick={Review}
                 disabled={!isEnabled}
               >
@@ -134,13 +122,13 @@ function reviewPage(props) {
               </button>
             </div>
           </div>
-        </main>
-
-        {/* footer */}
-        <Footer />
+        </Container>
       </div>
+      {/* main content  */}
+      {/* footer  */}
+      <Footer />
     </div>
   );
-}
+};
 
 export default reviewPage;

@@ -1,29 +1,35 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import "./movieInfoPage.css";
+import Popover from "@mui/material/Popover";
 import Axios from "axios";
-import { useState } from "react";
-import { useParams } from "react-router-dom";
-import Cookies from "universal-cookie";
 import jwt_decode from "jwt-decode";
-import Header from "../header";
-import OwlCarousel from "react-owl-carousel";
 import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
-import { FiEdit } from "react-icons/fi";
-import { RiDeleteBin2Line } from "react-icons/ri";
+import React, { useState } from "react";
+import { Col, Container, Row } from "react-bootstrap";
 import { confirmAlert } from "react-confirm-alert";
-import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-import { BsFillBookmarkPlusFill } from "react-icons/bs";
-import { BsFillBookmarkCheckFill } from "react-icons/bs";
+import "react-confirm-alert/src/react-confirm-alert.css";
+import {
+  BsFillBookmarkCheckFill,
+  BsFillBookmarkPlusFill,
+} from "react-icons/bs";
+import { FiEdit } from "react-icons/fi";
 import { GiTicket } from "react-icons/gi";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { RiDeleteBin2Line } from "react-icons/ri";
 import ReactMultiSelectCheckboxes from "react-multiselect-checkboxes";
-import Popover from "@mui/material/Popover";
-import { GlobalStyles } from "@mui/styled-engine";
+import { Link, useParams } from "react-router-dom";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
+import Cookies from "universal-cookie";
+import line from "../../static/img/line-5@1x.svg";
+import star from "../../static/img/star-2@2x.svg";
+import Footer from "../Footer";
+import Header from "../header";
+import "./movieInfoPage.css";
 import api from "../../api/axiosAPI";
 import flaskAPI from "../../api/flaskAPI"
-import Footer from "../Footer";
 
+//import images
 import voxWhite from "../../dist/img/voxWhite.png";
 import voxLogo from "../../dist/img/voxLogo.png";
 import regUserImg from "../../dist/img/regUser.png";
@@ -31,7 +37,271 @@ import amcLogo from "../../dist/img/amcLogo.png";
 import muviLogo from "../../dist/img/muviLogo.png";
 import ticket2 from "../../dist/img/ticket2.png";
 
-function MovieInfoPage(props) {
+
+
+// slider next prev
+const PreviousBtn = (props) => {
+  const { className, onClick } = props;
+  return (
+    <div className={"PreviousArrow"} onClick={onClick}>
+      <IoIosArrowBack />
+    </div>
+  );
+};
+const NextBtn = (props) => {
+  const { className, onClick } = props;
+  return (
+    <div className={"NextArrow"} onClick={onClick}>
+      <IoIosArrowForward />
+    </div>
+  );
+};
+
+const MovieInfo = (props) => {
+  // slider
+  const settings = {
+    dots: false,
+    infinite: false,
+    lazyLoad: true,
+    adaptiveHeight: true,
+    speed: 500,
+    slidesToShow: 6,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    nextArrow: <NextBtn />,
+    prevArrow: <PreviousBtn />,
+    cssEase: "linear",
+    responsive: [
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          // initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+  const topCast = {
+    dots: false,
+    infinite: false,
+    lazyLoad: true,
+    adaptiveHeight: true,
+    speed: 500,
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    nextArrow: <NextBtn />,
+    prevArrow: <PreviousBtn />,
+    cssEase: "linear",
+    responsive: [
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 5,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          // initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 380,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+  const bookTicket = {
+    dots: false,
+    infinite: false,
+    lazyLoad: true,
+    adaptiveHeight: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    nextArrow: <NextBtn />,
+    prevArrow: <PreviousBtn />,
+    cssEase: "linear",
+    responsive: [
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          // initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+  const review = {
+    dots: false,
+    infinite: false,
+    lazyLoad: true,
+    adaptiveHeight: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    nextArrow: <NextBtn />,
+    prevArrow: <PreviousBtn />,
+    cssEase: "linear",
+    responsive: [
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          // initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 380,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+
   //add to watchlist hover
   const [addOpen, setaddOpen] = React.useState(null);
   const addPopoverOpen = (event) => {
@@ -51,35 +321,6 @@ function MovieInfoPage(props) {
     setremoveOpen(null);
   };
   const removeIsOpen = Boolean(Operemoven);
-
-  const similarMoviesOptions = {
-    items: 4,
-    margin: 20,
-
-    navText: [
-
-      "<div className='similarExpandLeft'> <h1><</h1> </div>",
-      "<div className='similarExpandRight'> <h1>></h1> </div>",
-
-      // "<div className='similarExpandLeft'>  <img className='reviewsExpandLeft' src='/img/expand-left--review-@2x.svg' /> </div>",
-      // "<div>  <img className='similarExpandRight' src='/img/expand-right--review-@2x.svg' /> </div>",
-    ],
-    transitionStyle: "fade",
-  };
-
-  const options = {
-    // Navigation
-    navigation: false,
-    navText: [
-      "<div className='reviewsExpandLeft'> <h1><</h1> </div>",
-      "<div className='reviewsExpandRight'> <h1>></h1> </div>",
-
-      // "<div className='reviewsExpandLeft'>  <img className='reviewsExpandLeft' src='/img/expand-left--review-@2x.svg' /> </div>",
-      // "<div>  <img className='reviewsExpandRight' src='/img/expand-right--review-@2x.svg' /> </div>",
-    ],
-    transitionStyle: "fade",
-    items: 3,
-  };
 
   const runCallback = (cb) => {
     return cb();
@@ -121,12 +362,6 @@ function MovieInfoPage(props) {
     cookies.remove("token", { path: "/" });
     window.location.reload();
   };
-
-  // const api = Axios.create({
-  //   baseURL: "http://localhost:3001/api/v1",
-  //   // headers :{
-  //   //  // 'authorization' : token
-  // });
 
   const [mid, setMid] = useState("");
   const [title, setTitle] = useState("");
@@ -398,18 +633,16 @@ function MovieInfoPage(props) {
   };
 
   const deleteMovie = () => {
-    const res = api
-      .post("/movies/delete", {
-        movie_id: id,
-        admin_id: decoded.userID,
-      })
-      .then((res) => {
-        if (res.data) {
-          window.location = "/home-page";
-        } else {
-          alert("Sorry, an error occured. Please try again");
-        }
-      });
+    const res = api.post("/movies/delete", {
+      movie_id: id,
+      admin_id: decoded.userID,
+    }).then((res) => {
+      if (res.data) {
+        window.location = "/home-page";
+      } else {
+        alert("Sorry, an error occured. Please try again");
+      }
+    });
   };
 
   const confirmDeleteMovie = () => {
@@ -463,13 +696,11 @@ function MovieInfoPage(props) {
 
     setuserRating(value);
     sethaveRated(true);
-    const res = api
-      .post("/users/rating", {
-        userID: decoded.userID,
-        movieID: id,
-        rating: parseInt(value),
-      })
-      .then((res) => {});
+    const res = api.post("/users/rating", {
+      userID: decoded.userID,
+      movieID: id,
+      rating: parseInt(value),
+    }).then((res) => {});
     confirmAlert({
       customUI: ({ onClose }) => {
         return (
@@ -492,17 +723,15 @@ function MovieInfoPage(props) {
   };
 
   const deleteRating = () => {
-    const res = api
-      .post("/users/deleteRating", {
-        userID: decoded.userID,
-        movieID: id,
-      })
-      .then((res) => {
-        if (res.data) {
-          sethaveRated(false);
-        }
-        updateMovieRating();
-      });
+    const res = api.post("/users/deleteRating", {
+      userID: decoded.userID,
+      movieID: id,
+    }).then((res) => {
+      if (res.data) {
+        sethaveRated(false);
+      }
+      updateMovieRating();
+    });
   };
 
   const confirmDeleteRating = () => {
@@ -532,22 +761,24 @@ function MovieInfoPage(props) {
 
   const deleteReview = (isUser, review_id) => {
     if (isUser) {
-      const res = api
-        .post("/users/deleteReview", {
+      const res = api.post(
+        "/users/deleteReview",
+        {
           review_id: review_id,
-        })
-        .then((res) => {
-          window.location.reload(true);
-        });
+        }
+      ).then((res) => {
+        window.location.reload(true);
+      });
     } else {
-      const res = api
-        .post("/admins/deleteReview", {
+      const res = api.post(
+        "/admins/deleteReview",
+        {
           admin_id: decoded.userID,
           review_id: review_id,
-        })
-        .then((res) => {
-          window.location.reload(true);
-        });
+        }
+      ).then((res) => {
+        window.location.reload(true);
+      });
     }
   };
   const [similarMoviesPostersState, setSimilarMoviesPostersState] = useState(
@@ -576,32 +807,26 @@ function MovieInfoPage(props) {
     flaskAPI.post("/contentBased", {
       movieID: id,
     }).then((res) => {
-      console.log(res.data)
       var IdsArray = [...movieIds];
       var postersArray = [...Allposters];
       var movieTitlesArray = [...movieTitles];
       var ratingsArray = [...totalRatings];
-      var additionalStateArray = [...additionalState];
+      var additionalState = [...additionalState];
 
       for (var i = 0; i < 20; i++) {
         IdsArray[i] = res.data[i][0];
         postersArray[i] = res.data[i][1];
         movieTitlesArray[i] = res.data[i][2];
         ratingsArray[i] = res.data[i][3];
-        additionalStateArray[i] = res.data[i][3];
+        additionalState[i] = res.data[i][3];
       }
-      console.log(IdsArray)
-      console.log(postersArray)
-      console.log(movieTitlesArray)
-      console.log(ratingsArray)
-      console.log(additionalStateArray)
 
       setMovieIds(IdsArray);
       setAllposters(postersArray);
       setSimilarMoviesPostersState(similarMoviesPosters);
       setmovieTitles(movieTitlesArray);
       settotalRatings(ratingsArray);
-      setAdditionalState(additionalStateArray);
+      setAdditionalState(additionalState);
     });
 
     //Check if user has reviewed movie
@@ -619,17 +844,15 @@ function MovieInfoPage(props) {
 
     window.scrollTo(0, 0);
     if (registered && !isAdmin) {
-      const res = api
-        .post("/users/getRating", {
-          userID: decoded.userID,
-          movieID: id,
-        })
-        .then((res) => {
-          if (res.data[0]) {
-            sethaveRated(true);
-            setuserRating(res.data[0]);
-          }
-        });
+      const res = api.post("/users/getRating", {
+        userID: decoded.userID,
+        movieID: id,
+      }).then((res) => {
+        if (res.data[0]) {
+          sethaveRated(true);
+          setuserRating(res.data[0]);
+        }
+      });
     }
 
     // }
@@ -802,6 +1025,14 @@ function MovieInfoPage(props) {
       var cinemaNamesArray = [...cinemaNames];
       var cinemaBookingLinksArray = [...cinemaBookingLink];
 
+      //delete AMC text
+      for (var i = 0; i < response.data.length; i++) {
+        response.data[i].location = response.data[i].location.replace(
+          "AMC",
+          ""
+        );
+      }
+
       for (var i = 0; i < response.data.length; i++) {
         cinemaIdsArray[i] = response.data[i].cinema_id;
         cinemaCitysArrays[i] = response.data[i].city;
@@ -809,6 +1040,7 @@ function MovieInfoPage(props) {
         cinemaNamesArray[i] = response.data[i].name;
         cinemaBookingLinksArray[i] = response.data[i].booking_link;
       }
+
       setCinemaBookingLink(cinemaBookingLinksArray);
       setCinemaIds(cinemaIdsArray);
       setCinemaCity(cinemaCitysArrays);
@@ -873,339 +1105,221 @@ function MovieInfoPage(props) {
       setReleaseDateCinemaName(releaseDateCinemaNameArray);
     });
   }, []);
-
   return (
-    <div className="PageCenter">
-      <div className="movieInfo screen">
-        <div className="movieInfoContainer">
-          <body>
-            {/* Header */}
-            <header>
-              <Header />
-            </header>
+    <div>
+      {/* header  */}
+      <Header />
+      {/* popups */}
+      <Popover
+        id="mouse-over-popover"
+        sx={{
+          pointerEvents: "none",
+        }}
+        open={addIsOpen}
+        anchorEl={addOpen}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+        transformOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        onClose={addPopoverClose}
+        disableRestoreFocus
+      >
+        <div className="watchListHoverText">
+          {" "}
+          Add to watchlist{" "}
+        </div>
+      </Popover>
+      <Popover
+        id="mouse-over-popover"
+        sx={{
+          pointerEvents: "none",
+        }}
+        open={removeIsOpen}
+        anchorEl={Operemoven}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+        transformOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        onClose={removePopoverClose}
+        disableRestoreFocus
+      >
+        <div className="watchListHoverText">
+          {" "}
+          Remove from watchlist{" "}
+        </div>
+      </Popover>
+      {/* popups  */}
 
-            {/* main  */}
-            <main>
-              <div className="body"></div>
-              <Popover
-                id="mouse-over-popover"
-                sx={{
-                  pointerEvents: "none",
-                }}
-                open={addIsOpen}
-                anchorEl={addOpen}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "center",
-                }}
-                transformOrigin={{
-                  vertical: "bottom",
-                  horizontal: "center",
-                }}
-                onClose={addPopoverClose}
-                disableRestoreFocus
-              >
-                <div className="watchListHoverText" neuton-normal-white-30px>
-                  {" "}
-                  Add to watchlist{" "}
-                </div>
-              </Popover>
-              <Popover
-                id="mouse-over-popover"
-                sx={{
-                  pointerEvents: "none",
-                }}
-                open={removeIsOpen}
-                anchorEl={Operemoven}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "center",
-                }}
-                transformOrigin={{
-                  vertical: "bottom",
-                  horizontal: "center",
-                }}
-                onClose={removePopoverClose}
-                disableRestoreFocus
-              >
-                <div className="watchListHoverText" neuton-normal-white-30px>
-                  {" "}
-                  Remove from watchlist{" "}
-                </div>
-              </Popover>
-              <div>
-                <img className="moviePoster" src={poster} />
-                {onWatchList && !isAdmin && (
-                  <button
-                    className="inWatchList"
-                    onClick={removeFromWatchlist}
-                    aria-owns={removeIsOpen ? "mouse-over-popover" : undefined}
-                    aria-haspopup="true"
-                    onMouseEnter={removePopoverOpen}
-                    onMouseLeave={removePopoverClose}
-                  >
-                    <BsFillBookmarkCheckFill size={90} />{" "}
-                  </button>
-                )}
-
-                {!onWatchList && !isAdmin && (
-                  <button
-                    className="bookMark"
-                    onClick={addToWatchlist}
-                    aria-owns={addIsOpen ? "mouse-over-popover" : undefined}
-                    aria-haspopup="true"
-                    onMouseEnter={addPopoverOpen}
-                    onMouseLeave={addPopoverClose}
-                  >
-                    <BsFillBookmarkPlusFill size={90} />{" "}
-                  </button>
-                )}
+      {/* main content  */}
+      {/* movie info section  */}
+      <div
+        fluid
+        className="py-2 py-md-5 overflow-hidden movieInformationSection"
+      >
+        <Row className="g-4">
+          <Col sm={12} md={3}>
+            <div className="moviePosterBox">
+              <div className="w-100">
+                <img className="img-fluid movie-info-poster" src={poster} />
               </div>
-              <div className="trailer">
-                <a
-                  className="playTrailerText"
-                  href={trailer_url}
-                  target="_blank"
-                >
-                  {playTrailerText}{" "}
-                </a>
-                <i className="fa fa-play-circle"> </i>
-              </div>
-              {/*  add rating */}
-              {!haveRated && !isAdmin && (
-                <div className="addRating">
-                  <div className="rateItText neuton-normal-white-30px">
-                    Rate it !
-                  </div>
-                  <div class="rating-css">
-                    <div
-                      class="star-icon"
-                      onChange={(e) => {
-                        addRating(e.target.value);
-                      }}
-                    >
-                      <input
-                        type="radio"
-                        name="rating1"
-                        id="rating1"
-                        value="5"
-                      />
-                      <label for="rating1" className="fas fa-star"></label>
-                      <input
-                        type="radio"
-                        name="rating1"
-                        id="rating2"
-                        value="4"
-                      />
-                      <label for="rating2" className="fas fa-star"></label>
-                      <input
-                        type="radio"
-                        name="rating1"
-                        id="rating3"
-                        value="3"
-                      />
-                      <label for="rating3" className="fas fa-star"></label>
-                      <input
-                        type="radio"
-                        name="rating1"
-                        id="rating4"
-                        value="2"
-                      />
-                      <label for="rating4" className="fas fa-star"></label>
-                      <input
-                        type="radio"
-                        name="rating1"
-                        id="rating5"
-                        value="1"
-                      />
-                      <label for="rating5" className="fas fa-star"></label>
-                    </div>
-                  </div>
-                </div>
-              )}
-              {/* after add rating */}
-              {haveRated && (
-                <div className="afterRating">
-                  <div className="yourRatingText neuton-normal-white-30px">
-                    {yourRatingText}
-                  </div>
-                  <div className="movieRatingContainer2">
-                    <img
-                      className="afterRatingStar"
-                      src={require("../../static/img/star-2@2x.svg").default}
-                    />
-                    <div className="userRating">{userRating}</div>
-                    <div className="fiveText1">/ 5</div>
-                  </div>
-                </div>
-              )}
-              {/* remove rating */}
-              {haveRated && (
+              {onWatchList && !isAdmin && (
                 <button
-                  className="removeRatingText neuton-normal-white-20px"
-                  onClick={confirmDeleteRating}
+                  className="watchList"
+                  onClick={removeFromWatchlist}
+                  aria-owns={removeIsOpen ? "mouse-over-popover" : undefined}
+                  aria-haspopup="true"
+                  onMouseEnter={removePopoverOpen}
+                  onMouseLeave={removePopoverClose}
                 >
-                  Remove Rating
+                  <BsFillBookmarkCheckFill size={80} />{" "}
                 </button>
               )}
-              {/* edit movie */}(
-              {isAdmin && (
-                <div>
-                  <button className="editMovieButton">
-                    {/* <Link to="/movieForm" > */}
-                    <Link to={`/movieForm/${id}`}>
-                      <div className="editMovieContainer">
-                        <div className="editMovieIcon">
-                          {" "}
-                          <FiEdit size={30} />{" "}
-                        </div>
-                        <div className="editMovieText"> Edit </div>
-                      </div>
-                    </Link>
-                  </button>
 
-                  {/* delete movie */}
-                  <button
-                    className="deleteMovieButton"
-                    onClick={confirmDeleteMovie}
-                  >
-                    {/* <Link to="/home-page"> */}
-                    <div className="editMovieContainer">
-                      <div>
-                        <RiDeleteBin2Line size={35} />{" "}
-                      </div>
-                      <div className="deleteMovieText"> Delete </div>
-                    </div>
-                    {/* </Link> */}
-                  </button>
-                </div>
+              {!onWatchList && !isAdmin && (
+                <button
+                  className="addBookMark"
+                  onClick={addToWatchlist}
+                  aria-owns={addIsOpen ? "mouse-over-popover" : undefined}
+                  aria-haspopup="true"
+                  onMouseEnter={addPopoverOpen}
+                  onMouseLeave={addPopoverClose}
+                >
+                  <BsFillBookmarkPlusFill size={80} />{" "}
+                </button>
               )}
-              ){/* movie information */}
-              <div className="movieInfo">
-                <div className="movieBasicInfo">
-                  <div className="movieTitle">
-                    <div className="movieName"> {title} </div>{" "}
-                    <span className="movieYear"> ({year})</span>
-                  </div>
-                  <div className="movieRatingContainer">
-                    <img
-                      className="star"
-                      src={require("../../static/img/star-2@2x.svg").default}
-                    />
-                    {ratedMovie && (
-                      <div>
-                        <div className="movieRating">{totalRating}</div>
-                        <div className="fiveText2">/ 5 </div>
-                        <div className="totalUsersRating">
-                          ({totalUsersRating} ratings)
-                        </div>
-                      </div>
-                    )}
-                    {!ratedMovie && (
-                      <div className="emptyMovieRating">
-                        The movie has no ratings yet.{" "}
-                      </div>
-                    )}
-                  </div>
-                  <div className="pgAndTime">
-                    <div className="pgContainer">
-                      <div className="moviepg neuton-bold-white-20px">
-                        {age_guide}
-                      </div>
-                    </div>
-                    <div className="timeContainer">
-                      <div className="movieTime neuton-bold-white-20px">
-                        {length}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="movieGenreContainer">
-                  <div className="movieInfoGenre neuton-bold-white-24px">
-                    {genreText}
-                  </div>
-                  <div className="movieInfoGenreType roboto-normal-baby-powder-25px">
-                    {genre}
-                  </div>
-                </div>
-
-                <div className="movieDesContainer">
-                  <div className="line1Container">
-                    <img
-                      className="line1"
-                      src={require("../../static/img/line-5@1x.svg").default}
-                      // src="/img/line-5@1x.svg"
-                    />
-                  </div>
-                  <div className="descriptionText neuton-bold-white-24px">
-                    {descriptionText}
-                  </div>
-                  <div className="movieDes roboto-normal-baby-powder-25px">
-                    {description}
-                  </div>
-                </div>
-
-                <div className="movieDirectorContainer">
-                  <div className="line2Container">
-                    <img
-                      className="line2"
-                      //  src="/img/line-5@1x.svg"
-                      src={require("../../static/img/line-5@1x.svg").default}
-                    />
-                  </div>
-                  <div className="directorText neuton-bold-white-24px">
-                    {directorText}
-                  </div>
-                  <div className="directorName roboto-normal-baby-powder-25px">
-                    {directors}
-                  </div>
-                </div>
-
-                <div className="movieWritersContainer">
-                  <div className="line3Container">
+              <div className="trailerContainer mt-4">
+                <a className="trailer" href={trailer_url} target="_blank">
+                  <i className="fa fa-play-circle me-2"> </i>
+                  {playTrailerText}{" "}
+                </a>
+              </div>
+            </div>
+          </Col>
+          <Col className="overflow-hidden" sm={12} md={9}>
+            {/* movie information */}
+            <div>
+              {/* basic info  */}
+              <div className="">
+                <div>
+                  <h4 className="title">
                     {" "}
-                    <img
-                      className="line3"
-                      src={require("../../static/img/line-5@1x.svg").default}
-
-                      //  src="/img/line-5@1x.svg"
-                    />{" "}
+                    {title} <span className="year ms-1"> ({year})</span>{" "}
+                  </h4>{" "}
+                </div>
+                <div className="d-flex align-items-center gap-2 my-2">
+                  <img className="" src={require("../../static/img/star-2@2x.svg").default} />
+                  {ratedMovie && (
+                    <div className="mt-2">
+                      <h5>
+                        {totalRating} / 5{" "}
+                        <span className="totalUsersRating">
+                          {" "}
+                          ({totalUsersRating} ratings)
+                        </span>{" "}
+                      </h5>
+                    </div>
+                  )}
+                  {!ratedMovie && (
+                    <div className="mt-2">
+                      <h5>The movie has no ratings yet.</h5>
+                    </div>
+                  )}
+                </div>
+                <div className="d-flex align-items-center gap-3">
+                  <div className="pg">
+                    <div className="moviepg neuton-bold-white-20px">
+                      {age_guide}
+                    </div>
                   </div>
-                  <div className="writersText neuton-bold-white-24px">
-                    {writersText}
-                  </div>
-                  <div className="writersName roboto-normal-baby-powder-25px">
-                    {writers}
+                  <div className="time">
+                    <div className="movieTime neuton-bold-white-20px">
+                      ( {length} )
+                    </div>
                   </div>
                 </div>
+              </div>
 
-                <div className="movielanguageContainer">
-                  <img
-                    className="line4"
-                    src={require("../../static/img/line-5@1x.svg").default}
-                    // src="/img/line-5@1x.svg"
-                  />
-                  <div className="languageText2 neuton-bold-white-24px">
-                    {languageText2}
-                  </div>
-                  <div className="movieLanguage roboto-normal-baby-powder-25px">
-                    {languages}
-                  </div>
+              <div className="d-flex align-items-center gap-5 mt-4">
+                <h3 className="movieInfoTitle neuton-bold-white-24px">
+                  {genreText}
+                </h3>
+                <div className="movieInfoValue roboto-normal-baby-powder-25px">
+                  {genre}
                 </div>
+              </div>
+              {/* line  */}
+              <div className="my-2">
+                <img className="" src={require("../../static/img/line-5@1x.svg").default} />
+              </div>
+              {/* line  */}
+              <div className="">
+                <h3 className="movieInfoTitle desText neuton-bold-white-24px">
+                  {descriptionText}
+                </h3>
+                <p className="movieInfoValue movieDesCription roboto-normal-baby-powder-25px">
+                  {description}
+                </p>
+              </div>
+              {/* line  */}
+              <div className="my-2">
+                <img className=""src={require("../../static/img/line-5@1x.svg").default} />
+              </div>
+              {/* line  */}
+              <div className="d-flex gap-5">
+                <h3 className="movieInfoTitle neuton-bold-white-24px">
+                  {directorText}
+                </h3>
+                <h4 className="movieInfoValue roboto-normal-baby-powder-25px">
+                  {directors}
+                </h4>
+              </div>
+              {/* line  */}
+              <div className="my-2">
+                <img className="" src={require("../../static/img/line-5@1x.svg").default} />
+              </div>
 
-                {isComingSoon && (
-                  <div className="movieReleaseDateContainer">
-                    <img
-                      className="line5"
-                      // src="/img/line-5@1x.svg"
-                      src={require("../../static/img/line-5@1x.svg").default}
-                    />
-                    <div className="releaseDateText neuton-bold-white-24px">
+              <div className="d-flex gap-5">
+                <h3 className="movieInfoTitle neuton-bold-white-24px">
+                  {writersText}
+                </h3>
+                <h4 className="movieInfoValue roboto-normal-baby-powder-25px">
+                  {writers}
+                </h4>
+              </div>
+
+              {/* line  */}
+              <div className="my-2">
+                <img className="" src={require("../../static/img/line-5@1x.svg").default}/>
+              </div>
+
+              <div className="d-flex gap-5">
+                <h3 className="movieInfoTitle neuton-bold-white-24px">
+                  {languageText2}
+                </h3>
+                <h4 className="movieInfoValue roboto-normal-baby-powder-25px">
+                  {languages}
+                </h4>
+              </div>
+              {/* coming soon  */}
+              {isComingSoon && (
+                <div>
+                  <div className="my-2">
+                    <img className="" src={require("../../static/img/line-5@1x.svg").default} />
+                  </div>
+                  <div className="d-flex gap-2 gap-md-5">
+                    <div className="movieInfoTitle neuton-bold-white-24px">
                       Release Date
                     </div>
 
-                    <div className="movieCinemaReleaseDateContainer roboto-normal-baby-powder-25px">
+                    <div className="d-flex flex-wrap gap-2 gap-md-5 roboto-normal-baby-powder-25px">
                       {runCallback(() => {
                         const row = [];
 
@@ -1221,11 +1335,13 @@ function MovieInfoPage(props) {
                                     <div className="movieCinemaReleaseDate">
                                       <img
                                         src={voxWhite}
-                                        // src="/img/voxWhite.png"
                                         height="40"
                                         width="30"
+                                        className="releaseDateLogo"
                                       />
-                                      <div>{date}</div>
+                                      <div className="movieInfoValue release-date">
+                                        {date}
+                                      </div>
                                     </div>
                                   )}
 
@@ -1233,23 +1349,27 @@ function MovieInfoPage(props) {
                                     <div className="movieCinemaReleaseDate">
                                       <img
                                         src={amcLogo}
-                                        // src="/img/amcLogo.png"
                                         height="40"
                                         width="60"
+                                        className="releaseDateLogo"
                                       />
-                                      <div>{date}</div>
+                                      <div className="movieInfoValue release-date">
+                                        {date}
+                                      </div>
                                     </div>
                                   )}
 
                                   {cinemaName == "muvi" && (
-                                    <div className="movieCinemaReleaseDate">
+                                    <div className="movieCinemaReleaseDate d-flex justify-content-center align-items-center gap-1 ">
                                       <img
                                         src={muviLogo}
-                                        // src="/img/muviLogo.png"
                                         height="35"
                                         width="60"
+                                        className="releaseDateLogo"
                                       />
-                                      <div>{date}</div>
+                                      <div className="movieInfoValue release-date">
+                                        {date}
+                                      </div>
                                     </div>
                                   )}
                                 </div>
@@ -1261,359 +1381,458 @@ function MovieInfoPage(props) {
                       })}
                     </div>
                   </div>
-                )}
-              </div>
-              {/* top cast section */}
-              <div className="topCast">
-                <div className="topCastText neuton-normal-white-60px5">
-                  {topCastText}
-                </div>
-
-                {/* casts loop	 */}
-                {runCallback(() => {
-                  const row = [];
-                  for (var i = 0; i < numOfCasts; i++) {
-                    const castImg = castImgs[i];
-                    const castName = castNames[i];
-                    const castRole = castRoles[i];
-
-                    row.push(
-                      <div key={i}>
-                        {
-                          <div className="castLoop">
-                            <div className="cast1">
-                              <img className="castImage1" src={castImg} />
-                              <div className="castName1 neuton-bold-white-20px">
-                                {castName}
-                              </div>
-                              <div className="castRole1 roboto-normal-white-15px">
-                                as {castRole}
-                              </div>
-                            </div>
-                          </div>
-                        }
-                      </div>
-                    );
-                  }
-                  return row;
-                })}
-              </div>
-              <div className="cinemaMultiSelect">
-                {isInCinema && (
-                  <ReactMultiSelectCheckboxes
-                    className="cinemaFilter"
-                    onInputChange={() => forceRender({})}
-                    options={cinemasOptions}
-                    placeholderButtonLabel="Select Cinema"
-                    onChange={(e) => {
-                      filterCinemasName(e);
-                    }}
-                    styles={{
-                      dropdownButton: (provided, state) => ({
-                        ...provided,
-                        minHeight: "56",
-                        minWidth: "200",
-                        background: "#fcfcfc",
-                        outline: "none",
-                        border: "0px solid black",
-                        fontSize: "16px",
-                        boxShadow: state.isOpen
-                          ? "0px 4px 4px var(--cardinal)"
-                          : "0px 4px 4px #00000040",
-                        borderRadius: "50",
-                        padding: "10px 10px 10px 20px",
-                      }),
-                      option: (provided, state) => ({
-                        ...provided,
-                        color: state.isSelected ? "var(--cardinal)" : "black",
-                        background: "white",
-                      }),
-                    }}
-                  />
-                )}
-              </div>
-              <div className="cityMultiSelect">
-                {isInCinema && (
-                  <ReactMultiSelectCheckboxes
-                    className="cityFilter"
-                    onInputChange={() => forceRender({})}
-                    options={cityOptions}
-                    onChange={(e) => {
-                      filterCinemasCity(e);
-                    }}
-                    placeholderButtonLabel="Select City"
-                    styles={{
-                      dropdownButton: (provided, state) => ({
-                        ...provided,
-                        minHeight: "56",
-                        minWidth: "200",
-                        background: "#fcfcfc",
-                        outline: "none",
-                        border: "0px solid black",
-                        fontSize: "16px",
-                        boxShadow: state.isOpen
-                          ? "0px 4px 4px var(--cardinal)"
-                          : "0px 4px 4px #00000040",
-                        borderRadius: "50",
-                        padding: "10px 10px 10px 20px",
-                      }),
-                      option: (provided, state) => ({
-                        ...provided,
-                        color: state.isSelected ? "var(--cardinal)" : "black",
-                        background: "white",
-                      }),
-                    }}
-                  />
-                )}
-              </div>
-              {/* book ticket section  */}
-              <div className="bookTicketText neuton-normal-white-60px5">
-                Book Ticket
-              </div>
-              {!isInCinema && (
-                <div className="notInCenimas neuton-bold-white-20px">
-                  The movie not shown in cinemas now.
                 </div>
               )}
-              {isInCinema && (
-                <div className="bookTicketContainer">
-                  <OwlCarousel
-                    className="similarMovies-owl-theme"
-                    {...similarMoviesOptions}
-                    nav
-                  >
-                    {cinemaInfo.length != 0 ? (
-                      cinemaInfo.map((x) => (
-                        <div>
-                          <div className="book">
-                            <img
-                              src={ticket2}
-
-                              //  src="/img/ticket2.png"
-                            />
-
-                            {x.name == "vox" && (
-                              <div className="voxLogo">
-                                <img
-                                  src={voxLogo}
-                                  // src="/img/voxLogo.png"
-                                  height="52"
-                                  width="52"
-                                />
-                              </div>
-                            )}
-
-                            {x.name == "amc" && (
-                              <div className="amcLogo">
-                                <img src={amcLogo} height="95" width="95" />
-                              </div>
-                            )}
-
-                            {x.name == "muvi" && (
-                              <div className="muviLogo">
-                                <img
-                                  src={"/img/muviLogo.png"}
-                                  height="90"
-                                  width="90"
-                                />
-                              </div>
-                            )}
-
-                            <div className="cinemaLocationName">
-                              {x.location.charAt(0).toUpperCase() +
-                                x.location.slice(1)}
-                            </div>
-
-                            <div className="cityName">
-                              <strong>
-                                {" "}
-                                {x.city.charAt(0).toUpperCase() +
-                                  x.city.slice(1)}{" "}
-                              </strong>
-                            </div>
-
-                            <div className="cenimaShowTimesContainer">
-                              <a
-                                className="cenimaShowTimes"
-                                href={x.booking_link}
-                                target="_blank"
-                              >
-                                <div>
-                                  {" "}
-                                  <GiTicket size={40} />{" "}
-                                </div>
-                                <div> Show Times </div>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-                      ))
-                    ) : (
-                      <div className="emptyCinemasResult neuton-bold-white-20px">
-                        The movie not shown in the selected cinema and city.
-                      </div>
-                    )}
-                  </OwlCarousel>
-                </div>
-              )}
-              {/* reviews section  */}
-              <div className="reviewsContainer">
-                <div className="reviewsText neuton-normal-white-60px5">
-                  {reviewsText}
-                </div>
-                <div className="addReview">
-                  {!isAdmin && !hasReviewed && (
-                    <button onClick={addReview}>
-                      <div className="reviewIcon">
-                        {" "}
-                        <FiEdit size={30} />{" "}
-                      </div>
-                      <div>
-                        <div className="reviewItText neuton-normal-white-30px">
-                          {reviewItText}
-                        </div>
-                      </div>
-                    </button>
-                  )}
-                </div>
-                <div className="addReview">
-                  {!isAdmin && hasReviewed && (
-                    <button onClick={editReview}>
-                      <div className="reviewIcon">
-                        {" "}
-                        <FiEdit size={30} />{" "}
-                      </div>
-                      <div>
-                        <div className="reviewItText neuton-normal-white-30px">
-                          Edit Review
-                        </div>
-                      </div>
-                    </button>
-                  )}
-                </div>
-
-                <div className="userReviews">
-                  <OwlCarousel className="owl-theme" {...options} nav>
-                    {reviews.length > 0 ? (
-                      reviews.map((x) => (
-                        <div className="userReviewContainer">
-                          <div className="reviewerUsername neuton-bold-white-20px">
-                            <div className="reviewerUsernameIcon">
-                              {" "}
-                              <img
-                                src={regUserImg}
-                                width="40"
-                                height="30"
-                              />{" "}
-                            </div>
-                            <div>{x.username}</div>
-
-                            {hasReviewed && x.review_id == userReviewID ? (
-                              <button
-                                className="deleteReviewIcon"
-                                onClick={() => {
-                                  confirmDeleteReview(true, x.review_id);
-                                }}
-                              >
-                                {" "}
-                                <RiDeleteBin2Line size={35} />{" "}
-                              </button>
-                            ) : (
-                              <h1></h1>
-                            )}
-
-                            {isAdmin && (
-                              <button
-                                className="deleteReviewIcon"
-                                onClick={() => {
-                                  confirmDeleteReview(false, x.review_id);
-                                }}
-                              >
-                                {" "}
-                                <RiDeleteBin2Line size={35} />{" "}
-                              </button>
-                            )}
-                          </div>
-                          <div className="userReview roboto-normal-white-20px">
-                            {x.review}
-                          </div>
-                        </div>
-                      ))
-                    ) : (
-                      <div className="noReviews neuton-bold-white-20px">
-                        The movie has no reviews yet.
-                      </div>
-                    )}
-                  </OwlCarousel>
-                </div>
-              </div>
-              {/* similar movies section */}
-              <div className="similarMoviesText neuton-normal-white-60px5">
-                Similar Movies
-              </div>
-              <div className="similarMoviesContainer">
-                <OwlCarousel
-                  className="similarMovies-owl-theme"
-                  {...similarMoviesOptions}
-                  nav
+            </div>
+          </Col>
+        </Row>
+        <div className="ratingBox">
+          {/*  add rating */}
+          {!haveRated && !isAdmin && (
+            <div className="addRating">
+              <h4 className="rateItText neuton-normal-white-30px">Rate it !</h4>
+              <div class="rating-css">
+                <div
+                  class="star-icon"
+                  onChange={(e) => {
+                    addRating(e.target.value);
+                  }}
                 >
-                  {runCallback(() => {
-                    const row = [];
-
-                    for (var i = 0; i < 21; i++) {
-                      const id = movieIds[i];
-                      const url = `/movieInfoPage/${id}`;
-                      const poster = Allposters[i];
-
-                      const title = movieTitles[i];
-                      var rating = totalRatings[i];
-                      if (rating == 0) {
-                        rating = "No ratings yet.";
-                      }
-
-                      row.push(
-                        <div key={i}>
-                          {
-                            <div className="similarMovie">
-                              <a href={url}>
-                                <img
-                                  className="similarMoviePoster"
-                                  src={poster}
-                                  height="652"
-                                  width="512"
-                                />
-                                <img
-                                  className="similarStar"
-                                  src={
-                                    require("../../static/img/star-2@2x.svg")
-                                      .default
-                                  }
-                                />
-                                <div className="similarMovieRating neuton-bold-white-30px">
-                                  {rating}
-                                </div>
-                                <div className="similarMovieName neuton-bold-white-30px">
-                                  {title}
-                                </div>
-                              </a>
-                            </div>
-                          }
-                        </div>
-                      );
-                    }
-                    return row;
-                  })}
-                </OwlCarousel>
+                  <input type="radio" name="rating1" id="rating1" value="5" />
+                  <label
+                    for="rating1"
+                    className="fas fa-star star-icon"
+                  ></label>
+                  <input type="radio" name="rating1" id="rating2" value="4" />
+                  <label
+                    for="rating2"
+                    className="fas fa-star star-icon"
+                  ></label>
+                  <input type="radio" name="rating1" id="rating3" value="3" />
+                  <label
+                    for="rating3"
+                    className="fas fa-star star-icon"
+                  ></label>
+                  <input type="radio" name="rating1" id="rating4" value="2" />
+                  <label
+                    for="rating4"
+                    className="fas fa-star star-icon"
+                  ></label>
+                  <input type="radio" name="rating1" id="rating5" value="1" />
+                  <label
+                    for="rating5"
+                    className="fas fa-star star-icon"
+                  ></label>
+                </div>
               </div>
-            </main>
-
-            {/* footer */}
-            <Footer />
-          </body>
+            </div>
+          )}
+          {/* after add rating */}
+          <div className="">
+            {haveRated && (
+              <div className="addRating">
+                <h3 className="rateItText neuton-normal-white-30px fw-bold">
+                  {yourRatingText}
+                </h3>
+                <div className="d-flex justify-content-center align-items-center gap-3 mt-2">
+                  <img width={30} src={require("../../static/img/star-2@2x.svg").default} />
+                  <div className="mt-2">
+                    <h5 className="fw-bold fs-2">
+                      {userRating} /<span className="fs-3"> 5</span>
+                    </h5>
+                  </div>
+                </div>
+              </div>
+            )}
+            {/* remove rating */}
+            <div className="text-end">
+              {haveRated && (
+                <button
+                  className="removeRating neuton-normal-white-20px"
+                  onClick={confirmDeleteRating}
+                >
+                  Remove Rating
+                </button>
+              )}
+            </div>
+          </div>
         </div>
+        {/* edit movie */}
+        {isAdmin && (
+          <div className="d-flex align-items-center gap-2 edit-delete-btn">
+            <button className="edit-movie-btn">
+              <Link to={`/movieForm/${id}`}>
+                <FiEdit className="me-1" size={25} />
+                <span> Edit</span>
+              </Link>
+            </button>
+
+            {/* delete movie */}
+            <button className="delete-movie-btn" onClick={confirmDeleteMovie}>
+              <RiDeleteBin2Line className="me-1" size={30} />{" "}
+              <span>Delete</span>
+            </button>
+          </div>
+        )}
       </div>
+      {/* top cast section  */}
+      <Container className="py-5">
+        {/* top cast section */}
+        <div>
+          <h3 className="section-title">{topCastText}</h3>
+        </div>
+        <div className="mt-5">
+          <Slider {...topCast}>
+            {/* casts loop	 */}
+            {runCallback(() => {
+              const row = [];
+              for (var i = 0; i < numOfCasts; i++) {
+                const castImg = castImgs[i];
+                const castName = castNames[i];
+                const castRole = castRoles[i];
+
+                row.push(
+                  <div className="top-cast-box" key={i}>
+                    {
+                      <div className="movie shadow-lg text-center">
+                        <div>
+                          <img
+                            className="moviePosterCarousel img-fluid"
+                            src={castImg}
+                          />
+                          <div className="p-1 p-md-4">
+                            <div className="castName neuton-bold-white-20px">
+                              {castName}
+                            </div>
+                            <div className="castRole roboto-normal-white-15px">
+                              as {castRole}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    }
+                  </div>
+                );
+              }
+              return row;
+            })}
+          </Slider>
+        </div>
+      </Container>
+      {/* book ticket section  */}
+      {isInCinema && (
+        <Container className="py-5">
+          <div className="d-flex  gap-10 gap-md-4 flex-column flex-sm-row">
+            <div>
+              <h3 className="section-title book-ticket">Book Ticket</h3>
+            </div>
+            {!isInCinema && (
+              <div className="neuton-bold-white-20px">
+                The movie not shown in cinemas now.
+              </div>
+            )}
+            {isInCinema && (
+              <div className="filterBookTicket d-flex align-items-center gap-2 my-2">
+                <ReactMultiSelectCheckboxes
+                  className="cinemaFilter"
+                  onInputChange={() => forceRender({})}
+                  options={cinemasOptions}
+                  placeholderButtonLabel="Select Cinema"
+                  onChange={(e) => {
+                    filterCinemasName(e);
+                  }}
+                  styles={{
+                    dropdownButton: (provided, state) => ({
+                      ...provided,
+                      background: "#fcfcfc",
+                      outline: "none",
+                      border: "0px solid black",
+                      boxShadow: state.isOpen
+                        ? "0px 4px 4px var(--cardinal)"
+                        : "0px 4px 4px #00000040",
+                      borderRadius: "50",
+                      padding: "10px 10px 10px 20px",
+                    }),
+                    option: (provided, state) => ({
+                      ...provided,
+                      color: state.isSelected ? "var(--cardinal)" : "black",
+                      background: "white",
+                    }),
+                  }}
+                />
+                <ReactMultiSelectCheckboxes
+                  className="cityFilter"
+                  onInputChange={() => forceRender({})}
+                  options={cityOptions}
+                  onChange={(e) => {
+                    filterCinemasCity(e);
+                  }}
+                  placeholderButtonLabel="Select City"
+                  styles={{
+                    dropdownButton: (provided, state) => ({
+                      ...provided,
+                      background: "#fcfcfc",
+                      outline: "none",
+                      border: "0px solid black",
+                      fontSize: "15px",
+                      boxShadow: state.isOpen
+                        ? "0px 4px 4px var(--cardinal)"
+                        : "0px 4px 4px #00000040",
+                      borderRadius: "50",
+                      padding: "10px 10px 10px 20px",
+                    }),
+                    option: (provided, state) => ({
+                      ...provided,
+                      color: state.isSelected ? "var(--cardinal)" : "black",
+                      background: "white",
+                    }),
+                  }}
+                />
+              </div>
+            )}
+          </div>
+          {/* carousel  */}
+          {isInCinema && (
+            <div className="mt-5">
+              <Slider {...bookTicket}>
+                {cinemaInfo.length != 0 ? (
+                  cinemaInfo.map((x) => (
+                    <div className="movieInfoBox">
+                      <div className="bookingBox">
+                        <div className="w-100">
+                          <img
+                            className="img-fluid movie-ticket"
+                            src={ticket2}
+                          />
+                        </div>
+
+                        {x.name == "vox" && (
+                          <div className="voxLogo">
+                            <img
+                              src={voxLogo}
+                              height="40"
+                              width="95"
+                            />
+                          </div>
+                        )}
+
+                        {x.name == "amc" && (
+                          <div className="amcLogo">
+                            <img
+                              src={amcLogo}
+                              height="70"
+                              width="85"
+                            />
+                          </div>
+                        )}
+
+                        {x.name == "muvi" && (
+                          <div className="muviLogo">
+                            <img
+                              src={muviLogo}
+                              height="50"
+                              width="90"
+                            />
+                          </div>
+                        )}
+
+                        <div className="cinema-des">
+                          <div className="cinemaLocationName">
+                            {x.location.charAt(0).toUpperCase() +
+                              x.location.slice(1)}
+                          </div>
+
+                          <div className="cityName">
+                            <strong>
+                              {" "}
+                              {x.city.charAt(0).toUpperCase() +
+                                x.city.slice(1)}{" "}
+                            </strong>
+                          </div>
+                        </div>
+
+                        <div>
+                          <a
+                            className="cenima-show-time"
+                            href={x.booking_link}
+                            target="_blank"
+                          >
+                            <GiTicket size={40} />
+                            Show Times
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="emptyCinemasResult neuton-bold-white-20px">
+                    The movie not shown in the selected cinema and city.
+                  </div>
+                )}
+              </Slider>
+            </div>
+          )}
+          {/* carousel  */}
+        </Container>
+      )}
+      {/* review section  */}
+      <Container className="py-5">
+        {/* reviews section  */}
+        <div>
+          <div className="d-flex justify-content-between align-items-center">
+            <h3 className="section-title">{reviewsText}</h3>
+            {!isAdmin && !hasReviewed && (
+              <div>
+                <button className="addReviewBtn" onClick={addReview}>
+                  <FiEdit className="reviewIcon" size={30} />{" "}
+                  <span className="reviewItText neuton-normal-white-30px">
+                    {" "}
+                    {reviewItText}
+                  </span>
+                </button>
+              </div>
+            )}
+            {!isAdmin && hasReviewed && (
+              <div>
+                <button className="addReviewBtn" onClick={editReview}>
+                  {" "}
+                  <FiEdit className="reviewIcon" size={30} />{" "}
+                  <span className="reviewItText neuton-normal-white-30px">
+                    {" "}
+                    Edit Review
+                  </span>
+                </button>
+              </div>
+            )}
+          </div>
+          {/* reviews  */}
+          <div className="mt-5">
+            <div className="review-section">
+              <Slider {...review}>
+                {reviews.length > 0 ? (
+                  reviews.map((x) => (
+                    <div className="user-review-container p-4">
+                      <div className="reviewer-username neuton-bold-white-20px d-flex justify-content-between">
+                        <div className="d-flex align-items-center flex-wrap gap-1">
+                          <img
+                            src={regUserImg}
+                            width="40"
+                            // height="30"
+                            className="reviewer-username-icon"
+                          />
+                          <h3 className="userUsername">{x.username}</h3>
+                        </div>
+
+                        <div>
+                          {hasReviewed && x.review_id == userReviewID ? (
+                            <button
+                              className="delete-review-icon"
+                              onClick={() => {
+                                confirmDeleteReview(true, x.review_id);
+                              }}
+                            >
+                              {" "}
+                              <RiDeleteBin2Line
+                                className="deleteIcon"
+                                size={35}
+                              />{" "}
+                            </button>
+                          ) : (
+                            <h1></h1>
+                          )}
+
+                          {isAdmin && (
+                            <button
+                              className="delete-review-icon"
+                              onClick={() => {
+                                confirmDeleteReview(false, x.review_id);
+                              }}
+                            >
+                              {" "}
+                              <RiDeleteBin2Line
+                                className="deleteIcon"
+                                size={35}
+                              />{" "}
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                      <div className="mt-3">
+                        <p className="user-review roboto-normal-baby-powder-25px">
+                          {" "}
+                          {x.review}
+                        </p>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="movieInfoValue neuton-bold-white-20px">
+                    The movie has no reviews yet.
+                  </div>
+                )}
+              </Slider>
+            </div>
+          </div>
+        </div>
+      </Container>
+      {/* similar movies section  */}
+      <Container className="py-5">
+        <div>
+          <h3 className="section-title">Similar Movies</h3>
+        </div>
+        <div className="mt-5">
+          <Slider {...settings}>
+            {runCallback(() => {
+              const row = [];
+
+              for (var i = 0; i < 21; i++) {
+                const id = movieIds[i];
+                const url = `/movieInfoPage/${id}`;
+                // const poster = Allposters[i];
+                const poster = "/img/moviePoster.jpg";
+                const title = movieTitles[i];
+                const rating = totalRatings[i];
+                if (rating == 0) {
+                  rating = "No ratings.";
+                }
+
+                row.push(
+                  <div key={i}>
+                    {
+                      <div className="movie">
+                        <a href={url}>
+                          <img className="moviePosterCarousel" src={poster} />
+                          <div className="p-3">
+                            <div className="movieRating">
+                              <img
+                                className="movieStar"
+                                src={require("../../static/img/star-2@2x.svg").default}
+                              />
+                              <div className="movieRating neuton-bold-white-30px">
+                                {rating} 
+                              </div>
+                            </div>
+                            <div className="movieName neuton-bold-white-30px">
+                              {title} 
+                            </div>
+                          </div>
+                        </a>
+                      </div>
+                    }
+                  </div>
+                );
+              }
+              return row;
+            })}
+          </Slider>
+        </div>
+      </Container>
+      {/* main content  */}
+
+      {/* footer  */}
+      <Footer />
     </div>
   );
-}
+};
 
-export default MovieInfoPage;
+export default MovieInfo;

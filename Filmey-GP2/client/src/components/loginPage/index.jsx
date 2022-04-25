@@ -1,22 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./loginPage.css";
 import jwt_decode from "jwt-decode";
 import { useState } from "react";
-// import Axios from "axios";
 import Cookies from "universal-cookie";
-import api from "../../api/axiosAPI"
+import { Container, Form } from "react-bootstrap";
+import "./loginPage.css";
 import Footer from "../Footer";
+import api from "../../api/axiosAPI"
 
 //import images
-import backgroundImg from "../../static/img/backgroundImage.png";
 import logo from "../../dist/img/Logo.png";
 
 
-
-// import ResetPassword from "../resetPassword";
-
-function loginPage(props) {
+const loginPage = (props) => {
   const {
     text1,
     text2,
@@ -41,8 +37,6 @@ function loginPage(props) {
 
   var emailOrUsernameMessage = "";
   var passwordMessage = "";
-
-  // const API_URL = "http://localhost:3000/api/v1/";
 
   const SpecifyUserType = () => {
     if (username.substring(0, 5) == "admin") {
@@ -103,93 +97,93 @@ function loginPage(props) {
       });
     }
   };
-
   return (
-    <div className="PageCenter">
-      <div className="loginPage screen">
-        <div className="pageContainer">
-          <div className="pageBackground"></div>
-          <img className="backgroundImage" src={backgroundImg} />
-          <Link to="/home-page">
-            <img className="logo" src={logo} />
-          </Link>
-          <div className="loginComponents">
-            <div className="text1">{text1}</div>
-            <div className="regContainer">
-              <div className="text2">{text2}</div>
-              <Link to="/registerPage">
-                <div className="text3Container">
-                  <span className="text3">{text3}</span>
-                </div>
-              </Link>
-            </div>
-
-            {/* login form */}
-            <form>
-              <div className="inputFildes">
-                {/* username or password */}
-                <div className="emialUsernameContainer">
-                  <div className="emailUsername nunito-semi-bold-white-28px">
-                    {emailUsername}
-                  </div>
-                  <input
-                    className="enterEmailUsername border-2px-chicago roboto-normal-pink-swan-16px"
-                    name="emailUsername"
-                    placeholder={emailUsernamePlaceholder}
-                    type={emailUsernameinputType}
-                    required
-                    onChange={(e) => {
-                      setUsername(e.target.value);
-                    }}
-                  />
-                  <div className="loginErrorMessage nunito-semi-bold-white-28px">
-                    {EmailUsername_Error_message}
-                  </div>
-                </div>
-
-                {/* password */}
-                <div className="loginPasswordContainer">
-                  <div className="password-2 nunito-semi-bold-white-28px">
-                    {password}
-                  </div>
-                  <input
-                    className="enterPassword  roboto-normal-pink-swan-16px"
-                    name="password"
-                    placeholder={passwordPlaceholder}
-                    type={passwordinputType}
-                    required
-                    onChange={(e) => {
-                      setuserPassword(e.target.value);
-                    }}
-                  />
-                  <div className="loginErrorMessage nunito-semi-bold-white-28px">
-                    {password_error_message}
-                  </div>
-                </div>
-
-                <Link to="/forgetPassword">
-                  {" "}
-                  <div className="forgetPass"> {text5} </div>
-                </Link>
-
-                {/* login button */}
-                <div className="buttonContainer">
-                  <button
-                    type="button"
-                    className="loginButton"
-                    onClick={SpecifyUserType}
-                    disabled={!isEnabled}
-                  >
-                    <div className="text4 roboto-bold-white-28px">{text4}</div>
-                  </button>
-                </div>
-              </div>
-            </form>
+    <div>
+      <div className="login-section">
+        <Container fluid className="pb-5">
+          <div>
+            <Link to="/home-page">
+              <img className="register-logo" src={logo} />
+            </Link>
           </div>
-        </div>
+        </Container>
+        <Container className="py-2">
+          <div className="login-box">
+            <div className="welcome-back mb-3">{text1}</div>
+            <div className="mb-5 register-link">
+              <h4 className="account-text">
+                {text2}{" "}
+                <Link className="login-text" to="/registerPage">
+                  <strong> {text3}</strong>
+                </Link>
+              </h4>
+            </div>
+            <Form>
+              {/* email  */}
+              <Form.Group className="mb-5 login-field-box">
+                <Form.Label className="nunito-semi-bold-white-28px input-label">
+                  {emailUsername} <span className="required">*</span>
+                </Form.Label>
+                <Form.Control
+                  size="lg"
+                  className="input-field login-input"
+                  name="emailUsername"
+                  placeholder={emailUsernamePlaceholder}
+                  type={emailUsernameinputType}
+                  required
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                  }}
+                />
+                <div className="login-error nunito-normal-river-bed-18px">
+                  <strong>{EmailUsername_Error_message}</strong>{" "}
+                </div>
+              </Form.Group>
+              {/* Password  */}
+              <Form.Group className="mb-4 login-field-box">
+                <Form.Label className="nunito-semi-bold-white-28px input-label">
+                  {password} <span className="required">*</span>
+                </Form.Label>
+                <Form.Control
+                  size="lg"
+                  className="input-field login-input"
+                  name="password"
+                  placeholder={passwordPlaceholder}
+                  type="password"
+                  required
+                  onChange={(e) => {
+                    setuserPassword(e.target.value);
+                  }}
+                  minlength="8"
+                />
+                <div className="login-error nunito-normal-river-bed-18px">
+                  <strong>{password_error_message}</strong>{" "}
+                </div>
+              </Form.Group>
+              <div className="text-end">
+                <Link to="/forgetPassword">
+                  <p className="forget-password"> {text5} </p>
+                </Link>
+              </div>
+              {/* login button */}
+              <div className="text-center d-flex justify-content-center">
+                <button
+                  type="button"
+                  className="registerBtn roboto-bold-white-28px"
+                  onClick={SpecifyUserType}
+                  disabled={!isEnabled}
+                >
+                  {text4}
+                </button>
+              </div>
+            </Form>
+          </div>
+        </Container>
       </div>
+      {/* footer */}
+      <Footer />
     </div>
   );
-}
+};
 
 export default loginPage;

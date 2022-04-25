@@ -2,7 +2,35 @@
   background: #000 !important;
   padding: 10px 0;
 }
+
 .footer-logo {
-  width: 40%;
-  margin-bottom: 20px;
+  width: 35%;
+  margin-bottom: 10px;
+}
+
+.filmey-text{
+  font-size: 20px !important;
+}
+
+@media only screen and (max-width: 580px) {
+  .filmey-text {
+    font-size: 20px !important;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .filmey-text {
+    font-size: 12px !important;
+  }
+  .footer-logo {
+    width: 50%;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .filmey-text {
+    font-size: 12px !important;
+  }
+  .footer-logo {
+    width: 50%;
+  }
 }

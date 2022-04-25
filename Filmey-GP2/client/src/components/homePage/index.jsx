@@ -1,40 +1,173 @@
-
-import React from "react";
-import { Link } from "react-router-dom";
-import "./homePage.css";
 import Axios from "axios";
-import { useState } from "react";
-import Cookies from "universal-cookie";
 import jwt_decode from "jwt-decode";
+import React, { useState } from "react";
+import { Container } from "react-bootstrap";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { Link } from "react-router-dom";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
+import Cookies from "universal-cookie";
+import Footer from "../Footer";
 import Header from "../header";
-import Footer from "../Footer"
-import OwlCarousel from "react-owl-carousel";
-import { IoIosArrowForward } from "react-icons/io";
+import "./homePage.css";
 import api from "../../api/axiosAPI"
 import flaskAPI from "../../api/flaskAPI"
 
+// slider next prev
+const AutoPreviousBtn = (props) => {
+  const { onClick } = props;
+  return <div className={""} onClick={onClick}></div>;
+};
+const AutoNextBtn = (props) => {
+  const { onClick } = props;
+  return <div className={""} onClick={onClick}></div>;
+};
 
-function homePage(props) {
-  const options = {
-    items: 4,
-    margin: 10,
-    navText: [
-     " <div className='recommendedExpandLeft'> <h1><</h1></div>",
-      "<div className='recommendedExpandRight'><h1>></h1> </div>",
+// slider next prev
+const PreviousBtn = (props) => {
+  const { onClick } = props;
+  return (
+    <div className={"PreviousArrow"} onClick={onClick}>
+      <IoIosArrowBack />
+    </div>
+  );
+};
+const NextBtn = (props) => {
+  const { onClick } = props;
+  return (
+    <div className={"NextArrow"} onClick={onClick}>
+      <IoIosArrowForward />
+    </div>
+  );
+};
+
+const Home = (props) => {
+  // slider
+  const autoPlaySlider = {
+    dots: false,
+    pauseOnHover: false,
+    adaptiveHeight: true,
+    slidesToShow: 6,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    nextArrow: <AutoNextBtn />,
+    prevArrow: <AutoPreviousBtn />,
+    autoplay: true,
+    infinite: true,
+    speed: 2000,
+    autoplaySpeed: 2000,
+    cssEase: "linear",
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          // initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
     ],
-    transitionStyle: "fade",
   };
+  // slider
+  const settings = {
+    dots: false,
+    infinite: false,
+    lazyLoad: true,
+    adaptiveHeight: true,
+    speed: 500,
+    slidesToShow: 6,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    nextArrow: <NextBtn />,
+    prevArrow: <PreviousBtn />,
+    cssEase: "linear",
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 992,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          // initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+
   const runCallback = (cb) => {
     return cb();
   };
 
   const {
-    fireIcon,
-    logo,
-    footerText1,
-    footerText2,
     top10Text,
-    icon,
   } = props;
 
   var registered = false;
@@ -54,14 +187,6 @@ function homePage(props) {
     registered = false;
   }
 
-  const logOut = () => {
-    cookies.remove("token", { path: "/" });
-    window.location.reload();
-  };
-
-  // const api = Axios.create({
-  //   baseURL: "http://localhost:3000/api/v1",
-  // });
 
   const [movieIds, setMovieIds] = useState([]);
   const [Allposters, setAllposters] = useState([]);
@@ -90,8 +215,6 @@ function homePage(props) {
   const [numOfWhatsOnMovie, setNumOfWhatsOnMovie] = useState(0);
   const [whatsOnMovieRatings, setWhatsOnMovieRatings] = useState([]);
 
- 
-
   React.useEffect(() => {
     //top 10 movies
     let numOfTopMovies = 10;
@@ -109,58 +232,50 @@ function homePage(props) {
     });
 
     api.get(`/movies/whatsOnMovies/${numOfTopMovies}`).then((response) => {
+      console.log("whatsOnMovies");
+      console.log(response.data);
 
-      console.log('whatsOnMovies')
-      console.log(response.data)
-  
-        var whatsOnIdsArray = [...whatsOnMovieIds];
-        var whatsOnTitlesArray = [...whatsOnMovieTitles];
-        var whatsOnPostersArray = [...whatsOnMoviePosters];
-        var whatsOnRatingsArray = [...whatsOnMovieRatings];
+      var whatsOnIdsArray = [...whatsOnMovieIds];
+      var whatsOnTitlesArray = [...whatsOnMovieTitles];
+      var whatsOnPostersArray = [...whatsOnMoviePosters];
+      var whatsOnRatingsArray = [...whatsOnMovieRatings];
 
-        setNumOfWhatsOnMovie(response.data.length)
+      setNumOfWhatsOnMovie(response.data.length);
 
-        for (var i = 0; i < response.data.length; i++) {
-          whatsOnIdsArray[i] = response.data[i].movie_id;
-          whatsOnTitlesArray[i] = response.data[i].title;
-          whatsOnPostersArray[i] = response.data[i].poster;
-          whatsOnRatingsArray[i]= response.data[i].total_rating;
-         }
+      for (var i = 0; i < response.data.length; i++) {
+        whatsOnIdsArray[i] = response.data[i].movie_id;
+        whatsOnTitlesArray[i] = response.data[i].title;
+        whatsOnPostersArray[i] = response.data[i].poster;
+        whatsOnRatingsArray[i] = response.data[i].total_rating;
+      }
 
-         setWhatsOnMovieIds(whatsOnIdsArray);
-         setWhatsOnMovieTitles(whatsOnTitlesArray);
-         setWhatsOnMoviePosters(whatsOnPostersArray);
-         setWhatsOnMovieRatings(whatsOnRatingsArray);
-       
-      });
-
-
+      setWhatsOnMovieIds(whatsOnIdsArray);
+      setWhatsOnMovieTitles(whatsOnTitlesArray);
+      setWhatsOnMoviePosters(whatsOnPostersArray);
+      setWhatsOnMovieRatings(whatsOnRatingsArray);
+    });
 
     //Get coming soon
     api.get(`/movies/comingSoonMovies/${numOfTopMovies}`).then((response) => {
-      
-
       var comingSoonIdsArray = [...comingSoonMovieIds];
       var comingSoonTitlesArray = [...comingSoonMovieTitles];
       var comingSoonPostersArray = [...comingSoonMoviePosters];
       var comingSoonRatingsArray = [...comingSoonMovieRatings];
-      setNumOfComingSoonMovie(response.data.movies.length)
+      setNumOfComingSoonMovie(response.data.movies.length);
 
       for (var i = 0; i < response.data.movies.length; i++) {
         comingSoonIdsArray[i] = response.data.movies[i].movie_id;
         comingSoonTitlesArray[i] = response.data.movies[i].title;
         comingSoonPostersArray[i] = response.data.movies[i].poster;
-        console.log(response.data.movies[i].total_rating)
-        comingSoonRatingsArray[i]= response.data.movies[i].total_rating;
-       }
+        console.log(response.data.movies[i].total_rating);
+        comingSoonRatingsArray[i] = response.data.movies[i].total_rating;
+      }
 
-       setComingSoonMovieIds(comingSoonIdsArray);
-       setComingSoonMovieTitles(comingSoonTitlesArray);
-       setComingSoonMoviePosters(comingSoonPostersArray);
-       setComingSoonMovieRatings(comingSoonRatingsArray);
-     
+      setComingSoonMovieIds(comingSoonIdsArray);
+      setComingSoonMovieTitles(comingSoonTitlesArray);
+      setComingSoonMoviePosters(comingSoonPostersArray);
+      setComingSoonMovieRatings(comingSoonRatingsArray);
     });
-
 
     //check thresold for registered users only
     if (registered && !isAdmin) {
@@ -174,7 +289,7 @@ function homePage(props) {
         var ifNeedsReTraining = response.data[1];
 
         // ifExceedsTwintyRating = true;
-        // ifNeedsReTraining = false;
+        // ifNeedsReTraining = true;
 
         if (ifExceedsTwintyRating) {
           if (ifNeedsReTraining) {
@@ -185,12 +300,14 @@ function homePage(props) {
               console.log("modelBased");
               var movieTitlesArray = [...movieTitles];
               var ratingsArray = [...totalRatings];
+              // var additionalState = [...additionalState];
               var additionalStateArray = [...additionalState];
               for (var i = 0; i < response.data.length; i++) {
                 similarMoviesIds[i] = response.data[i][0];
                 similarMoviesPosters[i] = response.data[i][1];
                 movieTitlesArray[i] = response.data[i][2];
                 ratingsArray[i] = response.data[i][3];
+                //additionalState[i] = response.data[i][3];
                 additionalStateArray[i] = response.data[i][3];
               }
 
@@ -199,12 +316,15 @@ function homePage(props) {
               setSimilarMoviesPostersState(similarMoviesPosters);
               setmovieTitles(movieTitlesArray);
               settotalRatings(ratingsArray);
+              // setAdditionalState(additionalState);
               setAdditionalState(additionalStateArray);
 
+              // if (additionalState) {
               if (additionalStateArray) {
+
                 // re train model UserCB
                 flaskAPI.post("/reTrainUserCB", {}).then(
-                  (response) => {
+                  () => {
                     console.log("ReTrain model");
                   }
                 );
@@ -217,6 +337,7 @@ function homePage(props) {
             }).then((response) => {
               var movieTitlesArray = [...movieTitles];
               var ratingsArray = [...totalRatings];
+              // var additionalState = [...additionalState];
               var additionalStateArray = [...additionalState];
 
               for (var i = 0; i < 20; i++) {
@@ -224,6 +345,7 @@ function homePage(props) {
                 similarMoviesPosters[i] = response.data[i][1];
                 movieTitlesArray[i] = response.data[i][2];
                 ratingsArray[i] = response.data[i][3];
+                // additionalState[i] = response.data[i][3];
                 additionalStateArray[i] = response.data[i][3];
               }
 
@@ -232,6 +354,7 @@ function homePage(props) {
               setSimilarMoviesPostersState(similarMoviesPosters);
               setmovieTitles(movieTitlesArray);
               settotalRatings(ratingsArray);
+              // setAdditionalState(additionalState);
               setAdditionalState(additionalStateArray);
             });
           }
@@ -242,12 +365,15 @@ function homePage(props) {
           }).then((response) => {
             var movieTitlesArray = [...movieTitles];
             var ratingsArray = [...totalRatings];
+            // var additionalState = [...additionalState];
             var additionalStateArray = [...additionalState];
+
             for (var i = 0; i < response.data.length; i++) {
               similarMoviesIds[i] = response.data[i][0];
               similarMoviesPosters[i] = response.data[i][1];
               movieTitlesArray[i] = response.data[i][2];
               ratingsArray[i] = response.data[i][3];
+              // additionalState[i] = response.data[i][3];
               additionalStateArray[i] = response.data[i][3];
             }
 
@@ -256,58 +382,98 @@ function homePage(props) {
             setSimilarMoviesPostersState(similarMoviesPosters);
             setmovieTitles(movieTitlesArray);
             settotalRatings(ratingsArray);
+            // setAdditionalState(additionalState);
             setAdditionalState(additionalStateArray);
           });
         }
       });
     }
   }, []);
-
   return (
-    <div className="PageCenter">
-      <div className="homePage screen">
-        <div className="homePageContainer">
-          <body>
-            {/* Header */}
-            <header>
-              <Header />
-            </header>
+    <div>
+      {/* header  */}
+      <Header />
+      {/* main content  */}
 
-            {/* main */}
-            <div className="body"></div>
+      {/* top 10 movies  */}
+      <Container className="py-5">
+        <div className="fireIconBox mb-5">
+          <h1 className="mainTitle">{top10Text}</h1>
+          <img className="fireIcon10" src={require("../../dist/img/icon@2x.svg").default} />
+        </div>
+        <Slider {...autoPlaySlider}>
+          {runCallback(() => {
+            const row = [];
 
-            {/* Title */}
-            <div>
-              <img className="fireIcon" src={require("../../dist/img/icon@2x.svg").default} />
-              <h1 className="top10Text animate-enter">{top10Text}</h1>
-            </div>
+            for (var i = 1; i <= 10; i++) {
+              const id = movieIds[i - 1];
 
-            <marquee
-              behavior="alternate"
-              direction="left"
-              scrollamount="12"
-              className="top10Movies"
-            >
-              {/* movies loop	 */}
+              const url = `/MovieInfoPage/${id}`;
+              const poster = Allposters[i - 1];
+              row.push(
+                <div className="autoPlayMovieBox" key={i}>
+                  {
+                    <div>
+                      <Link to={url}>
+                        <img className="autoPlayMoviePoster" src={poster} />
+                      </Link>
+                    </div>
+                  }
+                </div>
+              );
+            }
+            return row;
+          })}
+        </Slider>
+      </Container>
+
+      {/* Recommended For u */}
+      {registered && !isAdmin && (
+        <Container className="py-5">
+          {/* title  */}
+          <div>
+            <h1 className="mainTitle">
+              Recommended For<strong> {username} </strong>{" "}
+            </h1>
+          </div>
+
+          <div className="mt-5">
+            <Slider {...settings}>
               {runCallback(() => {
                 const row = [];
 
-                for (var i = 1; i <= 10; i++) {
-                  const id = movieIds[i - 1];
-
-                  const url = `/MovieInfoPage/${id}`;
-                  const poster = Allposters[i - 1];
+                for (var i = 0; i < 10; i++) {
+                  const id = recommendedmovieIds[i];
+                  const url = `/movieInfoPage/${id}`;
+                  const poster = recommendedmoviePosters[i];
+                  const title = movieTitles[i];
+                  const rating = totalRatings[i];
+                  if (rating == 0) {
+                    rating = "No ratings.";
+                  }
                   row.push(
                     <div key={i}>
                       {
-                        <div className="moviesLoop">
+                        <div className="movie">
                           <Link to={url}>
-                            <img
-                              className="homeMoviePoster"
-                              src={poster}
-                              height="652"
-                              width="512"
-                            />
+                            <img className="moviePosterCarousel" src={poster} />
+                            <div className="p-3">
+                              <div className="movieRating">
+                                <img
+                                  className="movieStar"
+                                  src={
+                                    require("../../static/img/star-2@2x.svg")
+                                      .default
+                                  }     
+                                />
+                                <h4 className="movieRating neuton-bold-white-20px">
+                                  {rating}
+                                </h4>
+                              </div>
+                              <h3 className="movieName neuton-bold-white-24px">
+                                {title}
+                              </h3>
+                            </div>
                           </Link>
                         </div>
                       }
@@ -316,221 +482,149 @@ function homePage(props) {
                 }
                 return row;
               })}
-            </marquee>
+            </Slider>
+          </div>
+        </Container>
+      )}
 
-
-            {/* In Cinemas */}              
-               <Link to= "/inCinemaPage">
-                  <div className="inCinemasText">            
-                  In Cinemas{""}
-                  <div className="arrowIcon"> 
-                      <IoIosArrowForward size={50}/>
-                  </div>
-                  </div>
-                </Link> 
-
-              <div className="InCinemasContainer">
-                <OwlCarousel
-                  className="homePage-owl-theme"
-                  {...options}
-                  nav
-                >
-                  {runCallback(() => {
-                    const row = [];
-
-                    for (var i = 0; i <numOfWhatsOnMovie; i++) {
-                      const id = whatsOnMovieIds[i];
-                      const url = `/movieInfoPage/${id}`;
-                      const poster = whatsOnMoviePosters[i];
-                      const title = whatsOnMovieTitles[i];
-                      var rating;
-                      if ( whatsOnMovieRatings[i] == 0 ||  whatsOnMovieRatings[i] == null ) {
-                        rating = "No ratings yet.";
-                      }
-                      else
-                      {
-                        rating = whatsOnMovieRatings[i];
-                      }
-                      // const rating = whatsOnMovieRatings[i];
-                      // if (rating == 0) {
-                      //   rating = "No ratings yet.";
-                      // }
-                      row.push(
-                        <div key={i}>
-                          {
-                            <div className="homePageMovie">
-                              <Link to={url}>
-                                <img
-                                  className="homePageMoviePoster"
-                                  src={poster}
-                                  height="652"
-                                  width="512"
-                                />
-                                <img
-                                  className="homepageStar"
-                                  src={
-                                    require("../../static/img/star-2@2x.svg")
-                                      .default
-                                  }                                 />
-                                <div className="homePageMovieRating neuton-bold-white-30px">
-                                  {rating} 
-                                </div>
-                                <div className="homePageMovieName neuton-bold-white-30px">
-                                  {title} 
-                                </div>
-                              </Link>
-                            </div>
-                          }
-                        </div>
-                      );
-                    }
-                    return row;
-                  })}
-                </OwlCarousel>
-              </div>
-            
-            {/* Coming Soon to Cinemas*/}
-                <Link to="comingSoonPage">
-                  <div className="ComingSoonText">
-                  Coming Soon to Cinemas {" "}
-
-                  <div className="arrowIcon"> 
-                    <IoIosArrowForward size={50}/>
-                  </div>
-                  </div>
-                </Link>
-            
-              <div className="ComingSoonContainer">
-                <OwlCarousel
-                  className="homePage-owl-theme"
-                  {...options}
-                  nav
-                >
-                  {runCallback(() => {
-                    const row = [];
-
-                    for (var i = 0; i <numOfComingSoonMovie; i++) {
-                      const id = comingSoonMovieIds[i];
-                      const url = `/movieInfoPage/${id}`;
-                      const poster = comingSoonMoviePosters[i];
-                      const title = comingSoonMovieTitles[i];
-                      var rating;
-                      if ( comingSoonMovieRatings[i] == 0 ||  comingSoonMovieRatings[i] == null ) {
-                        rating = "No ratings yet.";
-                      }
-                      else
-                      {
-                        rating = comingSoonMovieRatings[i];
-                      }
-                      row.push(
-                        <div key={i}>
-                          {
-                            <div className="homePageMovie">
-                              <Link to={url}>
-                                <img
-                                  className="homePageMoviePoster"
-                                  src={poster}
-                                  height="652"
-                                  width="512"
-                                />
-                                <img
-                                  className="homepageStar"
-                                  src={
-                                    require("../../static/img/star-2@2x.svg")
-                                      .default
-                                  }                                 />
-                                <div className="homePageMovieRating neuton-bold-white-30px">
-                                  {rating}
-                                </div>
-                                <div className="homePageMovieName neuton-bold-white-30px">
-                                  {title}
-                                </div>
-                              </Link>
-                            </div>
-                          }
-                        </div>
-                      );
-                    }
-                    return row;
-                  })}
-                </OwlCarousel>
-              </div>
-            
-            
-            {/* Recommended For u */}
-            {registered && !isAdmin && (
-
-               <div>
-                <h1 className="recommendedForYouText">
-                  Recommended For&ensp;<strong> {username} </strong>{" "}
-                </h1> 
-              </div>
-            )}
-
-            {registered && !isAdmin && (
-              <div className="recommendedForYouContainer">
-                <OwlCarousel
-                  className="homePage-owl-theme"
-                  {...options}
-                  nav
-                >
-                  {runCallback(() => {
-                    const row = [];
-
-                    for (var i = 0; i <10; i++) {
-                      const id = recommendedmovieIds[i];
-                      const url = `/movieInfoPage/${id}`;
-                      const poster = recommendedmoviePosters[i];
-                      const title = movieTitles[i];
-                      const rating = totalRatings[i];
-                      if (rating == 0) {
-                        rating = "No ratings yet.";
-                      }
-                      row.push(
-                        <div key={i}>
-                          {
-                            <div className="homePageMovie">
-                              <Link to={url}>
-                                <img
-                                  className="homePageMoviePoster"
-                                  src={poster}
-                                  height="652"
-                                  width="512"
-                                />
-                                <img
-                                  className="homepageStar"
-                                  src={
-                                    require("../../static/img/star-2@2x.svg")
-                                      .default
-                                  }                                 />
-                                <div className="homePageMovieRating neuton-bold-white-30px">
-                                  {rating} 
-                                </div>
-                                <div className="homePageMovieName neuton-bold-white-30px">
-                                  {title} 
-                                </div>
-                              </Link>
-                            </div>
-                          }
-                        </div>
-                      );
-                    }
-                    return row;
-                  })}
-                </OwlCarousel>
-              </div>
-            )} 
-
-            {/* footer */}
-            <footer className="homePagefooter">
-             <Footer/>
-            </footer>
-          </body>
+      {/* in Cinemas  */}
+      <Container className="py-5">
+        {/* title  */}
+        <div>
+          <Link to="/inCinemaPage">
+            <div className="section-linkTitle">
+              In Cinemas
+              <IoIosArrowForward size={50} />
+            </div>
+          </Link>
         </div>
-      </div>
+
+        <div className="mt-5">
+          <Slider {...settings}>
+            {runCallback(() => {
+              const row = [];
+
+              for (var i = 0; i < numOfWhatsOnMovie; i++) {
+                const id = whatsOnMovieIds[i];
+                const url = `/movieInfoPage/${id}`;
+                const poster = whatsOnMoviePosters[i];
+                const title = whatsOnMovieTitles[i];
+                var rating;
+                if (
+                  whatsOnMovieRatings[i] == 0 ||
+                  whatsOnMovieRatings[i] == null
+                ) {
+                  rating = "No ratings.";
+                } else {
+                  rating = whatsOnMovieRatings[i];
+                }
+                row.push(
+                  <div key={i}>
+                    {
+                      <div className="movie">
+                        <Link to={url}>
+                          <img className="moviePosterCarousel" src={poster} />
+                          <div className="p-3">
+                            <div className="movieRating">
+                              <img
+                                className="movieStar"
+                                src={
+                                  require("../../static/img/star-2@2x.svg")
+                                    .default
+                                }     
+                              />
+                              <h4 className="movieRating neuton-bold-white-30px">
+                                {rating}
+                              </h4>
+                            </div>
+                            <h3 className="movieName neuton-bold-white-30px">
+                              {title}
+                            </h3>
+                          </div>
+                        </Link>
+                      </div>
+                    }
+                  </div>
+                );
+              }
+              return row;
+            })}
+          </Slider>
+        </div>
+      </Container>
+
+      {/* Coming Soon to Cinemas*/}
+      <Container className="py-5">
+        {/* title  */}
+        <div>
+          <Link to="/comingSoonPage">
+            <div className="section-linkTitle">
+              Coming Soon to Cinemas
+              <IoIosArrowForward size={50} />
+            </div>
+          </Link>
+        </div>
+
+        <div className="mt-5">
+          <Slider {...settings}>
+            {runCallback(() => {
+              const row = [];
+
+              for (var i = 0; i < numOfComingSoonMovie; i++) {
+                const id = comingSoonMovieIds[i];
+                const url = `/movieInfoPage/${id}`;
+                const poster = comingSoonMoviePosters[i];
+                const title = comingSoonMovieTitles[i];
+                var rating;
+                if (
+                  comingSoonMovieRatings[i] == 0 ||
+                  comingSoonMovieRatings[i] == null
+                ) {
+                  rating = "No ratings.";
+                } else {
+                  rating = comingSoonMovieRatings[i];
+                }
+                row.push(
+                  <div key={i}>
+                    {
+                      <div className="movie">
+                        <Link to={url}>
+                          <img className="moviePosterCarousel" src={poster} />
+                          <div className="p-3">
+                            <div className="movieRating">
+                              <img
+                                className="movieStar"
+                                src={
+                                  require("../../static/img/star-2@2x.svg")
+                                    .default
+                                }     
+                              />
+                              <h4 className="movieRating neuton-bold-white-30px">
+                                {rating}
+                              </h4>
+                            </div>
+                            <h3 className="movieName neuton-bold-white-30px">
+                              {title}
+                            </h3>
+                          </div>
+                        </Link>
+                      </div>
+                    }
+                  </div>
+                );
+              }
+              return row;
+            })}
+          </Slider>
+        </div>
+      </Container>
+
+      {/* main content  */}
+
+      {/* footer  */}
+      <Footer />
     </div>
   );
-}
+};
 
-export default homePage;
-
+export default Home;

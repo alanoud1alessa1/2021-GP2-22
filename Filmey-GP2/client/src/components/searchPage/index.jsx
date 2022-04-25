@@ -1,10 +1,15 @@
-import React from "react";
-import "./searchPage.css";
-import Header from "../header";
-import { useState } from "react";
+import Popover from "@mui/material/Popover";
+import jwt_decode from "jwt-decode";
+import React, { useState } from "react";
+import { Col, Container, Row } from "react-bootstrap";
+import { BsFillBookmarkCheckFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import Cookies from "universal-cookie";
+import Footer from "../Footer";
+import Header from "../header";
 import { useParams } from "react-router-dom";
 import api from "../../api/axiosAPI"
+
 
 function searchPage(props) {
   const {} = props;
@@ -71,95 +76,87 @@ function searchPage(props) {
     }, [sortType]); 
 
 
-
   return (
-    <div className="PageCenter">
-      <div className="watchlistPage screen">
-        <div className="watchlistPageContainer">
-          <body>
-            {/* Header */}
-            <header>
-              <Header />
-            </header>
+    <div>
+      {/* header  */}
+      <Header />
+      {/* main content  */}
+      <Container className="py-5">
+        <div className="d-flex justify-content-between gap-2">
+          <div>
+            <div className="page-title">Search Results</div>
+          </div>
+        </div>
+        {/* sorting */}
+        <div className="d-flex gap-2 mt-5 ">
+          <div className="SortbyText neuton-normal-white-30px">
+            <strong> Sort by: </strong>
+          </div>
+          <select
+            className="sortMoviesSelect neuton-normal-white-60px3"
+            onChange={(e) => setSortType(e.target.value)}
+          >
+            <option
+              className="sortMoviesSelectOption"
+              defaultChecke
+              selected
+              disabled
+              hidden
+            >
+              Select..
+            </option>
+            <option value="title">Alphabetical</option>
+            <option value="total_rating">Movie Rating</option>
+            <option value="year">Release Date</option>
+          </select>
+        </div>
+      </Container>
 
-            {/* main */}
-            <main>
-              <div className="watchlistbody"></div>
-
-              {/* Title */}
-              <div>
-                <h1 className="watchlistTitle neuton-normal-white-60px3">
-                  {" "}Search  Results
-                 
-                </h1>
-              </div>
-            
-              {/* row1  */}
-              <div className="movies">
-                
-                {listMovies.length > 0 ? (
-                  listMovies.map((x) => (
-                    
-                    <div>
-                    {/* sorting */}
-                    <div className="SortbyText neuton-normal-white-30px">
-                      <strong> Sort by: </strong>
-                    </div> 
-                    <select className= "sortMoviesSelect neuton-normal-white-60px3" onChange={(e) => setSortType(e.target.value)} > 
-                      <option className= "sortMoviesSelectOption" 
-                        defaultChecke                  
-                        selected
-                        disabled 
-                        hidden>
-                        Select..
-                      </option>
-                      <option value="title">Alphabetical</option>
-                      <option value="total_rating">Movie Rating</option>
-                      <option value="year">Release Date</option>
-                    </select>                     
-                    <div className="watchlistMovieContainer">
-
-                      <Link to={`/movieInfoPage/${x.movie_id}`} >
-                        <img className="genreTypeMoviePoster" src={x.poster} />
-                        <img
-                          className="watchlistStar"
+      <Container className="py-2">
+        <Row className="g-4 cinema-movies">
+          {listMovies.length > 0 ? (
+            listMovies.map((x) => (
+              <Col className="watch-list-box"  xs={6} sm={2} md={4} lg={2}>
+                <div className="movie">
+                  <Link to={`/movieInfoPage/${x.movie_id}`}>
+                    <img className="moviePosterCarousel" src={x.poster} />
+                    <div className="p-3">
+                      <div className="movieRating">
+                        <img className="movieStar"
                           src={
                             require("../../static/img/star-2@2x.svg")
                               .default
-                          }  
-                        />
-                        {x.total_rating!= null ? (
-                        <div className="watchlistRating neuton-bold-white-30px">
-                          {x.total_rating}
-                        </div>
-                        ): (
-                          <div className="watchlistRating neuton-bold-white-30px">
-                          No ratings yet.
-                        </div>
+                          }   
+                         />
+                        {x.total_rating != null ? (
+                          <div className="movieRating neuton-bold-white-30px">
+                            {x.total_rating}
+                          </div>
+                        ) : (
+                          <div className="movieRating neuton-bold-white-30px">
+                            No ratings.
+                          </div>
                         )}
-                        <div className="watchlistMovieName neuton-bold-white-30px">
-                        {x.title} {" "} ({x.year})
-                        </div>
-                      </Link>
-
+                      </div>
+                      <h3 className="movieName neuton-bold-white-30px">
+                        {x.title} ({x.year})
+                      </h3>
                     </div>
-                    </div>
-                  ))
-                ) : (
-                  <div className="emptyWatchList neuton-bold-white-20px">
-                   {resultMessage}
-                  </div>
-                )}
-              </div>
-            </main>
-          </body>
-        </div>
-      </div>
+                  </Link>
+                </div>
+              </Col>
+            ))
+          ) : (
+            <div className="emptyWatchList pt-5 text-center neuton-bold-white-20px">
+             {resultMessage}
+            </div>
+          )}
+        </Row>
+      </Container>
+      {/* footer  */}
+      <Footer />
     </div>
   );
-}
+};
 
 export default searchPage;
-
-
-

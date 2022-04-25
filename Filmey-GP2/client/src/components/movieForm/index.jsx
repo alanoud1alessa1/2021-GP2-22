@@ -1,5 +1,3 @@
-// export default movieForm;
-
 import React from "react";
 import "./movieForm.css";
 import Select from "react-select";
@@ -7,19 +5,18 @@ import Header from "../header";
 import CreatableSelect from "react-select/creatable";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-// import Axios from "axios";
 import { ActionMeta, OnChangeValue } from "react-select";
 import validator from "validator";
 import Cookies from "universal-cookie";
 import jwt_decode from "jwt-decode";
 import AsyncSelect from "react-select/async";
 import AsyncCreatableSelect from "react-select/async-creatable";
-import api from "../../api/axiosAPI"
 import Footer from "../Footer";
+import { Col, Container, Row } from "react-bootstrap";
+import api from "../../api/axiosAPI"
 
 
-
-function movieForm(props) {
+const movieForm = (props) => {
   const [titleState, setTitle] = useState("");
   const [genreState, setGenre] = useState("");
   const [languageState, setLanaguage] = useState("");
@@ -1401,239 +1398,246 @@ function movieForm(props) {
   }
 
   return (
-    <div className="PageCenter">
-      {/* <img className="addMoviebackgroundImage" src="/img/backgroundImage.png" /> */}
-      <div className="addmovie screen">
-        <header>
-          <Header />
-        </header>
-        <div className="addMovieflex-col">
-          {/* Movie Information */}
-          <div className="addMovieoverlap-group1">
-            <div className="addMoviemovie-information neuton-normal-white-60px5">
+    <div>
+      {/* header  */}
+      <Header />
+      {/* main content  */}
+      {/* Movie Information */}
+      <div className="movie-form-page">
+        <Container className="py-5 overflow-hidden">
+          <div className="mb-3">
+            <h3 className="section-title neuton-normal-white-60px5">
               {movieInformation}
-            </div>
-            <img className="addMovieline1" src="/img/oneline@1x.svg" />
+            </h3>
           </div>
-
           {/* Title */}
-          <div className="addMovietitle neuton-bold-white-30px7">{title}</div>
-          <input
-            // defaultValue={getYear}
-            defaultValue={getTitle}
-            className="addMovietitle-placholder"
-            name="titleplacholder"
-            placeholder="Enter movie name"
-            type="text"
-            required
-            onChange={(e) => {
-              CheckTitle(e.target.value);
-              setTitle(e.target.value);
-              preventChar(e.target.value);
-            }}
-            onFocus={(e) => {
-              {
-                emptyTitle();
-              }
-            }}
-          />
-          <div className="movieNameError nunito-normal-river-bed-50px">
-            {" "}
-            <strong>
-              {" "}
-              {movieName_error_message} {charactersErrorMessage}{" "}
-            </strong>
+          <div className="my-4">
+            <h3 className="movie-form-sec-title mt-5 neuton-bold-white-30px7">
+              {title} <span className="required">*</span>
+            </h3>
+            <input
+              defaultValue={getTitle}
+              className="movie-form-input"
+              name="titleplacholder"
+              placeholder="Enter movie name"
+              type="text"
+              required
+              onChange={(e) => {
+                CheckTitle(e.target.value);
+                setTitle(e.target.value);
+                preventChar(e.target.value);
+              }}
+              onFocus={(e) => {
+                {
+                  emptyTitle();
+                }
+              }}
+            />
+            <p className="movie-form-error nunito-normal-river-bed-50px">
+              <strong>
+                {movieName_error_message} {charactersErrorMessage}
+              </strong>
+            </p>
           </div>
-
           {/* Genre */}
-          <div className="addMovieflex-col-item neuton-bold-white-30px7">
-            {genre}
-          </div>
-          <AsyncSelect
-            value={getGenresArray}
-            isClearable
-            defaultOptions={allGenres}
-            isMulti
-            onChange={setGenreFunction}
-            isSearchable
-            className="addMoviegenre-container"
-            placeholder="Select movie genres"
-            theme={(theme) => ({
-              ...theme,
-              borderRadius: 0,
-              colors: {
-                ...theme.colors,
-                text: "var(--cardinal)",
-                primary: "var(--cardinal)",
-              },
-            })}
-            styles={{
-              control: (provided, state) => ({
-                ...provided,
-                minHeight: 66,
-                background: "#fcfcfc",
-                outline: "none",
-                border: "0px solid black",
-                fontSize: "16px",
-                boxShadow: state.isFocused
-                  ? "0px 4px 4px red"
-                  : "0px 4px 4px #00000040",
-                borderRadius: 5,
-                paddingLeft: 20,
-              }),
+          <div className="my-4">
+            <h3 className="movie-form-sec-title mt-5 neuton-bold-white-30px7">
+              {genre} <span className="required">*</span>
+            </h3>
+            <AsyncSelect
+              value={getGenresArray}
+              isClearable
+              defaultOptions={allGenres}
+              isMulti
+              onChange={setGenreFunction}
+              isSearchable
+              className="addMoviegenre-container"
+              placeholder="Select movie genres"
+              theme={(theme) => ({
+                ...theme,
+                borderRadius: 0,
+                colors: {
+                  ...theme.colors,
+                  text: "var(--cardinal)",
+                  primary: "var(--cardinal)",
+                },
+              })}
+              styles={{
+                control: (provided, state) => ({
+                  ...provided,
+                  minHeight: 50,
+                  background: "#fcfcfc",
+                  outline: "none",
+                  border: "0px solid black",
+                  fontSize: "16px",
+                  boxShadow: state.isFocused
+                    ? "0px 4px 4px red"
+                    : "0px 4px 4px #00000040",
+                  borderRadius: 5,
+                  paddingLeft: 20,
+                }),
 
-              multiValueLabel: (base) => ({
-                ...base,
-                backgroundColor: "var(--white-3)",
-                color: "black",
-              }),
+                multiValueLabel: (base) => ({
+                  ...base,
+                  backgroundColor: "var(--white-3)",
+                  color: "black",
+                }),
 
-              multiValueRemove: (base) => ({
-                ...base,
-                backgroundColor: "var(--cardinal)",
-                color: "white",
-              }),
-            }}
-          />
-          {/* lanaguage */}
-          <div className="addMovielanaguage neuton-bold-white-30px7">
-            {lanaguage}
-          </div>
-          <AsyncSelect
-            value={getLanguagesArray}
-            isMulti
-            isClearable
-            defaultOptions={allLanguages}
-            onChange={setLanguageFunction}
-            closeMenuOnSelect={false}
-            isSearchable
-            className="addMovielanaguage-container"
-            placeholder="Select movie lanaguages"
-            theme={(theme) => ({
-              ...theme,
-              borderRadius: 0,
-              colors: {
-                ...theme.colors,
-                text: "var(--cardinal)",
-                primary: "var(--cardinal)",
-              },
-            })}
-            styles={{
-              control: (provided, state) => ({
-                ...provided,
-                minHeight: 66,
-                background: "#fcfcfc",
-                outline: "none",
-                border: "0px solid black",
-                fontSize: "16px",
-                boxShadow: state.isFocused
-                  ? "0px 4px 4px red"
-                  : "0px 4px 4px #00000040",
-                borderRadius: 5,
-                paddingLeft: 20,
-              }),
-
-              multiValueLabel: (base) => ({
-                ...base,
-                backgroundColor: "var(--white-3)",
-                color: "black",
-              }),
-
-              multiValueRemove: (base) => ({
-                ...base,
-                backgroundColor: "var(--cardinal)",
-                color: "white",
-              }),
-            }}
-          />
-
-          <div className="GenreYear">
-            {/* year */}
-            <div className="addMovieyear neuton-bold-white-30px7">Year</div>
-            <select
-              className="movieYearBox"
-              onChange={(e) => {
-                console.log(getYear);
-                setYear(e.target.value);
+                multiValueRemove: (base) => ({
+                  ...base,
+                  backgroundColor: "var(--cardinal)",
+                  color: "white",
+                }),
               }}
-            >
-              {id == 0 && (
-                <option
-                  selected
-                  disabled
-                  hidden
-                  className="selectText roboto-normal-pink-swan-16px"
-                  value=""
-                >
-                  {" "}
-                  Select movie year
-                </option>
-              )}
-              {id !== 0 && (
-                <option
-                  selected
-                  disabled
-                  hidden
-                  className="selectText roboto-normal-pink-swan-16px"
-                  value=""
-                >
-                  {" "}
-                  {getYear}
-                </option>
-              )}
+            />
+          </div>
+          {/* language  */}
+          <div className="my-4">
+            <h3 className="movie-form-sec-title mt-5 neuton-bold-white-30px7">
+              {lanaguage} <span className="required">*</span>
+            </h3>
+            <AsyncSelect
+              value={getLanguagesArray}
+              isMulti
+              isClearable
+              defaultOptions={allLanguages}
+              onChange={setLanguageFunction}
+              closeMenuOnSelect={false}
+              isSearchable
+              className="addMovielanaguage-container"
+              placeholder="Select movie lanaguages"
+              theme={(theme) => ({
+                ...theme,
+                borderRadius: 0,
+                colors: {
+                  ...theme.colors,
+                  text: "var(--cardinal)",
+                  primary: "var(--cardinal)",
+                },
+              })}
+              styles={{
+                control: (provided, state) => ({
+                  ...provided,
+                  minHeight: 50,
+                  background: "#fcfcfc",
+                  outline: "none",
+                  border: "0px solid black",
+                  fontSize: "16px",
+                  boxShadow: state.isFocused
+                    ? "0px 4px 4px red"
+                    : "0px 4px 4px #00000040",
+                  borderRadius: 5,
+                  paddingLeft: 20,
+                }),
 
-              {yearsArray.map((option) => (
-                <option value={option.label}>{option.label}</option>
-              ))}
-            </select>
+                multiValueLabel: (base) => ({
+                  ...base,
+                  backgroundColor: "var(--white-3)",
+                  color: "black",
+                }),
 
-            {/* Age guide */}
-            <div className="addMovieage-guide neuton-bold-white-30px7">
-              {ageguide}
+                multiValueRemove: (base) => ({
+                  ...base,
+                  backgroundColor: "var(--cardinal)",
+                  color: "white",
+                }),
+              }}
+            />
+          </div>
+          {/* year */}
+          <div className="my-4">
+            <div className="ageGuide-Year justify-content-center d-flex flex-column flex-md-row gap-1 gap-md-5">
+              <div className="d-flex flex-column flex-md-row gap-0 gap-md-4">
+                <h3 className="movie-form-sec-title mt-5 neuton-bold-white-30px7">
+                  Year <span className="required">*</span>
+                </h3>
+                <select
+                  className="movieYearBox"
+                  onChange={(e) => {
+                    console.log(getYear);
+                    setYear(e.target.value);
+                  }}
+                >
+                  {id == 0 && (
+                    <option
+                      selected
+                      disabled
+                      hidden
+                      className="selectText roboto-normal-pink-swan-16px"
+                      value=""
+                    >
+                      {" "}
+                      Select movie year
+                    </option>
+                  )}
+                  {id !== 0 && (
+                    <option
+                      selected
+                      disabled
+                      hidden
+                      className="selectText roboto-normal-pink-swan-16px"
+                      value=""
+                    >
+                      {" "}
+                      {getYear}
+                    </option>
+                  )}
+
+                  {yearsArray.map((option) => (
+                    <option value={option.label}>{option.label}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Age guide */}
+              <div className="d-flex flex-column flex-md-row gap-1 gap-md-4">
+                <h3 className="movie-form-sec-title mt-5 neuton-bold-white-30px7">
+                  {ageguide} <span className="required">*</span>
+                </h3>
+                <select
+                  className="movieYearBox"
+                  onChange={(e) => {
+                    setAgeGuide(e.target.value);
+                  }}
+                >
+                  {id == 0 && (
+                    <option
+                      selected
+                      disabled
+                      hidden
+                      className="selectText roboto-normal-pink-swan-16px"
+                      value=""
+                    >
+                      {" "}
+                      Select movie age guide
+                    </option>
+                  )}
+                  {id != 0 && (
+                    <option
+                      selected
+                      disabled
+                      hidden
+                      className="selectText roboto-normal-pink-swan-16px"
+                      value=""
+                    >
+                      {" "}
+                      {getAgeGuide}
+                    </option>
+                  )}
+                  {allAgeGuide.map((option) => (
+                    <option value={option.label}>{option.label}</option>
+                  ))}
+                </select>
+              </div>
             </div>
-            <select
-              className="movieAgeGuideBox"
-              onChange={(e) => {
-                setAgeGuide(e.target.value);
-              }}
-            >
-              {id == 0 && (
-                <option
-                  selected
-                  disabled
-                  hidden
-                  className="selectText roboto-normal-pink-swan-16px"
-                  value=""
-                >
-                  {" "}
-                  Select movie age guide
-                </option>
-              )}
-              {id != 0 && (
-                <option
-                  selected
-                  disabled
-                  hidden
-                  className="selectText roboto-normal-pink-swan-16px"
-                  value=""
-                >
-                  {" "}
-                  {getAgeGuide}
-                </option>
-              )}
-              {allAgeGuide.map((option) => (
-                <option value={option.label}>{option.label}</option>
-              ))}
-            </select>
           </div>
-          {/* Trailer  */}
-          <div className="addMovietrailer neuton-bold-white-30px7">
-            {trailer}
-          </div>
-          <div className="addMovietrailer-container border-1px-black">
+          <div className="my-4">
+            <h3 className="movie-form-sec-title mt-5 neuton-bold-white-30px7">
+              {trailer} <span className="required">*</span>
+            </h3>
             <input
               defaultValue={getTrailer}
-              className="trailerInput"
+              className="movie-form-input"
               name="titleplacholder"
               placeholder="Enter URL of movie trailer"
               type="text"
@@ -1648,23 +1652,22 @@ function movieForm(props) {
                 }
               }}
             />
+            <p className="movie-form-error nunito-normal-river-bed-50px">
+              <strong>
+                {movieTrailer_error_message} {trailerURLErrorMessage}
+              </strong>
+            </p>
           </div>
-          <div className="movieTrailerError nunito-normal-river-bed-50px">
-            {" "}
-            <strong>
-              {" "}
-              {movieTrailer_error_message} {trailerURLErrorMessage}{" "}
-            </strong>
-          </div>
-
           {/* Poster */}
-          <div className="addMovieposter neuton-bold-white-30px7">{poster}</div>
-          <div className="addMovieposter-container border-1px-black">
+          <div className="my-4">
+            <h3 className="movie-form-sec-title mt-5 neuton-bold-white-30px7">
+              {poster} <span className="required">*</span>
+            </h3>
             <input
               defaultValue={getPoster}
               // value="ho"
 
-              className="trailerInput"
+              className="movie-form-input"
               name="titleplacholder"
               placeholder="Enter URL of movie poster"
               type="text"
@@ -1679,27 +1682,22 @@ function movieForm(props) {
                 }
               }}
             />
+            <p className="movie-form-error nunito-normal-river-bed-50px">
+              <strong>
+                {moviePoster_error_message} {posterURLErrorMessage}
+              </strong>
+            </p>
           </div>
-          <div className="moviePosterError nunito-normal-river-bed-50px">
-            {" "}
-            <strong>
-              {" "}
-              {moviePoster_error_message} {posterURLErrorMessage}{" "}
-            </strong>
-          </div>
-
           {/* Description */}
-          <div className="addMoviedescription neuton-bold-white-30px7">
-            {description}
-          </div>
-          <div className="addMovieoverlap-group3">
+          <div className="my-4">
+            <h3 className="movie-form-sec-title mt-5 neuton-bold-white-30px7">
+              {description} <span className="required">*</span>
+            </h3>
             <textarea
               defaultValue={getDescription}
               className="addMoviedescription-placholder"
               name="descriptionplacholder"
               placeholder={inputPlaceholder2}
-              rows="15"
-              cols="154"
               maxLength={3000}
               onChange={(e) => {
                 setDescription(e.target.value);
@@ -1710,247 +1708,115 @@ function movieForm(props) {
                 }
               }}
             ></textarea>
+            <p className="movie-form-error nunito-normal-river-bed-50px">
+              <strong>{movieDes_error_message}</strong>
+            </p>
           </div>
-          <div className="movieDesError nunito-normal-river-bed-50px">
-            {" "}
-            <strong> {movieDes_error_message} </strong>
-          </div>
-
           {/* Movie Length  */}
-          <div className="addMoviemovie-len-add neuton-bold-white-30px7">
-            {movielenadd}
-          </div>
-          <div className="addMovieflex-row">
-            {/* Hours */}
-            <div className="hoursMovieLength neuton-bold-white-30px">
-              {" "}
-              Hours :{" "}
+          <div className="my-4">
+            <h3 className="movie-form-sec-title mt-5 neuton-bold-white-30px7">
+              {movielenadd} <span className="required">*</span>
+            </h3>
+            <div className="d-flex flex-column flex-md-row gap-1 gap-md-5 justify-content-center">
+              {/* Hours */}
+              <div className="d-flex flex-column flex-md-row gap-1 gap-md-4">
+                <h3 className="movie-form-sec-title mt-md-5 neuton-bold-white-30px7">
+                  Hours : <span className="required">*</span>
+                </h3>
+                <select
+                  className="movieYearBox"
+                  onChange={(e) => {
+                    setHours(e.target.value);
+                  }}
+                >
+                  {id == 0 && (
+                    <option
+                      selected
+                      disabled
+                      hidden
+                      className="selectText roboto-normal-pink-swan-16px"
+                      value=""
+                    >
+                      {" "}
+                      Select hours
+                    </option>
+                  )}
+
+                  {id != 0 && (
+                    <option
+                      selected
+                      disabled
+                      hidden
+                      className="selectText roboto-normal-pink-swan-16px"
+                      value=""
+                    >
+                      {getHours}
+                    </option>
+                  )}
+                  {hoursArray.map((option) => (
+                    <option value={option.label}>{option.label}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Minutes */}
+              <div className="d-flex flex-column flex-md-row gap-1 gap-md-4">
+                <h3 className="movie-form-sec-title mt-md-5 neuton-bold-white-30px7">
+                  Minutes : <span className="required">*</span>
+                </h3>
+                <select
+                  className="movieYearBox"
+                  onChange={(e) => {
+                    setMinutes(e.target.value);
+                  }}
+                >
+                  {id == 0 && (
+                    <option
+                      selected
+                      disabled
+                      hidden
+                      className="selectText roboto-normal-pink-swan-16px"
+                      value=""
+                    >
+                      {" "}
+                      Select minutes
+                    </option>
+                  )}
+
+                  {id != 0 && (
+                    <option
+                      selected
+                      disabled
+                      hidden
+                      className="selectText roboto-normal-pink-swan-16px"
+                      value=""
+                    >
+                      {getMinutes}
+                    </option>
+                  )}
+                  {minutesArray.map((option) => (
+                    <option value={option.label}>{option.label}</option>
+                  ))}
+                </select>
+              </div>
             </div>
-            <select
-              className="movieHours"
-              onChange={(e) => {
-                setHours(e.target.value);
-              }}
-            >
-              {id == 0 && (
-                <option
-                  selected
-                  disabled
-                  hidden
-                  className="selectText roboto-normal-pink-swan-16px"
-                  value=""
-                >
-                  {" "}
-                  Select hours
-                </option>
-              )}
-
-              {id != 0 && (
-                <option
-                  selected
-                  disabled
-                  hidden
-                  className="selectText roboto-normal-pink-swan-16px"
-                  value=""
-                >
-                  {getHours}
-                </option>
-              )}
-              {hoursArray.map((option) => (
-                <option value={option.label}>{option.label}</option>
-              ))}
-            </select>
-
-            {/* Minutes */}
-            <div className="minMovieLength neuton-bold-white-30px">
-              {" "}
-              Minutes :{" "}
-            </div>
-            <select
-              className="movieMin"
-              onChange={(e) => {
-                setMinutes(e.target.value);
-              }}
-            >
-              {id == 0 && (
-                <option
-                  selected
-                  disabled
-                  hidden
-                  className="selectText roboto-normal-pink-swan-16px"
-                  value=""
-                >
-                  {" "}
-                  Select minutes
-                </option>
-              )}
-
-              {id != 0 && (
-                <option
-                  selected
-                  disabled
-                  hidden
-                  className="selectText roboto-normal-pink-swan-16px"
-                  value=""
-                >
-                  {getMinutes}
-                </option>
-              )}
-              {minutesArray.map((option) => (
-                <option value={option.label}>{option.label}</option>
-              ))}
-            </select>
           </div>
-
           {/* Directior-Writer */}
-          <div className="addMoviedirector-writer neuton-normal-white-60px5">
-            {directorWriter}
-          </div>
-          <img className="addMovieline2" src="/img/twoline@1x.svg" />
-
-          {/* Director */}
-          <div className="addMovieflex-col-item neuton-bold-white-30px7">
-            {directoradd}
-          </div>
-          <AsyncCreatableSelect
-            value={getDirectorsArray}
-            isSearchable
-            isMulti
-            formatCreateLabel={(inputText) => `${inputText}`}
-            onKeyDown={(e) =>
-              !/[a-z]/.test(e.key) &&
-              !/[A-Z]/.test(e.key) &&
-              !/ /.test(e.key) &&
-              e.preventDefault()
-            }
-            className="addMoviedirector-container"
-            placeholder="Select or write movie directors"
-            defaultOptions={allDirectors}
-            onChange={setDirectorFunction}
-            theme={(theme) => ({
-              ...theme,
-              borderRadius: 0,
-              colors: {
-                ...theme.colors,
-                text: "var(--cardinal)",
-                primary: "var(--cardinal)",
-              },
-            })}
-            styles={{
-              control: (provided, state) => ({
-                ...provided,
-                minHeight: 66,
-                background: "#fcfcfc",
-                outline: "none",
-                border: "0px solid black",
-                fontSize: "16px",
-                boxShadow: state.isFocused
-                  ? "0px 4px 4px red"
-                  : "0px 4px 4px #00000040",
-                borderRadius: 5,
-                paddingLeft: 20,
-              }),
-
-              multiValueLabel: (base) => ({
-                ...base,
-                backgroundColor: "var(--white-3)",
-                color: "black",
-              }),
-
-              multiValueRemove: (base) => ({
-                ...base,
-                backgroundColor: "var(--cardinal)",
-                color: "white",
-              }),
-            }}
-          />
-
-          {/* Writer */}
-          <div className="addMoviewriter neuton-bold-white-30px7">{writer}</div>
-          <AsyncCreatableSelect
-            value={getWritersArray}
-            isSearchable
-            formatCreateLabel={(inputText) => `${inputText}`}
-            onKeyDown={(e) =>
-              !/[a-z]/.test(e.key) &&
-              !/[A-Z]/.test(e.key) &&
-              !/ /.test(e.key) &&
-              e.preventDefault()
-            }
-            isMulti
-            className="addMoviewriter-container"
-            placeholder="Select or write movie writers"
-            defaultOptions={allWriters}
-            onChange={setWriterFunction}
-            theme={(theme) => ({
-              ...theme,
-              borderRadius: 0,
-              colors: {
-                ...theme.colors,
-                text: "var(--cardinal)",
-                primary: "var(--cardinal)",
-              },
-            })}
-            styles={{
-              control: (provided, state) => ({
-                ...provided,
-                minHeight: 66,
-                background: "#fcfcfc",
-                outline: "none",
-                border: "0px solid black",
-                fontSize: "16px",
-                boxShadow: state.isFocused
-                  ? "0px 4px 4px red"
-                  : "0px 4px 4px #00000040",
-                borderRadius: 5,
-                paddingLeft: 20,
-              }),
-
-              multiValueLabel: (base) => ({
-                ...base,
-                backgroundColor: "var(--white-3)",
-                color: "black",
-              }),
-
-              multiValueRemove: (base) => ({
-                ...base,
-                backgroundColor: "var(--cardinal)",
-                color: "white",
-              }),
-            }}
-          />
-
-          {/* Top Cast */}
-          <div className="addMovieoverlap-group2">
-            <img className="addMovieline3" src="/img/threeline@2x.svg" />
-            <div className="addMovietop-cast neuton-normal-white-60px5">
-              {topCast}
-            </div>
-          </div>
-
-          {/* Actors */}
-          <div className="addMovieflex-row-1 nunito-normal-white-35px">
-            <div className="addMovieactor-name neuton-bold-white-30px7">
-              {actorname}
-            </div>
-            <div className="addMovieactor-character-add neuton-bold-white-30px7">
-              {actorcharacteradd}
-            </div>
-            <div className="addMovieactor-image-1 neuton-bold-white-30px7">
-              {actorimage}
-            </div>
-          </div>
-
-          {/*1st Actor */}
-
           <div>
-            <div className="addMovieflex-row-2">
-              {/* actor name */}
-              <CreatableSelect
-                value={getActorNamesArray[0]}
+            <div className="mb-3 mt-5 pt-3">
+              <h3 className="section-title  neuton-normal-white-60px5">
+                {directorWriter}
+              </h3>
+            </div>
+            {/* Director */}
+            <div className="my-4">
+              <h3 className="movie-form-sec-title mt-5 neuton-bold-white-30px7">
+                {directoradd} <span className="required">*</span>
+              </h3>
+              <AsyncCreatableSelect
+                value={getDirectorsArray}
                 isSearchable
-                isClearable
-                className="addMovieactor"
+                isMulti
                 formatCreateLabel={(inputText) => `${inputText}`}
                 onKeyDown={(e) =>
                   !/[a-z]/.test(e.key) &&
@@ -1958,10 +1824,10 @@ function movieForm(props) {
                   !/ /.test(e.key) &&
                   e.preventDefault()
                 }
-                placeholder="Select or write actor name"
-                options={allActors}
-                // isClearable={true}
-                onChange={setActorName(0)}
+                className="addMoviedirector-container"
+                placeholder="Select or write movie directors"
+                defaultOptions={allDirectors}
+                onChange={setDirectorFunction}
                 theme={(theme) => ({
                   ...theme,
                   borderRadius: 0,
@@ -1974,51 +1840,7 @@ function movieForm(props) {
                 styles={{
                   control: (provided, state) => ({
                     ...provided,
-                    minHeight: 66,
-                    width: 320,
-                    outline: "none",
-                    border: "0px solid black",
-                    fontSize: "16px",
-                    boxShadow: state.isFocused
-                      ? "0px 4px 4px red"
-                      : "0px 4px 4px #00000040",
-                    borderRadius: 5,
-                    paddingLeft: 10,
-                  }),
-                }}
-              />
-
-              {/* actor role */}
-              <CreatableSelect
-                value={getActorRolesArray[0]}
-                isSearchable
-                isClearable
-                className="addMovieactor-role"
-                placeholder="Select or write actor role"
-                formatCreateLabel={(inputText) => `${inputText}`}
-                onKeyDown={(e) =>
-                  !/[a-z]/.test(e.key) &&
-                  !/[A-Z]/.test(e.key) &&
-                  !/ /.test(e.key) &&
-                  e.preventDefault()
-                }
-                options={allRoles}
-                onChange={setActorRole(0)}
-                // isClearable={true}
-                theme={(theme) => ({
-                  ...theme,
-                  borderRadius: 0,
-                  colors: {
-                    ...theme.colors,
-                    text: "var(--cardinal)",
-                    primary: "var(--cardinal)",
-                  },
-                })}
-                styles={{
-                  control: (provided, state) => ({
-                    ...provided,
-                    minHeight: 66,
-                    width: 320,
+                    minHeight: 50,
                     background: "#fcfcfc",
                     outline: "none",
                     border: "0px solid black",
@@ -2027,631 +1849,746 @@ function movieForm(props) {
                       ? "0px 4px 4px red"
                       : "0px 4px 4px #00000040",
                     borderRadius: 5,
-                    paddingLeft: 10,
+                    paddingLeft: 20,
+                  }),
+
+                  multiValueLabel: (base) => ({
+                    ...base,
+                    backgroundColor: "var(--white-3)",
+                    color: "black",
+                  }),
+
+                  multiValueRemove: (base) => ({
+                    ...base,
+                    backgroundColor: "var(--cardinal)",
+                    color: "white",
                   }),
                 }}
               />
+            </div>
+            {/* Writer */}
+            <div className="my-4">
+              <h3 className="movie-form-sec-title mt-5 neuton-bold-white-30px7">
+                {writer} <span className="required">*</span>
+              </h3>
+              <AsyncCreatableSelect
+                value={getWritersArray}
+                isSearchable={true}
+                formatCreateLabel={(inputText) => `${inputText}`}
+                onKeyDown={(e) =>
+                  !/[a-z]/.test(e.key) &&
+                  !/[A-Z]/.test(e.key) &&
+                  !/ /.test(e.key) &&
+                  e.preventDefault()
+                }
+                isMulti
+                className="addMoviewriter-container"
+                placeholder="Select or write movie writers"
+                defaultOptions={allWriters}
+                onChange={setWriterFunction}
+                theme={(theme) => ({
+                  ...theme,
+                  borderRadius: 0,
+                  colors: {
+                    ...theme.colors,
+                    text: "var(--cardinal)",
+                    primary: "var(--cardinal)",
+                  },
+                })}
+                styles={{
+                  control: (provided, state) => ({
+                    ...provided,
+                    minHeight: 50,
+                    background: "#fcfcfc",
+                    outline: "none",
+                    border: "0px solid black",
+                    fontSize: "16px",
+                    boxShadow: state.isFocused
+                      ? "0px 4px 4px red"
+                      : "0px 4px 4px #00000040",
+                    borderRadius: 5,
+                    paddingLeft: 20,
+                  }),
 
-              {/* actor image */}
-              <div>
-                <input
-                  className="addMovieactor-image"
-                  placeholder="Enter URL of actor image"
-                  name="actorImage"
-                  type="text"
-                  required
-                  value={getActorImagesArrayInHTMLState[0]}
-                  onChange={(e) => {
-                    setActorImage(0, e.target.value);
-                    validateActor1ImageURL(e.target.value);
-                  }}
-                />
-                <div className="movieActorImageError nunito-normal-river-bed-50px">
-                  {" "}
-                  <strong>
-                    {" "}
-                    {actor1ImageURLErrorMessage}{" "}
-                    {movieActorImage_error_message[0]}{" "}
-                  </strong>
-                </div>
-              </div>
+                  multiValueLabel: (base) => ({
+                    ...base,
+                    backgroundColor: "var(--white-3)",
+                    color: "black",
+                  }),
+
+                  multiValueRemove: (base) => ({
+                    ...base,
+                    backgroundColor: "var(--cardinal)",
+                    color: "white",
+                  }),
+                }}
+              />
             </div>
           </div>
-
-          {/* actor 1 errors */}
-          {/* <div className="actorErrors">
-              <div className="movieActorNameError nunito-normal-river-bed-50px"> <strong> {repeatedActorName[0]}  </strong></div>
-              <div className="movieActorRoleError nunito-normal-river-bed-50px"> <strong> { repeatedActorRole[0] } </strong></div>
-           </div>  */}
-
-          {/*2nd Actor */}
-
+          {/* Top Cast */}
           <div>
-            <div className="addMovieflex-row-2">
-              {/* actor name */}
-              <div className="addMovieactor">
-                <CreatableSelect
-                  value={getActorNames[1]}
-                  isSearchable
-                  isClearable
-                  isDisabled={!isFilled[0]}
-                  formatCreateLabel={(inputText) => `${inputText}`}
-                  onKeyDown={(e) =>
-                    !/[a-z]/.test(e.key) &&
-                    !/[A-Z]/.test(e.key) &&
-                    !/ /.test(e.key) &&
-                    e.preventDefault()
-                  }
-                  placeholder="Select or write actor name"
-                  options={allActors}
-                  onChange={setActorName(1)}
-                  theme={(theme) => ({
-                    ...theme,
-                    borderRadius: 0,
-                    colors: {
-                      ...theme.colors,
-                      text: "var(--cardinal)",
-                      primary: "var(--cardinal)",
-                    },
-                  })}
-                  styles={{
-                    control: (provided, state) => ({
-                      ...provided,
-                      minHeight: 66,
-                      width: 320,
-                      outline: "none",
-                      border: "0px solid black",
-                      fontSize: "16px",
-                      boxShadow: state.isFocused
-                        ? "0px 4px 4px red"
-                        : "0px 4px 4px #00000040",
-                      background: state.isDisabled
-                        ? "var(--pink-swan)"
-                        : "var(--baby-powder)",
-                      borderRadius: 5,
-                      paddingLeft: 10,
-                    }),
-                  }}
-                />
-                <div className="movieActorNameError nunito-normal-river-bed-50px">
-                  {" "}
-                  <strong> {repeatedActorName[1]} </strong>
-                </div>
-              </div>
-
-              {/* actor role */}
-              <div className="addMovieactor-role">
-                <CreatableSelect
-                  isSearchable
-                  isClearable
-                  value={getActorRolesArray[1]}
-                  // className="addMovieactor-role"
-                  placeholder="Select or write actor role"
-                  isDisabled={!isFilled[0]}
-                  formatCreateLabel={(inputText) => `${inputText}`}
-                  onKeyDown={(e) =>
-                    !/[a-z]/.test(e.key) &&
-                    !/[A-Z]/.test(e.key) &&
-                    !/ /.test(e.key) &&
-                    e.preventDefault()
-                  }
-                  options={allRoles}
-                  onChange={setActorRole(1)}
-                  theme={(theme) => ({
-                    ...theme,
-                    borderRadius: 0,
-                    colors: {
-                      ...theme.colors,
-                      text: "var(--cardinal)",
-                      primary: "var(--cardinal)",
-                    },
-                  })}
-                  styles={{
-                    control: (provided, state) => ({
-                      ...provided,
-                      minHeight: 66,
-                      width: 320,
-                      background: "#fcfcfc",
-                      outline: "none",
-                      border: "0px solid black",
-                      fontSize: "16px",
-                      boxShadow: state.isFocused
-                        ? "0px 4px 4px red"
-                        : "0px 4px 4px #00000040",
-                      background: state.isDisabled
-                        ? "var(--pink-swan)"
-                        : "var(--baby-powder)",
-                      borderRadius: 5,
-                      paddingLeft: 10,
-                    }),
-                  }}
-                />
-                <div className="movieActorRoleError nunito-normal-river-bed-50px">
-                  {" "}
-                  <strong> {repeatedActorRole[1]} </strong>
-                </div>
-              </div>
-
-              {/* actor image */}
-              <div>
-                <input
-                  className="addMovieactor-image"
-                  placeholder="Enter URL of actor image"
-                  name="actorImage"
-                  type="text"
-                  required
-                  disabled={!isFilled[0]}
-                  value={getActorImagesArrayInHTMLState[1]}
-                  onChange={(e) => {
-                    setActorImage(1, e.target.value);
-                    validateActor2ImageURL(e.target.value);
-                  }}
-                />
-                <div className="movieActorImageError nunito-normal-river-bed-50px">
-                  {" "}
-                  <strong>
-                    {" "}
-                    {repeatedActorImage[1]} {movieActorImage_error_message[1]}{" "}
-                    {actor2ImageURLErrorMessage}{" "}
-                  </strong>
-                </div>
-              </div>
-              {/* <div className="movieImageError nunito-normal-river-bed-50px"> <strong> {movieActorImage_error_message}  </strong></div> */}
+            <div className=" mt-5 pt-3">
+              <h3 className="section-title neuton-normal-white-60px5">
+                {topCast}
+              </h3>
             </div>
-          </div>
-
-          {/* actor 2 errors */}
-          {/* <div className="actorErrors"> 
-              <div className="movieActorNameError nunito-normal-river-bed-50px"> <strong> {repeatedActorName[1]}  </strong></div>
-              <div className="movieActorRoleError nunito-normal-river-bed-50px"> <strong> { repeatedActorRole[1] } </strong></div>
-              </div>  */}
-
-          {/*3rd Actor */}
-
-          <div>
-            <div className="addMovieflex-row-2">
+            <Row className="g-4">
               {/* actor name */}
-              <div className="addMovieactor">
-                <CreatableSelect
-                  value={getActorNames[2]}
-                  isSearchable
-                  isClearable
-                  // className="addMovieactor"
-                  formatCreateLabel={(inputText) => `${inputText}`}
-                  isDisabled={!isFilled[1]}
-                  onKeyDown={(e) =>
-                    !/[a-z]/.test(e.key) &&
-                    !/[A-Z]/.test(e.key) &&
-                    !/ /.test(e.key) &&
-                    e.preventDefault()
-                  }
-                  placeholder="Select or write actor name"
-                  options={allActors}
-                  onChange={setActorName(2)}
-                  theme={(theme) => ({
-                    ...theme,
-                    borderRadius: 0,
-                    colors: {
-                      ...theme.colors,
-                      text: "var(--cardinal)",
-                      primary: "var(--cardinal)",
-                    },
-                  })}
-                  styles={{
-                    control: (provided, state) => ({
-                      ...provided,
-                      minHeight: 66,
-                      width: 320,
-                      outline: "none",
-                      border: "0px solid black",
-                      fontSize: "16px",
-                      background: state.isDisabled
-                        ? "var(--pink-swan)"
-                        : "var(--baby-powder)",
-                      boxShadow: state.isFocused
-                        ? "0px 4px 4px red"
-                        : "0px 4px 4px #00000040",
-                      borderRadius: 5,
-                      paddingLeft: 10,
-                    }),
-                  }}
-                />
-                <div className="movieActorNameError nunito-normal-river-bed-50px">
-                  {" "}
-                  <strong> {repeatedActorName[2]} </strong>
+              <Col md={6} lg={4}>
+                <h3 className="movie-form-sec-title mt-5 mb-4 neuton-bold-white-30px7">
+                  {actorname} <span className="required">*</span>
+                </h3>
+                <div>
+                  {/* 1st  */}
+                  <div>
+                    <CreatableSelect
+                      value={getActorNamesArray[0]}
+                      isSearchable
+                      className="addMovieactor"
+                      formatCreateLabel={(inputText) => `${inputText}`}
+                      onKeyDown={(e) =>
+                        !/[a-z]/.test(e.key) &&
+                        !/[A-Z]/.test(e.key) &&
+                        !/ /.test(e.key) &&
+                        e.preventDefault()
+                      }
+                      placeholder="Select or write actor name"
+                      options={allActors}
+                      isClearable={true}
+                      onChange={setActorName(0)}
+                      theme={(theme) => ({
+                        ...theme,
+                        borderRadius: 0,
+                        colors: {
+                          ...theme.colors,
+                          text: "var(--cardinal)",
+                          primary: "var(--cardinal)",
+                        },
+                      })}
+                      styles={{
+                        control: (provided, state) => ({
+                          ...provided,
+                          minHeight: 50,
+                          outline: "none",
+                          border: "0px solid black",
+                          fontSize: "16px",
+                          boxShadow: state.isFocused
+                            ? "0px 4px 4px red"
+                            : "0px 4px 4px #00000040",
+                          borderRadius: 5,
+                          paddingLeft: 10,
+                        }),
+                      }}
+                    />
+                    <p className="movie-form-error nunito-normal-river-bed-50px">
+                      <strong>{repeatedActorName[0]}</strong>
+                    </p>
+                  </div>
+                  {/* 2nd  */}
+                  <div>
+                    <CreatableSelect
+                      value={getActorNames[1]}
+                      className="addMovieactor"
+                      isSearchable
+                      isClearable
+                      isDisabled={!isFilled[0]}
+                      formatCreateLabel={(inputText) => `${inputText}`}
+                      onKeyDown={(e) =>
+                        !/[a-z]/.test(e.key) &&
+                        !/[A-Z]/.test(e.key) &&
+                        !/ /.test(e.key) &&
+                        e.preventDefault()
+                      }
+                      placeholder="Select or write actor name"
+                      options={allActors}
+                      onChange={setActorName(1)}
+                      theme={(theme) => ({
+                        ...theme,
+                        borderRadius: 0,
+                        colors: {
+                          ...theme.colors,
+                          text: "var(--cardinal)",
+                          primary: "var(--cardinal)",
+                        },
+                      })}
+                      styles={{
+                        control: (provided, state) => ({
+                          ...provided,
+                          minHeight: 50,
+                          outline: "none",
+                          border: "0px solid black",
+                          fontSize: "16px",
+                          boxShadow: state.isFocused
+                            ? "0px 4px 4px red"
+                            : "0px 4px 4px #00000040",
+                          background: state.isDisabled
+                            ? "var(--pink-swan)"
+                            : "var(--baby-powder)",
+                          borderRadius: 5,
+                          paddingLeft: 10,
+                        }),
+                      }}
+                    />
+                    <p className="movie-form-error nunito-normal-river-bed-50px">
+                      <strong>{repeatedActorName[1]}</strong>
+                    </p>
+                  </div>
+                  {/* 3rd  */}
+                  <div>
+                    <CreatableSelect
+                      value={getActorNames[2]}
+                      isSearchable
+                      isClearable
+                      className="addMovieactor"
+                      formatCreateLabel={(inputText) => `${inputText}`}
+                      isDisabled={!isFilled[1]}
+                      onKeyDown={(e) =>
+                        !/[a-z]/.test(e.key) &&
+                        !/[A-Z]/.test(e.key) &&
+                        !/ /.test(e.key) &&
+                        e.preventDefault()
+                      }
+                      placeholder="Select or write actor name"
+                      options={allActors}
+                      onChange={setActorName(2)}
+                      theme={(theme) => ({
+                        ...theme,
+                        borderRadius: 0,
+                        colors: {
+                          ...theme.colors,
+                          text: "var(--cardinal)",
+                          primary: "var(--cardinal)",
+                        },
+                      })}
+                      styles={{
+                        control: (provided, state) => ({
+                          ...provided,
+                          minHeight: 50,
+                          outline: "none",
+                          border: "0px solid black",
+                          fontSize: "16px",
+                          background: state.isDisabled
+                            ? "var(--pink-swan)"
+                            : "var(--baby-powder)",
+                          boxShadow: state.isFocused
+                            ? "0px 4px 4px red"
+                            : "0px 4px 4px #00000040",
+                          borderRadius: 5,
+                          paddingLeft: 10,
+                        }),
+                      }}
+                    />
+                    <p className="movie-form-error nunito-normal-river-bed-50px">
+                      <strong>{repeatedActorName[2]}</strong>
+                    </p>
+                  </div>
+                  {/* 4th  */}
+                  <div>
+                    <CreatableSelect
+                      value={getActorNames[3]}
+                      isSearchable
+                      isClearable
+                      className="addMovieactor"
+                      formatCreateLabel={(inputText) => `${inputText}`}
+                      onKeyDown={(e) =>
+                        !/[a-z]/.test(e.key) &&
+                        !/[A-Z]/.test(e.key) &&
+                        !/ /.test(e.key) &&
+                        e.preventDefault()
+                      }
+                      placeholder="Select or write actor name"
+                      isDisabled={!isFilled[2]}
+                      options={allActors}
+                      onChange={setActorName(3)}
+                      theme={(theme) => ({
+                        ...theme,
+                        borderRadius: 0,
+                        colors: {
+                          ...theme.colors,
+                          text: "var(--cardinal)",
+                          primary: "var(--cardinal)",
+                        },
+                      })}
+                      styles={{
+                        control: (provided, state) => ({
+                          ...provided,
+                          minHeight: 50,
+                          outline: "none",
+                          fontSize: "16px",
+                          background: state.isDisabled
+                            ? "var(--pink-swan)"
+                            : "var(--baby-powder)",
+                          boxShadow: state.isFocused
+                            ? "0px 4px 4px red"
+                            : "0px 4px 4px #00000040",
+                          borderRadius: 5,
+                          paddingLeft: 10,
+                        }),
+                      }}
+                    />
+                    <p className="movie-form-error nunito-normal-river-bed-50px">
+                      <strong>{repeatedActorName[3]}</strong>
+                    </p>
+                  </div>
+                  {/* 5th  */}
+                  <div>
+                    <CreatableSelect
+                      value={getActorNames[4]}
+                      isSearchable
+                      isClearable
+                      className="addMovieactor"
+                      formatCreateLabel={(inputText) => `${inputText}`}
+                      onKeyDown={(e) =>
+                        !/[a-z]/.test(e.key) &&
+                        !/[A-Z]/.test(e.key) &&
+                        !/ /.test(e.key) &&
+                        e.preventDefault()
+                      }
+                      placeholder="Select or write actor name"
+                      options={allActors}
+                      isDisabled={!isFilled[3]}
+                      onChange={setActorName(4)}
+                      theme={(theme) => ({
+                        ...theme,
+                        borderRadius: 0,
+                        colors: {
+                          ...theme.colors,
+                          text: "var(--cardinal)",
+                          primary: "var(--cardinal)",
+                        },
+                      })}
+                      styles={{
+                        control: (provided, state) => ({
+                          ...provided,
+                          minHeight: 50,
+                          outline: "none",
+                          border: "0px solid black",
+                          fontSize: "16px",
+                          background: state.isDisabled
+                            ? "var(--pink-swan)"
+                            : "var(--baby-powder)",
+                          boxShadow: state.isFocused
+                            ? "0px 4px 4px red"
+                            : "0px 4px 4px #00000040",
+                          borderRadius: 5,
+                          paddingLeft: 10,
+                        }),
+                      }}
+                    />
+                    <p className="movie-form-error nunito-normal-river-bed-50px">
+                      <strong>{repeatedActorName[4]}</strong>
+                    </p>
+                  </div>
                 </div>
-              </div>
-
+              </Col>
               {/* actor role */}
-              <div className="addMovieactor-role">
-                <CreatableSelect
-                  isSearchable
-                  isClearable
-                  value={getActorRolesArray[2]}
-                  // className="addMovieactor-role"
-                  placeholder="Select or write actor role"
-                  formatCreateLabel={(inputText) => `${inputText}`}
-                  onKeyDown={(e) =>
-                    !/[a-z]/.test(e.key) &&
-                    !/[A-Z]/.test(e.key) &&
-                    !/ /.test(e.key) &&
-                    e.preventDefault()
-                  }
-                  options={allRoles}
-                  isDisabled={!isFilled[1]}
-                  onChange={setActorRole(2)}
-                  theme={(theme) => ({
-                    ...theme,
-                    borderRadius: 0,
-                    colors: {
-                      ...theme.colors,
-                      text: "var(--cardinal)",
-                      primary: "var(--cardinal)",
-                    },
-                  })}
-                  styles={{
-                    control: (provided, state) => ({
-                      ...provided,
-                      minHeight: 66,
-                      width: 320,
-                      background: "#fcfcfc",
-                      outline: "none",
-                      border: "0px solid black",
-                      fontSize: "16px",
-                      boxShadow: state.isFocused
-                        ? "0px 4px 4px red"
-                        : "0px 4px 4px #00000040",
-                      background: state.isDisabled
-                        ? "var(--pink-swan)"
-                        : "var(--baby-powder)",
-                      borderRadius: 5,
-                      paddingLeft: 10,
-                    }),
-                  }}
-                />
-                <div className="movieActorRoleError nunito-normal-river-bed-50px">
-                  {" "}
-                  <strong> {repeatedActorRole[2]} </strong>
-                </div>
-              </div>
+              <Col md={6} lg={4}>
+                <h3 className="movie-form-sec-title mt-5 mb-4 neuton-bold-white-30px7">
+                  {actorcharacteradd} <span className="required">*</span>
+                </h3>
+                <div>
+                  {/* 1st  */}
+                  <div>
+                    <CreatableSelect
+                      value={getActorRolesArray[0]}
+                      isSearchable
+                      className="addMovieactor-role"
+                      placeholder="Select or write actor role"
+                      formatCreateLabel={(inputText) => `${inputText}`}
+                      onKeyDown={(e) =>
+                        !/[a-z]/.test(e.key) &&
+                        !/[A-Z]/.test(e.key) &&
+                        !/ /.test(e.key) &&
+                        e.preventDefault()
+                      }
+                      options={allRoles}
+                      onChange={setActorRole(0)}
+                      isClearable={true}
+                      theme={(theme) => ({
+                        ...theme,
+                        borderRadius: 0,
+                        colors: {
+                          ...theme.colors,
+                          text: "var(--cardinal)",
+                          primary: "var(--cardinal)",
+                        },
+                      })}
+                      styles={{
+                        control: (provided, state) => ({
+                          ...provided,
+                          minHeight: 50,
+                          background: "#fcfcfc",
+                          outline: "none",
+                          border: "0px solid black",
+                          fontSize: "16px",
+                          boxShadow: state.isFocused
+                            ? "0px 4px 4px red"
+                            : "0px 4px 4px #00000040",
+                          borderRadius: 5,
+                          paddingLeft: 10,
+                        }),
+                      }}
+                    />
+                    <p className="movie-form-error nunito-normal-river-bed-50px">
+                      <strong>{repeatedActorRole[0]}</strong>
+                    </p>
+                  </div>
+                  {/* 2nd  */}
+                  <div>
+                    <CreatableSelect
+                      isSearchable
+                      isClearable
+                      value={getActorRolesArray[1]}
+                      className="addMovieactor-role"
+                      placeholder="Select or write actor role"
+                      isDisabled={!isFilled[0]}
+                      formatCreateLabel={(inputText) => `${inputText}`}
+                      onKeyDown={(e) =>
+                        !/[a-z]/.test(e.key) &&
+                        !/[A-Z]/.test(e.key) &&
+                        !/ /.test(e.key) &&
+                        e.preventDefault()
+                      }
+                      options={allRoles}
+                      onChange={setActorRole(1)}
+                      theme={(theme) => ({
+                        ...theme,
+                        borderRadius: 0,
+                        colors: {
+                          ...theme.colors,
+                          text: "var(--cardinal)",
+                          primary: "var(--cardinal)",
+                        },
+                      })}
+                      styles={{
+                        control: (provided, state) => ({
+                          ...provided,
+                          minHeight: 50,
+                          background: "#fcfcfc",
+                          outline: "none",
+                          border: "0px solid black",
+                          fontSize: "16px",
+                          boxShadow: state.isFocused
+                            ? "0px 4px 4px red"
+                            : "0px 4px 4px #00000040",
+                          background: state.isDisabled
+                            ? "var(--pink-swan)"
+                            : "var(--baby-powder)",
+                          borderRadius: 5,
+                          paddingLeft: 10,
+                        }),
+                      }}
+                    />
+                    <p className="movie-form-error nunito-normal-river-bed-50px">
+                      <strong>{repeatedActorRole[1]}</strong>
+                    </p>
+                  </div>
 
+                  {/* 3rd  */}
+                  <div>
+                    <CreatableSelect
+                      isSearchable
+                      isClearable
+                      value={getActorRolesArray[2]}
+                      className="addMovieactor-role"
+                      placeholder="Select or write actor role"
+                      formatCreateLabel={(inputText) => `${inputText}`}
+                      onKeyDown={(e) =>
+                        !/[a-z]/.test(e.key) &&
+                        !/[A-Z]/.test(e.key) &&
+                        !/ /.test(e.key) &&
+                        e.preventDefault()
+                      }
+                      options={allRoles}
+                      isDisabled={!isFilled[1]}
+                      onChange={setActorRole(2)}
+                      theme={(theme) => ({
+                        ...theme,
+                        borderRadius: 0,
+                        colors: {
+                          ...theme.colors,
+                          text: "var(--cardinal)",
+                          primary: "var(--cardinal)",
+                        },
+                      })}
+                      styles={{
+                        control: (provided, state) => ({
+                          ...provided,
+                          minHeight: 50,
+                          background: "#fcfcfc",
+                          outline: "none",
+                          border: "0px solid black",
+                          fontSize: "16px",
+                          boxShadow: state.isFocused
+                            ? "0px 4px 4px red"
+                            : "0px 4px 4px #00000040",
+                          background: state.isDisabled
+                            ? "var(--pink-swan)"
+                            : "var(--baby-powder)",
+                          borderRadius: 5,
+                          paddingLeft: 10,
+                        }),
+                      }}
+                    />
+                    <p className="movie-form-error nunito-normal-river-bed-50px">
+                      <strong>{repeatedActorRole[2]}</strong>
+                    </p>
+                  </div>
+
+                  {/* 4th  */}
+                  <div>
+                    <CreatableSelect
+                      isSearchable
+                      isClearable
+                      value={getActorRolesArray[3]}
+                      className="addMovieactor-role"
+                      placeholder="Select or write actor role"
+                      formatCreateLabel={(inputText) => `${inputText}`}
+                      onKeyDown={(e) =>
+                        !/[a-z]/.test(e.key) &&
+                        !/[A-Z]/.test(e.key) &&
+                        !/ /.test(e.key) &&
+                        e.preventDefault()
+                      }
+                      options={allRoles}
+                      isDisabled={!isFilled[2]}
+                      onChange={setActorRole(3)}
+                      theme={(theme) => ({
+                        ...theme,
+                        borderRadius: 0,
+                        colors: {
+                          ...theme.colors,
+                          text: "var(--cardinal)",
+                          primary: "var(--cardinal)",
+                        },
+                      })}
+                      styles={{
+                        control: (provided, state) => ({
+                          ...provided,
+                          minHeight: 50,
+                          background: "#fcfcfc",
+                          outline: "none",
+                          border: "0px solid black",
+                          fontSize: "16px",
+                          boxShadow: state.isFocused
+                            ? "0px 4px 4px red"
+                            : "0px 4px 4px #00000040",
+                          background: state.isDisabled
+                            ? "var(--pink-swan)"
+                            : "var(--baby-powder)",
+                          borderRadius: 5,
+                          paddingLeft: 10,
+                        }),
+                      }}
+                    />
+                    <p className="movie-form-error nunito-normal-river-bed-50px">
+                      <strong>{repeatedActorRole[3]}</strong>
+                    </p>
+                  </div>
+
+                  {/* 5th  */}
+                  <div>
+                    <CreatableSelect
+                      isSearchable
+                      isClearable
+                      value={getActorRolesArray[4]}
+                      className="addMovieactor-role"
+                      placeholder="Select or write actor role"
+                      formatCreateLabel={(inputText) => `${inputText}`}
+                      options={allRoles}
+                      onChange={setActorRole(4)}
+                      isDisabled={!isFilled[3]}
+                      theme={(theme) => ({
+                        ...theme,
+                        borderRadius: 0,
+                        colors: {
+                          ...theme.colors,
+                          text: "var(--cardinal)",
+                          primary: "var(--cardinal)",
+                        },
+                      })}
+                      onKeyDown={(e) =>
+                        !/[a-z]/.test(e.key) &&
+                        !/[A-Z]/.test(e.key) &&
+                        !/ /.test(e.key) &&
+                        e.preventDefault()
+                      }
+                      styles={{
+                        control: (provided, state) => ({
+                          ...provided,
+                          minHeight: 50,
+                          background: "#fcfcfc",
+                          outline: "none",
+                          border: "0px solid black",
+                          fontSize: "16px",
+                          boxShadow: state.isFocused
+                            ? "0px 4px 4px red"
+                            : "0px 4px 4px #00000040",
+                          background: state.isDisabled
+                            ? "var(--pink-swan)"
+                            : "var(--baby-powder)",
+                          borderRadius: 5,
+                          paddingLeft: 10,
+                        }),
+                      }}
+                    />
+                    <p className="movie-form-error nunito-normal-river-bed-50px">
+                      <strong>{repeatedActorRole[4]}</strong>
+                    </p>
+                  </div>
+                </div>
+              </Col>
               {/* actor image */}
-              <div>
-                <input
-                  className="addMovieactor-image"
-                  placeholder="Enter URL of actor image"
-                  name="actorImage"
-                  type="text"
-                  required
-                  disabled={!isFilled[1]}
-                  value={getActorImagesArrayInHTML[2]}
-                  onChange={(e) => {
-                    setActorImage(2, e.target.value);
-                    validateActor3ImageURL(e.target.value);
-                  }}
-                />
-                <div className="movieActorImageError nunito-normal-river-bed-50px">
-                  {" "}
-                  <strong>
-                    {" "}
-                    {repeatedActorImage[2]} {movieActorImage_error_message[2]}{" "}
-                    {actor3ImageURLErrorMessage}{" "}
-                  </strong>
+              <Col md={6} lg={4}>
+                <h3 className="movie-form-sec-title mt-5 mb-4 neuton-bold-white-30px7">
+                  {actorimage} <span className="required">*</span>
+                </h3>
+                {/* 1st  */}
+                <div>
+                  <div>
+                    <div>
+                      <input
+                        className="addMovieactor-image"
+                        placeholder="Enter URL of actor image"
+                        name="actorImage"
+                        type="text"
+                        required
+                        value={getActorImagesArrayInHTMLState[0]}
+                        onChange={(e) => {
+                          setActorImage(0, e.target.value);
+                          validateActor1ImageURL(e.target.value);
+                        }}
+                      />
+                      <p className="movie-form-error nunito-normal-river-bed-50px">
+                        <strong>
+                          {actor1ImageURLErrorMessage}{" "}
+                          {movieActorImage_error_message[0]}
+                        </strong>
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+                {/* 2nd  */}
+                <div>
+                  <input
+                    className="addMovieactor-image"
+                    placeholder="Enter URL of actor image"
+                    name="actorImage"
+                    type="text"
+                    required
+                    disabled={!isFilled[0]}
+                    value={getActorImagesArrayInHTMLState[1]}
+                    onChange={(e) => {
+                      setActorImage(1, e.target.value);
+                      validateActor2ImageURL(e.target.value);
+                    }}
+                  />
+                  <p className="movie-form-error nunito-normal-river-bed-50px">
+                    <strong>
+                      {repeatedActorImage[1]} {movieActorImage_error_message[1]}{" "}
+                      {actor2ImageURLErrorMessage}
+                    </strong>
+                  </p>
+                </div>
+
+                {/* 3rd  */}
+                <div>
+                  <input
+                    className="addMovieactor-image"
+                    placeholder="Enter URL of actor image"
+                    name="actorImage"
+                    type="text"
+                    required
+                    disabled={!isFilled[1]}
+                    value={getActorImagesArrayInHTML[2]}
+                    onChange={(e) => {
+                      setActorImage(2, e.target.value);
+                      validateActor3ImageURL(e.target.value);
+                    }}
+                  />
+                  <p className="movie-form-error nunito-normal-river-bed-50px">
+                    <strong>
+                      {repeatedActorImage[2]} {movieActorImage_error_message[2]}{" "}
+                      {actor2ImageURLErrorMessage}
+                    </strong>
+                  </p>
+                </div>
+
+                {/* 4th  */}
+                <div>
+                  <input
+                    className="addMovieactor-image"
+                    placeholder="Enter URL of actor image"
+                    name="actorImage"
+                    type="text"
+                    required
+                    disabled={!isFilled[2]}
+                    value={getActorImagesArrayInHTML[3]}
+                    onChange={(e) => {
+                      setActorImage(3, e.target.value);
+                      validateActor4ImageURL(e.target.value);
+                    }}
+                  />
+                  <p className="movie-form-error nunito-normal-river-bed-50px">
+                    <strong>
+                      {repeatedActorImage[3]} {movieActorImage_error_message[3]}{" "}
+                      {actor2ImageURLErrorMessage}
+                    </strong>
+                  </p>
+                </div>
+
+                {/* 5h  */}
+                <div>
+                  <input
+                    className="addMovieactor-image"
+                    placeholder="Enter URL of actor image"
+                    name="actorImage"
+                    type="text"
+                    required
+                    disabled={!isFilled[3]}
+                    value={getActorImagesArrayInHTML[4]}
+                    onChange={(e) => {
+                      setActorImage(4, e.target.value);
+                      validateActor5ImageURL(e.target.value);
+                    }}
+                  />
+                  <p className="movie-form-error nunito-normal-river-bed-50px">
+                    <strong>
+                      {repeatedActorImage[4]} {movieActorImage_error_message[4]}{" "}
+                      {actor2ImageURLErrorMessage}
+                    </strong>
+                  </p>
+                </div>
+              </Col>
+            </Row>
           </div>
-
-          {/* actor 3 errors */}
-          {/* <div className="actorErrors">
-              <div className="movieActorNameError nunito-normal-river-bed-50px"> <strong> {repeatedActorName[2]}  </strong></div>
-              <div className="movieActorRoleError nunito-normal-river-bed-50px"> <strong> { repeatedActorRole[2] } </strong></div>
-            </div> */}
-
-          {/*4th Actor */}
-
-          <div>
-            <div className="addMovieflex-row-2">
-              {/* actor name */}
-              <div className="addMovieactor">
-                <CreatableSelect
-                  value={getActorNames[3]}
-                  isSearchable
-                  isClearable
-                  // className="addMovieactor"
-                  formatCreateLabel={(inputText) => `${inputText}`}
-                  onKeyDown={(e) =>
-                    !/[a-z]/.test(e.key) &&
-                    !/[A-Z]/.test(e.key) &&
-                    !/ /.test(e.key) &&
-                    e.preventDefault()
-                  }
-                  placeholder="Select or write actor name"
-                  isDisabled={!isFilled[2]}
-                  options={allActors}
-                  onChange={setActorName(3)}
-                  theme={(theme) => ({
-                    ...theme,
-                    borderRadius: 0,
-                    colors: {
-                      ...theme.colors,
-                      text: "var(--cardinal)",
-                      primary: "var(--cardinal)",
-                    },
-                  })}
-                  styles={{
-                    control: (provided, state) => ({
-                      ...provided,
-                      minHeight: 66,
-                      width: 320,
-                      outline: "none",
-                      fontSize: "16px",
-                      background: state.isDisabled
-                        ? "var(--pink-swan)"
-                        : "var(--baby-powder)",
-                      boxShadow: state.isFocused
-                        ? "0px 4px 4px red"
-                        : "0px 4px 4px #00000040",
-                      borderRadius: 5,
-                      paddingLeft: 10,
-                    }),
-                  }}
-                />
-                <div className="movieActorNameError nunito-normal-river-bed-50px">
-                  {" "}
-                  <strong> {repeatedActorName[3]} </strong>
-                </div>
-              </div>
-
-              {/* actor role */}
-              <div className="addMovieactor-role">
-                <CreatableSelect
-                  isSearchable
-                  isClearable
-                  value={getActorRolesArray[3]}
-                  // className="addMovieactor-role"
-                  placeholder="Select or write actor role"
-                  formatCreateLabel={(inputText) => `${inputText}`}
-                  onKeyDown={(e) =>
-                    !/[a-z]/.test(e.key) &&
-                    !/[A-Z]/.test(e.key) &&
-                    !/ /.test(e.key) &&
-                    e.preventDefault()
-                  }
-                  options={allRoles}
-                  isDisabled={!isFilled[2]}
-                  onChange={setActorRole(3)}
-                  theme={(theme) => ({
-                    ...theme,
-                    borderRadius: 0,
-                    colors: {
-                      ...theme.colors,
-                      text: "var(--cardinal)",
-                      primary: "var(--cardinal)",
-                    },
-                  })}
-                  styles={{
-                    control: (provided, state) => ({
-                      ...provided,
-                      minHeight: 66,
-                      width: 320,
-                      background: "#fcfcfc",
-                      outline: "none",
-                      border: "0px solid black",
-                      fontSize: "16px",
-                      boxShadow: state.isFocused
-                        ? "0px 4px 4px red"
-                        : "0px 4px 4px #00000040",
-                      background: state.isDisabled
-                        ? "var(--pink-swan)"
-                        : "var(--baby-powder)",
-                      borderRadius: 5,
-                      paddingLeft: 10,
-                    }),
-                  }}
-                />
-                <div className="movieActorRoleError nunito-normal-river-bed-50px">
-                  {" "}
-                  <strong> {repeatedActorRole[3]} </strong>
-                </div>
-              </div>
-
-              {/* actor image */}
-              <div>
-                <input
-                  className="addMovieactor-image"
-                  placeholder="Enter URL of actor image"
-                  name="actorImage"
-                  type="text"
-                  required
-                  disabled={!isFilled[2]}
-                  value={getActorImagesArrayInHTML[3]}
-                  onChange={(e) => {
-                    setActorImage(3, e.target.value);
-                    validateActor4ImageURL(e.target.value);
-                  }}
-                />
-                <div className="movieActorImageError nunito-normal-river-bed-50px">
-                  {" "}
-                  <strong>
-                    {" "}
-                    {repeatedActorImage[3]} {movieActorImage_error_message[3]}{" "}
-                    {actor4ImageURLErrorMessage}{" "}
-                  </strong>
-                </div>
-              </div>
-            </div>
+          <div className="my-4 text-center">
+            {id == 0 && (
+              <button
+                className="edit-movie-form-btn"
+                disabled={!addIsEnabled}
+                onClick={addMovie}
+              >
+                Add
+              </button>
+            )}
+            {id > 0 && (
+              <button
+                className="edit-movie-form-btn"
+                disabled={!editIsEnabled}
+                onClick={editMovie}
+              >
+                Edit
+              </button>
+            )}
           </div>
-
-          {/* actor 4 errors */}
-          {/* <div className="actorErrors">
-              <div className="movieActorNameError nunito-normal-river-bed-50px"> <strong> {repeatedActorName[3]}  </strong></div>
-              <div className="movieActorRoleError nunito-normal-river-bed-50px"> <strong> { repeatedActorRole[3] } </strong></div>
-            </div> */}
-
-          {/*5th Actor */}
-
-          <div>
-            <div className="addMovieflex-row-2">
-              {/* actor name */}
-              <div className="addMovieactor">
-                <CreatableSelect
-                  value={getActorNames[4]}
-                  isSearchable
-                  isClearable
-                  // className="addMovieactor"
-                  formatCreateLabel={(inputText) => `${inputText}`}
-                  onKeyDown={(e) =>
-                    !/[a-z]/.test(e.key) &&
-                    !/[A-Z]/.test(e.key) &&
-                    !/ /.test(e.key) &&
-                    e.preventDefault()
-                  }
-                  placeholder="Select or write actor name"
-                  options={allActors}
-                  isDisabled={!isFilled[3]}
-                  onChange={setActorName(4)}
-                  theme={(theme) => ({
-                    ...theme,
-                    borderRadius: 0,
-                    colors: {
-                      ...theme.colors,
-                      text: "var(--cardinal)",
-                      primary: "var(--cardinal)",
-                    },
-                  })}
-                  styles={{
-                    control: (provided, state) => ({
-                      ...provided,
-                      minHeight: 66,
-                      width: 320,
-                      outline: "none",
-                      border: "0px solid black",
-                      fontSize: "16px",
-                      background: state.isDisabled
-                        ? "var(--pink-swan)"
-                        : "var(--baby-powder)",
-                      boxShadow: state.isFocused
-                        ? "0px 4px 4px red"
-                        : "0px 4px 4px #00000040",
-                      borderRadius: 5,
-                      paddingLeft: 10,
-                    }),
-                  }}
-                />
-                <div className="movieActorNameError nunito-normal-river-bed-50px">
-                  {" "}
-                  <strong> {repeatedActorName[4]} </strong>
-                </div>
-              </div>
-
-              {/* actor role */}
-              <div className="addMovieactor-role">
-                <CreatableSelect
-                  isSearchable
-                  isClearable
-                  value={getActorRolesArray[4]}
-                  // className="addMovieactor-role"
-                  placeholder="Select or write actor role"
-                  formatCreateLabel={(inputText) => `${inputText}`}
-                  options={allRoles}
-                  onChange={setActorRole(4)}
-                  isDisabled={!isFilled[3]}
-                  theme={(theme) => ({
-                    ...theme,
-                    borderRadius: 0,
-                    colors: {
-                      ...theme.colors,
-                      text: "var(--cardinal)",
-                      primary: "var(--cardinal)",
-                    },
-                  })}
-                  onKeyDown={(e) =>
-                    !/[a-z]/.test(e.key) &&
-                    !/[A-Z]/.test(e.key) &&
-                    !/ /.test(e.key) &&
-                    e.preventDefault()
-                  }
-                  styles={{
-                    control: (provided, state) => ({
-                      ...provided,
-                      minHeight: 66,
-                      width: 320,
-                      background: "#fcfcfc",
-                      outline: "none",
-                      border: "0px solid black",
-                      fontSize: "16px",
-                      boxShadow: state.isFocused
-                        ? "0px 4px 4px red"
-                        : "0px 4px 4px #00000040",
-                      background: state.isDisabled
-                        ? "var(--pink-swan)"
-                        : "var(--baby-powder)",
-                      borderRadius: 5,
-                      paddingLeft: 10,
-                    }),
-                  }}
-                />
-                <div className="movieActorRoleError nunito-normal-river-bed-50px">
-                  {" "}
-                  <strong> {repeatedActorRole[4]} </strong>
-                </div>
-              </div>
-              {/* actor image */}
-
-              <div>
-                <input
-                  className="addMovieactor-image"
-                  placeholder="Enter URL of actor image"
-                  name="actorImage"
-                  type="text"
-                  required
-                  disabled={!isFilled[3]}
-                  value={getActorImagesArrayInHTML[4]}
-                  onChange={(e) => {
-                    setActorImage(4, e.target.value);
-                    validateActor5ImageURL(e.target.value);
-                  }}
-                />
-                <div className="movieActorImageError nunito-normal-river-bed-50px">
-                  {" "}
-                  <strong>
-                    {" "}
-                    {repeatedActorImage[4]} {movieActorImage_error_message[4]}{" "}
-                    {actor5ImageURLErrorMessage}{" "}
-                  </strong>
-                </div>
-              </div>
-
-              <div> </div>
-            </div>
-          </div>
-        </div>
-
-        {id == 0 && (
-          <button
-            className="addMovieadd-button neuton-bold-white-30px7"
-            disabled={!addIsEnabled}
-            onClick={addMovie}
-          >
-            Add
-          </button>
-        )}
-        {id > 0 && (
-          <button
-            className="addMovieadd-button neuton-bold-white-30px7"
-            disabled={!editIsEnabled}
-            onClick={editMovie}
-          >
-            Edit
-          </button>
-        )}
-
-        {/* footer */}
-        {/* <Footer /> */}
+        </Container>
       </div>
+      {/* main content  */}
+      {/* footer  */}
+      <Footer />
     </div>
   );
-}
+};
 
 export default movieForm;

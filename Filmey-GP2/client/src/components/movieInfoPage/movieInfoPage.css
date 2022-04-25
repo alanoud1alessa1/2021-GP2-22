@@ -1,716 +1,107 @@
-.movieInfo {
-  align-items: flex-start;
-  background-color: var(--white);
-  display: flex;
-  overflow: hidden;
-  width: 1912px;
-}
-
-.movieInfoContainer {
-  /* height: 2340px; */
-  height: 4000px;
-  margin-left: -47px;
-  position: relative;
+.customconfirmAlert {
+  background-color: var(--eerie-black);
+  border-radius: 10px;
+  padding: 40px;
+  color: var(--baby-powder);
   width: 100%;
+  font-size: 12px;
+  align-items: center;
+  align-self: auto;
+  margin: auto;
 }
 
-.body {
-  background-color: var(--eerie-black);
-  height: 100000px;
-  /* left: 8px; */
-  left: 47px;
-  position: absolute;
-  top: 130px;
-  width: 1920px;
+.customconfirmAlert h1 {
+  font-size: 25px;
 }
 
-.copyright {
-  left: 46px;
-  letter-spacing: 0;
-  position: absolute;
-  top: 2175px;
-  width: 344px;
+.customconfirmAlert h5 {
+  font-size: 20px;
 }
 
-.span1 {
-  text-decoration: underline;
+.customconfirmAlert button {
+  margin-right: 10px;
 }
 
-
-.we-make-your-day {
-  left: 820px;
-  letter-spacing: 0;
-  position: absolute;
-  top: 2124px;
+.noButton,
+.yesButton {
+  background-color: var(--cardinal);
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-right: 15px;
+  margin-top: 30px;
+  border: none;
+  color: white;
+  font-size: 150%;
+  font-weight: 500;
 }
 
-.copyright-1 {
-  left: 29px;
-  letter-spacing: 0;
-  position: absolute;
-  top: 2183px;
-  width: 344px;
+.moviePosterBox {
+  position: relative;
+}
+.movieInfoPosterImg {
+  width: 350px !important;
+  height: 400px;
 }
 
-.rectangle-395 {
-  background-color: var(--eerie-black);
-  height: 104px;
-  left: 8px;
+.addBookMark,
+.watchList {
+  color: var(--baby-powder);
+  background: none !important;
   position: absolute;
   top: 0;
-  width: 1912px;
+  left: -11px;
+  border: none;
 }
 
-.place {
-  left: 1827px;
-  letter-spacing: 0;
-  line-height: 16px;
-  position: absolute;
-  top: 64px;
-  white-space: nowrap;
-  width: 75px;
+.bookMark:hover {
+  color: var(--celeste);
 }
 
-.login {
-  left: 1760px;
-  letter-spacing: 0;
-  line-height: 16px;
-  position: absolute;
-  top: 63px;
-  white-space: nowrap;
-  width: 52px;
+.watchList {
+  color: var(--cardinal);
 }
 
-.iconly-light-profile {
-  height: 40px;
-  left: 1759px;
-  position: absolute;
-  top: 21px;
-  width: 44px;
+.watchList:hover {
+  color: red;
 }
 
-.iconly-light-profile-1 {
-  height: 40px;
-  left: 1838px;
-  position: absolute;
-  top: 20px;
-  width: 44px;
-}
-
-.genres {
-  cursor: pointer;
-  left: 394px;
-  letter-spacing: 0;
-  position: absolute;
-  top: 27px;
+.trailer {
   transition: all 0.2s ease;
-  width: 137px;
-}
-
-.genres:hover,
-.place-1:hover,
-.reviewContainer1:hover,
-.reviewContainer2:hover,
-.reviewContainer3:hover {
-  transform: translate(0, -5px);
-}
-
-.screen-shot14-2-29at528-112 {
-  height: 87px;
-  left: 34px;
-  object-fit: cover;
-  position: absolute;
-  top: 8px;
-  width: 190px;
-}
-
-.ar {
+  background-color: var(--cardinal);
+  border-radius: 10px;
+  padding: 10px 20px;
   color: var(--white);
-  font-family: var(--font-family-neuton);
-  font-size: var(--font-size-l5);
-  font-weight: 700;
-  left: 1682px;
-  letter-spacing: -0.24px;
-  position: absolute;
-  text-align: center;
-  top: 35px;
-  width: 43px;
-}
-
-.rectangle-391 {
-  border: 1px solid #d41c24;
-  border-radius: 3px;
-  height: 40px;
-  left: 1682px;
-  position: absolute;
-  top: 29px;
-  width: 46px;
-}
-
-.place-1 {
-  cursor: pointer;
-  left: 267px;
-  letter-spacing: 0;
-  position: absolute;
-  top: 27px;
-  transition: all 0.2s ease;
-  width: 111px;
-}
-
-
-.trailer{
-  cursor: pointer;
-  left: 230px;
-  top: 782px;
-  transition: all 0.2s ease;
-  /* align-items: flex-start; */
-  height: 65px;
-  position: absolute;
-  background-color: var(--cardinal);
-  border-radius: 10px;
-  /* display: flex; */
-  height: 65px;
-  width: 230px;
-  border-width: 0px;
-  /* padding: 8px 30px; */
-  padding-left: 25px;
-  padding-top: 8px;
-  align-items:center;
-  text-align: center;
-}
-
-.trailer:hover,
-.editMovieButton:hover,
-.deleteMovieButton:hover{
-  transform: translate(0, -5px);
-}
-
-.editMovieButton{
-  left:1550px;
-  top: 300px;
-  cursor: pointer;
-  /* left: 230px;
-  top: 782px; */
-  transition: all 0.2s ease;
-  /* align-items: flex-start; */
-  position: absolute;
-  background-color: var(--cardinal);
-  border-radius: 10px;
-  /* display: flex; */
-  height: 65px;
-  width: 160px;
-  border-width: 0px;
-  /* padding: 8px 30px; */
-  padding-left: 30px;
-  align-items:center;
-  text-align: center;
-  z-index:1;
-}
-
-.deleteMovieButton{
-  /* left:1550px;
-  top: 400px; */
-  left:1750px;
-  top: 300px;
-  cursor: pointer;
-  /* left: 230px;
-  top: 782px; */
-  transition: all 0.2s ease;
-  /* align-items: flex-start; */
-  position: absolute;
-  background-color: var(--cardinal);
-  border-radius: 10px;
-  /* display: flex; */
-  white-space: nowrap;
-  height: 65px;
-  width: 160px;
-  border-width: 0px;
-  /* padding: 8px 30px; */
-  padding-left: 13px;
-  align-items:center;
-  text-align: center;
-  z-index:1;
-}
-
-.editMovieContainer{
-  color: var(--white);
-  /* color: var(--cardinal); */
   font-family: var(--font-family-roboto);
   font-size: var(--font-size-xxxxl5);
   font-weight: 400;
-  /* left: 285px; */
-  /* white-space: nowrap; */
-  letter-spacing: 0;
-  /* top: 778px; */
   cursor: pointer;
   text-decoration: none;
   text-align: center;
-  display: flex;
-  gap:10px;
-  z-index: 1;
+  margin-left: 22px;
 }
 
-.editMovieIcon{
-  margin-top: -2px;
+.trailerContainer:hover,
+.edit-movie-btn:hover,
+.delete-movie-btn:hover {
+  transform: translate(0, -5px);
 }
 
-.deleteReviewIcon{
-  margin-left: 300px;
-  color:var(--cardinal);
-  background-color: var(--shark);
-  border:none;
-}
-
-.deleteMovieIcon{
-  margin-top: -2px;
-}
-
-.playTrailerText {
-  color: var(--white);
-  /* color: var(--cardinal); */
-  font-family: var(--font-family-roboto);
-  font-size: var(--font-size-xxxxl5);
-  font-weight: 400;
-  /* left: 285px; */
-  white-space: nowrap;
-  letter-spacing: 0;
-  /* top: 778px; */
-  cursor: pointer;
-  text-decoration: none;
-  text-align: center;
-}
-
-.playTrailerText:hover{
-  /* color: var(--cardinal); */
-  color: var(--white);
-}
-
-.fa-play-circle{
-  font-size:30px;
-  color: var(--white);
-  top: 15px;
-  left:18px;
-  position: absolute;
-  /* height: 26px;
-  width: 28px; */
-}
-
-.trailerIcon {
-  height: 26px;
-  /* left: 244px; */
-  position: absolute;
-  /* top: 782px; */
-  top:8px;
-  left:15px;
-  /* transition: all 0.2s ease; */
-  width: 28px;
-}
-
-.trailerIcon:hover,
-.reviewsExpandRight:hover,
-.reviewsExpandLeft:hover,
-.reviewIcon:hover {
-  transform: scale(1.1);
-}
-
-.ratingIcon2 {
-  height: 26px;
-  left: 1584px;
-  position: absolute;
-  top: 186px;
-  width: 27px;
-}
-
-.reviewIcon2 {
-  height: 26px;
-  left: 1690px;
-  position: absolute;
-  top: 1491px;
-  width: 27px;
-}
-
-.star {
-  display: flex;
-  height: 56px;
-  width: 45px;
-  padding: 6.9px 7.0px;
-  position: absolute;
-  transition: all 0.2s ease;
-  left:30px;
-  z-index: 1;
-
-}
-
-.star:hover,
-.afterRatingStar:hover {
-  transform: scale(1.1);
-}
-
-.afterRatingStar{
-  display: flex;
-  height: 56px;
-  width: 45px;
-  padding: 6.9px 7.0px;
-  transition: all 0.2s ease;
-  position: absolute;
-  left: 60px;
-  z-index: 1;
-}
-
-.movieRating {
-  color: var(--white);
-  font-family: var(--font-family-neuton);
-  font-size: var(--font-size-xxxxl5);
-  font-weight: 700;
-  /* left: 635px; */
-  left:80px;
-  top: 4px;
-  /* top: 229px; */
-  /* top:103px; */
-  letter-spacing: 0.36px;
-  position: absolute;
-  transform: rotate(-0.42deg);
-}
-
-
-.userRating{
-  color: var(--white);
-  font-family: var(--font-family-neuton);
-  font-size: 50px;
-  top:-12px;
-  font-weight: 700;
-  left:82px;
-  letter-spacing: 0.36px;
-  position: absolute;
-  transform: rotate(-0.42deg);
-  width: 80px;
-}
-
-.fiveText1{
-  color: var(--white);
-  font-family: var(--font-family-neuton);
-  font-size: var(--font-size-xxxxl5);
-  font-weight: 700;
-  /* left: 635px; */
-  left:100px;
-  top: 4px;
-  /* top: 229px; */
-  /* top:103px; */
-  letter-spacing: 0.36px;
-  position: absolute;
-  transform: rotate(-0.42deg);
-  width: 114px;
-}
-
-.fiveText2{
-  color: var(--white);
-  font-family: var(--font-family-neuton);
-  font-size: var(--font-size-xxxxl5);
-  font-weight: 700;
-  /* left: 635px; */
-  left:125px;
-  top: 4px;
-  /* top: 229px; */
-  /* top:103px; */
-  letter-spacing: 0.36px;
-  position: absolute;
-  transform: rotate(-0.42deg);
-  width: 114px;
-}
-
-
-.totalUsersRating{
-  font-size: var(--font-size-xl5);
-  /* font-weight: 700; */
-  /* left: 635px; */
-  left: 170px;
-  top: 18px;
-  /* top: 229px; */
-  /* top:103px; */
-  letter-spacing: 0.36px;
-  position: absolute;
-  transform: rotate(-0.42deg);
-  white-space: nowrap;
+.title {
   color: #fbfbfb;
   font-family: var(--font-family-roboto);
+  font-size: 60px;
+  font-weight: 700;
+  text-shadow: 0px 4px 4px #00000040;
+}
+.year {
+  color: #fbfbfb;
+  font-family: var(--font-family-roboto);
+  font-size: 30px;
   font-weight: 500;
   opacity: 0.9;
 }
 
-
-
-
-.fa-times-circle{
-  color: var(--white);
-  font-family: var(--font-family-neuton);
-  font-size: var(--font-size-xxxxl5);
-  font-weight: 700;
-  /* left: 635px; */
-  left:100px;
-  top: 4px;
-  /* top: 229px; */
-  /* top:103px; */
-  letter-spacing: 0.36px;
-  position: absolute;
-  transform: rotate(-0.42deg);
-  width: 114px;
-}
-
-.vector-11 {
-  height: 1px;
-  left: 1486px;
-  position: absolute;
-  top: 184px;
-  width: 1px;
-}
-
-.movieGenreContainer{
-  left: 601px;
-  top: 395px;
-  position: absolute;
-  white-space: nowrap;
-}
-
-.movieInfoGenre {
-  /* left: 601px; */
-  left:0px;
-  letter-spacing: 0.37px;
-  position: absolute;
-  /* top: 290px; */
-  top:0px;
-  width: 295px;
-}
-
-.movieInfoGenreType {
-  /* left: 645px; */
-  /* left:44px; */
-  left:110px;
-  letter-spacing: 0;
-  position: absolute;
-  /* top: 336px; */
-  /* top:46px; */
-  width: 209px;
-}
-
-.movieDesContainer{
-  left: 601px;
-  top: 450px;
-  position: absolute;
-}
-
-.line1 {
-  height: 4px;
-  width: 915px;
-  position: absolute;
-}
-
-.line1Container{
-  /* left: 601px; */
-  /* top: 382px; */
-  position: absolute;
-}
-
-.descriptionText {
-  /* left: 601px; */
-  letter-spacing: 0.37px;
-  position: absolute;
-  /* top: 398px; */
-  top: 20px;
-  width: 295px;
-}
-
-.movieDes{
-  /* left: 645px; */
-  left:44px;
-  top:68px;
-  letter-spacing: 0;
-  position: absolute;
-  /* overflow: auto; */
-  height: 200px;
-  padding-right: 30px;
-  /* top: 449px; */
-  width: 873px;
-  text-align: justify;
-  overflow-y: scroll;
-  inline-size: 873px;
-  overflow-wrap: break-word;
-}
-
-.vector-12 {
-  height: 1px;
-  left: 919px;
-  position: absolute;
-  top: 755px;
-  width: 1px;
-}
-
-.movielanguageContainer{
-  left: 601px;
-  top: 910px;
-  position: absolute;
-}
-
-.line4,
-.line5{
-  height: 4px;
-  position: absolute;
-  width: 915px;
-}
-
-.languageText2 {
-  /* left: 1005px; */
-  letter-spacing: 0.37px;
-  position: absolute;
-  /* top: 842px; */
-  top: 20px;
-  width: 295px;
-}
-
-.movieLanguage {
-  /* left: 1005px; */
-  /* left:44px; */
-  left:140px;
-  letter-spacing: 0;
-  position: absolute;
-  /* top: 868px; */
-  /* top:66px; */
-  top: 20px;
-  width: 873px;
-}
-
-.movieDirectorContainer{
-  left: 601px;
-  /* top: 600px; */
-  top: 750px;
-  position:absolute;
-}
-
-.line2 {
-    height: 4px;
-    width: 915px;
-    position: absolute;
-}
-
-
-.line2Container{
-  position: absolute;
-}
-
-.directorText {
-  /* left: 601px; */
-  letter-spacing: 0.37px;
-  position: absolute;
-  /* top: 60px; */
-  top: 20px;
-  width: 295px;
-}
-
-.directorName {
-  /* left: 645px; */
-  letter-spacing: 0;
-  position: absolute;
-  /* top: 80px; */
-  /* left:44px; */
-  left: 140px;
-  /* top:66px; */
-  top: 20px;
-  width: 873px;
-}
-
-.movieWritersContainer{
-  left: 601px;
-  top: 830px;
-  position: absolute;
-}
-
-.line3 {
-  height: 4px;
-  position: absolute;
-  width: 915px;
-}
-
-
-.line3Container{
-  position: absolute;
-
-}
-
-.writersText {
-  /* left: 601px; */
-  letter-spacing: 0.37px;
-  position: absolute;
-  /* top: 720px; */
-  top: 20px;
-  width: 295px;
-}
-
-.writersName {
-  /* left: 645px; */
-  /* left:44px; */
-  left: 140px;
-  letter-spacing: 0;
-  position: absolute;
-  /* top: 775px; */
-  /* top:66px; */
-  top: 20px;
-  width: 873px;
-}
-
-.movieBasicInfo{
-  left: 595px;
-  top: 160px;
-  position: absolute;
-}
-
-.movieTitle {
-  color: #fbfbfb;
-  font-family: var(--font-family-roboto);
-  font-size: 80px;
-  font-weight: 700;
-  /* left: 595px; */
-  letter-spacing: 0;
-  line-height: 100.2px;
-  position: absolute;
-  text-shadow: 0px 4px 4px #00000040;
-  /* top: 130px; */
-  white-space: nowrap;
-  /* width: 300px;  */
-  display: flex;
-  gap: 20px;
-  width: 1300px; 
-}
-
-.movieName{
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.movieRatingContainer{
-  position: absolute;
-  top: 100px;
-  left: -20px;
-  display: inline-block;
-}
-
-.movieRatingContainer2{
-  position: absolute;
-  top: 60px;
-  left: -20px;
-  display: inline-block;
-  text-align: center;
-  align-items: center;
-  z-index: 1;
-}
-
-.pgAndTime{
-  top:170px;
-  left: 10px;
-  position: relative;
-  display : flex;
-  flex-direction : row;
-}
-
-.pgContainer {
+.pg {
   border: 3px solid var(--cardinal);
   border-radius: 50%;
   min-height: 50px;
@@ -724,387 +115,397 @@
   padding: 5px 5px;
 }
 
-
-.timeContainer {
-  position: relative;
-  top: 10px;
+.time {
+  border-left: 1px solid #fff;
+  padding-left: 20px;
 }
 
-.movieTime {
-  letter-spacing: -0.24px;
-  position: absolute;
-  min-width: 1000px;
-}
-
-.movieTime::before {
-  content:'  |  ( ';
-  white-space:pre;
-}
-
-.movieTime::after {
-  content:" )";
-  white-space:pre;
-}
-
-.castLoop{
-  width:2000px;
-}
-
-.topCast{
-  top: 160px;
-  position: absolute;
-}
-
-.topCastText {
-  left: 92px;
-  letter-spacing: 6.00px;
-  position: absolute;
-  top: 900px;
-  width: 507px;
-  text-decoration-line: underline;
-text-decoration-color: var(--cardinal);
-text-decoration-thickness: 5px;
-text-underline-offset: 5px;
-border-radius: 6px;
-}
-
-.castImage3 {
-  height: 211px;
-  left: 0px;
-  position: absolute;
-  top: 0px;
-  width: 169px;
-}
-
-.castImage2 {
-  height: 211px;
-  left: 0px;
-  position: absolute;
-  top: 0px;
-  width: 169px;
-}
-
-.castImage5 {
-  height: 211px;
-  left: 0px;
-  position: absolute;
-  top: 0px;
-  width: 169px;
-}
-
-.castImage1 {
-  left: 0px;
-  position: absolute;
-  top: 0px;
-  width: 230px;
-  height: 240px;
-  border-radius: 10px;
-}
-
-.castImage4 {
-  height: 211px;
-  left: 0px;
-  position: absolute;
-  top: 0px;
-  width: 169px;
-}
-
-.castRole5 {
-  letter-spacing: 0;
-  position: absolute;
-  text-align: center;
-  text-shadow: 0px 4px 4px #00000040;
-  top: 280px;
-  width: 157px;
-}
-
-.castName4 {
-  text-align: center;
-  letter-spacing: 0;
-  position: absolute;
-  text-shadow: 0px 4px 4px #00000040;
-  top: 220px;
-  width: 157px;
-}
-
-.castName3 {
-  text-align: center;
-  letter-spacing: 0;
-  position: absolute;
-  text-shadow: 0px 4px 4px #00000040;
-  top: 220px;
-  width: 157px;
-}
-
-.castName2 {
-  text-align: center;
-  letter-spacing: 0;
-  position: absolute;
-  text-shadow: 0px 4px 4px #00000040;
-  top: 220px;
-  width: 157px;
-}
-
-.castName1 {
-  text-align: center;
-  letter-spacing: 0;
-  position: absolute;
-  text-shadow: 0px 4px 4px #00000040;
-  top: 250px;
-  justify-content: center;
-  /* width: 157px; */
-}
-
-.castRole1 {
-  letter-spacing: 0;
-  text-shadow: 0px 4px 4px #00000040;
-  top: 295px;
-  /* left:0px; */
-  position: absolute;
-  overflow-wrap: break-word;
+.movieDesCription {
+  padding-left: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 90%;
   text-align: justify;
-  margin-top:20px;
 }
 
-.castRole2 {
-  text-align: center;
-  letter-spacing: 0;
+.movieInformationSection {
+  position: relative;
+  padding-left: 5% !important;
+  padding-right: 10% !important;
+}
+.rating-box {
+  background: #202125;
+  border-radius: 20px;
+}
+
+.ratingBox {
   position: absolute;
-  text-shadow: 0px 4px 4px #00000040;
-  top:  280px;
-  width: 157px;
+  top: 15%;
+  right: 10%;
+  width: 270px !important;
 }
 
-.castRole3 {
-  letter-spacing: 0;
-  position: absolute;
-  text-align: center;
-  text-shadow: 0px 4px 4px #00000040;
-  top: 280px;
-  width: 157px;
-}
-
-.castRole4 {
-  letter-spacing: 0;
-  position: absolute;
-  text-align: center;
-  text-shadow: 0px 4px 4px #00000040;
-  top: 280px;
-  width: 157px;
-}
-
-.castName5 {
-  text-align: center;
-  letter-spacing: 0;
-  position: absolute;
-  text-shadow: 0px 4px 4px #00000040;
-  top: 220px;
-  width: 157px;
-}
-
-.reviewsText,
-.similarMoviesText,
-.bookTicketText {
-  left: 92px;
-  letter-spacing: 6.00px;
-  position: absolute;
-  width: 625px;
-  text-decoration-line: underline;
-text-decoration-color: var(--cardinal);
-text-decoration-thickness: 5px;
-text-underline-offset: 5px;
-border-radius: 6px;
-}
-
-.similarMoviesText{
-  top: 2850px;
-}
-
-.bookTicketText{
-  top: 1620px;
-}
-
-.reviewsText{
-  top: 2200px;
-}
-.reviewsExpandRight {
+.addRating {
+  background-color: var(--shark);
+  border-radius: 10px;
   cursor: pointer;
-  height: 67px;
-  left: 1800px;
-  position: absolute;
-  top: 1626px;
   transition: all 0.2s ease;
-  width: 51px;
+  z-index: 1;
+  text-align: center;
+  padding: 10px 0px 10px 0px;
 }
 
-.reviewsExpandLeft {
-  cursor: pointer;
-  height: 72px;
-  /* left: 90px; */
-  /* position: absolute; */
-  /* top: 1626px; */
-  transition: all 0.2s ease;
-  width: 5000px;
+.addRating:hover {
+  transform: translate(0, -5px);
+  background-color: #35373b;
 }
 
-.reviewItText {
-  left: 1710px;
-  letter-spacing: 0;
-  position: absolute;
-  top: 2220px;
-  width: 180px;
+.rateItText {
+  font-weight: 700;
+  text-shadow: 0px 4px 4px #00000040;
 }
 
-.plus {
-  height: 13px;
-  left: 1708px;
-  position: absolute;
-  top: 1491px;
-  width: 2px;
+.rating-css {
+  direction: rtl;
 }
 
-.plus-1 {
-  height: 3px;
-  left: 1703px;
-  position: absolute;
-  top: 1497px;
-  width: 12px;
+.rating-css div {
+  color: var(--shark);
 }
-
-.reviewIcon {
-  height: 39px;
-  left: 1680px;
-  position: absolute;
-  top: 2233px;
-  width: 35px;
+.rating-css label:hover ~ label {
   color: var(--cardinal);
 }
 
-.addReview{
-  cursor: pointer;
-  transition: all 0.2s ease;
+.rating-css label:hover {
+  color: var(--cardinal);
+}
+.rating-css input {
+  display: none;
 }
 
-.reviewContainer1 {
-  background-color: var(--shark);
+.rating-css input + label {
+  font-size: 35px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.rating-css input + label ~ label {
+  color: var(--pink-swan);
+}
+
+.rating-css label {
+  color: var(--pink-swan);
+}
+
+.removeRating {
+  color: var(--cardinal);
+  text-decoration: underline;
+  text-decoration-color: var(--cardinal);
+  background-color: var(--eerie-black);
+  border: none;
+  z-index: 1;
+}
+
+.edit-delete-btn {
+  position: absolute !important;
+  top: 20%;
+  right: 5%;
+}
+
+.edit-movie-btn {
+  transition: all 0.2s ease;
+  background-color: var(--cardinal);
   border-radius: 10px;
+  padding: 10px 20px;
+  color: var(--white) !important;
+  font-family: var(--font-family-roboto);
+  font-size: 25px;
+  font-weight: 400;
   cursor: pointer;
-  min-height: 156px;
-  left: 190px;
-  margin-top: 50px;
-  position:absolute;
-  top: 1530px;
+  text-decoration: none;
+  text-align: center;
+  border: none;
+}
+.edit-movie-btn a {
+  color: var(--white);
+}
+
+.delete-movie-btn {
+  cursor: pointer;
   transition: all 0.2s ease;
-  width: 438px;
-}
-
-
-.username1 {
-  left:50px;
-  letter-spacing: 0;
-  position: absolute;
-  top: 20px;
-  width: 139px;
-}
-
-.reviewContainer2 {
-  background-color: var(--shark);
+  background-color: var(--cardinal);
   border-radius: 10px;
+  padding: 10px 20px;
+  color: var(--white);
+  font-family: var(--font-family-roboto);
+  font-size: 25px;
+  font-weight: 400;
   cursor: pointer;
-  height: 156px;
-  left: 750px;
-  position: relative;
-  top: 1580px;
-  transition: all 0.2s ease;
-  width: 438px;
+  text-decoration: none;
+  text-align: center;
+  border: none;
+}
+.edit-movie-btn:hover,
+.delete-movie-btn:hover {
+  color: var(--white) !important;
 }
 
-.username2 {
-  left:50px;
-  letter-spacing: 0;
-  position: absolute;
-  top: 20px;
-  width: 139px;
-}
-
-.reviewContainer3 {
-  background-color: var(--shark);
-  border-radius: 10px;
-  cursor: pointer;
-  height: 156px;
-  left: 1300px;
-  position: absolute;
-  top: 1580px;
-  transition: all 0.2s ease;
-  width: 438px;
-}
-
-.username3 {
-  left:50px;
-  letter-spacing: 0;
-  position: absolute;
-  top: 20px;
-  width: 139px;
-}
-
-.moviePoster {
-  background-position: 50% 50%;
-  background-size: cover;
-  height: 568px;
-  left: 142px;
-  position: absolute;
-  top: 195px;
-  width: 388px;
-  border-radius:10px;
-}
-
-
-.cast1{
-  min-height: 340px;
+.movieCinemaReleaseDate {
   display: flex;
-  top: 1030px;
-  left: 150px;
+  gap: 15px;
+}
+
+.vox {
+  left: 210px;
+  top: 2230px;
+  position: absolute;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.voxLogo {
+  left: 15px;
+  top: 35px;
+  position: absolute;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.amcLogo {
+  left: 15px;
+  top: 14px;
+  position: absolute;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.muviLogo {
+  left: 15px;
+  top: 24px;
+  position: absolute;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+/* topCast */
+
+.top-cast-box {
+  height: 380px !important;
+}
+
+.cast {
+  background: #1f2125;
+  border-radius: 20px;
+  width: 370px !important;
+  height: 100%;
+}
+.cast img {
+  border-radius: 10px;
+  width: 100% !important;
+  height: 300px !important;
+}
+.castName {
+  text-align: center;
+  text-shadow: 0px 4px 4px #00000040;
+}
+
+.castRole {
+  text-shadow: 0px 4px 4px #00000040;
+  margin-top: 10px;
+}
+
+/* book ticket  */
+.bookingBox {
   position: relative;
-  float:left;
-  margin-left: 80px;
-  justify-content: center;
+}
+.cinema-des {
+  position: absolute;
+  top: 30%;
+  left: -18%;
+  right: 0;
+  text-align: center;
+  width: 100% !important;
+  margin: auto;
+  padding: 0 0 0 25px;
+}
+
+.cinemaLocationName {
+  color: var(--black);
+  font-family: var(--font-family-neuton);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  word-break: break-word;
+  margin: auto;
+  text-align: center;
+}
+.cityName {
+  color: var(--black);
+  font-family: var(--font-family-neuton);
+  font-size: 25px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.cenima-show-time {
+  background-color: var(--cardinal);
+  color: var(--white) !important;
+  font-family: var(--font-family-roboto);
+  font-size: 20px;
+  font-weight: 400;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.2s ease;
+  border-radius: 10px;
+  margin: auto;
+  position: absolute;
+  top: 69%;
+  left: 45px;
+  padding: 5px 10px !important;
+}
+
+.cenima-show-time:hover {
+  transform: translate(0, -5px);
+}
+
+.movieInfoBox {
+  color: white;
+  border-radius: 10px;
+}
+.movie-info-poster {
+  border-radius: 10px;
+}
+.movie-ticket {
+  margin: 0 !important;
+  width: 90% !important;
+}
+/* review */
+
+.addReviewBtn {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: transparent;
+  border-radius: 10px;
+  padding: 10px 20px;
+  color: var(--white) !important;
+  font-family: var(--font-family-roboto);
+  font-size: var(--font-size-xxxxl5);
+  font-weight: 400;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.addReviewBtn .reviewIcon {
+  color: var(--cardinal);
+}
+
+.infoMovie {
+  color: white;
   background-color: var(--shark);
   border-radius: 10px;
-  width: 230px;
+  cursor: pointer;
+  width: 300px !important;
+  height: 100%;
   transition: all 0.2s ease;
-  padding-bottom: 370px;
+  margin-right: 10px !important;
+  margin-left: 10px !important;
 }
 
-.cast2{
-  height: 211px;
-  left: 400px;
-  position: relative;
-  top: 840px;
-  width: 169px;
+.infoMoviePosterCarousel {
+  width: 100% !important;
+  height: 250px !important;
+  border-radius: 10px;
 }
 
-.cast3{
-  height: 211px;
-  left: 697px;
-  position: relative;
-  top: 630px;
-  width: 169px;
+.infoMovieRating {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.cast4{
-  height: 211px;
-  left: 994px;
-  position: relative;
-  top: 420px;
-  width: 169px;
+.infoMovieRating h4 {
+  text-shadow: 0px 4px 4px #00000040;
 }
 
-.cast5{
-  height: 211px;
-  left: 1291px;
-  position: relative;
-  top: 210px;
-  width: 169px;
+.infoMovieName {
+  text-shadow: 0px 4px 4px #00000040;
+  margin-top: 10px;
+  overflow-wrap: break-word;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.infoMovieRating {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-review-box {
+  color: white;
+  background-color: var(--shark);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 50px;
+}
+
+.user-review-container {
+  color: white;
+  background-color: var(--shark);
+  border-radius: 10px;
+  height: 280px;
+  transition: all 0.2s ease;
+  width: 90% !important;
+}
+
+.review-section .slick-slide {
+  margin-right: 20px;
+}
+.reviewer-username {
+  font-weight: 700px;
+  color: white;
+  transition: all 0.2s ease;
+}
+.userUsername {
+  margin-left: 10px;
+  font-size: 20px !important;
+  word-break: break-all;
+}
+
+.delete-review-icon {
+  color: var(--cardinal);
+  background-color: var(--shark);
+  border: none;
+}
+.user-review {
+  padding: 0px 30px;
+  text-align: center;
+  font-size: 20px;
+  width: 100% !important;
+  overflow-wrap: break-word;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.totalUsersRating {
+  font-size: 18px;
+  color: #fbfbfb;
+  font-family: var(--font-family-roboto);
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+.section-title {
+  font-family: neuton;
+  text-decoration: underline;
+  text-decoration-color: var(--cardinal);
+  text-decoration-thickness: 2.5px;
 }
 
 /* width */
@@ -1115,15 +516,13 @@ border-radius: 6px;
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: var(--eerie-black);
-  /* box-shadow: inset 0 0 0px var(--celeste) ;  */
   background-color: darkgrey;
   border-radius: 5px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: var( --baby-powder);
+  background: var(--baby-powder);
   border-radius: 5px;
 }
 
@@ -1132,756 +531,378 @@ border-radius: 6px;
   background: var(--cardinal);
 }
 
-.example-warper {
-  width: 100%;
-  padding: 20px 5%;
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  border: 1px #cfcece dashed;
+.filterBookTicket {
+  width: 160px;
+  margin-top: 20px;
 }
 
-.button {
-  font-family: "Roboto", Arial, sans-serif;
-  color: #000000;
-  cursor: pointer;
-  padding: 0px 30px;
-  display: inline-block;
-  margin: 10px 15px;
-  text-transform: uppercase;
-  line-height: 2em;
-  letter-spacing: 1.5px;
-  font-size: 1em;
-  outline: none;
-  position: relative;
-  font-size: 14px;
-  border: 3px solid #cfcece;
-  background-color: #ffffff;
-  border-radius: 15px 15px 15px 15px;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-}
-
-.button:hover,
-.button.hover {
-  border-color: #2980b9;
-}
-/*
-card
-*/
-.card {
-  font-size: 12px;
-}
-.card > .header {
-  width: 100%;
-  border-bottom: 1px solid gray;
-  font-size: 14px;
-  text-align: center;
-}
-
-.modal {
-  font-size: 12px;
-}
-.modal > .header {
-  width: 100%;
-  border-bottom: 1px solid gray;
-  font-size: 18px;
-  text-align: center;
-  padding: 5px;
-}
-.modal > .content {
-  width: 100%;
-  padding: 10px 5px;
-}
-.modal > .actions {
-  margin: auto;
-}
-.modal > .actions {
-  width: 100%;
-  padding: 10px 5px;
-  text-align: center;
-}
-.modal > .close {
-  cursor: pointer;
-  position: absolute;
-  display: block;
-  padding: 2px 5px;
-  line-height: 20px;
-  right: -10px;
-  top: -10px;
+.movieInfoTitle{
   font-size: 24px;
-  background: #ffffff;
-  border-radius: 18px;
-  border: 1px solid #cfcece;
 }
 
-.example-warper-start {
-  width: 100%;
-  padding: 20px 5%;
-  display: flex;
-  flex-wrap: wrap;
-  border: 1px #cfcece dashed;
+.movieInfoValue{
+  font-size: 20px;
 }
 
-.menu {
-  width: 200px;
-  display: flex;
-  flex-direction: column;
-  background: #ffffff;
+.reviewItText{
+  font-size: 25px;
 }
-.menu-item {
-  cursor: pointer;
-  padding: 5px;
-  height: 28px;
-  border-top: 1px solid rgb(187, 187, 187);
-}
-.menu-item:hover {
-  color: #2980b9;
-}
-  .afterRating:hover{
-    background-color: #35373B;
+
+@media only screen and (max-width: 992px) {
+  .movieInformationSection {
+    padding-left: 5% !important;
+    padding-right: 5% !important;
   }
-
-  .afterRating{
-    position:absolute;
-    left:1625px;
-    top: 280px;
-    background-color: var(--shark);
-    border-radius: 10px;
-    cursor: pointer;
-    margin-top: 50pxss;
-    transition: all 0.2s ease;
-    width: 230px;
-    height: 130px;
+  .rating-box h3 {
+    font-size: 28px;
+  }
+  .rating-box h5 {
+    font-size: 24px;
+  }
+  .rating-box span {
+    font-size: 20px;
+  }
+  .ratingBox {
+    position: relative;
+    left: 5%;
     padding: 10px;
+    width: 300px !important;
+    margin: auto;
+    margin-top: 20px;
   }
-
-
-.rateItText {
-  letter-spacing: 0;
-  position: absolute;
-  left:20px;
-  top:10px;
-  white-space: nowrap;
-  font-weight: 700;
-  letter-spacing: 0;
-  text-shadow: 0px 4px 4px #00000040;
-  white-space: nowrap;
-  width: 291px;
+  .cenima-show-time {
+    left: 65px;
+    font-size: 20px;
+  }
+  .trailer {
+    font-size: 20px;
+    padding: 5px 10px;
+  }
+  .addBookMark,
+  .watchList {
+    color: var(--cardinal) !important;
+    top: 0;
+    left: -7px;
+  }
+  .addBookMark svg,
+  .watchList svg {
+    width: 50px !important;
+    height: 50px !important;
+  }
+  .userUsername {
+    font-size: 16px !important;
+  }
 }
 
-.yourRatingText{
-  letter-spacing: 0;
-  position: absolute;
-  left:23px;
-  top:10px;
-  white-space: nowrap;
-  font-weight: 700;
-  letter-spacing: 0;
-  text-shadow: 0px 4px 4px #00000040;
-  white-space: nowrap;
-  width: 291px;
-}
-
-  .reviewsContainer{
-    top: 150px;
-    position: absolute;
+@media only screen and (max-width: 768px) {
+  .title {
+    font-size: 40px;
   }
-
-
-
-.movieInfofooter {
-  background-color: var(--black);
-  height: 293px;
-  left: 47px;
-  position: absolute;
-  top:   3700px;
-  width: 1920px;
-}
-
-.movieInfofooterLogo {
-  height: 139px;
-  left: 720px;
-  object-fit: cover;
-  position: absolute;
-  top: 40px;
-  width: 410px;
-}
-
-.movieInfofooterText1 {
-  color: var(--white);
-  font-family: var(--font-family-neuton);
-  font-size: var(--font-size-xl2);
-  font-weight: 700;
-  left: 810px;
-  letter-spacing: 0;
-  position: absolute;
-  top: 190px;
-}
-
-.movieInfocopyRightText {
-  left: 30px;
-  letter-spacing: 0;
-  position: absolute;
-  top: 230px;
-  width: 344px;
-}
-
-.movieYear{
-  color: #fbfbfb;
-  font-family: var(--font-family-roboto);
-  font-size: 40px;
-  font-weight: 500;
-  opacity: 0.9;
-}
-
-.removeIcon{
-  color:var(--cardinal);
-  float: right;
-  margin-right: 10px;
-}
-
-.removeRatingText{
-  color: var(--cardinal);
-  position: absolute;
-  left: 1720px;
-  top: 420px;
-  text-decoration:underline;
-  text-decoration-color: var(--cardinal);
-  background-color: var(--eerie-black);
-  border: none;
-  z-index: 1;
+  .year {
+    font-size: 24px;
   }
-
-.addRating{
-  position:relative;
-  left:1550px;
-  top: 300px;
-  background-color: var(--shark);
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  width: 350px;
-  height: 130px;
-  z-index: 1;
+  .ratingBox {
+    padding: 10px;
+    width: 300px !important;
+    margin: auto;
+    margin-top: 20px;
   }
-
-  .addRating:hover{
-    transform: translate(0, -5px);
-    background-color: #35373B;
+  .edit-delete-btn {
+    position: inherit !important;
+    justify-content: center;
   }
-
-.rating-css {
-  position: absolute;
-  left: 65px;
-  top: 70px;
-  direction: rtl;
+  .addRating {
+    margin-top: inherit;
   }
-
-  .rating-css div {
-    /* color: var(--cardinal); */
-    color: var(--shark);
+  .star-icon {
+    font-size: 20px !important;
   }
-  .rating-css label:hover ~label   {
-    color: var(--cardinal);
+  .rateItText {
+    font-size: 30px;
   }
-
-  .rating-css label:hover  {
-    color: var(--cardinal);
+  .cenima-show-time {
+    left: 70px;
+    font-size: 20px;
   }
-  .rating-css input {
-    display: none;
+  .addBookMark,
+  .watchList {
+    top: 0;
+    left: -11px !important;
   }
-
-  .rating-css input + label {
-    font-size: 35px;
-    /* text-shadow: 1px 1px 0 var(--cardinal); */
-    cursor: pointer;
+  .movie-info-poster {
+    height: 250px !important;
+  }
+  .addBookMark svg,
+  .watchList svg {
+    width: 50px !important;
+    height: 50px !important;
     margin-left: 5px;
   }
-
-  /* .rating-css input:checked + label ~ label {
-     color: var( --pink-swan);
-  } */
-
-  .rating-css input + label ~ label {
-    color: var( --pink-swan);
-   /* color: var(--shark); */
- }
-
-  .rating-css  label {
-    color: var( --pink-swan);
-   /* color: var(--shark); */
- }
-
- .userReviewContainer{
-  color:white;
-  background-color: var(--shark);
-  margin-left: 50px;
-  border-radius: 10px;
-  cursor: pointer;
-  min-height: 250px;
-  left: 10px;
-  transition: all 0.2s ease;
-  width: 480px;
-  padding: 0px 50px;
-  display: flex;
-  justify-content: center;
- }
-
- .userReviews{
-  left: 150px;
-  margin-top: 0px;
-  position:absolute;
-  top: 2350px;
-  width: 1600px;
- }
-
-.reviewerUsername{
-font-weight: 700px;
-position:absolute;
-display:flex;
-color:white;
-/* background-color: var(--pink-swan); */
-margin-left: 50px;
-border-radius: 10px;
-cursor: pointer;
-min-height: 5px;
-left: 0px;
-/* margin-top: 50px; */
-/* position:absolute; */
-/* top: 1530px; */
-transition: all 0.2s ease;
-width: 480px;
-padding: 20px 30px;
-/* display: flex;
-justify-content: center;
-align-content: center; */
-
-} 
-
-.reviewerUsernameIcon{
-   margin-right: 10px ;
+  .trailer {
+    margin-left: 2px;
+  }
+  .amcLogo img {
+    width: 105px !important;
+    height: auto;
+  }
+  .amcLogo {
+    left: 18px;
+    top: 20px;
+  }
+  .muviLogo img {
+    width: 100px !important;
+    height: auto;
+  }
+  .muviLogo {
+    left: 20px;
+    top: 30px;
+  }
+  .voxLogo {
+    left: 20px;
+    top: 40px;
+  }
+  .voxLogo img {
+    width: 110px !important;
+    height: auto;
+  }
+  .cinemaLocationName {
+    font-size: 25px !important;
+  }
+  .cityName {
+    font-size: 35px !important;
+  }
+  .castName {
+    font-size: 15px;
+  }
+  .castRole {
+    font-size: 12px;
+  }
 }
 
-.userReview{
-  letter-spacing: 0;
-  height: 150px;
-  position: absolute;
-  top: 70px;
-  padding:0px 30px;
-  text-align: center;
-  font-size: 20px;
-  overflow: hidden;
-  overflow-y: auto;
-  width: 440px;
-  overflow-wrap: break-word;
-  } 
-
-
-.owl-theme {
-width: 1600px;
-  /* top: 100px !important; */
-}
-.owl-theme .owl-dots   {
-    /* background-color: blue; */
-    display: flex;   
-    align-self: center;
-    justify-content: center;
-    align-content: center;
-    display: none;
-
-    /* width: 10px; */
-    /* height: 10px;
-    margin: 5px 7px;
-    background: #D6D6D6;
-    display: block;
-    border-radius: 30px; */
-}
-.owl-theme .owl-dots  [className='owl-dot'],
-.owl-theme .owl-dots .owl-dot:hover .span {
-  background: #fd3c3d;
-}
-
-.owl-theme .owl-nav [className='reviewsExpandRight']  {
-    position: absolute;
-    left: 1610px;
-    top: 80px;  
-    color: var( --baby-powder);
-
-}
-
-.owl-theme .owl-nav [className='reviewsExpandLeft']  {
-  position: absolute;
-  left: -10px;
-  top: 40px;  
-  color: var( --baby-powder);
-}
-
-.owl-theme .owl-nav [className='reviewsExpandRight']:hover,
-.owl-theme .owl-nav [className='reviewsExpandLeft']:hover{
-background-color: var(--shark);
-}
-
-.emptyMovieRating{
-  color: var(--white);
-  font-family: var(--font-family-neuton);
-  font-size: var(--font-size-xxxl5);
-  font-weight: 700;
-  /* left: 635px; */
-  left:80px;
-  top: 12px;
-  /* top: 229px; */
-  /* top:103px; */
-  letter-spacing: 0.36px;
-  position: absolute;
-  width:400px;
-}
-
-.noButton, 
-.yesButton{
-  background-color: var(--cardinal);
-  border-radius: 5px;
-  padding: 5px 20px;
-  margin-right: 15px;
-  margin-top: 30px;
-  border: none;
-  color: white;
-  font-size: 150%;
-  font-weight: 500;
-}
-
-.customconfirmAlert{
-  background-color: var(--eerie-black);
-  border-radius: 10px;
-  padding: 60px;
-  color: var(--baby-powder);
-}
-
-.similarMoviesContainer,
-.bookTicketContainer{
-  /* height: auto; */
-  position: absolute;
-  width:1680px;
-  left:160px;
+@media only screen and (max-width: 480px) {
+  .title {
+    font-size: 30px;
+  }
+  .year {
+    font-size: 20px;
+  }
+  .ratingBox {
+    width: 250px !important;
+    left: 0%;
+  }
+  .star-icon {
+    font-size: 16px !important;
+  }
+  .rateItText {
+    font-size: 24px;
+  }
+  .addBookMark,
+  .watchList {
+    top: 0;
+    left: -5px !important;
+  }
+  .addBookMark svg,
+  .watchList svg {
+    width: 50px !important;
+    height: 50px !important;
+    margin-left: -1px;
+  }
+  .release-date {
+    font-size: 20px !important;
+  }
+  .amcLogo img {
+    width: 65px !important;
+    height: auto;
+  }
+  .amcLogo {
+    left: 10px;
+    top: 15px;
+  }
+  .muviLogo img {
+    width: 60px !important;
+    height: auto;
+  }
+  .muviLogo {
+    left: 10px;
+    top: 20px;
+  }
+  .voxLogo {
+    left: 15px;
+    top: 25px;
+  }
+  .voxLogo img {
+    width: 60px !important;
+    height: auto;
+  }
+  .cinema-des {
+    top: 30%;
+    left: -25%;
+    font-size: 5px;
+  }
+  .cinemaLocationName {
+    font-size: 13px !important;
+  }
+  .cityName {
+    font-size: 17px !important;
+  }
+  .cenima-show-time {
+    font-size: 15px !important;
+    left: 35px;
+  }
+  .cenima-show-time svg {
+    width: 15px !important;
+    height: 15px !important;
   }
 
-  .similarMoviesContainer{
-    top: 3010px;
+  .edit-movie-btn {
+    padding: 10px;
+    font-size: 16px !important;
   }
 
-  .bookTicketContainer{
-    top: 1780px;
+  .delete-movie-btn {
+    padding: 10px;
+    font-size: 16px !important;
   }
-  .similarMovies-owl-theme{
-    width:50px;
+  .edit-delete-btn svg,
+  .delete-movie-btn svg {
+    width: 20px !important;
+    height: 20px !important;
   }
-  .similarMovies-owl-theme .owl-dots   {
-      /* background-color: blue; */
-      display: flex;   
-      align-self: center;
-      justify-content: center;
-      align-content: center;
-      display: none;
-  
-      /* width: 10px; */
-      /* height: 10px;
-      margin: 5px 7px;
-      background: #D6D6D6;
-      display: block;
-      border-radius: 30px; */
-  }
-  .similarMovies-owl-theme .owl-dots  [className='owl-dot'],
-  .similarMovies-owl-theme .owl-dots .owl-dot:hover .span {
-    background: #fd3c3d;
+
+  .movieInfoValue,
+  .moviepg,
+  .movieTime {
+    font-size: 15px !important;
   }
   
-  .similarMovies-owl-theme .owl-nav [className='similarExpandRight']  {
-      position: absolute;
-      left: 1680px;
-      top: 180px;  
-      color: var( --baby-powder);
+  .reviewItText{
+    font-size: 20px;
+  }
 
+  .pg {
+    min-height: 40px;
+    min-width: 40px;
+  }
+  .releaseDateLogo {
+    width: 40%;
+  }
+  .reviewIcon {
+    width: 20px;
+  }
+  .deleteIcon {
+    width: 25px;
+  }
+  .reviewer-username-icon {
+    width: 30px;
+  }
+  .user-review {
+    font-size: 15px;
+  }
+  .trailer {
+    margin-left: 10px;
+  }
+  .customconfirmAlert h1 {
+    font-size: 20px;
+  }
+
+  .customconfirmAlert h5 {
+    font-size: 15px;
+  }
+
+  .customconfirmAlert {
+    font-size: 10px;
+    padding: 20px;
+  }
+
+  .movieInfoTitle{
+    font-size: 20px;
   }
   
-  .similarMovies-owl-theme .owl-nav [className='similarExpandLeft']  {
-    position: absolute;
-    left: -50px;
-    top: 180px;  
-    color: var( --baby-powder);
+  .movieInfoValue{
+    font-size: 15px;
+  }
+
+  .reviewItText{
+    font-size: 20px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .cenima-show-time {
+    left: 35px;
+    font-size: 10px !important;
+  }
+  .cinemaLocationName {
+    font-size: 12px !important;
+  }
+  .cityName {
+    font-size: 15px !important;
+  }
+  .amcLogo img {
+    width: 50px !important;
+    height: auto;
+  }
+  .amcLogo {
+    left: 8px;
+    top: 12px;
+  }
+  .muviLogo img {
+    width: 40px !important;
+    height: auto;
+  }
+  .muviLogo {
+    left: 8px;
+    top: 15px;
+  }
+  .voxLogo {
+    left: 10px;
+    top: 20px;
+  }
+  .voxLogo img {
+    width: 40px !important;
+    height: auto;
+  }
+  .cinemaLocationName {
+    font-size: 10px !important;
+  }
+  .cityName {
+    font-size: 15px !important;
+  }
+  .movieInfoTitle{
+    font-size: 20px;
   }
   
-  .similarMovies-owl-theme .owl-nav [className='similarExpandLeft']:hover,
-  .similarMovies-owl-theme .owl-nav [className='similarExpandRight']:hover{
-  background-color: var(--shark);
-  transform: scale(2);
+  .movieInfoValue{
+    font-size: 15px;
   }
 
-
-  .similarMovie{
-    color:white;
-    background-color: var(--shark);
-    border-radius: 10px;
-    cursor: pointer;
-    /* min-height: 600px;  */
-    height: 600px; 
-    left: 0px;
-    transition: all 0.2s ease;
-    width: 400px;
-    position: relative;
+  .reviewItText{
+    font-size: 20px;
   }
-    
-  .similarMoviePoster{
-    width: 240px;
-    height: 450px;
-    border-radius: 10px;
+}
+
+@media only screen and (max-width: 350px) {
+  .cenima-show-time {
+    left: 25px;
+    font-size: 10px !important;
+  }
+  .cinemaLocationName {
+    font-size: 9px !important;
+  }
+  .cityName {
+    font-size: 12px !important;
   }
 
-  .similarStar{
-    top: 470px;
-    position: absolute;
-    display: flex;
-    height: 50px;
-    width: 40px;
-    padding: 6.9px 7.0px;
-    position: absolute;
-    transition: all 0.2s ease;
-    left: -140px;
-    }
-    
-    .similarStar:hover {
-    transform: scale(1.1);
-    }
-    
-    .similarMovieRating{
-      letter-spacing: 0;
-      text-shadow: 0px 4px 4px #00000040;
-      top: 455px;
-      left: 80px;
-      position: absolute;
-      /* text-align: justify; */
-      margin-top:20px;
-      overflow-wrap: break-word;
-      width:300px;
-      padding-left: 20px;
-      }
-      
-      .similarMovieName{
-        letter-spacing: 0;
-        text-shadow: 0px 4px 4px #00000040;
-        top: 510px;
-        left:0px;
-        position: absolute;
-        /* text-align: justify; */
-        margin-top:20px;
-        overflow-wrap: break-word;
-        width: 300px;
-        padding-left: 20px;
-        overflow: hidden;
-        white-space: nowrap; /* Don't forget this one */
-        text-overflow: ellipsis;
-      }
-    
-
-      .book{
-        position: relative;
-        display: flex;
-        justify-content: center;
-        align-items: center; 
-      }
-
-      .vox{
-        left: 210px;
-        top: 2230px;
-        position: absolute;
-        white-space: nowrap;
-        z-index:10;
-      }
-
-      .voxLogo{
-        left: 15px;
-        top: 50px;
-        position: absolute;
-        white-space: nowrap;
-        z-index:10;
-      }
-
-      .amcLogo{
-        left: 15px;
-        top: 25px;
-        position: absolute;
-        white-space: nowrap;
-        z-index:10;
-      }
-
-      .muviLogo{
-        left: 15px;
-        top: 25px;
-        position: absolute;
-        white-space: nowrap;
-        z-index:10;
-      }
-
-      .cityName{
-        top: 200px;
-        position: absolute;
-        flex: 0 0 120px;
-        color: var(--black);
-        font-family: var(--font-family-neuton);
-        font-size: var(--font-size-xxl5);
-        font-style: normal;
-        font-weight: 700;
-      }
-
-      .cinemaLocationName{
-        top: 160px;
-        position: absolute;
-        flex: 0 0 120px;
-        color: var(--black);
-        font-family: var(--font-family-neuton);
-        font-size: var(--font-size-xxl5);
-        font-style: normal;
-        font-weight: 500;
-        white-space: nowrap;
-      }
-
-
-
-
-.cenimaShowTimesContainer{
-      cursor: pointer;
-      top: 330px;
-      transition: all 0.2s ease;
-      /* align-items: flex-start; */
-      height: 65px;
-      position: absolute;
-      background-color: var(--cardinal);
-      border-radius: 10px;
-      /* display: flex; */
-      height: 65px;
-      width: 230px;
-      border-width: 0px;
-      padding: 10px 11px;
-      /* align-items:center; */
-      /* text-align: center; */
-      display: flex;
-      text-align: center;
-
-}
-
-
-.cenimaShowTimes{
-
-  color: var(--white);
-  /* color: var(--cardinal); */
-  font-family: var(--font-family-roboto);
-  font-size: var(--font-size-xxxxl5);
-  font-weight: 400;
-  /* left: 285px; */
-  white-space: nowrap;
-  letter-spacing: 0;
-  /* top: 778px; */
-  cursor: pointer;
-  text-decoration: none;
-  text-align: center;
-}
-.cenimaShowTimes:hover{
-  /* color: var(--cardinal); */
-  color: var(--white);
-}
-
-
-.cenimaShowTimesContainer:hover{
-  transform: translate(0, -5px);
-}
-
-
-.bookMark, 
-.inWatchList{
-  left: 130px;
-  position: absolute;
-  top: 195px;
-  color: var(--baby-powder);
-  background:none;
-  border:none;
-  cursor: pointer;
-  z-index: 1;
-  display: block;
-}
-
-
-.bookMark:hover{
-  color: var(--celeste);
-}
-
-.inWatchList{
-color: var(--cardinal);
-}
-
-.inWatchList:hover { 
-  color: red;
-  }
-
-.cinemaMultiSelect,
-.cityMultiSelect{
-  top: 1650px;
-  left: 500px;
-  position: absolute;
-  z-index: 2;
-  display:flex;
-}
-
-.cinemaMultiSelect{
-  left: 480px;
-}
-
-.cityMultiSelect{
-  left: 700px;
-}
-
-
-.releaseDateText {
-  letter-spacing: 0.37px;
-  position: absolute;
-  top: 20px;
-  width: 295px;
-  }
-
-  .movieReleaseDateContainer{
-    left: 601px;
-    top: 990px;
-    position: absolute;
+  .movieInfoTitle{
+    font-size: 20px;
   }
   
-  .movieCinemaReleaseDateContainer{
-  left:165px;
-  letter-spacing: 0;
-  position: absolute;
-  top: 20px;
-  width: 873px;
-  display: flex;
-  gap: 30px;
+  .movieInfoValue{
+    font-size: 15px;
   }
 
-  .watchListHoverText{
-    padding: 5px;
-    color: black;
-    background-color: var(--baby-powder);
-    border: none;
-    box-shadow: none;
+  .reviewItText{
+    font-size: 20px;
   }
-
-  .movieCinemaReleaseDate{
-    display: flex;
-    gap: 15px;
-  }
-
-  .notInCenimas{
-    top: 1780px;
-    left: 150px;
-    position: absolute;
-  }
-
-  .emptyCinemasResult{
-    width: 800px;
-  }
+  
+}

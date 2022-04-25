@@ -1,0 +1,275 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: var(--eerie-black);
+}
+a:hover {
+  color: var(--white) !important;
+}
+
+/* slider arrows  */
+
+.slick-slider {
+  position: relative;
+}
+.PreviousArrow {
+  position: absolute;
+  top: 35%;
+  left: -5%;
+  background-color: var(--shark);
+  color: #ccd2e3;
+  width: 50px;
+  height: 70px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.NextArrow {
+  position: absolute;
+  top: 35%;
+  right: -5%;
+  background-color: var(--shark);
+  color: #ccd2e3;
+  width: 50px;
+  height: 70px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.PreviousArrow,
+.NextArrow svg {
+  font-size: 36px;
+}
+
+.PreviousArrow:hover,
+.NextArrow:hover {
+  background-color: var(--shark);
+  transform: scale(2);
+}
+
+.slick-dots {
+  display: none !important;
+}
+
+/* sliders  */
+/* .slick-slide {
+  margin: 0 10px;
+} */
+
+.section-title,
+.section-linkTitle {
+  display: flex;
+  align-items: center;
+  color: var(--white);
+  font-size: 50px;
+  font-weight: 400;
+  border-radius: 6px;
+  font-family: neuton;
+  text-decoration: underline;
+  text-decoration-color: var(--cardinal);
+  text-decoration-thickness: 2.5px;
+  text-underline-offset: 5px;
+  cursor: auto;
+}
+.section-linkTitle {
+  cursor: pointer;
+}
+
+.section-linkTitle svg {
+  transition: 0.2s;
+  margin-top: 15px;
+}
+
+.section-linkTitle:hover svg {
+  color: var(--cardinal);
+}
+
+.page-title {
+  color: var(--white);
+  font-family: var(--font-family-neuton);
+  font-size: 50px;
+  font-weight: 500;
+}
+
+.movie {
+  color: white;
+  background-color: var(--shark);
+  border-radius: 10px;
+  cursor: pointer;
+  width: 90% !important;
+  height: 100%;
+  margin: auto;
+  transition: all 0.2s ease;
+  margin-right: 10px !important;
+  margin-left: 10px !important;
+}
+
+.moviePosterCarousel {
+  width: 100% !important;
+  height: 250px !important;
+  border-radius: 10px;
+}
+
+.movieRating {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px !important;
+  text-shadow: 0px 4px 4px #00000040;
+  color: white;
+}
+
+.movieRating h4 {
+  text-shadow: 0px 4px 4px #00000040;
+  font-size: 20px !important;
+}
+.movieStar {
+  height: 30px !important;
+  width: 20px !important;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+.movieStar:hover {
+  transform: scale(1.1);
+}
+
+.movieName {
+  font-size: 24px !important;
+  text-shadow: 0px 4px 4px #00000040;
+  margin-top: 10px;
+  overflow-wrap: break-word;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* sort  */
+
+.SortbyText {
+  font-size: 25px;
+  margin-top: 3px;
+  margin-left: auto; 
+  margin-right: 0;
+}
+
+.sortMoviesSelect {
+  height: 48px;
+  width: 160px;
+  background: "#fcfcfc";
+  outline: none;
+  border: "0px solid black";
+  box-shadow: 0px 4px 4px #00000040;
+  border-radius: 50px;
+  font-size: 20px;
+  color: black;
+  padding: 8px 10px 10px 20px;
+  /** for the dropdown indicator */
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1em;
+}
+
+.sortMoviesSelect:focus {
+  box-shadow: 0px 4px 4px var(--cardinal);
+}
+
+@media only screen and (max-width: 992px) {
+  .PreviousArrow,
+  .NextArrow {
+    display: none;
+  }
+  .section-title,
+  .section-linkTitle,
+  .page-title {
+    font-size: 36px !important;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .movie {
+    width: 100%;
+  }
+  .movieName,
+  .movieRating {
+    font-size: 24px !important;
+  }
+  .movieStar {
+    height: 30px;
+    width: 30px !important;
+  }
+  .section-linkTitle svg {
+    width: 30px !important;
+    margin-top: 10px;
+  }
+}
+@media only screen and (max-width: 480px) {
+  .section-title,
+  .section-linkTitle,
+  .page-title {
+    font-size: 28px !important;
+  }
+  .movieName,
+  .movieRating {
+    font-size: 20px !important;
+  }
+  .section-linkTitle svg {
+    width: 25px !important;
+    height: 30px !important;
+    margin-top: 10px;
+  }
+
+  .SortbyText{
+    font-size: 15px;
+  }
+  
+  .sortMoviesSelect {
+    height: 40px;
+    width: 140px;
+    font-size: 15px;
+    padding-left: 10px;
+  }
+  .watch-list-box{
+    padding-top: 20px;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .section-title,
+  .section-linkTitle,
+  .page-title {
+    font-size: 24px !important;
+  }
+  .section-linkTitle svg {
+    width: 20px !important;
+    height: 30px !important;
+    margin-top: 5px;
+  }
+
+  .movieName,
+  .movieRating,
+  .movieRating h4 {
+    font-size: 15px !important;
+  }
+
+  .movieStar {
+    height: 20px !important;
+    width: 20px !important;
+  }
+  .sortMoviesSelect {
+    height: 35px;
+    width: 140px;
+    font-size: 15px;
+    padding-top: 4px;
+    padding-left: 15px;
+  }
+  .cinema-movies{
+    padding-top: 20px;
+  }
+}

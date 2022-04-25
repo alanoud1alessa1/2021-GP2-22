@@ -1,26 +1,19 @@
-import React from "react";
-import { useState } from "react";
+import moment from "moment";
+import React, { useState } from "react";
+import { Col, Container, Form, Row } from "react-bootstrap";
 import DatePicker from "react-date-picker";
 import { Link } from "react-router-dom";
-import "./registerPage.css";
-// import Axios from "axios";
-import jwt_decode from "jwt-decode";
-import Cookies from "universal-cookie";
 import Select from "react-select";
-import moment from "moment";
-// import validate from 'deep-email-validator'
+import Cookies from "universal-cookie";
 import validator from "validator";
-import api from "../../api/axiosAPI"
 import Footer from "../Footer";
-
+import "./registerPage.css";
+import api from "../../api/axiosAPI"
 
 //import images
-import backgroundImg from "../../static/img/backgroundImage.png";
 import logo from "../../dist/img/Logo.png";
 
-
-
-function registerPage(props) {
+const registerPage = (props) => {
   const {
     text1,
     text2,
@@ -89,9 +82,6 @@ function registerPage(props) {
     getvalue(Array.isArray(e) ? e.map((x) => x.label) : []);
   };
 
-
-  // const API_URL = "http://localhost:3000/api/v1/";
-
   React.useEffect(() => {
     const genresArray = [...allGenres];
     const allGens = [
@@ -111,11 +101,9 @@ function registerPage(props) {
       genresArray[i] = { value: i, label: allGens[i] };
     }
     setAllGenres(genresArray);
-
   }, []);
 
   const Register = () => {
-
     const res = api.post("users/register", {
       email: userEmail,
       username: username,
@@ -124,9 +112,7 @@ function registerPage(props) {
       gender: userGender,
       location: userRegion,
       genres: Displayvalue,
-    })
-    .then((res) => {
-
+    }).then((res) => {
       try {
         if (res.data.usernameMessage.usernameMessage) {
           usernameMessage = res.data.usernameMessage.usernameMessage;
@@ -143,7 +129,6 @@ function registerPage(props) {
         }
 
         if (res.data.passwordMessage.passwordMessage) {
-
           passwordMessage = res.data.passwordMessage.passwordMessage;
           setPassword_Error_message(passwordMessage);
         } else {
@@ -152,9 +137,7 @@ function registerPage(props) {
       } catch {
         if (passwordMessage || emailMessage || usernameMessage) {
           return;
-        }
-
-        else {
+        } else {
           const cookies = new Cookies();
           cookies.set("token", res.data, { path: "/" });
           window.location = "/home-page";
@@ -164,372 +147,271 @@ function registerPage(props) {
   };
 
   return (
-    <div className="PageCenter">
-      <div className="regPage screen">
-        <div className="regPageContainer">
-          <div className="leftSide"></div>
-          
-          {/* <img className="fireIcon" src={require("../../static/img/backgroundImage.png").default}/> */}
-          <img className="regBackgroundImage" src={backgroundImg} />
-          <Link to="/home-page">
-            <img className="logo" src={logo} />
-          </Link>
-          <div className="regText1">{text1}</div>
-          <div className="regText2 inter-light-bon-jour-35px1">
-            <span className="inter-light-bon-jour-35px1">{text2}</span>
-          </div>
-          <div className="regComponents">
-            <h1 className="regText3"> {text3}</h1>
-            <div className="regText4">{text4}</div>
-            <div>
-              <Link to="/login-page">
-                <div className="gologinPage">
-                  <span className="regText5">
-                    {" "}
-                    <strong> {text5} </strong>{" "}
-                  </span>
-                </div>
+    <div>
+      <div className="register-section">
+        <Container fluid>
+          <Row>
+            <Col sm={6} md={6}>
+              <Link to="/home-page">
+                <img className="register-logo" src={logo} />
               </Link>
-            </div>
-          </div>
-
-          <form onSubmit={Register}>
-            {/* username */}
-            <div className="usernameContainer">
-              <div className="regErrorMessage nunito-normal-river-bed-18px">
-                {" "}
-                <strong> {username_error_message} </strong>{" "}
+              <div className="reg-title-box">
+                <h2 className="reg-title">{text1}</h2>
               </div>
-              <div className="usernameText nunito-normal-river-bed-18px">
-                Username
-              </div>
-              <div className="usernameBox"></div>
-              <input
-                className="username roboto-normal-pink-swan-16px"
-                name="username"
-                placeholder="Enter username"
-                type="text"
-                required
-                onChange={(e) => {
-                  setUsername(e.target.value);
-                }}
-              />
-            </div>
-
-            {/* email */}
-            <div className="emailContainer">
-              <div className="emailText nunito-normal-river-bed-18px">
-                Email
-              </div>
-              <div className="emailBox">
-                <input
-                  className="email roboto-normal-pink-swan-16px"
-                  name="email"
-                  placeholder="Enter your email"
-                  type="email"
-                  required
-                  onChange={(e) => {
-                    setUserEmail(e.target.value);
-                    checkEmail(e.target.value);
-                  }}
-                />
-              </div>
-              <div className="regErrorMessage nunito-normal-river-bed-18px">
-                {" "}
-                <strong>
-                  {" "}
-                  {email_error_message} {incorrectEmail_error_message}{" "}
-                </strong>{" "}
-              </div>
-            </div>
-
-            {/* password */}
-            <div className="passwordContainer">
-              <div className="passwordText nunito-normal-river-bed-18px">
-                Password
-              </div>
-              <div className="passwordBox">
-                <input
-                  className="password roboto-normal-pink-swan-16px"
-                  name="password"
-                  placeholder="at least 8 characters "
-                  type="password"
-                  required
-                  onChange={(e) => {
-                    setUserPassword(e.target.value);
-                    checkPassword(e.target.value);
-                  }}
-                  minlength="8"
-                />
-              </div>
-              <div className="regErrorMessage nunito-normal-river-bed-18px">
-                {" "}
-                <strong>
-                  {" "}
-                  {password_error_message} {incorrectpassword_error_message}{" "}
-                </strong>{" "}
-              </div>
-            </div>
-
-            {/*Gender*/}
-            <div className="genderContainer">
-              <div className="genderBoxes">
-                <div className="genderText nunito-normal-river-bed-18px">
-                  Gender
+            </Col>
+            <Col className="register-form" sm={6} md={6}>
+              <div>
+                <h3 className="get-start">Get Started</h3>
+                <div className=" mb-4">
+                  <h4 className="account-text">
+                    Already have an account?
+                    <Link className="login-text" to="/login-page">
+                      <strong>Login</strong>
+                    </Link>
+                  </h4>
                 </div>
-                <div className="femalBox border-2px-cardinal">
-                  <div class="genreRadio">
-                    <input
-                      className="femaleOption border-2px-cardinal"
-                      type="radio"
-                      value="Female"
-                      name="gender"
+
+                <Form onSubmit={Register}>
+                  {/* user name  */}
+                  <Form.Group className="mb-3 input-field-box">
+                    <Form.Label className="nunito-normal-river-bed-18px mt-3">
+                      Username <span className="required">*</span>{" "}
+                    </Form.Label>
+                    <Form.Control
+                      className="input-field"
+                      name="username"
+                      placeholder="Enter username"
+                      type="text"
+                      required
                       onChange={(e) => {
-                        setUserGender(e.target.value);
+                        setUsername(e.target.value);
                       }}
                     />
-                    <span className="femaleText nunito-normal-river-bed-18px">
-                      {" "}
-                      Female
-                    </span>
+
+                    <p className="error nunito-normal-river-bed-18px">
+                      {username_error_message}
+                    </p>
+                  </Form.Group>
+                  {/* email  */}
+                  <Form.Group className="mb-5 input-field-box">
+                    <Form.Label className="nunito-normal-river-bed-18px mt-3">
+                      Email <span className="required">*</span>
+                    </Form.Label>
+                    <Form.Control
+                      className="input-field"
+                      name="email"
+                      placeholder="Enter your email"
+                      type="email"
+                      required
+                      onChange={(e) => {
+                        setUserEmail(e.target.value);
+                        checkEmail(e.target.value);
+                      }}
+                    />
+                    <p className="error nunito-normal-river-bed-18px">
+                      {email_error_message} {incorrectEmail_error_message}
+                    </p>
+                  </Form.Group>
+                  {/* Password  */}
+                  <Form.Group className="mb-5 input-field-box">
+                    <Form.Label className="nunito-normal-river-bed-18px mt-3">
+                      Password <span className="required">*</span>
+                    </Form.Label>
+                    <Form.Control
+                      className="input-field"
+                      name="password"
+                      placeholder="at least 8 characters "
+                      type="password"
+                      required
+                      onChange={(e) => {
+                        setUserPassword(e.target.value);
+                        checkPassword(e.target.value);
+                      }}
+                      minlength="8"
+                    />
+                    <p className="error nunito-normal-river-bed-18px">
+                      {password_error_message} {incorrectpassword_error_message}
+                    </p>
+                  </Form.Group>
+                  {/* region  */}
+                  <Form.Group className="mb-3">
+                    <Form.Label className="nunito-normal-river-bed-18px mt-3">
+                      Region <span className="required">*</span>
+                    </Form.Label>
+                    <Form.Select
+                      className="input-field"
+                      required
+                      onChange={(e) => {
+                        setUserRegion(e.target.value);
+                      }}
+                    >
+                      <option
+                      selected
+                      disabled
+                      hidden
+                      value="" 
+                      >Select your region..</option>
+                      <option>Riyadh</option>
+                      <option>Makkah</option>
+                      <option>Medina</option>
+                      <option>Qassim</option>
+                      <option>Sharqia</option>
+                      <option>Asir</option>
+                      <option>Tabuk</option>
+                      <option>Hail</option>
+                      <option>Northern Border</option>
+                      <option>Jazan</option>
+                      <option>Najran</option>
+                      <option>AlBaha</option>
+                      <option>Al-Jawf</option>
+                    </Form.Select>
+                  </Form.Group>
+                  {/* Gender  */}
+                  <Form.Group className="mb-3">
+                    <Form.Label className="nunito-normal-river-bed-18px mt-3">
+                      Gender <span className="required">*</span>
+                    </Form.Label>
+                    <div className="mt-2 d-flex flex-column flex-md-row">
+                      <span className="gender-radio">
+                        <Form.Check
+                          type="radio"
+                          inline
+                          label="Female"
+                          required
+                          value="Female"
+                          name="gender"
+                          onChange={(e) => {
+                            setUserGender(e.target.value);
+                          }}
+                        />
+                      </span>
+                      <span className="gender-radio">
+                        <Form.Check
+                          type="radio"
+                          inline
+                          label="Male"
+                          required
+                          value="Male"
+                          name="gender"
+                          onChange={(e) => {
+                            setUserGender(e.target.value);
+                          }}
+                        />
+                      </span>
+                    </div>
+                  </Form.Group>
+                  {/* date  */}
+                  <Form.Group>
+                    <Form.Label className="nunito-normal-river-bed-18px mt-3">
+                      Birth date <span className="required">*</span>
+                    </Form.Label>
+                    <DatePicker
+                      valueDefault={""}
+                      onChange={onChange}
+                      value={value}
+                      dateFormat="Pp"
+                      format="MM/dd/yyyy"
+                      className="date-picker input-field"
+                      placeholder="select your birth date"
+                      dayPlaceholder="date"
+                      monthPlaceholder="month"
+                      yearPlaceholder="year"
+                      required
+                      maxDate={moment().toDate()}
+                      onDateChange={(date) => {
+                        this.setState({ date: date });
+                      }}
+                      customStyles={{
+                        dateIcon: {
+                          //display: 'none',
+                          position: "absolute",
+                          left: 0,
+                          top: 400,
+                          marginLeft: 0,
+                        },
+                        dateInput: {
+                          marginLeft: 36,
+                          color: "red",
+                          backgroundColor: "black",
+                        },
+                      }}
+                    />
+                  </Form.Group>
+                  {/* Password  */}
+                  <Form.Group className="mb-3 mt-3">
+                    <Form.Label className="nunito-normal-river-bed-18px mt-3">
+                      Which of these is your favorite movie genre?{" "}
+                      <span className="required">*</span>
+                    </Form.Label>
+                    <div>
+                      <div>
+                        <Select
+                          isMulti //options={genres}
+                          options={allGenres}
+                          onChange={getGenres}
+                          closeMenuOnSelect={false}
+                          isSearchable
+                          placeholder="Select your favorite movie genres.."
+                          theme={(theme) => ({
+                            ...theme,
+                            borderRadius: 0,
+                            colors: {
+                              ...theme.colors,
+                              text: "var(--cardinal)",
+                              primary: "var(--cardinal)",
+                            },
+                          })}
+                          styles={{
+                            control: (provided, state) => ({
+                              ...provided,
+                              minHeight: 56,
+                              background: "#fcfcfc",
+                              outline: "none",
+                              border: "0px solid black",
+                              fontSize: "16px",
+                              boxShadow: state.isFocused
+                                ? "0px 4px 4px red"
+                                : "0px 4px 4px #00000040",
+                              borderRadius: 5,
+                            }),
+
+                            multiValueLabel: (base) => ({
+                              ...base,
+                              backgroundColor: "var(--white-3)",
+                              color: "black",
+                            }),
+
+                            multiValueRemove: (base) => ({
+                              ...base,
+                              backgroundColor: "var(--cardinal)",
+                              color: "white",
+                            }),
+                          }}
+                        ></Select>
+                      </div>
+                    </div>
+                  </Form.Group>
+                  {/* creat button */}
+                  <div className="text-center d-flex justify-content-center">
+                    <button
+                      type="button"
+                      className="registerBtn roboto-bold-white-28px"
+                      disabled={!isEnabled}
+                      onClick={Register}
+                    >
+                      Create
+                    </button>
                   </div>
-                </div>
+                </Form>
               </div>
-              <div className="maleBox border-2px-cardinal">
-                <div class="genreRadio">
-                  <input
-                    className="maleOption"
-                    type="radio"
-                    value="Male"
-                    name="gender"
-                    onChange={(e) => {
-                      setUserGender(e.target.value);
-                    }}
-                  />
-                  <span className="maleText nunito-normal-river-bed-18px">
-                    {" "}
-                    Male
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/*Region*/}
-            <div className="regionContainer">
-              <div className="regionText nunito-normal-river-bed-18px">
-                Region
-              </div>
-              <div>
-                <select
-                  className="regionBox"
-                  required
-                  onChange={(e) => {
-                    setUserRegion(e.target.value);
-                  }}
-                >
-                  <option
-                    selected
-                    disabled
-                    hidden
-                    className="selectText roboto-normal-pink-swan-16px"
-                    value=""
-                  >
-                    {" "}
-                    Select your region..
-                  </option>
-                  <option
-                    className="regionOption roboto-normal-pink-swan-16px"
-                    value="Riyadh"
-                  >
-                    Riyadh
-                  </option>
-                  <option
-                    className="regionOption roboto-normal-pink-swan-16px"
-                    value="Makkah"
-                  >
-                    Makkah
-                  </option>
-                  <option
-                    className="regionOption roboto-normal-pink-swan-16px"
-                    value="Medina"
-                  >
-                    Medina
-                  </option>
-                  <option
-                    className="regionOption roboto-normal-pink-swan-16px"
-                    value="Qassim"
-                  >
-                    Qassim
-                  </option>
-                  <option
-                    className="regionOption roboto-normal-pink-swan-16px"
-                    value="Sharqia"
-                  >
-                    Sharqia
-                  </option>
-                  <option
-                    className="regionOption roboto-normal-pink-swan-16px"
-                    value="Asir"
-                  >
-                    Asir
-                  </option>
-                  <option
-                    className="regionOption roboto-normal-pink-swan-16px"
-                    value="Tabuk"
-                  >
-                    Tabuk
-                  </option>
-                  <option
-                    className="regionOption roboto-normal-pink-swan-16px"
-                    value="Hail"
-                  >
-                    Hail
-                  </option>
-                  <option
-                    className="regionOption roboto-normal-pink-swan-16px"
-                    value="NorthernBorder"
-                  >
-                    Northern Border
-                  </option>
-                  <option
-                    className="regionOption roboto-normal-pink-swan-16px"
-                    value="Jazan"
-                  >
-                    Jazan
-                  </option>
-                  <option
-                    className="regionOption roboto-normal-pink-swan-16px"
-                    value="Najran"
-                  >
-                    Najran
-                  </option>
-                  <option
-                    className="regionOption roboto-normal-pink-swan-16px"
-                    value="AlBaha"
-                  >
-                    AlBaha
-                  </option>
-                  <option
-                    className="regionOption roboto-normal-pink-swan-16px"
-                    value="Al-Jawf"
-                  >
-                    Al-Jawf
-                  </option>
-                </select>
-              </div>
-            </div>
-            <div className="bdContainer">
-              <div className="regText6 nunito-normal-river-bed-18px">
-                {text6}
-              </div>
-
-              {/* BOD */}
-              <DatePicker
-                valueDefault={""}
-                onChange={onChange}
-                value={value}
-                dateFormat="Pp"
-                format="MM/dd/yyyy"
-                className="datePicker"
-                placeholder="select your birth date"
-                dayPlaceholder="date"
-                monthPlaceholder="month"
-                yearPlaceholder="year"
-                required
-                maxDate={moment().toDate()}
-                onDateChange={(date) => {
-                  this.setState({ date: date });
-                }}
-                // customStyles={
-                //   {dateInput:
-                //     {  border: 'none',
-                //     backgroundColor: 'black',
-                //     color: 'black'
-                //     }}
-                // }
-                customStyles={{
-                  dateIcon: {
-                    //display: 'none',
-                    position: "absolute",
-                    left: 0,
-                    top: 400,
-                    marginLeft: 0,
-                  },
-                  dateInput: {
-                    marginLeft: 36,
-                    color: "red",
-                    backgroundColor: "black",
-                  },
-                }}
-              />
-            </div>
-
-            <div className="genreContainer">
-              <div className="regText7 nunito-normal-river-bed-18px">
-                {text7}
-              </div>
-              <div className="multiSelect">
-                <Select
-                  isMulti //options={genres}
-                  options={allGenres}
-                  onChange={getGenres}
-                  closeMenuOnSelect={false}
-                  isSearchable
-                  className="favGenre"
-                  placeholder="Select your favorite movie genres.."
-                  theme={(theme) => ({
-                    ...theme,
-                    borderRadius: 0,
-                    colors: {
-                      ...theme.colors,
-                      text: "var(--cardinal)",
-                      primary: "var(--cardinal)",
-                    },
-                  })}
-                  styles={{
-                    control: (provided, state) => ({
-                      ...provided,
-                      minHeight: 56,
-                      background: "#fcfcfc",
-                      outline: "none",
-                      border: "0px solid black",
-                      fontSize: "16px",
-                      boxShadow: state.isFocused
-                        ? "0px 4px 4px red"
-                        : "0px 4px 4px #00000040",
-                      borderRadius: 5,
-                    }),
-
-                    multiValueLabel: (base) => ({
-                      ...base,
-                      backgroundColor: "var(--white-3)",
-                      color: "black",
-                    }),
-
-                    multiValueRemove: (base) => ({
-                      ...base,
-                      backgroundColor: "var(--cardinal)",
-                      color: "white",
-                    }),
-                  }}
-                ></Select>
-              </div>
-            </div>
-
-            {/* creat button */}
-            <button
-              type="button"
-              className="creatButtonBox"
-              disabled={!isEnabled}
-              onClick={Register}
-            >
-              <div className="createText roboto-bold-white-28px">Create</div>
-            </button>
-          </form>
-        </div>
+            </Col>
+          </Row>
+        </Container>
       </div>
+      {/* footer  */}
+      <Footer />
     </div>
   );
-}
+};
 
 export default registerPage;
