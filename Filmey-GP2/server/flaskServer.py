@@ -11,7 +11,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer  
 from surprise.model_selection import cross_validate
 from surprise import KNNWithMeans
-from waitress import serve
+# from waitress import serve
 from functools import reduce
 import re
 from rake_nltk import Rake
@@ -55,7 +55,7 @@ def checkThreshold():
     #Routes:
     #Ghadah:'C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\api\\model\\MLratings&DB.csv'
     #NoufD:'./api/model//MLratings&DB.csv'
-    rating =pd.read_csv('./api/model/MLratings&DB.csv', low_memory=False)
+    rating =pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\api\\model\\MLratings&DB.csv', low_memory=False)
     rating = rating['user_id'].tolist()
     numberOrRatingsInModel=rating.count(str(userID))
 
@@ -93,7 +93,7 @@ def train():
         #Ghadah:'C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\api\\model\\MLratings&DB.csv'
         #NoufD:'./api/model//MLratings&DB.csv'
 
-        rating.to_csv('./api/model/MLratings&DB.csv', index=False)
+        rating.to_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\api\\model\\MLratings&DB.csv', index=False)
 
 
         reader = Reader()
@@ -250,7 +250,7 @@ def modelBased():
     #NoufD:'movieData.csv'
 
 
-    df = pd.read_csv('movieData.csv', low_memory=False)
+    df = pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv', low_memory=False)
     data = request.get_json(force=True)
     userID = data["userID"]
     param1 = (str(userID))
@@ -761,21 +761,21 @@ def contentBasedPreprocessing():
                 #Routes:
                 #Ghadah:'C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv'
                 #NoufD:'movieData.csv'
-            movieDataFromCSV =pd.read_csv('movieData.csv', low_memory=False)
+            movieDataFromCSV =pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv', low_memory=False)
             movieData=movieDataFromCSV.append(df)
             movieData=movieData.drop(columns=['is_in_cinema','is_coming_soon'])
-            movieData.to_csv('movieData.csv',index=False) 
+            movieData.to_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv',index=False) 
 
         if status=="Edit":
-            movieDataFromCSV =pd.read_csv('movieData.csv', low_memory=False)
+            movieDataFromCSV =pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv', low_memory=False)
             movieDataFromCSV=movieDataFromCSV.drop(movieDataFromCSV.index[movieDataFromCSV['movie_id']==movieID])
             movieData=movieDataFromCSV.append(df)
             movieData=movieData.drop(columns=['is_in_cinema','is_coming_soon'])
-            movieData.to_csv('movieData.csv',index=False) 
+            movieData.to_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv',index=False) 
     if status=="Delete":
-        movieDataFromCSV =pd.read_csv('movieData.csv', low_memory=False)
+        movieDataFromCSV =pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv', low_memory=False)
         movieDataFromCSV=movieDataFromCSV.drop(movieDataFromCSV.index[movieDataFromCSV['movie_id']==movieID])
-        movieDataFromCSV.to_csv('movieData.csv',index=False) 
+        movieDataFromCSV.to_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv',index=False) 
 
     return jsonify("Done")
 
@@ -791,7 +791,7 @@ def third():
     #Routes:
     #Ghadah:'C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv'
     #NoufD:'movieData.csv'
-    df2 = pd.read_csv('movieData.csv', low_memory=False)
+    df2 = pd.read_csv('C:\\Users\\pc\\Documents\\GitHub\\2021-GP1-22\\Filmey-GP2\\server\\movieData.csv', low_memory=False)
 
 
 

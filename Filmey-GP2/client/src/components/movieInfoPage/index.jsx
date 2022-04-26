@@ -811,14 +811,16 @@ const MovieInfo = (props) => {
       var postersArray = [...Allposters];
       var movieTitlesArray = [...movieTitles];
       var ratingsArray = [...totalRatings];
-      var additionalState = [...additionalState];
+      var additionalStateArray= [...additionalState];
+
+      console.log(postersArray)
 
       for (var i = 0; i < 20; i++) {
         IdsArray[i] = res.data[i][0];
         postersArray[i] = res.data[i][1];
         movieTitlesArray[i] = res.data[i][2];
         ratingsArray[i] = res.data[i][3];
-        additionalState[i] = res.data[i][3];
+        additionalStateArray[i] = res.data[i][3];
       }
 
       setMovieIds(IdsArray);
@@ -826,7 +828,7 @@ const MovieInfo = (props) => {
       setSimilarMoviesPostersState(similarMoviesPosters);
       setmovieTitles(movieTitlesArray);
       settotalRatings(ratingsArray);
-      setAdditionalState(additionalState);
+      setAdditionalState(additionalStateArray);
     });
 
     //Check if user has reviewed movie
@@ -1788,10 +1790,10 @@ const MovieInfo = (props) => {
               for (var i = 0; i < 21; i++) {
                 const id = movieIds[i];
                 const url = `/movieInfoPage/${id}`;
-                // const poster = Allposters[i];
-                const poster = "/img/moviePoster.jpg";
+                const poster = Allposters[i];
+                //const poster = "/img/moviePoster.jpg";
                 const title = movieTitles[i];
-                const rating = totalRatings[i];
+                var rating = totalRatings[i];
                 if (rating == 0) {
                   rating = "No ratings.";
                 }
