@@ -19,7 +19,10 @@ from datetime import date
 from imdb import IMDb
 from flask_cors import CORS
 from sqlalchemy import false
-
+from functools import reduce 
+from rake_nltk import Rake 
+import re 
+from imdb import IMDb
 
 app = Flask(__name__)
 cors = CORS(app)

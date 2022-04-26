@@ -631,7 +631,7 @@ router.post("/editMovie", async (req, res, next) => {
     const contentBasedPreprocessing = await axios
       .post("http://localhost:5000/contentBasedPreprocessing", {
         movieID: movieID,
-        status: "SaudiCinema",
+        status: "Edit",
       })
       .then((response) => {});
 
