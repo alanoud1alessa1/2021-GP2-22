@@ -229,7 +229,8 @@ module.exports = {
       console.log(checkActorImage);
       console.log(actorNames[i]);
       if (checkActorImage[0]) {
-        if (actorNames[i] != checkActorImage[0].actor && checkActorImage[0].actor_image_url!="https://m.media-amazon.com/images/S/sash/9FayPGLPcrscMjU.png") {
+        if (actorNames[i] != checkActorImage[0].actor && checkActorImage[0].actor_image_url!="https://m.media-amazon.com/images/S/sash/9FayPGLPcrscMjU.png"
+        && checkActorImage[0].actor_image_url!="https://m.media-amazon.com/images/M/MV5BMTU3NzAwMzE1OF5BMl5BanBnXkFtZTYwMjkzOTY0._V1_UY317_CR13,0,214,317_AL_.jpg") {
           message[i] = "Image belongs to another actor";
           return message;
         }
