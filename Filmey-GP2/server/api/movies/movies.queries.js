@@ -114,31 +114,32 @@ module.exports = {
   },
 
   async getAllGenres() {
-    return db("Genre").select("genre");
+    return db("Genre").select("genre").orderBy('genre', 'asc');
   },
 
   async getAllLanguages() {
-    return db("Language").distinct("language");
+    // return db("Language").distinct("language").orderBy('language', 'asc');
+    return db("Language").select('language').orderBy('language', 'asc');
   },
 
   async getAllAgeGuide() {
-    return db("Movie").distinct("age_guide");
+    return db("Movie").distinct("age_guide").orderBy('age_guide', 'asc');
   },
 
   async getAllDirectors() {
-    return db("Director").distinct("director");
+    return db("Director").distinct("director").orderBy('director', 'asc');
   },
 
   async getAllWriters() {
-    return db("Writer").distinct("writer");
+    return db("Writer").distinct("writer").orderBy('writer', 'asc');
   },
 
   async getAllActorss() {
-    return db("Actor").distinct("actor");
+    return db("Actor").distinct("actor").orderBy('actor', 'asc');
   },
 
   async getAllRoles() {
-    return db("Role").distinct("role");
+    return db("Role").distinct("role").orderBy('role', 'asc');
   },
 
   async getRating(movie_id) {
@@ -201,9 +202,7 @@ module.exports = {
   async checkTitleForAdd(title) {
     console.log(title);
     let checkTitleForAdd = await db("Movie")
-      .where({
-        title: title,
-      })
+    .whereRaw( 'LOWER(title) = LOWER(?)', [title])
       .first()
       .returning("*");
     console.log(checkTitleForAdd);
@@ -226,10 +225,11 @@ module.exports = {
           actor_image_url: actorImages[i],
         })
         .returning("*")
-        .pluck("actor");
-      console.log(checkActorImage[0]);
+        // .pluck("actor");
+      console.log(checkActorImage);
+      console.log(actorNames[i]);
       if (checkActorImage[0]) {
-        if (actorNames[i] != checkActorImage[0]) {
+        if (actorNames[i] != checkActorImage[0].actor && checkActorImage[0].actor_image_url!="https://m.media-amazon.com/images/S/sash/9FayPGLPcrscMjU.png") {
           message[i] = "Image belongs to another actor";
           return message;
         }

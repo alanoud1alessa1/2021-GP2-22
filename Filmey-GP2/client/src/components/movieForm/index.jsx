@@ -551,7 +551,7 @@ const movieForm = (props) => {
 
   var year = 1950;
 
-  for (var i = 0; i < 72; i++) {
+  for (var i = 0; i < 73; i++) {
     yearsArray[i] = { value: year, label: year };
     year++;
   }
@@ -810,7 +810,10 @@ const movieForm = (props) => {
       const languageArray = [...allLanguages];
 
       for (var i = 0; i < response.data.length; i++) {
+        if (response.data[i].language!='')
+        {
         languageArray[i] = { value: i, label: response.data[i].language };
+        }
       }
       console.log(languageArray);
       setAllLanguages(languageArray);
@@ -841,11 +844,12 @@ const movieForm = (props) => {
     const res4 = api.get(
       "/movies/allWriters/1"
     ).then((response) => {
-      const writersArray = [...allWriters];
+      var writersArray = [...allWriters];
 
       for (var i = 0; i < response.data.length; i++) {
         writersArray[i] = { value: i, label: response.data[i].writer };
       }
+
       setAllWriters(writersArray);
     });
 
