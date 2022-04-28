@@ -47,7 +47,7 @@ const ResetPassword = (props) => {
   const { token } = useParams();
 
   const resetPassword = () => {
-    const res = api.post("/resetPassword", {
+    const res = api.post("users/resetPassword", {
       token: token,
       newPassword: userPassword,
     }).then((res) => {

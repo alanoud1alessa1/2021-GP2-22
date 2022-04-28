@@ -1,26 +1,28 @@
 {
   "files": {
-    "main.css": "./static/css/main.80d779ea.css",
-    "main.js": "./static/js/main.583fb814.js",
-    "static/media/backgroundImage.png": "./static/media/backgroundImage.4eecc7d230c3b1c0f638.png",
-    "static/media/voxLogo.png": "./static/media/voxLogo.738210d56f069bc6fcea.png",
-    "static/media/muviLogo.png": "./static/media/muviLogo.e2e8bd2c218c71d74a6f.png",
-    "static/media/Logo.png": "./static/media/Logo.07a37a3ea075787252ca.png",
-    "static/media/loginPageLogo.png": "./static/media/loginPageLogo.07a37a3ea075787252ca.png",
-    "static/media/voxWhite.png": "./static/media/voxWhite.9163548175a6d92c1fee.png",
-    "static/media/amcLogo.png": "./static/media/amcLogo.72fb6ab056ce913795a7.png",
-    "static/media/ticket2.png": "./static/media/ticket2.cd6b812deb9864111de2.png",
-    "static/media/star-2@2x.svg": "./static/media/star-2@2x.0e2bd4306139af76cfe59e8e5420d9d9.svg",
-    "static/media/icon@2x.svg": "./static/media/icon@2x.7767d756e8d23d852cd261da1928c2fc.svg",
-    "static/media/iconly-light-profile@2x.svg": "./static/media/iconly-light-profile@2x.e9e1fba922afe2959bcc2a8668a8aedd.svg",
-    "index.html": "./index.html",
-    "static/media/expand-left--review-@2x.svg": "./static/media/expand-left--review-@2x.05ff839554b906153e1974617a8881cf.svg",
-    "static/media/line-5@1x.svg": "./static/media/line-5@1x.cd02557dee98c622a792e712388a5691.svg",
-    "main.80d779ea.css.map": "./static/css/main.80d779ea.css.map",
-    "main.583fb814.js.map": "./static/js/main.583fb814.js.map"
+    "main.css": "/static/css/main.ba8ad277.css",
+    "main.js": "/static/js/main.f70fc947.js",
+    "static/media/backgroundImage.png": "/static/media/backgroundImage.4eecc7d230c3b1c0f638.png",
+    "static/media/voxLogo.png": "/static/media/voxLogo.738210d56f069bc6fcea.png",
+    "static/media/muviLogo.png": "/static/media/muviLogo.e2e8bd2c218c71d74a6f.png",
+    "static/media/Logo.png": "/static/media/Logo.07a37a3ea075787252ca.png",
+    "static/media/voxWhite.png": "/static/media/voxWhite.9163548175a6d92c1fee.png",
+    "static/media/amcLogo.png": "/static/media/amcLogo.72fb6ab056ce913795a7.png",
+    "static/media/ticket2.png": "/static/media/ticket2.cd6b812deb9864111de2.png",
+    "static/media/slick.svg": "/static/media/slick.2630a3e3eab21c607e21.svg",
+    "static/media/slick.eot": "/static/media/slick.a4e97f5a2a64f0ab1323.eot",
+    "static/media/slick.ttf": "/static/media/slick.c94f7671dcc99dce43e2.ttf",
+    "static/media/star-2@2x.svg": "/static/media/star-2@2x.0e2bd4306139af76cfe59e8e5420d9d9.svg",
+    "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
+    "static/media/icon@2x.svg": "/static/media/icon@2x.7767d756e8d23d852cd261da1928c2fc.svg",
+    "static/media/iconly-light-profile@2x.svg": "/static/media/iconly-light-profile@2x.e9e1fba922afe2959bcc2a8668a8aedd.svg",
+    "index.html": "/index.html",
+    "static/media/line-5@1x.svg": "/static/media/line-5@1x.cd02557dee98c622a792e712388a5691.svg",
+    "main.ba8ad277.css.map": "/static/css/main.ba8ad277.css.map",
+    "main.f70fc947.js.map": "/static/js/main.f70fc947.js.map"
   },
   "entrypoints": [
-    "static/css/main.80d779ea.css",
-    "static/js/main.583fb814.js"
+    "static/css/main.ba8ad277.css",
+    "static/js/main.f70fc947.js"
   ]
 }

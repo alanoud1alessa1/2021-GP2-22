@@ -25,8 +25,14 @@ router.post("/", (req, res) => {
 
  const token = req.body.token;
   const email = decoded.email;
+  
 
-  var link = `http://localhost:1234/resetpassword/${token}`;
+
+    var link = process.env.NODE_ENV === "production"
+  ? `http://filmey.movie/resetpassword/${token}`
+  : `http://localhost:3000/resetpassword/${token}`; 
+  
+  // var link =  `http://localhost:3000/resetpassword/${token}`;
   link = link.toString()
   var mailOptions = {
     from: "Filmey.movies@gmail.com",

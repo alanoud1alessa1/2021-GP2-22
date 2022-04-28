@@ -19,10 +19,11 @@ import ComingSoonPage from "./components/comingSoonPage";
 import SearchPage from "./components/searchPage";
 
 
+const basename = document.querySelector('base')?.getAttribute('href') ?? '/'    
 
 function App() {
   return (
-    <Router>
+    <Router  basename={basename}>
       <Switch>
         <Route path="/registerPage"> 
           <RegisterPage {...registerPageData} />

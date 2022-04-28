@@ -1,6 +1,6 @@
 {
   "name": "react-package",
-  "homepage": ".",
+  "homepage": "http://filmey.movie",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build"
