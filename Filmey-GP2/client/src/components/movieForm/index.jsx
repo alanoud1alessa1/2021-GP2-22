@@ -1305,7 +1305,9 @@ const movieForm = (props) => {
     const imageLength = getActorImagesArrayInHTML.length;
     for (var i = imageLength - 1; i > -1; i--) {
       const actorImage = getActorImagesArrayInHTML[i];
-
+      if (actorImage == "https://m.media-amazon.com/images/S/sash/9FayPGLPcrscMjU.png"){
+        continue;
+      }
       for (var j = i - 1; j > -1; j--) {
         if (actorImage != "") {
           if (actorImage == getActorImagesArrayInHTML[j])
@@ -1317,7 +1319,9 @@ const movieForm = (props) => {
     const imageLength = actorImageArrayState.length;
     for (var i = imageLength - 1; i > -1; i--) {
       const actorImage = actorImageArrayState[i];
-
+      if (actorImage == "https://m.media-amazon.com/images/S/sash/9FayPGLPcrscMjU.png"){
+        continue;
+      }
       for (var j = i - 1; j > -1; j--) {
         if (actorImage != "") {
           if (actorImage == actorImageArrayState[j])

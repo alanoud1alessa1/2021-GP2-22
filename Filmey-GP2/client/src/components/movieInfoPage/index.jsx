@@ -701,25 +701,8 @@ const MovieInfo = (props) => {
       movieID: id,
       rating: parseInt(value),
     }).then((res) => {});
-    confirmAlert({
-      customUI: ({ onClose }) => {
-        return (
-          <div className="customconfirmAlert">
-            <h1>Thank u!</h1>
-            <h5>Your rating has been saved successfully.</h5>
-            <button
-              className="yesButton"
-              onClick={() => {
-                updateMovieRating();
-                onClose();
-              }}
-            >
-              OK
-            </button>
-          </div>
-        );
-      },
-    });
+    updateMovieRating();
+    window.location.reload(true);
   };
 
   const deleteRating = () => {
