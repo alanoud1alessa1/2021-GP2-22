@@ -704,31 +704,53 @@ router.get(
       if (searchType=="Movie")
       {
         var string=removeStopwords(searchText.split(' ')).toString().replaceAll(","," ")
-        // console.log('string')
-        // console.log(string)
-        results1 = await queries.searchByExactMovieName(searchText);
+        if (searchText.length<3)
+        {
+          results = await queries.searchForSmallLengthMovie(searchText);
+          results = Array.from(new Set(results.map(el => JSON.stringify(el)))).map(el => JSON.parse(el))
+        }
+        else
+        {results1 = await queries.searchByExactMovieName(searchText);
         // console.log(results);
         results2 = await queries.searchSimilarMovies(string);
         results=results1.concat(results2)
-        results = Array.from(new Set(results.map(el => JSON.stringify(el)))).map(el => JSON.parse(el));
+        results = Array.from(new Set(results.map(el => JSON.stringify(el)))).map(el => JSON.parse(el));}
       }
 
       if (searchType=="Director")
       {
-        results = await queries.searchByDirector(searchText);
-        console.log(results);
+        if (searchText.length<3)
+        {
+          results = await queries.searchForSmallLengthDirector(searchText);
+          results = Array.from(new Set(results.map(el => JSON.stringify(el)))).map(el => JSON.parse(el))
+        }
+        else
+       { results = await queries.searchByDirector(searchText);
+        console.log(results);}
       }
 
       if (searchType=="Actor")
       {
-        results = await queries.searchByActor(searchText);
-        console.log(results);
+        if (searchText.length<3)
+        {
+          results = await queries.searchForSmallLengthActor(searchText);
+          results = Array.from(new Set(results.map(el => JSON.stringify(el)))).map(el => JSON.parse(el))
+        }
+        else
+        {results = await queries.searchByActor(searchText);
+        console.log(results);}
       }
 
       if (searchType=="Writer")
       {
-        results = await queries.searchByWriter(searchText);
-        console.log(results);
+        if (searchText.length<3)
+        {
+          results = await queries.searchForSmallLengthWriter(searchText);
+          results = Array.from(new Set(results.map(el => JSON.stringify(el)))).map(el => JSON.parse(el))
+        }
+        else
+        {results = await queries.searchByWriter(searchText);
+        console.log(results);}
       }
 
       if (results) {

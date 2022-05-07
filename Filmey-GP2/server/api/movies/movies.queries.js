@@ -1536,6 +1536,22 @@ module.exports = {
     return;
   },
 
+  async searchForSmallLengthMovie(searchText) {
+    return db("Movie As M")
+    .select(
+      'M.movie_id',
+      'M.title',
+      'M.poster',
+      'M.year',
+    db.raw("ROUND(AVG(rating),1)::int AS total_rating"),
+  )
+  .leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
+  .where("M.is_deleted", "=", false)
+  .whereRaw( 'LOWER(title)= ?' ,[`%${searchText.toLowerCase()}%`])
+  .groupBy("M.movie_id", "M.poster","M.title")
+  .orderBy("M.year", "desc")
+},
+
   async searchByExactMovieName(searchText) {
         return db("Movie As M")
         .select(
@@ -1588,6 +1604,24 @@ module.exports = {
      .orderBy("M.year", "desc")
    
 },
+async searchForSmallLengthDirector(searchText) {
+  return db("Movie As M")
+        .select(
+          'M.movie_id',
+          'M.title',
+          'M.poster',
+          'M.year',
+         db.raw("ROUND(AVG(rating),1)::int AS total_rating"),
+      )
+      .where("M.is_deleted", "=", false)
+     .leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
+    
+    .leftJoin("Movie_Director AS MD", "MD.movie_id", "M.movie_id")
+    .leftJoin("Director AS D", "D.director_id", "MD.director_id")
+    .whereRaw( 'LOWER(director)= ?' ,[`%${searchText.toLowerCase()}%`])
+     .groupBy("M.movie_id", "M.poster","M.title")
+     .orderBy("M.year", "desc")
+},
 
 async searchByWriter(searchText) {
   return db("Movie As M")
@@ -1608,6 +1642,25 @@ async searchByWriter(searchText) {
   .orderBy("M.year", "desc")
 },
 
+async searchForSmallLengthWriter(searchText) {
+  return db("Movie As M")
+  .select(
+    'M.movie_id',
+    'M.title',
+    'M.poster',
+    'M.year',
+  db.raw("ROUND(AVG(rating),1)::int AS total_rating"),
+)
+.leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
+.where("M.is_deleted", "=", false)
+.leftJoin("Movie_Writer AS MW", "MW.movie_id", "M.movie_id")
+.leftJoin("Writer AS W", "W.writer_id", "MW.writer_id")
+.whereRaw( 'LOWER(writer)= ?' ,[`%${searchText.toLowerCase()}%`])
+.groupBy("M.movie_id", "M.poster","M.title")
+.orderBy("M.year", "desc")
+
+},
+
 async searchByActor(searchText) {
   return db("Movie As M")
   .select(
@@ -1625,6 +1678,22 @@ async searchByActor(searchText) {
   .orderBy("M.year", "desc")
 },
 
+async searchForSmallLengthActor(searchText) {
+  return db("Movie As M")
+  .select(
+    'M.title',
+    'M.poster',
+    'M.year',
+  db.raw("ROUND(AVG(rating),1)::int AS total_rating"),
+)
+.leftJoin("Rating AS Rate", "M.movie_id", "Rate.movie_id")
+.where("M.is_deleted", "=", false)
+  .leftJoin("Role AS R", "M.movie_id", "R.movie_id")
+  .leftJoin("Actor AS A", "A.actor_id", "R.actor_id")
+  .whereRaw( 'LOWER(actor) =?',[`%${searchText.toLowerCase()}%`])
+  .groupBy("M.movie_id", "M.poster","M.title")
+  .orderBy("M.year", "desc")
+},
 async searchOptions(searchType) {
   if (searchType=="Movie")
   {
