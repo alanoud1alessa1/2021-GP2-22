@@ -1575,6 +1575,32 @@ noLongerInCinema=inCinemaDB[~inCinemaDB.title.isin(AllDfs['title'])]
 noLongerInCinema
 
 
+# In[ ]:
+
+
+#Remove () from title
+regex = '\(.*?\)'
+for index,row in noLongerInCinema.iterrows():
+        noLongerInCinema.loc[index,'title']=re.sub(regex,'',row['title']).lower().strip()
+
+
+# In[ ]:
+
+
+#Get dupliacted movies with diffrent languages
+dupliactesTitle=list(noLongerInCinema[noLongerInCinema.duplicated(['title'])]['title'])
+duplicatedDF=noLongerInCinema[noLongerInCinema.duplicated(subset='title',keep='first')]
+
+
+# In[ ]:
+
+
+#Delete Non origninal movie language
+for index, row in duplicatedDF.iterrows():
+    cursor.execute('DELETE FROM "Movie" WHERE movie_id=%s' ,[int(row['movie_id'])] )
+    conn.commit()
+
+
 # In[303]:
 
 
