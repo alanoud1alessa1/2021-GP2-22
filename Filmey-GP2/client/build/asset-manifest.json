@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.ba8ad277.css",
-    "main.js": "/static/js/main.f70fc947.js",
+    "main.js": "/static/js/main.fac06211.js",
     "static/media/backgroundImage.png": "/static/media/backgroundImage.4eecc7d230c3b1c0f638.png",
     "static/media/voxLogo.png": "/static/media/voxLogo.738210d56f069bc6fcea.png",
     "static/media/muviLogo.png": "/static/media/muviLogo.e2e8bd2c218c71d74a6f.png",
@@ -19,10 +19,10 @@
     "index.html": "/index.html",
     "static/media/line-5@1x.svg": "/static/media/line-5@1x.cd02557dee98c622a792e712388a5691.svg",
     "main.ba8ad277.css.map": "/static/css/main.ba8ad277.css.map",
-    "main.f70fc947.js.map": "/static/js/main.f70fc947.js.map"
+    "main.fac06211.js.map": "/static/js/main.fac06211.js.map"
   },
   "entrypoints": [
     "static/css/main.ba8ad277.css",
-    "static/js/main.f70fc947.js"
+    "static/js/main.fac06211.js"
   ]
 }

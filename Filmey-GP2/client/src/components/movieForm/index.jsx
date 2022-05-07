@@ -13,8 +13,7 @@ import AsyncSelect from "react-select/async";
 import AsyncCreatableSelect from "react-select/async-creatable";
 import Footer from "../Footer";
 import { Col, Container, Row } from "react-bootstrap";
-import api from "../../api/axiosAPI"
-
+import api from "../../api/axiosAPI";
 
 const movieForm = (props) => {
   const [titleState, setTitle] = useState("");
@@ -95,35 +94,33 @@ const movieForm = (props) => {
   const CheckTitle = (value) => {
     //Add
     if (id == 0) {
-      const CheckTitleResult = api.post(
-        "/movies/checkTitleForAdd",
-        {
+      const CheckTitleResult = api
+        .post("/movies/checkTitleForAdd", {
           title: value,
-        }
-      ).then((res) => {
-        if (res.data) {
-          setMovieName_error_message(res.data);
-        } else {
-          setMovieName_error_message("");
-        }
-      });
+        })
+        .then((res) => {
+          if (res.data) {
+            setMovieName_error_message(res.data);
+          } else {
+            setMovieName_error_message("");
+          }
+        });
     }
 
     //Edit
     else {
-      const CheckTitleResult = api.post(
-        "/movies/checkTitleForEdit",
-        {
+      const CheckTitleResult = api
+        .post("/movies/checkTitleForEdit", {
           movie_id: id,
           title: value,
-        }
-      ).then((res) => {
-        if (res.data) {
-          setMovieName_error_message(res.data);
-        } else {
-          setMovieName_error_message("");
-        }
-      });
+        })
+        .then((res) => {
+          if (res.data) {
+            setMovieName_error_message(res.data);
+          } else {
+            setMovieName_error_message("");
+          }
+        });
     }
   };
 
@@ -396,40 +393,40 @@ const movieForm = (props) => {
     if (id == 0) {
       actorNameArray[index] = newValue.label;
       setActorNameArrayState(actorNameArray);
-      const getActorImage = api.get(
-        `/movies/getActorImage/${actorNameArray[index]}`
-      ).then((res) => {
-        console.log(res.data);
+      const getActorImage = api
+        .get(`/movies/getActorImage/${actorNameArray[index]}`)
+        .then((res) => {
+          console.log(res.data);
 
-        if (res.data.NoActorImage) {
-          actorImageArray[index] = "";
-          setActorImageArrayState(actorImageArray);
+          if (res.data.NoActorImage) {
+            actorImageArray[index] = "";
+            setActorImageArrayState(actorImageArray);
 
-          getActorImagesArrayInHTML[index] = "";
-          setActorImageArrayState(getActorImagesArrayInHTML);
-        } else {
-          actorImageArray[index] = res.data;
-          setActorImageArrayState(actorImageArray);
+            getActorImagesArrayInHTML[index] = "";
+            setActorImageArrayState(getActorImagesArrayInHTML);
+          } else {
+            actorImageArray[index] = res.data;
+            setActorImageArrayState(actorImageArray);
 
-          getActorImagesArrayInHTML[index] = res.data;
-          setActorImageArrayState(getActorImagesArrayInHTML);
-        }
-      });
+            getActorImagesArrayInHTML[index] = res.data;
+            setActorImageArrayState(getActorImagesArrayInHTML);
+          }
+        });
     } else {
       getActorNamesArray[index] = newValue;
       setGetActorNames(getActorNamesArray);
 
-      const getActorImage = api.get(
-        `/movies/getActorImage/${newValue.label}`
-      ).then((res) => {
-        if (res.data.NoActorImage) {
-          getActorImagesArrayInHTML[index] = "";
-          setActorImageArrayState(getActorImagesArrayInHTML);
-        } else {
-          getActorImagesArrayInHTML[index] = res.data;
-          setActorImageArrayState(getActorImagesArrayInHTML);
-        }
-      });
+      const getActorImage = api
+        .get(`/movies/getActorImage/${newValue.label}`)
+        .then((res) => {
+          if (res.data.NoActorImage) {
+            getActorImagesArrayInHTML[index] = "";
+            setActorImageArrayState(getActorImagesArrayInHTML);
+          } else {
+            getActorImagesArrayInHTML[index] = res.data;
+            setActorImageArrayState(getActorImagesArrayInHTML);
+          }
+        });
     }
     setGetActorImagesArrayInHTMLState(getActorImagesArrayInHTML);
     console.log(getActorImagesArrayInHTML);
@@ -490,9 +487,8 @@ const movieForm = (props) => {
       actorImageArray
     );
 
-    const addMovieRes = api.post(
-      "/movies/addMovie",
-      {
+    const addMovieRes = api
+      .post("/movies/addMovie", {
         adminID: adminID,
         title: titleState,
         genres: genreState,
@@ -508,41 +504,41 @@ const movieForm = (props) => {
         actorNames: actorNameArray,
         actorRoles: actorRoleArray,
         actorImages: actorImageArray,
-      }
-    ).then((res) => {
-      if (res.data.PosterMessage) {
-        console.log(res.data.PosterMessage);
-        setMoviePoster_error_message(res.data.PosterMessage);
-      } else {
-        setMoviePoster_error_message("");
-      }
-      if (res.data.DescriptionMessage) {
-        console.log(res.data.DescriptionMessage);
-        setMovieDes_error_message(res.data.DescriptionMessage);
-      } else {
-        setMovieDes_error_message("");
-      }
+      })
+      .then((res) => {
+        if (res.data.PosterMessage) {
+          console.log(res.data.PosterMessage);
+          setMoviePoster_error_message(res.data.PosterMessage);
+        } else {
+          setMoviePoster_error_message("");
+        }
+        if (res.data.DescriptionMessage) {
+          console.log(res.data.DescriptionMessage);
+          setMovieDes_error_message(res.data.DescriptionMessage);
+        } else {
+          setMovieDes_error_message("");
+        }
 
-      if (res.data.TrailerMessage) {
-        console.log(res.data.TrailerMessage);
-        setMovieTrailer_error_message(res.data.TrailerMessage);
-      } else {
-        setMovieTrailer_error_message("");
-      }
+        if (res.data.TrailerMessage) {
+          console.log(res.data.TrailerMessage);
+          setMovieTrailer_error_message(res.data.TrailerMessage);
+        } else {
+          setMovieTrailer_error_message("");
+        }
 
-      if (res.data.checkActorImage) {
-        console.log(res.data.checkActorImage);
-        setMovieActorImage_error_message(res.data.checkActorImage);
-      } else {
-        setMovieActorImage_error_message("");
-      }
+        if (res.data.checkActorImage) {
+          console.log(res.data.checkActorImage);
+          setMovieActorImage_error_message(res.data.checkActorImage);
+        } else {
+          setMovieActorImage_error_message("");
+        }
 
-      if (res.data.movieID) {
-        // alert("Movie added successfully");
-        var newMovieID = res.data.movieID;
-        window.location = `/movieInfoPage/${newMovieID}`;
-      }
-    });
+        if (res.data.movieID) {
+          // alert("Movie added successfully");
+          var newMovieID = res.data.movieID;
+          window.location = `/movieInfoPage/${newMovieID}`;
+        }
+      });
   };
 
   const yearsArray = [];
@@ -751,9 +747,8 @@ const movieForm = (props) => {
       return;
     }
 
-    const editMovieRes = api.post(
-      "/movies/editMovie",
-      {
+    const editMovieRes = api
+      .post("/movies/editMovie", {
         adminID: adminID,
         movie_id: id,
         title: titleEdited,
@@ -770,16 +765,16 @@ const movieForm = (props) => {
         actorNames: actorNamesEdited,
         actorRoles: actorRolesEdited,
         actorImages: actorImagesEdited,
-      }
-    ).then((res) => {
-      if (res.data.movieID) {
-        window.location = `/movieInfoPage/${id}`;
-      }
+      })
+      .then((res) => {
+        if (res.data.movieID) {
+          window.location = `/movieInfoPage/${id}`;
+        }
 
-      setMoviePoster_error_message(res.data.CheckPosterForEditMessage);
-      setMovieTrailer_error_message(res.data.CheckTrailerForEditMessage);
-      setMovieDes_error_message(res.data.CheckDescriptionForEditMessage);
-    });
+        setMoviePoster_error_message(res.data.CheckPosterForEditMessage);
+        setMovieTrailer_error_message(res.data.CheckTrailerForEditMessage);
+        setMovieDes_error_message(res.data.CheckDescriptionForEditMessage);
+      });
   };
 
   var getGenresArray = [...getGenres];
@@ -791,9 +786,7 @@ const movieForm = (props) => {
   var getActorImagesArrayInHTML = [...getActorImagesArrayInHTMLState];
 
   React.useEffect(() => {
-    const res = api.get(
-      "/movies/allGenres/1"
-    ).then((response) => {
+    const res = api.get("/movies/allGenres/1").then((response) => {
       const genresArray = [...allGenres];
       console.log(response.data);
 
@@ -804,24 +797,19 @@ const movieForm = (props) => {
       setAllGenres(genresArray);
     });
 
-    const res1 = api.get(
-      "/movies/allLanguages/1"
-    ).then((response) => {
+    const res1 = api.get("/movies/allLanguages/1").then((response) => {
       const languageArray = [...allLanguages];
 
       for (var i = 0; i < response.data.length; i++) {
-        if (response.data[i].language!='')
-        {
-        languageArray[i] = { value: i, label: response.data[i].language };
+        if (response.data[i].language != "") {
+          languageArray[i] = { value: i, label: response.data[i].language };
         }
       }
       console.log(languageArray);
       setAllLanguages(languageArray);
     });
 
-    const res2 = api.get(
-      "/movies/allAgeGuide/1"
-    ).then((response) => {
+    const res2 = api.get("/movies/allAgeGuide/1").then((response) => {
       const ageGuideArray = [...allLanguages];
 
       for (var i = 0; i < response.data.length; i++) {
@@ -830,9 +818,7 @@ const movieForm = (props) => {
       setallAgeGuide(ageGuideArray);
     });
 
-    const res3 = api.get(
-      "/movies/allDirectors/1"
-    ).then((response) => {
+    const res3 = api.get("/movies/allDirectors/1").then((response) => {
       const directorsArray = [...allDirectors];
 
       for (var i = 0; i < response.data.length; i++) {
@@ -841,9 +827,7 @@ const movieForm = (props) => {
       setAllDirectors(directorsArray);
     });
 
-    const res4 = api.get(
-      "/movies/allWriters/1"
-    ).then((response) => {
+    const res4 = api.get("/movies/allWriters/1").then((response) => {
       var writersArray = [...allWriters];
 
       for (var i = 0; i < response.data.length; i++) {
@@ -853,9 +837,7 @@ const movieForm = (props) => {
       setAllWriters(writersArray);
     });
 
-    const res5 = api.get(
-      "/movies/allActors/1"
-    ).then((response) => {
+    const res5 = api.get("/movies/allActors/1").then((response) => {
       actorsArray = [...allActors];
 
       for (var i = 0; i < response.data.length; i++) {
@@ -864,9 +846,7 @@ const movieForm = (props) => {
       setAllActors(actorsArray);
     });
 
-    const res6 = api.get(
-      "/movies/allRoles/1"
-    ).then((response) => {
+    const res6 = api.get("/movies/allRoles/1").then((response) => {
       rolesArray = [...allRoles];
 
       for (var i = 0; i < response.data.length; i++) {
@@ -876,9 +856,7 @@ const movieForm = (props) => {
     });
 
     if (id > 0) {
-      const b = api.get(
-        `/movies/getMovieFormData/${id}`
-      ).then((response) => {
+      const b = api.get(`/movies/getMovieFormData/${id}`).then((response) => {
         console.log(response.data);
         setGetTitle(response.data.movieInfo[0].title);
         setGetTrailer(response.data.movieInfo[0].trailer_url);
@@ -1305,9 +1283,14 @@ const movieForm = (props) => {
     const imageLength = getActorImagesArrayInHTML.length;
     for (var i = imageLength - 1; i > -1; i--) {
       const actorImage = getActorImagesArrayInHTML[i];
-      if (actorImage == "https://m.media-amazon.com/images/S/sash/9FayPGLPcrscMjU.png"){
+
+      if (
+        actorImage ==
+        "https://m.media-amazon.com/images/S/sash/9FayPGLPcrscMjU.png"
+      ) {
         continue;
       }
+
       for (var j = i - 1; j > -1; j--) {
         if (actorImage != "") {
           if (actorImage == getActorImagesArrayInHTML[j])
@@ -1319,7 +1302,10 @@ const movieForm = (props) => {
     const imageLength = actorImageArrayState.length;
     for (var i = imageLength - 1; i > -1; i--) {
       const actorImage = actorImageArrayState[i];
-      if (actorImage == "https://m.media-amazon.com/images/S/sash/9FayPGLPcrscMjU.png"){
+      if (
+        actorImage ==
+        "https://m.media-amazon.com/images/S/sash/9FayPGLPcrscMjU.png"
+      ) {
         continue;
       }
       for (var j = i - 1; j > -1; j--) {

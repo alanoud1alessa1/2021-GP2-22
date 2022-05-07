@@ -13,6 +13,7 @@ import Header from "../header";
 import "./homePage.css";
 import api from "../../api/axiosAPI"
 import flaskAPI from "../../api/flaskAPI"
+import reTrainingAPI from "../../api/reTrainingAPI"
 
 // slider next prev
 const AutoPreviousBtn = (props) => {
@@ -97,7 +98,6 @@ const Home = (props) => {
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 2,
           slidesToScroll: 1,
         },
       },
@@ -323,7 +323,7 @@ const Home = (props) => {
               if (additionalStateArray) {
 
                 // re train model UserCB
-                flaskAPI.post("/reTrainUserCB", {}).then(
+                reTrainingAPI.post("/reTrainUserCB", {}).then(
                   () => {
                     console.log("ReTrain model");
                   }
@@ -447,7 +447,7 @@ const Home = (props) => {
                   const url = `/movieInfoPage/${id}`;
                   const poster = recommendedmoviePosters[i];
                   const title = movieTitles[i];
-                  const rating = totalRatings[i];
+                  var rating = totalRatings[i];
                   if (rating == 0) {
                     rating = "No ratings.";
                   }

@@ -701,6 +701,8 @@ const MovieInfo = (props) => {
       movieID: id,
       rating: parseInt(value),
     }).then((res) => {});
+ 
+
     updateMovieRating();
     window.location.reload(true);
   };
