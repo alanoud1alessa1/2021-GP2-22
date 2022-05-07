@@ -1082,7 +1082,8 @@ const MovieInfo = (props) => {
 
       for (var i = 0; i < response.data.length; i++) {
         var date = response.data[i].release_date;
-        releaseDateArray[i] = date.substring(0, date.indexOf("T"));
+        date = new Date(response.data[i].release_date)
+        releaseDateArray[i] = date.toString().substring(0,date.toString().indexOf("00:00:00")).substring(date.toString().indexOf(" "))
         releaseDateCinemaNameArray[i] = response.data[i].cinema_name;
       }
 

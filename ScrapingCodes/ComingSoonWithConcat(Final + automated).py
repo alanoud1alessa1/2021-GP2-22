@@ -18,20 +18,18 @@ import pprint
 import json
 import matplotlib.pyplot as plt
 import seaborn as sns
-sns.set_style('darkgrid')
-get_ipython().run_line_magic('matplotlib', 'inline')
 
 
 # # 1- vox
 
-# In[42]:
+# In[2]:
 
 
 voxComingSoonResponse = requests.get("https://ksa.voxcinemas.com/movies/comingsoon")
 voxComingSoonSoup = BeautifulSoup(voxComingSoonResponse.text, 'html.parser')
 
 
-# In[43]:
+# In[3]:
 
 
 #Age Guide and Link
@@ -52,7 +50,7 @@ for link in voxComingSoonLinks:
     voxComingSoonLinkArray.append('https://ksa.voxcinemas.com'+link['href'])
 
 
-# In[44]:
+# In[4]:
 
 
 voxComingSoonTitleArray=[]
@@ -146,7 +144,7 @@ for link in voxComingSoonLinkArray:
         voxComingSoonTrailerArray.append('')
 
 
-# In[45]:
+# In[5]:
 
 
 #Get imdb id
@@ -183,7 +181,7 @@ for title in voxComingSoonTitleArray:
         voxComingSoonMovieIdsArray.append('')
 
 
-# In[46]:
+# In[6]:
 
 
 voxComingSoonDf = pd.DataFrame(columns=['cinema','imdbID','title','year','release date','genres', 'movieLength',
@@ -191,7 +189,7 @@ voxComingSoonDf = pd.DataFrame(columns=['cinema','imdbID','title','year','releas
 voxComingSoonDf
 
 
-# In[47]:
+# In[7]:
 
 
 index=0
@@ -345,7 +343,7 @@ for imdbID in voxComingSoonMovieIdsArray:
     index=index+1
 
 
-# In[48]:
+# In[8]:
 
 
 voxComingSoonDf
@@ -353,14 +351,14 @@ voxComingSoonDf
 
 # # 2- amc
 
-# In[49]:
+# In[9]:
 
 
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 
 
-# In[50]:
+# In[10]:
 
 
 amcComingSoonDriver = webdriver.Chrome(ChromeDriverManager().install())
@@ -369,7 +367,7 @@ amcComingSoonContent = amcComingSoonDriver.page_source
 amcComingSoonSoup = BeautifulSoup(amcComingSoonContent)
 
 
-# In[51]:
+# In[11]:
 
 
 amcComingSoonMovie=amcComingSoonSoup.select('#Featured_coming>ul')[0]
@@ -417,7 +415,7 @@ for movie in amcComingSoonMovie.find_all('li'):
         
 
 
-# In[52]:
+# In[12]:
 
 
 amcComingSoonActorArray=[]
@@ -488,7 +486,7 @@ for link in amcComingSoonLinkArray:
     
 #     Age Guide
     try:
-        amcComingSoonAgeGuideArray.append(amcComingSoonMovieSoup.find('section',{'class':'amc-title-info'}).find_all('li')[0].text)
+        amcComingSoonAgeGuideArray.append(movie.find('section',{'class':'amc-title-info'}).find_all('li')[0].text)
     except:
         amcComingSoonAgeGuideArray.append('')
 #     Language   
@@ -497,13 +495,13 @@ for link in amcComingSoonLinkArray:
             amcComingSoonLanguageArray.append('')
             continue
         else:
-            amcComingSoonLanguageArray.append(amcComingSoonMovieSoup.find('section',{'class':'amc-title-info'}).find_all('li')[2].text)
+            amcComingSoonLanguageArray.append(movie.find('section',{'class':'amc-title-info'}).find_all('li')[2].text)
     except:
         amcComingSoonLanguageArray.append('')
         
 
 
-# In[53]:
+# In[13]:
 
 
 import http.client
@@ -542,7 +540,7 @@ for title in amcComingSoonTitleArray:
         
 
 
-# In[54]:
+# In[14]:
 
 
 amcComingSoonDf = pd.DataFrame(columns=['cinema','imdbID','title','year','release date','genres', 'movieLength',
@@ -550,7 +548,7 @@ amcComingSoonDf = pd.DataFrame(columns=['cinema','imdbID','title','year','releas
 amcComingSoonDf
 
 
-# In[55]:
+# In[15]:
 
 
 index=0
@@ -703,7 +701,7 @@ for imdbID in amcComingSoonMovieIdsArray:
     index=index+1
 
 
-# In[56]:
+# In[16]:
 
 
 amcComingSoonDf
@@ -711,7 +709,7 @@ amcComingSoonDf
 
 # # 3-muvi
 
-# In[57]:
+# In[17]:
 
 
 from selenium import webdriver
@@ -722,7 +720,7 @@ muviWhatsOnPage = muviDriver.page_source
 muviWhatsOnSoup = BeautifulSoup(muviWhatsOnPage)
 
 
-# In[58]:
+# In[18]:
 
 
 muviComingSoonTitleArray=[]
@@ -751,11 +749,9 @@ for movie in muviWhatsOnSoup.find('ul',{'class':'mv-movie-list'}).find_all('li')
     muviComingSoonLinkArray.append(movie.find('a')['movie_url'])
 
 
-# In[59]:
+# In[19]:
 
 
-# muviComingSoonTitleArray=[]
-# muviComingSoonGenreArray=[]
 muviComingSoonActorArray=[]
 muviComingSoonDirectorArray=[]
 muviComingSoonDescriptionArray=[]
@@ -798,7 +794,7 @@ for link in muviComingSoonLinkArray:
     if muviMovie.find('li',{'class':'mv-language'}).find('p').text=="N/A":
         muviComingSoonLanguageArray.append('')
     else:
-        muviWComingSoonLanguageArray.append(muviMovie.find('li',{'class':'mv-language'}).find('p').text)
+        muviComingSoonLanguageArray.append(muviMovie.find('li',{'class':'mv-language'}).find('p').text)
     
     #Duration
     if muviMovie.find('li',{'class':'mv-runtime'}).find('p').text=="N/A":
@@ -834,7 +830,7 @@ for link in muviComingSoonLinkArray:
     
 
 
-# In[60]:
+# In[20]:
 
 
 #API link:https://rapidapi.com/apidojo/api/imdb8/
@@ -880,7 +876,7 @@ for title in muviComingSoonTitleArray:
         muviComingSoonMovieIdsArray.append('')
 
 
-# In[61]:
+# In[21]:
 
 
 muviComingSoonDf = pd.DataFrame(columns=['cinema','imdbID','title','year','release date','genres', 'movieLength',
@@ -888,7 +884,7 @@ muviComingSoonDf = pd.DataFrame(columns=['cinema','imdbID','title','year','relea
 muviComingSoonDf
 
 
-# In[62]:
+# In[22]:
 
 
 index=0
@@ -1042,7 +1038,7 @@ for imdbID in muviComingSoonMovieIdsArray:
     index=index+1
 
 
-# In[63]:
+# In[23]:
 
 
 muviComingSoonDf
@@ -1056,201 +1052,127 @@ muviComingSoonDf
 
 # # Rename & combine movies
 
-# In[70]:
+# In[24]:
 
 
+#If there is two languages for the same movie
+dupliactesTitle=list(voxComingSoonDf[voxComingSoonDf.duplicated(['title'])]['title'])
+duplicatedDF=voxComingSoonDf[voxComingSoonDf.duplicated(subset='title',keep='first')]
+for index,row in duplicatedDF.iterrows():
+    print(row['title']+" ("+row['language'][0]+")")
+    duplicatedDF.loc[index,'title']=row['title']+" ("+row['language'][0]+")"
+
+
+# In[25]:
+
+
+voxComingSoonDf=voxComingSoonDf.drop_duplicates(subset='title',keep='first')
 voxComingSoonDf
 
 
-# In[72]:
+# In[26]:
 
 
-voxComingSoonDf.loc[1,"title"]="RRR(Telugu)"
+voxComingSoonDf=voxComingSoonDf.append(duplicatedDF)
+voxComingSoonDf
 
 
-# In[86]:
+# In[27]:
 
 
-amcComingSoonDf.loc[amcComingSoonDf['title']== "The Cinderella and The Little Sorcerer", "title"] = "Cinderella and the Little Sorcerer"
+muviComingSoonDf2=muviComingSoonDf
 
 
-# In[93]:
+# In[28]:
 
 
-amcComingSoonDf.loc[amcComingSoonDf['title']== "Sonic: The Hedgehog 2", "title"] = "Sonic the Hedgehog 2"
+for index,row in muviComingSoonDf2.iterrows():
+    title=re.sub("([\(\[]).*?([\)\]])", "\g<1>\g<2>", row['title']).strip()
+    muviComingSoonDf2.loc[index,'title']=title.replace("()","").strip()
 
 
-# In[106]:
+# In[29]:
 
 
-muviComingSoonDf.loc[muviComingSoonDf['title']== "Jurassic World Dominion", "title"] = "Jurassic World: Dominion"
+#If there is two languages for the same movie
+dupliactesTitle=list(muviComingSoonDf2[muviComingSoonDf2.duplicated(['title'])]['title'])
+duplicatedDF=muviComingSoonDf2[muviComingSoonDf2.duplicated(subset='title',keep='first')]
+for index,row in duplicatedDF.iterrows():
+    print(row['title']+" ("+row['language'][0]+")")
+    duplicatedDF.loc[index,'title']=row['title']+" ("+row['language'][0]+")"
 
 
-# In[105]:
+# In[30]:
 
 
-muviComingSoonDf.loc[muviComingSoonDf['title']== "Fantastic Beasts 3", "title"] = "Fantastic Beasts: The Secrets of Dumbledore"
+muviComingSoonDf=muviComingSoonDf2.drop_duplicates(subset='title',keep='first')
+muviComingSoonDf
 
 
-# In[117]:
+# In[31]:
 
 
-muviComingSoonDf.loc[muviComingSoonDf['title']== "DC League of Super-Pets", "title"] = "DC League of Super Pets"
+muviComingSoonDf=muviComingSoonDf.append(duplicatedDF)
+muviComingSoonDf
 
 
-# In[54]:
+# In[32]:
 
 
-amcComingSoonDf.loc[amcComingSoonDf['title']== "Fantastic Beasts 3", "title"] = "Fantastic Beasts: The Secrets of Dumbledore"
+for index,row in muviComingSoonDf.iterrows():
+    if "(AR)" in row['title']:
+        muviComingSoonDf.loc[index,'title']=row['title'].replace("(AR)","(Arabic)")
+    if "(EN)" in row['title']:
+        muviComingSoonDf.loc[index,'title']=row['title'].replace("(EN)","(English)")
 
 
-# In[118]:
+# In[33]:
 
 
-voxComingSoonDfWithimdbID=voxComingSoonDf[voxComingSoonDf['imdbID']!='']
-amcComingSoonDfWithimdbID=amcComingSoonDf[amcComingSoonDf['imdbID']!='']
-muviComingSoonDfWithimdbID=muviComingSoonDf[muviComingSoonDf['imdbID']!='']
+from difflib import SequenceMatcher
 
 
-# In[119]:
+# In[210]:
 
 
-commonComingSoon
+AllDfs=voxComingSoonDf.append(amcComingSoonDf).append(muviComingSoonDf).reset_index()
+AllDfs
 
 
-# In[120]:
+# In[211]:
 
 
-commonComingSoon = pd.merge(voxComingSoonDf, amcComingSoonDf,how='outer' ,on='title')
+title=''
+for index, row in AllDfs.iterrows():
+    for index2, row2 in AllDfs.iterrows():   
+        if row2['title'].strip()==row['title'].strip():
+                break
+        similarity=SequenceMatcher(None, row['title'].strip(),row2['title'].strip()).ratio()
+        if (similarity>=0.55) & (similarity!=1):
+            AllDfs.loc[index2,'title']=row['title']
+    
 
-commonComingSoon['cinema']= commonComingSoon[['cinema_x','cinema_y']].values.tolist()
 
-commonComingSoon=commonComingSoon.drop(columns=['cinema_x','cinema_y'])
+# In[212]:
 
-commonComingSoon['release date']= commonComingSoon[['release date_x',
-                              'release date_y']].values.tolist()
 
-commonComingSoon=commonComingSoon.drop(columns=['release date_x',
-                              'release date_y'])
+AllDfs.reset_index()
 
-commonComingSoon=commonComingSoon[['cinema','imdbID_x','title', 'year_x', 'genres_x', 'movieLength_x', 'ageGuide_x', 'plot_x',
-       'language_x', 'actors_x', 'director_x', 'writer_x', 'poster_x', 'trailer_x',
-       'release date']]
 
-commonComingSoon=commonComingSoon.rename(columns={ 'imdbID_x':'imdbID','year_x':'year', 'genres_x':'genres', 'movieLength_x':'movieLength',
-    'ageGuide_x':'ageGuide', 'plot_x':'plot',
-       'language_x':'language', 'actors_x':'actors', 'director_x':'director', 'writer_x':'writer',
-    'poster_x':'poster', 'trailer_x':'trailer'})
+# In[213]:
 
 
-commonComingSoon=commonComingSoon.dropna()
+print (AllDfs.groupby('title')['cinema'].apply(' '.join).reset_index())
 
-commonComingSoon2 = pd.merge(amcComingSoonDf, muviComingSoonDf,how='outer' ,on='title')
 
-commonComingSoon2['cinema']= commonComingSoon2[['cinema_x','cinema_y']].values.tolist()
+# In[214]:
 
-commonComingSoon2=commonComingSoon2.drop(columns=['cinema_x','cinema_y'])
 
-commonComingSoon2['release date']= commonComingSoon2[['release date_x',
-                              'release date_y']].values.tolist()
+cinemaDF = AllDfs.groupby("title").agg(list)
+cinemaDF
 
-commonComingSoon2=commonComingSoon2.drop(columns=['release date_x',
-                              'release date_y'])
 
-commonComingSoon2=commonComingSoon2[['cinema','imdbID_x','title', 'year_x', 'genres_x', 'movieLength_x', 'ageGuide_x', 'plot_x',
-       'language_x', 'actors_x', 'director_x', 'writer_x', 'poster_x', 'trailer_x',
-       'release date']]
-
-commonComingSoon2=commonComingSoon2.rename(columns={ 'imdbID_x':'imdbID','year_x':'year', 'genres_x':'genres', 'movieLength_x':'movieLength',
-    'ageGuide_x':'ageGuide', 'plot_x':'plot',
-       'language_x':'language', 'actors_x':'actors', 'director_x':'director', 'writer_x':'writer',
-    'poster_x':'poster', 'trailer_x':'trailer'})
-
-
-commonComingSoon2=commonComingSoon2.dropna()
-
-commonComingSoon= pd.merge(commonComingSoon, muviComingSoonDf,how='outer' ,on='title')
-
-commonComingSoon['release date']= commonComingSoon[['release date_x',
-                              'release date_y']].values.tolist()
-
-commonComingSoon=commonComingSoon.drop(columns=['release date_x',
-                              'release date_y'])
-
-commonComingSoon['cinema']= commonComingSoon[['cinema_x','cinema_y']].values.tolist()
-
-commonComingSoon=commonComingSoon[['cinema','imdbID_x',
-       'title', 'year_x', 'genres_x', 'movieLength_x', 'ageGuide_x', 'plot_x',
-       'language_x', 'actors_x', 'director_x', 'writer_x', 'poster_x', 'trailer_x',
-       'release date']]
-commonComingSoon=commonComingSoon.rename(columns={'imdbID_x':'imdbID',
-    'year_x':'year', 'genres_x':'genres', 'movieLength_x':'movieLength',
-    'ageGuide_x':'ageGuide', 'plot_x':'plot',
-       'language_x':'language', 'actors_x':'actors', 'director_x':'director', 'writer_x':'writer',
-    'poster_x':'poster', 'trailer_x':'trailer'})
-
-commonComingSoon=commonComingSoon.dropna()
-
-
-# In[121]:
-
-
-commonComingSoon=commonComingSoon.append(commonComingSoon2)
-
-
-# In[122]:
-
-
-commonComingSoon
-
-
-# In[123]:
-
-
-commonComingSoonTitles=commonComingSoon['title']
-
-
-# In[124]:
-
-
-#Unique Movies
-
-#Unique vox coming soon movies
-voxComingSoonDfUnique=voxComingSoonDf[~voxComingSoonDf['title'].isin(commonComingSoonTitles)]
-
-#Unique amc coming soon movies
-amcComingSoonDfUnique=amcComingSoonDf[~amcComingSoonDf['title'].isin(commonComingSoonTitles)]
-
-#Unique muvi coming soon movies
-muviComingSoonDfUnique=muviComingSoonDf[~muviComingSoonDf['title'].isin(commonComingSoonTitles)]
-
-
-# In[125]:
-
-
-muviComingSoonDfUnique
-
-
-# In[126]:
-
-
-#Combine all whats on movies
-allComingSoonMoviesDf=commonComingSoon.append(voxComingSoonDfUnique).append(amcComingSoonDfUnique).append(muviComingSoonDfUnique)
-
-
-# In[127]:
-
-
-allComingSoonMoviesDf
-
-
-# In[136]:
-
-
-allComingSoonMoviesDf=allComingSoonMoviesDf.drop_duplicates(subset=['title'])
-
-
-# In[128]:
+# In[215]:
 
 
 #Get trailers
@@ -1274,7 +1196,7 @@ headers2 = {
 
 
 counter=0
-for index, row in allComingSoonMoviesDf.iterrows():
+for index, row in AllDfs.iterrows():
     IMDBId=str(row['imdbID'])
     conn.request("GET", "/movie/id/"+IMDBId+"/", headers=headers)
     res = conn.getresponse()
@@ -1298,14 +1220,26 @@ for index, row in allComingSoonMoviesDf.iterrows():
             print('except2')
     counter=counter+1
     print(counter)
-    allComingSoonMoviesDf.loc[index,['trialer']]=trailer
+    AllDfs.loc[index,['trialer']]=trailer
         
         
+
+
+# In[216]:
+
+
+AllDfs
+
+
+# In[217]:
+
+
+cinemaDF
 
 
 # # DB
 
-# In[164]:
+# In[218]:
 
 
 #Connect to DB
@@ -1315,58 +1249,26 @@ conn = psycopg2.connect(host="localhost",database="filmey",user="postgres",passw
 cursor = conn.cursor()
 
 
-# In[138]:
+# In[219]:
 
 
 #Add new genres to DB
 movieDB=sqlio.read_sql_query('SELECT movie_id FROM "Movie"',conn)
-movie_id=list(movieDB['movie_id'])
-newMovieID=movie_id[-1]+1
 
 
-# In[139]:
+# In[221]:
 
 
-df = allComingSoonMoviesDf.reset_index()
-newMovieIDArray=[]
-for index, row in df.iterrows():
-    newMovieIDArray.append(newMovieID)
-    newMovieID=newMovieID+1
-    
-df['movie_id']=newMovieIDArray
+allComingSoonMoviesDf=AllDfs
 
 
-# In[140]:
+# In[222]:
 
 
-#Movie table
-mdf = df[['index' , 'movie_id','title' ,'year', 'movieLength' , 'ageGuide' , 'plot' ,'poster' , 'trailer']]
-movieDF =pd.DataFrame(columns= ["movie_id" , "title" , "year" , "length" , "age_guide", "description" , "poster" , "trailer_url"])
-movieDF
-
-for m in range(len(mdf)):
-        row = {"movie_id" : mdf['movie_id'][m],"title": mdf['title'][m],
-              "year" : mdf['year'][m] ,"length": mdf['movieLength'][m], 
-              "age_guide" : mdf['ageGuide'][m] ,"description": mdf['plot'][m], 
-              "poster" : mdf['poster'][m] ,"trailer_url": mdf['trailer'][m], }
-        movieDF = movieDF.append(row , ignore_index=True)
-        
-movieDF=movieDF.drop_duplicates(subset=['title'])
+allComingSoonMoviesDf=AllDfs.drop_duplicates(subset="title",keep="first")
 
 
-# In[141]:
-
-
-movieDF
-
-
-# In[ ]:
-
-
-
-
-
-# In[159]:
+# In[223]:
 
 
 #get movie_id of coming soon movies
@@ -1374,7 +1276,7 @@ isComingSoonID=sqlio.read_sql_query('SELECT movie_id FROM "Movie" WHERE is_comin
 isComingSoonID
 
 
-# In[161]:
+# In[224]:
 
 
 #Delete coming soon movies from movie table
@@ -1383,7 +1285,7 @@ for index, row in isComingSoonID.iterrows():
     conn.commit()
 
 
-# In[165]:
+# In[225]:
 
 
 #Delete coming soon movies from Coming_soon table
@@ -1392,16 +1294,22 @@ for index, row in isComingSoonID.iterrows():
     conn.commit()
 
 
-# In[166]:
+# In[226]:
 
 
 #Get new movie ids
 movieDB=sqlio.read_sql_query('SELECT movie_id FROM "Movie"',conn)
 movie_id=list(movieDB['movie_id'])
-newMovieID=movie_id[-1]+1
+newMovieID=max(movie_id)+1
 
 
-# In[167]:
+# In[240]:
+
+
+cinemaDF
+
+
+# In[237]:
 
 
 df = allComingSoonMoviesDf.reset_index()
@@ -1413,7 +1321,13 @@ for index, row in df.iterrows():
 df['movie_id']=newMovieIDArray
 
 
-# In[168]:
+# In[243]:
+
+
+cinemaDF=pd.merge(cinemaDF,df , on='title')[['cinema_x','release date_x','movie_id']]
+
+
+# In[244]:
 
 
 #Movie table
@@ -1431,7 +1345,13 @@ for m in range(len(mdf)):
 movieDF=movieDF.drop_duplicates(subset=['title'])
 
 
-# In[169]:
+# In[245]:
+
+
+movieDF
+
+
+# In[246]:
 
 
 #Insert Movie
@@ -1442,7 +1362,7 @@ for index, row in movieDF.iterrows():
     conn.commit()
 
 
-# In[170]:
+# In[247]:
 
 
 #Create genredf with coming soon movie_id and genre
@@ -1455,7 +1375,7 @@ genredf=genredf.rename(columns={"genres":"genre"})
 genredf
 
 
-# In[175]:
+# In[248]:
 
 
 cursor.execute('SELECT * FROM "Genre"')
@@ -1463,7 +1383,7 @@ genreDB = pd.DataFrame(cursor.fetchall(),columns=['genre_id','genre'])
 genreDB
 
 
-# In[172]:
+# In[249]:
 
 
 #New genres that are not in DB
@@ -1471,19 +1391,27 @@ newGenres=list(set(genredf['genre'].unique()).difference(genreDB['genre']))
 newGenres
 
 
-# In[173]:
+# In[250]:
 
 
 #Add new genres to DB
 genreDB=sqlio.read_sql_query('SELECT genre_id FROM "Genre"',conn)
 genre_id=list(genreDB['genre_id'])
-newID=genre_id[-1]+1
+newID=max(genre_id)+1
 for genre in newGenres:
     cursor.execute('INSERT INTO "Genre" (genre_id, genre) VALUES(%s, %s)' ,[newID,genre] )
     newID=newID+1
 
 
-# In[176]:
+# In[251]:
+
+
+cursor.execute('SELECT * FROM "Genre"')
+genreDB = pd.DataFrame(cursor.fetchall(),columns=['genre_id','genre'])
+genreDB
+
+
+# In[252]:
 
 
 #Mapping genre with id
@@ -1493,7 +1421,13 @@ Movie_Genre = Movie_Genre.sort_values(by =['movie_id'])
 Movie_Genre
 
 
-# In[177]:
+# In[253]:
+
+
+Movie_Genre
+
+
+# In[254]:
 
 
 #Insert Movie_Genre
@@ -1502,7 +1436,7 @@ for index, row in Movie_Genre.iterrows():
     conn.commit()
 
 
-# In[178]:
+# In[255]:
 
 
 #Get directors from DB
@@ -1511,7 +1445,7 @@ directorDB = pd.DataFrame(cursor.fetchall(),columns=['director_id','director'])
 directorDB
 
 
-# In[181]:
+# In[256]:
 
 
 #Create directordf with coming soon movie_id and director
@@ -1522,9 +1456,10 @@ directordf = directordf.drop('director', axis=1).join(directorList)
 directordf['director'] = pd.Series(directordf['director'], dtype=object)
 directordf=directordf.dropna(axis = 0, how ='any')
 directordf=directordf.drop_duplicates()
+directordf
 
 
-# In[182]:
+# In[257]:
 
 
 #New directors that are not in DB
@@ -1532,13 +1467,13 @@ newDirectors=list(set(directordf['director'].unique()).difference(directorDB['di
 newDirectors
 
 
-# In[183]:
+# In[258]:
 
 
 #Add new director to DB
 directorDB=sqlio.read_sql_query('SELECT director_id FROM "Director"',conn)
 directorDB=list(directorDB['director_id'])
-newDirectorID=directorDB[-1]+1
+newDirectorID=max(directorDB)+1
 newDirectorIDArray=[]
 for director in newDirectors:
     cursor.execute('INSERT INTO "Director" (director_id, director) VALUES(%s, %s) RETURNING director_id' ,[newDirectorID,director] )
@@ -1549,13 +1484,13 @@ for director in newDirectors:
     
 
 
-# In[184]:
+# In[259]:
 
 
 newDirectorIDArray
 
 
-# In[185]:
+# In[260]:
 
 
 #Check if added
@@ -1564,7 +1499,7 @@ directorDB = pd.DataFrame(cursor.fetchall(),columns=['director_id','director'])
 directorDB
 
 
-# In[186]:
+# In[261]:
 
 
 #Create Movie_Director for coming soon movies
@@ -1574,7 +1509,7 @@ Movie_Director = Movie_Director.sort_values(by =['movie_id'])
 Movie_Director
 
 
-# In[187]:
+# In[262]:
 
 
 #Insert Movie_Director
@@ -1583,7 +1518,7 @@ for index, row in Movie_Director.iterrows():
     conn.commit()
 
 
-# In[188]:
+# In[263]:
 
 
 #Get writer from DB
@@ -1592,7 +1527,7 @@ writerDB = pd.DataFrame(cursor.fetchall(),columns=['writer_id','writer'])
 writerDB
 
 
-# In[189]:
+# In[264]:
 
 
 #Create writerdf with coming soon movie_id and writer
@@ -1614,7 +1549,7 @@ writerdf['writer']=newWriter
 writerdf
 
 
-# In[191]:
+# In[265]:
 
 
 #New writer that are not in DB
@@ -1622,13 +1557,13 @@ newWriters=list(set(writerdf['writer'].unique()).difference(writerDB['writer']))
 newWriters
 
 
-# In[192]:
+# In[266]:
 
 
 #Add new writer to DB
 writerDB=sqlio.read_sql_query('SELECT writer_id FROM "Writer"',conn)
 writerDB=list(writerDB['writer_id'])
-newWriterID=writerDB[-1]+1
+newWriterID=max(writerDB)+1
 newWriterIDArray=[]
 for writer in newWriters:
     cursor.execute('INSERT INTO "Writer" (writer_id, writer) VALUES(%s, %s)RETURNING writer_id' ,[newWriterID,writer] )
@@ -1637,13 +1572,13 @@ for writer in newWriters:
     conn.commit()
 
 
-# In[193]:
+# In[267]:
 
 
 newWriterIDArray
 
 
-# In[194]:
+# In[268]:
 
 
 #Check if added
@@ -1652,7 +1587,7 @@ writerDB = pd.DataFrame(cursor.fetchall(),columns=['writer_id','writer'])
 writerDB
 
 
-# In[195]:
+# In[269]:
 
 
 #Create Movie_Writer for coming soon movies
@@ -1662,7 +1597,7 @@ Movie_Writer = Movie_Writer.sort_values(by =['movie_id'])
 Movie_Writer
 
 
-# In[196]:
+# In[270]:
 
 
 #Insert Movie_Writer
@@ -1671,7 +1606,7 @@ for index, row in Movie_Writer.iterrows():
     conn.commit()
 
 
-# In[197]:
+# In[271]:
 
 
 #Get languages from DB
@@ -1680,7 +1615,7 @@ languageDB = pd.DataFrame(cursor.fetchall(),columns=['language_id','language'])
 languageDB
 
 
-# In[198]:
+# In[272]:
 
 
 #Create languagedf with coming soon movie_id and langauge
@@ -1693,7 +1628,7 @@ languagedf=languagedf.dropna(axis = 0, how ='any')
 languagedf.drop_duplicates()
 
 
-# In[199]:
+# In[273]:
 
 
 #New langauge that are not in DB
@@ -1701,7 +1636,7 @@ newLanguages=list(set(languagedf['language'].unique()).difference(languageDB['la
 newLanguages
 
 
-# In[200]:
+# In[274]:
 
 
 #Clean new languages
@@ -1711,20 +1646,20 @@ newLanguages = [e for e in newLanguages if e not in (missplacedGenresInLanguages
 newLanguages
 
 
-# In[201]:
+# In[275]:
 
 
 #Add new language to DB
 languageDB=sqlio.read_sql_query('SELECT language_id FROM "Language"',conn)
 languageDB=list(languageDB['language_id'])
-newLanguageID=languageDB[-1]+1
+newLanguageID=max(languageDB)+1
 for language in newLanguages:
     cursor.execute('INSERT INTO "Language" (language_id, language) VALUES(%s, %s)' ,[newLanguageID,language] )
     newLanguageID=newLanguageID+1
     conn.commit()
 
 
-# In[202]:
+# In[276]:
 
 
 #Check if added
@@ -1733,7 +1668,7 @@ languageDB = pd.DataFrame(cursor.fetchall(),columns=['language_id','language'])
 languageDB
 
 
-# In[203]:
+# In[277]:
 
 
 #Create Movie_Language for coming soon movies
@@ -1743,7 +1678,7 @@ Movie_Language = Movie_Language.sort_values(by =['movie_id'])
 Movie_Language
 
 
-# In[204]:
+# In[278]:
 
 
 #Insert Movie_Language
@@ -1752,7 +1687,7 @@ for index, row in Movie_Language.iterrows():
     conn.commit()
 
 
-# In[205]:
+# In[279]:
 
 
 #Get actors from DB
@@ -1761,7 +1696,7 @@ actorDB = pd.DataFrame(cursor.fetchall(),columns=['actor_id','actor','actor_imag
 actorDB
 
 
-# In[206]:
+# In[280]:
 
 
 #Covert list to list to row
@@ -1774,7 +1709,7 @@ actordf
 # actordf.drop_duplicates()
 
 
-# In[207]:
+# In[281]:
 
 
 #Split list to columns and add movie_id
@@ -1784,7 +1719,7 @@ actordf_afterSplit=actordf_afterSplit.dropna()
 actordf_afterSplit
 
 
-# In[208]:
+# In[282]:
 
 
 #New actors that are not in DB
@@ -1792,13 +1727,13 @@ newActors=list(set(actordf_afterSplit['actor'].unique()).difference(actorDB['act
 newActorsdf=actordf_afterSplit[(~actordf_afterSplit.actor.isin(actorDB.actor))]
 
 
-# In[209]:
+# In[283]:
 
 
 #Add new Actor to DB
 actorDB=sqlio.read_sql_query('SELECT actor_id FROM "Actor"',conn)
 actorDB=list(actorDB['actor_id'])
-newActorID=actorDB[-1]+1
+newActorID=max(actorDB)+1
 for index, row in newActorsdf.iterrows():
     cursor.execute('INSERT INTO "Actor" (actor_id, actor, actor_image_url) VALUES(%s, %s , %s)' ,[newActorID,row['actor'],row['actor_image_url']] )
     newActorID=newActorID+1
@@ -1806,7 +1741,7 @@ for index, row in newActorsdf.iterrows():
     
 
 
-# In[210]:
+# In[284]:
 
 
 #Check if added
@@ -1816,7 +1751,7 @@ actorDB=actorDB.rename(columns={0: "actor_id", 1: "actor",2:'actor_image_url'})
 actorDB
 
 
-# In[211]:
+# In[285]:
 
 
 #Get roles from DB
@@ -1825,7 +1760,7 @@ roleDB = pd.DataFrame(cursor.fetchall(),columns=['movie_id','actor_id','role'])
 roleDB
 
 
-# In[212]:
+# In[286]:
 
 
 #Mapping Actor with id
@@ -1839,7 +1774,7 @@ roledf = roledf[['movie_id' ,'actor_id' , 'role']].dropna()
 roledf=roledf[roledf['role'] != '']
 
 
-# In[214]:
+# In[287]:
 
 
 #Insert Role
@@ -1848,11 +1783,23 @@ for index, row in roledf.iterrows():
     conn.commit()
 
 
-# In[215]:
+# In[299]:
+
+
+cinemaDF=cinemaDF.rename(columns = {'cinema_x':'cinema','release date_x':'release date'}) 
+
+
+# In[300]:
+
+
+cinemaDF
+
+
+# In[301]:
 
 
 #Create cinemadf with coming soon movie_id and cinema
-cinemadf=df[['movie_id','cinema']]
+cinemadf=cinemaDF[['movie_id','cinema']]
 cinemaList = cinemadf.apply(lambda x: pd.Series(x['cinema']), axis=1).stack().reset_index(level=1, drop=True)
 cinemaList.name = 'cinema'
 cinemadf = cinemadf.drop('cinema', axis=1).join(cinemaList)
@@ -1865,7 +1812,7 @@ cinemadf['cinema'] = pd.Series(cinemadf['cinema'], dtype=object)
 cinemadf
 
 
-# In[216]:
+# In[302]:
 
 
 #Create cinema ids
@@ -1873,17 +1820,17 @@ cinema_idList=range(1, cinemadf[cinemadf.columns[0]].count()+1)
 cinema_idList
 
 
-# In[217]:
+# In[303]:
 
 
 cinemadf['coming_soon_id']=cinema_idList
 
 
-# In[218]:
+# In[305]:
 
 
 #Create coming soon table with coming soon movie_id and release date
-release_datedf=df[['movie_id','release date']]
+release_datedf=cinemaDF[['movie_id','release date']]
 release_datedList = release_datedf.apply(lambda x: pd.Series(x['release date']), axis=1).stack().reset_index(level=1, drop=True)
 release_datedList.name = 'release date'
 release_datedf = release_datedf.drop('release date', axis=1).join(release_datedList)
@@ -1893,34 +1840,51 @@ release_datedList = release_datedf.apply(lambda x: pd.Series(x['release date']),
 release_datedList.name = 'release date'
 release_datedf = release_datedf.drop('release date', axis=1).join(release_datedList)
 release_datedf['release date'] = pd.Series(release_datedf['release date'], dtype=object)
+
+release_datedf
+
+
+# In[306]:
+
+
+for index, row in release_datedf.iterrows():
+    if isinstance(row['release date'], list):
+        print(row['release date'][0])
+        release_datedf.loc[index,['release date']]=row['release date'][0]
+
+
+# In[307]:
 
 
 release_datedf
 
 
-# In[219]:
+# In[308]:
 
 
 release_datedf['coming_soon_id']=cinema_idList
-release_datedf
 
 
-# In[220]:
+# In[309]:
 
 
 #Merge release_datedf with cinemadf
 Movie_Cinema = pd.merge(cinemadf, release_datedf ,on=['coming_soon_id','movie_id'])
-Movie_Cinema=Movie_Cinema.drop_duplicates(subset=['movie_id', 'cinema'], keep='first')
+Movie_Cinema=Movie_Cinema.drop_duplicates(subset=['movie_id',"cinema"])
+Movie_Cinema=Movie_Cinema.reset_index()
+#Create cinema ids
+cinema_idList=range(1, Movie_Cinema[Movie_Cinema.columns[0]].count()+1)
+Movie_Cinema['coming_soon_id']=cinema_idList
 Movie_Cinema
 
 
-# In[221]:
+# In[310]:
 
 
 from datetime import datetime
 
 
-# In[222]:
+# In[311]:
 
 
 #Convert release date to db format
@@ -1942,13 +1906,14 @@ for index, row in Movie_Cinema.iterrows():
             
 
 
-# In[223]:
+# In[313]:
 
 
+Movie_Cinema=Movie_Cinema.drop_duplicates(subset=['movie_id','cinema','release date'])
 Movie_Cinema
 
 
-# In[224]:
+# In[314]:
 
 
 #Insert to Coming_soon DB

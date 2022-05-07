@@ -19,8 +19,6 @@ import json
 import matplotlib.pyplot as plt
 import seaborn as sns
 from googlesearch import search
-sns.set_style('darkgrid')
-get_ipython().run_line_magic('matplotlib', 'inline')
 
 
 # # What's On
@@ -58,7 +56,7 @@ for info in voxWhatsOnInfo:
     voxWhatsOnLinkArray.append('https://ksa.voxcinemas.com'+info.find('a')['href'])
 
 
-# In[5]:
+# In[3]:
 
 
 import math
@@ -195,7 +193,7 @@ for link in voxWhatsOnLinkArray:
     voxWhatsOnLocationArray.append(movieLocation)
 
 
-# In[6]:
+# In[4]:
 
 
 import http.client
@@ -236,7 +234,7 @@ for title in voxWhatsOnTitleArray:
 
 
 
-# In[7]:
+# In[64]:
 
 
 voxWhatsOnDf = pd.DataFrame(columns=['cinema','imdbID','title','year','genres', 'movieLength',
@@ -244,7 +242,7 @@ voxWhatsOnDf = pd.DataFrame(columns=['cinema','imdbID','title','year','genres', 
 voxWhatsOnDf
 
 
-# In[8]:
+# In[65]:
 
 
 index=0
@@ -400,7 +398,7 @@ for imdbID in voxWhatsOnMovieIdsArray:
     index=index+1
 
 
-# In[9]:
+# In[66]:
 
 
 voxWhatsOnDf
@@ -408,20 +406,20 @@ voxWhatsOnDf
 
 # # 2- amc
 
-# In[10]:
+# In[14]:
 
 
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 
 
-# In[11]:
+# In[15]:
 
 
 driver = webdriver.Chrome(ChromeDriverManager().install())
 
 
-# In[12]:
+# In[16]:
 
 
 #Call amc what's on movie page
@@ -430,7 +428,7 @@ amcWhatsOnContent = driver.page_source
 amcWhatsOnSoup = BeautifulSoup(amcWhatsOnContent)
 
 
-# In[13]:
+# In[17]:
 
 
 amcWhatsOnTitleArray=[]
@@ -462,7 +460,7 @@ for movie in amcWhatsOn:
     amcWhatsOnLinkArray.append('https://www.amccinemas.com/movies/'+movie.find('section')['onclick'].rsplit('(', 1)[1].split(",")[0].replace('\'', ''))
 
 
-# In[14]:
+# In[18]:
 
 
 amcWhatsOnTrailerArray=[]
@@ -544,7 +542,7 @@ for link in amcWhatsOnLinkArray:
         amcWhatsOnYearArray.append('')
 
 
-# In[15]:
+# In[19]:
 
 
 import re
@@ -565,6 +563,7 @@ for link in amcWhatsOnLinkArray:
     except:
         amcWhatsOnLanguageArray.append('')
         
+    Movielocation=""
     for location in amcMovieWithDriver.find_all('section',{'class':'panel-heading'}):
         for h2 in location.find_all('h2'):
             Movielocation=h2.text
@@ -573,9 +572,28 @@ for link in amcWhatsOnLinkArray:
             city=re.split(r'(^[^\d]+)', Movielocation.split(' - ')[1])[1:][0].strip()
             movieLocation.append([locationName,city,link])
     amcWhatsOnLocationArray.append(movieLocation)
+    if Movielocation=="":
+        locations=[]
+        while locations==[]:
+            locations=amcMovieWithDriver.select('#partialshowtime')[0].find_all('h2')
+        print(locations)
+        for location in amcMovieWithDriver.select('#partialshowtime')[0].find_all('h2'):
+            Movielocation=location['data-moviename']
+            print(Movielocation)
+            locationName=Movielocation.split(' - ')[0].strip()
+            city=re.split(r'(^[^\d]+)', Movielocation.split(' - ')[1])[1:][0].strip()
+            movieLocation.append([locationName,city,link])
+
+        amcWhatsOnLocationArray.append(movieLocation)
 
 
-# In[16]:
+# In[20]:
+
+
+amcWhatsOnLocationArray
+
+
+# In[21]:
 
 
 #API link:https://rapidapi.com/apidojo/api/imdb8/
@@ -626,13 +644,7 @@ for title in amcWhatsOnTitleArray:
         amcWhatsOnMovieIdsArray.append('')
 
 
-# In[17]:
-
-
-len(amcWhatsOnLocationArray)
-
-
-# In[18]:
+# In[22]:
 
 
 amcWhatsOnDf = pd.DataFrame(columns=['cinema','imdbID','title','year','genres', 'movieLength',
@@ -640,7 +652,7 @@ amcWhatsOnDf = pd.DataFrame(columns=['cinema','imdbID','title','year','genres', 
 amcWhatsOnDf
 
 
-# In[19]:
+# In[23]:
 
 
 index=0
@@ -651,7 +663,7 @@ for imdbID in amcWhatsOnMovieIdsArray:
                     'genres':amcWhatsOnGenreArray[index], 
                 'movieLength':amcWhatsOnDurationArray[index],
                 'ageGuide':amcWhatsOnAgeGuideArray[index],'plot':amcWhatsOnDescriptionArray[index],
-                    'language':amcWhatsOnLanguageArray[index],'actors':voxWhatsOnActorArray[index],'director':[],
+                    'language':amcWhatsOnLanguageArray[index],'actors':amcWhatsOnActorArray[index],'director':[],
                 'writer':[],'poster':amcWhatsOnImgArray[index],'trailer':''
                    ,'location&bookingLink':amcWhatsOnLocationArray[index]}
         print(Movierow)
@@ -797,28 +809,22 @@ for imdbID in amcWhatsOnMovieIdsArray:
     index=index+1
 
 
-# In[20]:
-
-
-amcWhatsOnDf
-
-
 # # 3- muvi
 
-# In[21]:
+# In[24]:
 
 
 muviDriver = webdriver.Chrome(ChromeDriverManager().install())
 muviWhatsOnResponse = muviDriver.get("https://www.muvicinemas.com/en/movies?opt=nowshowing")
 
 
-# In[22]:
+# In[25]:
 
 
 # muviDriver.get("https://www.muvicinemas.com/en/movies")
 
 
-# In[23]:
+# In[26]:
 
 
 javaScript = "document.getElementsByName('setlocation')[7].click();"
@@ -829,20 +835,20 @@ javaScript3 = "document.getElementsByClassName('mv-btn muvi-lang')[0].click();"
 muviDriver.execute_script(javaScript3)
 
 
-# In[24]:
+# In[27]:
 
 
 muviWhatsOnResponse = muviDriver.get("https://www.muvicinemas.com/en/movies?opt=nowshowing")
 
 
-# In[25]:
+# In[28]:
 
 
 muviWhatsOnPage = muviDriver.page_source
 muviWhatsOnSoup = BeautifulSoup(muviWhatsOnPage)
 
 
-# In[26]:
+# In[29]:
 
 
 muviWhatsOnImgArray=[]
@@ -864,7 +870,7 @@ for movie in muviWhatsOnSoup.select('#nowshowing>ul')[0].find_all('li'):
     muviWhatsOnGenreArray.append(movie.find('span',{'class':'mv-txt0 hidden-xxs'}).text.split('/ '))
 
 
-# In[27]:
+# In[30]:
 
 
 muviWhatsOnTitleArray=[]
@@ -947,19 +953,19 @@ for link in muviWhatsOnLinkArray:
         muviWhatsOnYearArray.append('')
 
 
-# In[28]:
+# In[35]:
 
 
 muviDriver = webdriver.Chrome(ChromeDriverManager().install())
 
 
-# In[29]:
+# In[36]:
 
 
 muviDriver.get("https://www.muvicinemas.com/en/movies")
 
 
-# In[30]:
+# In[37]:
 
 
 javaScript = "document.getElementsByName('setlocation')[0].click();"
@@ -970,7 +976,7 @@ javaScript3 = "document.getElementsByClassName('mv-btn muvi-lang')[0].click();"
 muviDriver.execute_script(javaScript3)
 
 
-# In[36]:
+# In[38]:
 
 
 #Locations:
@@ -1022,16 +1028,17 @@ for link in muviWhatsOnLinkArray:
     
 
 
-# In[528]:
+# In[39]:
 
 
 muviWhatsOnLocationArray2=[]
 index=0
 for x in muviWhatsOnLocationArray:
-    muviWhatsOnLocationArray2.append([x])
+#     print([x])
+    muviWhatsOnLocationArray2.append(x)
 
 
-# In[37]:
+# In[40]:
 
 
 #API link:https://rapidapi.com/apidojo/api/imdb8/
@@ -1084,7 +1091,7 @@ for title in muviWhatsOnTitleArray:
         muviWhatsOnMovieIdsArray.append('')
 
 
-# In[529]:
+# In[41]:
 
 
 muviWhatsOnDf = pd.DataFrame(columns=['cinema','imdbID','title','year','genres', 'movieLength',
@@ -1092,7 +1099,7 @@ muviWhatsOnDf = pd.DataFrame(columns=['cinema','imdbID','title','year','genres',
 muviWhatsOnDf
 
 
-# In[530]:
+# In[42]:
 
 
 index=0
@@ -1248,7 +1255,7 @@ for imdbID in muviWhatsOnMovieIdsArray:
     index=index+1
 
 
-# In[531]:
+# In[43]:
 
 
 muviWhatsOnDf
@@ -1256,304 +1263,205 @@ muviWhatsOnDf
 
 # # Rename titles
 
-# In[203]:
+# In[248]:
 
 
+#If there is two languages for the same movie
+dupliactesTitle=list(voxWhatsOnDf[voxWhatsOnDf.duplicated(['title'])]['title'])
+duplicatedDF=voxWhatsOnDf[voxWhatsOnDf.duplicated(subset='title',keep='first')]
+for index,row in duplicatedDF.iterrows():
+    if isinstance(row['language'], list):
+        print(row['title']+" ("+row['language'][0]+")")
+        duplicatedDF.loc[index,'title']=row['title']+" ("+row['language'][0]+")"
+        
+    else:
+        print(row['title']+" ("+row['language']+")")
+        duplicatedDF.loc[index,'title']=row['title']+" ("+row['language']+")"
+       
+
+
+# In[249]:
+
+
+voxWhatsOnDf=voxWhatsOnDf.drop_duplicates(subset='title',keep='first')
 voxWhatsOnDf
 
 
-# In[54]:
+# In[250]:
 
 
-voxWhatsOnDf.loc[(voxWhatsOnDf['title']== "The Smurfs") & (voxWhatsOnDf['language']== "Arabic"), "title"] = "The Smurfs(AR)"
+voxWhatsOnDf=voxWhatsOnDf.append(duplicatedDF)
+voxWhatsOnDf
 
 
-# In[74]:
+# In[251]:
 
 
-voxWhatsOnDf.loc[8,"title"]="The Bad Guys(AR)"
+amcWhatsOnDf[amcWhatsOnDf.duplicated(['title'], keep=False)]
 
 
-# In[201]:
-
-
-voxWhatsOnDf.loc[5,"title"]="RRR(Telugu)"
-
-
-# In[202]:
+# In[252]:
 
 
 amcWhatsOnDf
 
 
-# In[81]:
+# In[253]:
 
 
-amcWhatsOnDf.loc[(amcWhatsOnDf['title']== "The Bad Guys ( Arabic)"), "title"] = "The Bad Guys(AR)"
+muviWhatsOnDf[muviWhatsOnDf.duplicated(['title'], keep=False)]
 
 
-# In[92]:
+# In[254]:
 
 
-amcWhatsOnDf.loc[(amcWhatsOnDf['title']== "Men Agl Ziko"), "title"] = "Men Agl Zeko"
+muviWhatsOnDf2=muviWhatsOnDf.copy()
 
 
-# In[193]:
+# In[255]:
 
 
-amcWhatsOnDf.loc[(amcWhatsOnDf['title']== "Bachchan Paandey"), "title"] = "Bachchhan Paandey"
+regex = '\(.*?\)'
+for index,row in muviWhatsOnDf2.iterrows():
+        muviWhatsOnDf2.loc[index,'title']=re.sub(regex,'',row['title']).lower().strip()
 
 
-# In[686]:
+# In[256]:
+
+
+#If there is two languages for the same movie
+dupliactesTitle=list(muviWhatsOnDf2[muviWhatsOnDf2.duplicated(subset=['title'])]['title'])
+duplicatedDF=muviWhatsOnDf2[muviWhatsOnDf2.duplicated(subset=['title'],keep=False)]
+
+#Get duplicated indexes
+listOfIndexes=duplicatedDF.index.tolist()
+
+for index in listOfIndexes:
+    print(index)
+    #Replace dupliacted title with the title with language
+    muviWhatsOnDf2.loc[index,'title']=muviWhatsOnDf.loc[index,'title']
+
+
+# In[257]:
+
+
+regex = '\(.*?\)'
+for index,row in muviWhatsOnDf.iterrows():
+        muviWhatsOnDf.loc[index,'title']=re.sub(regex,'',row['title']).strip()
+
+
+# In[258]:
+
+
+for index in listOfIndexes:
+    print(index)
+    #Replace dupliacted title with the title with language
+    muviWhatsOnDf.loc[index,'title']=muviWhatsOnDf2.loc[index,'title']
+
+
+# In[259]:
 
 
 muviWhatsOnDf
 
 
-# In[532]:
+# In[260]:
 
 
-muviWhatsOnDf.loc[(muviWhatsOnDf['title']== "Maali Mama"), "title"] = "Maaly Mama"
-
-
-# In[533]:
-
-
-muviWhatsOnDf.loc[(muviWhatsOnDf['title']== "The Bad Guys (Eng)"), "title"] = "The Bad Guys"
-
-
-# In[534]:
-
-
-muviWhatsOnDf.loc[(muviWhatsOnDf['title']== "The Smurfs: Amazing Adventures (AR)"), "title"] = "The Smurfs(AR)"
-
-
-# In[535]:
-
-
-muviWhatsOnDf.loc[(muviWhatsOnDf['title']== "HAMEL EL LAKAB"), "title"] = "Hamel El Lakab"
-
-
-# In[536]:
-
-
-muviWhatsOnDf.loc[(muviWhatsOnDf['title']== "Men Agl Ziko"), "title"] = "Men Agl Zeko"
-
-
-# In[537]:
-
-
-muviWhatsOnDf.loc[(muviWhatsOnDf['title']== "Blippi (Eng)"), "title"] = "Blippi"
-
-
-# In[538]:
-
-
-muviWhatsOnDf.loc[(muviWhatsOnDf['title']== "The Wolf And The Lion"), "title"] = "The Wolf and The Lion"
-
-
-# In[539]:
-
-
-muviWhatsOnDf.loc[(muviWhatsOnDf['title']== "The Bad Guys (AR)"), "title"] = "The Bad Guys(AR)"
-
-
-# In[687]:
-
-
-muviWhatsOnDf.loc[(muviWhatsOnDf['title']== "The Desparate Hour"), "title"] = "The Desperate Hour"
-
-
-# In[540]:
-
-
-for index,row in voxWhatsOnDf.iterrows():
-    voxWhatsOnDf.loc[index,'title']=row['title'].strip()
-    
-for index,row in amcWhatsOnDf.iterrows():
-    amcWhatsOnDf.loc[index,'title']=row['title'].strip()
-    
 for index,row in muviWhatsOnDf.iterrows():
-    muviWhatsOnDf.loc[index,'title']=row['title'].strip()
-    
+    if "(AR)" in row['title']:
+        muviWhatsOnDf.loc[index,'title']=row['title'].replace("(AR)","(Arabic)")
+    if "(EN)" in row['title']:
+        muviWhatsOnDf.loc[index,'title']=row['title'].replace("(EN)","(English)")
 
 
-# # Combine 
+# In[261]:
 
-# In[688]:
 
+muviWhatsOnDf
 
-voxWhatsOnDfWithimdbID=voxWhatsOnDf[voxWhatsOnDf['imdbID']!='']
-amcWhatsOnDfWithimdbID=amcWhatsOnDf[amcWhatsOnDf['imdbID']!='']
-muviWhatsOnDfWithimdbID=muviWhatsOnDf[muviWhatsOnDf['imdbID']!='']
 
+# In[262]:
 
-# In[689]:
 
+from difflib import SequenceMatcher
 
-commonWhatsOn = pd.merge(voxWhatsOnDf, amcWhatsOnDf,how='outer' ,on='title')
 
-commonWhatsOn['cinema']= commonWhatsOn[['cinema_x','cinema_y']].values.tolist()
+# In[291]:
 
-commonWhatsOn=commonWhatsOn.drop(columns=['cinema_x','cinema_y'])
 
-commonWhatsOn['location&bookingLink']= commonWhatsOn[['location&bookingLink_x',
-                              'location&bookingLink_y']].values.tolist()
+#Combone all cinemas to one dataframe
+AllDfs=voxWhatsOnDf.append(amcWhatsOnDf).append(muviWhatsOnDf)
+AllDfs=AllDfs.drop_duplicates(subset=['title','cinema'])
+AllDfs=AllDfs.reset_index()
 
-commonWhatsOn=commonWhatsOn.drop(columns=['location&bookingLink_x',
-                              'location&bookingLink_y'])
 
-commonWhatsOn=commonWhatsOn[['cinema','imdbID_x',
-       'title', 'year_x', 'genres_x', 'movieLength_x', 'ageGuide_x', 'plot_x',
-       'language_x', 'actors_x', 'director_x', 'writer_x', 'poster_x', 'trailer_x',
-       'location&bookingLink']]
+# In[292]:
 
-commonWhatsOn=commonWhatsOn.rename(columns={'imdbID_x':'imdbID','year_x':'year', 'genres_x':'genres', 'movieLength_x':'movieLength',
-    'ageGuide_x':'ageGuide', 'plot_x':'plot',
-       'language_x':'language', 'actors_x':'actors', 'director_x':'director', 'writer_x':'writer',
-    'poster_x':'poster', 'trailer_x':'trailer'})
 
+AllDfs
 
-commonWhatsOn=commonWhatsOn.dropna()
 
-commonWhatsOn2 = pd.merge(amcWhatsOnDf, muviWhatsOnDf,how='outer' ,on='title')
+# In[293]:
 
-commonWhatsOn2['cinema']= commonWhatsOn2[['cinema_x','cinema_y']].values.tolist()
 
-commonWhatsOn2=commonWhatsOn2.drop(columns=['cinema_x','cinema_y'])
+#Name similar mvoies with the same name
+for index, row in AllDfs.iterrows():
+    for index2, row2 in AllDfs.iterrows():
+        if ("(Arabic)" in row2['title'])| ("(Telugu)" in row2['title'])|("(Hindi)" in row2['title'])|("(Malayalam)" in row2['title']):
+            if ("(Arabic)" in row['title'])| ("(Telugu)" in row['title'])|("(Hindi)" in row['title'])|("(Malayalam)" in row['title']):
+                similarity=SequenceMatcher(None, row['title'].strip(),row2['title']).ratio()
+                if (similarity>=0.55):
+                    print("----------------------------")
+                    print(row['title'],row['cinema'])
+                    print(row2['title'],row2['cinema'])
+                    AllDfs.loc[index2,'title']=row['title']
+                    print("----------------------------")
+                continue
+        else:
+            if ("(Arabic)" in row['title'])| ("(Telugu)" in row['title'])|("(Hindi)" in row['title'])|("(Malayalam)" in row['title']):
+                continue
+            else:
+                title1=re.sub("([\(\[]).*?([\)\]])", "\g<1>\g<2>", row['title']).strip()
+                title2=re.sub("([\(\[]).*?([\)\]])", "\g<1>\g<2>", row2['title']).strip()
+                similarity=SequenceMatcher(None, title1.strip(),title2.strip()).ratio()
+                if (similarity>=0.55) & (similarity!=1):
+                    print("*****************")
+                    print(row['title'])
+                    print(row2['title'])
+                    print("*****************")
+                    AllDfs.loc[index2,'title']=row['title']
 
-commonWhatsOn2['location&bookingLink']= commonWhatsOn2[['location&bookingLink_x',
-                              'location&bookingLink_y']].values.tolist()
 
-commonWhatsOn2=commonWhatsOn2.drop(columns=['location&bookingLink_x',
-                              'location&bookingLink_y'])
+# In[294]:
 
-commonWhatsOn2=commonWhatsOn2[['cinema','imdbID_x',
-       'title', 'year_x', 'genres_x', 'movieLength_x', 'ageGuide_x', 'plot_x',
-       'language_x', 'actors_x', 'director_x', 'writer_x', 'poster_x', 'trailer_x',
-       'location&bookingLink']]
 
-commonWhatsOn2=commonWhatsOn2.rename(columns={'imdbID_x':'imdbID','year_x':'year', 'genres_x':'genres', 'movieLength_x':'movieLength',
-    'ageGuide_x':'ageGuide', 'plot_x':'plot',
-       'language_x':'language', 'actors_x':'actors', 'director_x':'director', 'writer_x':'writer',
-    'poster_x':'poster', 'trailer_x':'trailer'})
+AllDfs=AllDfs.drop_duplicates(subset=['title','cinema'])
+AllDfs
 
 
-commonWhatsOn2=commonWhatsOn2.dropna()
+# In[295]:
 
-commonWhatsOn= pd.merge(commonWhatsOn, muviWhatsOnDf,how='outer' ,on='title')
 
-commonWhatsOn['location&bookingLink']= commonWhatsOn[['location&bookingLink_x',
-                              'location&bookingLink_y']].values.tolist()
+print (AllDfs.groupby('title')['cinema'].apply(' '.join).reset_index())
 
-commonWhatsOn=commonWhatsOn.drop(columns=['location&bookingLink_x',
-                              'location&bookingLink_y'])
 
-commonWhatsOn['cinema']= commonWhatsOn[['cinema_x','cinema_y']].values.tolist()
+# In[296]:
 
-commonWhatsOn=commonWhatsOn[['cinema','imdbID_x',
-       'title', 'year_x', 'genres_x', 'movieLength_x', 'ageGuide_x', 'plot_x',
-       'language_x', 'actors_x', 'director_x', 'writer_x', 'poster_x', 'trailer_x',
-       'location&bookingLink']]
-commonWhatsOn=commonWhatsOn.rename(columns={'imdbID_x':'imdbID','year_x':'year', 'genres_x':'genres', 'movieLength_x':'movieLength',
-    'ageGuide_x':'ageGuide', 'plot_x':'plot',
-       'language_x':'language', 'actors_x':'actors', 'director_x':'director', 'writer_x':'writer',
-    'poster_x':'poster', 'trailer_x':'trailer'})
 
-commonWhatsOn=commonWhatsOn.dropna()
+#Group movies with the same title
+cinemaDF = AllDfs.groupby("title").agg(list)
+cinemaDF
 
 
-# In[690]:
+# In[297]:
 
 
-commonWhatsOn
+AllDfs=AllDfs.drop_duplicates(subset=['title'],keep="first")
+AllDfs
 
 
-# In[691]:
-
-
-commonWhatsOn=commonWhatsOn.append(commonWhatsOn2)
-
-
-# In[692]:
-
-
-commonWhatsOn
-
-
-# In[693]:
-
-
-commonWhatsOn[commonWhatsOn.duplicated(subset=['title'])]
-
-
-# In[694]:
-
-
-commonWhatsOn=commonWhatsOn.drop_duplicates(subset=['title'])
-
-
-# In[695]:
-
-
-commonWhatsOn[commonWhatsOn.duplicated(subset=['title'])]
-
-
-# In[696]:
-
-
-#Get titles of common movies 
-commonWhatsOnTitles=commonWhatsOn['title']
-
-
-# In[697]:
-
-
-#Unique Movies
-
-#Unique vox whats on movies
-voxWhatsOnDfUnique=voxWhatsOnDf[~voxWhatsOnDf['title'].isin(commonWhatsOnTitles)]
-
-#Unique amc whats on movies
-# amcWhatsOnDfUnique=amcWhatsOnDf[~amcWhatsOnDf['imdbID'].isin(commonWhatsOnIds)]
-amcWhatsOnDfUnique=amcWhatsOnDf[~amcWhatsOnDf['title'].isin(commonWhatsOnTitles)]
-
-#Unique muvi whats on movies
-muviWhatsOnDfUnique=muviWhatsOnDf[~muviWhatsOnDf['title'].isin(commonWhatsOnTitles)]
-
-
-# In[698]:
-
-
-#Combine all whats on movies
-allWhatsOnMoviesDf=commonWhatsOn.append(voxWhatsOnDfUnique).append(amcWhatsOnDfUnique).append(muviWhatsOnDfUnique)
-
-
-# In[699]:
-
-
-allWhatsOnMoviesDf
-
-
-# In[700]:
-
-
-allWhatsOnMoviesDf[allWhatsOnMoviesDf.duplicated(['title'])]
-
-
-# In[701]:
-
-
-allWhatsOnMoviesDf=allWhatsOnMoviesDf.drop_duplicates(subset='title', keep="first")
-
-
-# In[702]:
-
-
-allWhatsOnMoviesDf[allWhatsOnMoviesDf.duplicated(['title'])]
-
-
-# In[141]:
+# In[298]:
 
 
 #Get trailer
@@ -1577,7 +1485,7 @@ headers2 = {
 
 
 counter=0
-for index, row in allWhatsOnMoviesDf.iterrows():
+for index, row in AllDfs.iterrows():
     if row['trailer']!='':
         IMDBId=str(row['imdbID'])
         conn.request("GET", "/movie/id/"+IMDBId+"/", headers=headers)
@@ -1603,20 +1511,14 @@ for index, row in allWhatsOnMoviesDf.iterrows():
         counter=counter+1
         print(trailer)
         print(counter)
-        allWhatsOnMoviesDf.loc[index,['trialer']]=trailer
+        AllDfs.loc[index,['trialer']]=trailer
         
         
 
 
 # # DB
 
-# In[ ]:
-
-
-
-
-
-# In[719]:
+# In[299]:
 
 
 #Connect to DB
@@ -1626,7 +1528,7 @@ conn = psycopg2.connect(host="localhost",database="filmey",user="postgres",passw
 cursor = conn.cursor()
 
 
-# In[633]:
+# In[300]:
 
 
 #get in cinema movies from db
@@ -1634,15 +1536,46 @@ inCinemaDB=sqlio.read_sql_query('SELECT movie_id,title FROM "Movie" WHERE is_in_
 inCinemaDB
 
 
-# In[703]:
+# In[301]:
+
+
+#Name similar mvoies with the same name
+for index, row in inCinemaDB.iterrows():
+    for index2, row2 in AllDfs.iterrows():
+        if ("(Arabic)" in row2['title'])| ("(Telugu)" in row2['title'])|("(Hindi)" in row2['title'])|("(Malayalam)" in row2['title']):
+            if ("(Arabic)" in row['title'])| ("(Telugu)" in row['title'])|("(Hindi)" in row['title'])|("(Malayalam)" in row['title']):
+                similarity=SequenceMatcher(None, row['title'].strip(),row2['title']).ratio()
+                if (similarity>=0.55):
+                    print("----------------------------")
+                    print(row['title'])
+                    print(row2['title'])
+                    AllDfs.loc[index2,'title']=row['title']
+                    print("----------------------------")
+                continue
+        else:
+            if ("(Arabic)" in row['title'])| ("(Telugu)" in row['title'])|("(Hindi)" in row['title'])|("(Malayalam)" in row['title']):
+                continue
+            else:
+                title1=re.sub("([\(\[]).*?([\)\]])", "\g<1>\g<2>", row['title']).strip()
+                title2=re.sub("([\(\[]).*?([\)\]])", "\g<1>\g<2>", row2['title']).strip()
+                similarity=SequenceMatcher(None, title1.strip(),title2.strip()).ratio()
+                if (similarity>=0.55) & (similarity!=1):
+                    print("*****************")
+                    print(row['title'])
+                    print(row2['title'])
+                    print("*****************")
+                    AllDfs.loc[index2,'title']=row['title']
+
+
+# In[302]:
 
 
 #Movies that are noLongerInCinema
-noLongerInCinema=inCinemaDB[~inCinemaDB.title.isin(allWhatsOnMoviesDf['title'])]
+noLongerInCinema=inCinemaDB[~inCinemaDB.title.isin(AllDfs['title'])]
 noLongerInCinema
 
 
-# In[635]:
+# In[303]:
 
 
 #Set movie no longer in cinema to is_in_cinema=false
@@ -1651,7 +1584,7 @@ for index,row in noLongerInCinema.iterrows():
     conn.commit()
 
 
-# In[638]:
+# In[304]:
 
 
 #Delete for is_in_cinema
@@ -1660,23 +1593,23 @@ for index, row in noLongerInCinema.iterrows():
     conn.commit()
 
 
-# In[704]:
+# In[305]:
 
 
 #Movies that are still in cinema
-stillInCinema=allWhatsOnMoviesDf[allWhatsOnMoviesDf.title.isin(inCinemaDB['title'])]
+stillInCinema=AllDfs[AllDfs.title.isin(inCinemaDB['title'])]
 stillInCinema
 
 
-# In[705]:
+# In[306]:
 
 
 #Movies that are still in cinema
-stillInCinemaDB=inCinemaDB[inCinemaDB.title.isin(allWhatsOnMoviesDf['title'])]
+stillInCinemaDB=inCinemaDB[inCinemaDB.title.isin(AllDfs['title'])]
 stillInCinemaDB
 
 
-# In[642]:
+# In[307]:
 
 
 #Delete movies that are still in cinema to add later with new location
@@ -1685,32 +1618,33 @@ for index, row in stillInCinemaDB.iterrows():
     conn.commit()
 
 
-# In[706]:
+# In[308]:
 
 
 #Movies that do not exist in db
-newInCinemaMovies=allWhatsOnMoviesDf[~allWhatsOnMoviesDf.title.isin(inCinemaDB['title'])]
+newInCinemaMovies=AllDfs[~AllDfs.title.isin(inCinemaDB['title'])]
 newInCinemaMovies
 
 
-# In[707]:
+# In[309]:
 
 
 #Append the table to get all movies that are in cinema
 allWhatsOnMoviesDf=newInCinemaMovies.append(stillInCinema)
+allWhatsOnMoviesDf=allWhatsOnMoviesDf.drop_duplicates(subset='title')
 allWhatsOnMoviesDf
 
 
-# In[708]:
+# In[310]:
 
 
 #Get movies from db
 movieDB=sqlio.read_sql_query('SELECT movie_id FROM "Movie"',conn)
 movie_id=list(movieDB['movie_id'])
-newMovieID=movie_id[-1]+1
+newMovieID=max(movie_id)+1
 
 
-# In[709]:
+# In[311]:
 
 
 df = allWhatsOnMoviesDf.reset_index()
@@ -1721,7 +1655,14 @@ for index, row in df.iterrows():
 df['movie_id']=newMovieIDArray
 
 
-# In[710]:
+# In[315]:
+
+
+cinemaDF=pd.merge(cinemaDF,df, on='title')[['cinema_x','location&bookingLink_x','movie_id']]
+cinemaDF
+
+
+# In[316]:
 
 
 #Movie table
@@ -1740,7 +1681,7 @@ movieDF=movieDF.drop_duplicates(subset=['title'])
 movieDF
 
 
-# In[711]:
+# In[317]:
 
 
 #Insert Movie
@@ -1755,7 +1696,7 @@ for index, row in movieDF.iterrows():
     conn.commit()
 
 
-# In[740]:
+# In[318]:
 
 
 cursor.execute('SELECT * FROM "Genre"')
@@ -1763,7 +1704,7 @@ genreDB = pd.DataFrame(cursor.fetchall(),columns=['genre_id','genre'])
 genreDB
 
 
-# In[713]:
+# In[319]:
 
 
 #Create genredf with movie_id and genre
@@ -1775,14 +1716,14 @@ genredf['genre'] = pd.Series(genredf['genre'], dtype=object)
 genredf=genredf.rename(columns={"genre":"genre"})
 
 
-# In[714]:
+# In[320]:
 
 
 genredf=genredf[genredf['genre']!='']
 genredf
 
 
-# In[715]:
+# In[321]:
 
 
 #New genres that are not in DB
@@ -1790,7 +1731,7 @@ newGenres=list(set(genredf['genre'].unique()).difference(genreDB['genre']))
 newGenres
 
 
-# In[716]:
+# In[322]:
 
 
 #Mapping genre with id
@@ -1800,20 +1741,20 @@ Movie_Genre = Movie_Genre.sort_values(by =['movie_id'])
 Movie_Genre
 
 
-# In[720]:
+# In[323]:
 
 
 #Add new genres to DB
 genreDB=sqlio.read_sql_query('SELECT genre_id FROM "Genre"',conn)
 genre_id=list(genreDB['genre_id'])
-newID=genre_id[-1]+1
+newID=max(genre_id)+1
 for genre in newGenres[1:]:
     cursor.execute('INSERT INTO "Genre" (genre_id, genre) VALUES(%s, %s)' ,[newID,genre] )
     newID=newID+1
     conn.commit()
 
 
-# In[721]:
+# In[324]:
 
 
 #Insert Movie_Genre
@@ -1822,7 +1763,7 @@ for index, row in Movie_Genre.iterrows():
     conn.commit()
 
 
-# In[722]:
+# In[325]:
 
 
 #Get directors from DB
@@ -1831,7 +1772,7 @@ directorDB = pd.DataFrame(cursor.fetchall(),columns=['director_id','director'])
 directorDB
 
 
-# In[723]:
+# In[326]:
 
 
 #Create directordf with coming soon movie_id and director
@@ -1842,10 +1783,14 @@ directordf = directordf.drop('director', axis=1).join(directorList)
 directordf['director'] = pd.Series(directordf['director'], dtype=object)
 directordf=directordf.dropna(axis = 0, how ='any')
 directordf=directordf[directordf['director']!='']
+directordf=directordf.reset_index()
+for index,row in directordf.iterrows():
+    directorName=re.sub("([\(\[]).*?([\)\]])", "\g<1>\g<2>", row['director']).strip().replace("()","")
+    directordf.loc[index,'director']=directorName
 directordf
 
 
-# In[724]:
+# In[327]:
 
 
 #New directors that are not in DB
@@ -1853,13 +1798,13 @@ newDirectors=list(set(directordf['director'].unique()).difference(directorDB['di
 newDirectors
 
 
-# In[725]:
+# In[328]:
 
 
 #Add new director to DB
 directorDB=sqlio.read_sql_query('SELECT director_id FROM "Director"',conn)
 directorDB=list(directorDB['director_id'])
-newDirectorID=directorDB[-1]+1
+newDirectorID=max(directorDB)+1
 newDirectorIDArray=[]
 for director in newDirectors:
     cursor.execute('INSERT INTO "Director" (director_id, director) VALUES(%s, %s) RETURNING director_id' ,[newDirectorID,director] )
@@ -1869,7 +1814,7 @@ for director in newDirectors:
     conn.commit()
 
 
-# In[726]:
+# In[329]:
 
 
 #Check if added
@@ -1878,7 +1823,7 @@ directorDB = pd.DataFrame(cursor.fetchall(),columns=['director_id','director'])
 directorDB
 
 
-# In[727]:
+# In[330]:
 
 
 #Create Movie_Director
@@ -1888,7 +1833,7 @@ Movie_Director = Movie_Director.sort_values(by =['movie_id'])
 Movie_Director
 
 
-# In[728]:
+# In[331]:
 
 
 #Insert Movie_Director
@@ -1897,7 +1842,7 @@ for index, row in Movie_Director.iterrows():
     conn.commit()
 
 
-# In[729]:
+# In[332]:
 
 
 #Get writer from DB
@@ -1906,7 +1851,7 @@ writerDB = pd.DataFrame(cursor.fetchall(),columns=['writer_id','writer'])
 writerDB
 
 
-# In[730]:
+# In[333]:
 
 
 #Create writerdf with movie_id and writer
@@ -1916,22 +1861,14 @@ writerList.name = 'writer'
 writerdf = writerdf.drop('writer', axis=1).join(writerList)
 writerdf['writer'] = pd.Series(writerdf['writer'], dtype=object)
 writerdf=writerdf.dropna(axis = 0, how ='any')
-print(writerdf)
-
-#Remove paranthesis and its content
-p = re.compile(r'\([^)]*\)')
-newWriter=[]
-for index, row in writerdf.iterrows():
-    newWriter.append(re.sub(p, '', row['writer']))
-    
-
-
-    
-writerdf['writer']=newWriter
+writerdf=writerdf.reset_index()
+for index,row in writerdf.iterrows():
+    writerName=re.sub("([\(\[]).*?([\)\]])", "\g<1>\g<2>", row['writer']).strip().replace("()","").strip()
+    writerdf.loc[index,'writer']=writerName
 writerdf
 
 
-# In[731]:
+# In[334]:
 
 
 #New writer that are not in DB
@@ -1939,13 +1876,23 @@ newWriters=list(set(writerdf['writer'].unique()).difference(writerDB['writer']))
 newWriters
 
 
-# In[732]:
+# In[335]:
+
+
+writerDB=sqlio.read_sql_query('SELECT writer_id FROM "Writer"',conn)
+writerDB=list(writerDB['writer_id'])
+max(writerDB)
+newWriterID=max(writerDB)+1
+# newWriterID
+
+
+# In[336]:
 
 
 #Add new writer to DB
 writerDB=sqlio.read_sql_query('SELECT writer_id FROM "Writer"',conn)
 writerDB=list(writerDB['writer_id'])
-newWriterID=writerDB[-1]+1
+newWriterID=max(writerDB)+1
 newWriterIDArray=[]
 for writer in newWriters:
     cursor.execute('INSERT INTO "Writer" (writer_id, writer) VALUES(%s, %s)RETURNING writer_id' ,[newWriterID,writer] )
@@ -1954,7 +1901,7 @@ for writer in newWriters:
     conn.commit()
 
 
-# In[733]:
+# In[337]:
 
 
 #Check if added
@@ -1963,7 +1910,7 @@ writerDB = pd.DataFrame(cursor.fetchall(),columns=['writer_id','writer'])
 writerDB
 
 
-# In[734]:
+# In[338]:
 
 
 #Create Movie_Writer
@@ -1973,7 +1920,7 @@ Movie_Writer = Movie_Writer.sort_values(by =['movie_id'])
 Movie_Writer
 
 
-# In[735]:
+# In[339]:
 
 
 #Insert Movie_Writer
@@ -1982,7 +1929,7 @@ for index, row in Movie_Writer.iterrows():
     conn.commit()
 
 
-# In[736]:
+# In[340]:
 
 
 #Get languages from DB
@@ -1991,7 +1938,7 @@ languageDB = pd.DataFrame(cursor.fetchall(),columns=['language_id','language'])
 languageDB
 
 
-# In[737]:
+# In[341]:
 
 
 #Create languagedf with movie_id and langauge
@@ -2005,7 +1952,7 @@ languagedf=languagedf[languagedf['language']!='']
 languagedf
 
 
-# In[738]:
+# In[342]:
 
 
 #New langauge that are not in DB
@@ -2013,30 +1960,37 @@ newLanguages=list(set(languagedf['language'].unique()).difference(languageDB['la
 newLanguages
 
 
-# In[741]:
+# In[343]:
+
+
+cursor.execute('SELECT * FROM "Genre"')
+genreDB = pd.DataFrame(cursor.fetchall(),columns=['genre_id','genre'])
+genreDB
+
+
+# In[344]:
 
 
 #Clean new languages
-
 missplacedGenresInLanguages=list(set(newLanguages) & set(genreDB['genre']))
 newLanguages = [e for e in newLanguages if e not in (missplacedGenresInLanguages)]
 newLanguages
 
 
-# In[742]:
+# In[345]:
 
 
 #Add new language to DB
 languageDB=sqlio.read_sql_query('SELECT language_id FROM "Language"',conn)
 languageDB=list(languageDB['language_id'])
-newLanguageID=languageDB[-1]+1
+newLanguageID=max(languageDB)+1
 for language in newLanguages:
     cursor.execute('INSERT INTO "Language" (language_id, language) VALUES(%s, %s)' ,[newLanguageID,language] )
     newLanguageID=newLanguageID+1
     conn.commit()
 
 
-# In[743]:
+# In[346]:
 
 
 #Check if added
@@ -2045,7 +1999,7 @@ languageDB = pd.DataFrame(cursor.fetchall(),columns=['language_id','language'])
 languageDB
 
 
-# In[744]:
+# In[347]:
 
 
 #Create Movie_Language for coming soon movies
@@ -2055,7 +2009,7 @@ Movie_Language = Movie_Language.sort_values(by =['movie_id'])
 Movie_Language
 
 
-# In[745]:
+# In[348]:
 
 
 #Insert Movie_Language
@@ -2064,7 +2018,7 @@ for index, row in Movie_Language.iterrows():
     conn.commit()
 
 
-# In[746]:
+# In[349]:
 
 
 #Get actors from DB
@@ -2073,7 +2027,7 @@ actorDB = pd.DataFrame(cursor.fetchall(),columns=['actor_id','actor','actor_imag
 actorDB
 
 
-# In[747]:
+# In[350]:
 
 
 #Covert list to list to row
@@ -2086,41 +2040,46 @@ actordf=actordf[actordf['actors']!='']
 actordf
 
 
-# In[748]:
+# In[351]:
 
 
 #Split list to columns and add movie_id
 actordf_afterSplit = pd.DataFrame(actordf['actors'].tolist(), columns=['actor', 'role', 'actor_image_url'])
 actordf_afterSplit.insert(loc=0, column='movie_id', value=list(actordf['movie_id']))
 actordf_afterSplit=actordf_afterSplit[actordf_afterSplit['actor']!='']
+actordf_afterSplit=actordf_afterSplit[actordf_afterSplit['actor']!='N/A']
 actordf_afterSplit=actordf_afterSplit.dropna()
+actordf_afterSplit["actor"]=actordf_afterSplit["actor"].str.replace(",","")
+actordf_afterSplit["actor"]=actordf_afterSplit["actor"].str.replace(".","")
+actordf_afterSplit["actor"]=actordf_afterSplit["actor"].str.strip()
 actordf_afterSplit
 
 
-# In[749]:
+# In[352]:
 
 
 #New actors that are not in DB
 newActors=list(set(actordf_afterSplit['actor'].unique()).difference(actorDB['actor']))
 newActorsdf=actordf_afterSplit[(~actordf_afterSplit.actor.isin(actorDB.actor))]
 newActorsdf=newActorsdf[newActorsdf['actor']!='']
+newActorsdf=newActorsdf.drop_duplicates(subset=['actor'])
 newActorsdf
 
 
-# In[750]:
+# In[353]:
 
 
 #Add new Actor to DB
-actorDB=sqlio.read_sql_query('SELECT actor_id FROM "Actor"',conn)
+actorDB=sqlio.read_sql_query('SELECT * FROM "Actor"',conn)
 actorDB=list(actorDB['actor_id'])
-newActorID=actorDB[-1]+1
+newActorID=max(actorDB)+1
 for index, row in newActorsdf.iterrows():
     cursor.execute('INSERT INTO "Actor" (actor_id, actor, actor_image_url) VALUES(%s, %s , %s)' ,[newActorID,row['actor'],row['actor_image_url']] )
     newActorID=newActorID+1
     conn.commit()
 
 
-# In[751]:
+# In[354]:
 
 
 #Check if added
@@ -2130,7 +2089,7 @@ actorDB=actorDB.rename(columns={0: "actor_id", 1: "actor",2:'actor_image_url'})
 actorDB
 
 
-# In[752]:
+# In[355]:
 
 
 #Get roles from DB
@@ -2139,7 +2098,7 @@ roleDB = pd.DataFrame(cursor.fetchall(),columns=['movie_id','actor_id','role'])
 roleDB
 
 
-# In[753]:
+# In[356]:
 
 
 #Mapping Actor with id
@@ -2148,13 +2107,13 @@ roledf = pd.merge(actordf_afterSplit, actorDB,on=['actor' , 'actor_image_url'], 
 roledf = roledf.sort_values(by =['movie_id'])
 
 #Drop actors without roles
-
 roledf = roledf[['movie_id' ,'actor_id' , 'role']].dropna()
 roledf=roledf[roledf['role'] != '']
+roledf=roledf.drop_duplicates(subset=['movie_id','actor_id'])
 roledf
 
 
-# In[754]:
+# In[357]:
 
 
 #Insert Role
@@ -2163,17 +2122,17 @@ for index, row in roledf.iterrows():
     conn.commit()
 
 
-# In[755]:
+# In[358]:
+
+
+cinemaDF=cinemaDF.rename(columns={"cinema_x":"cinema","location&bookingLink_x":"location&bookingLink"})
+
+
+# In[359]:
 
 
 #Create cinemadf with movie_id and cinema
-cinemadf=df[['movie_id','cinema']]
-cinemaList = cinemadf.apply(lambda x: pd.Series(x['cinema']), axis=1).stack().reset_index(level=1, drop=True)
-cinemaList.name = 'cinema'
-cinemadf = cinemadf.drop('cinema', axis=1).join(cinemaList)
-cinemadf['cinema'] = pd.Series(cinemadf['cinema'], dtype=object)
-
-cinemadf=cinemadf[['movie_id','cinema']]
+cinemadf=cinemaDF[['movie_id','cinema']]
 cinemaList = cinemadf.apply(lambda x: pd.Series(x['cinema']), axis=1).stack().reset_index(level=1, drop=True)
 cinemaList.name = 'cinema'
 cinemadf = cinemadf.drop('cinema', axis=1).join(cinemaList)
@@ -2181,39 +2140,18 @@ cinemadf['cinema'] = pd.Series(cinemadf['cinema'], dtype=object)
 cinemadf=cinemadf.drop_duplicates()
 
 
-# In[756]:
+# In[360]:
 
 
 cinemadf
 
 
-# In[757]:
-
-
-#Get common movie titles
-titleArray=commonWhatsOn['title']
-commonWhatsOnAsMovie=df[df['title'].isin(titleArray)]
-
-
-# In[758]:
-
-
-commonWhatsOnAsMovie=commonWhatsOnAsMovie[0:27]
-
-
-# In[759]:
-
-
-commonWhatsOnAsMovie
-
-
-# In[777]:
+# In[361]:
 
 
 #Extract common movies booking list of list to list
 
-
-moive_bookingLink=commonWhatsOnAsMovie[['movie_id','cinema','location&bookingLink']]
+moive_bookingLink=cinemaDF[['movie_id','cinema','location&bookingLink']]
 moive_bookingLink=moive_bookingLink.dropna()
 
 
@@ -2221,11 +2159,7 @@ moive_bookingLinkList = moive_bookingLink.apply(lambda x: pd.Series(x['location&
 moive_bookingLinkList.name = 'location&bookingLink'
 moive_bookingLink = moive_bookingLink.drop('location&bookingLink', axis=1).join(moive_bookingLinkList)
 moive_bookingLink['location&bookingLink'] = pd.Series(moive_bookingLink['location&bookingLink'], dtype=object)
-
-
-
 moive_bookingLink=moive_bookingLink.dropna()
-
 moive_bookingLink=moive_bookingLink[moive_bookingLink['location&bookingLink']!=""]
 
 
@@ -2234,263 +2168,79 @@ moive_bookingLinkList.name = 'location&bookingLink'
 moive_bookingLink = moive_bookingLink.drop('location&bookingLink', axis=1).join(moive_bookingLinkList)
 moive_bookingLink['location&bookingLink'] = pd.Series(moive_bookingLink['location&bookingLink'], dtype=object)
 
-moive_bookingLinkList = moive_bookingLink.apply(lambda x: pd.Series(x['location&bookingLink']), axis=1).stack().reset_index(level=1, drop=True)
-moive_bookingLinkList.name = 'location&bookingLink'
-moive_bookingLink = moive_bookingLink.drop('location&bookingLink', axis=1).join(moive_bookingLinkList)
-moive_bookingLink['location&bookingLink'] = pd.Series(moive_bookingLink['location&bookingLink'], dtype=object)
-
-moive_bookingLink=moive_bookingLink.dropna()
 
 moive_bookingLink=moive_bookingLink[moive_bookingLink['location&bookingLink']!=""]
 moive_bookingLink=moive_bookingLink.rename(columns={'location&bookingLink':"location_city_link"})
-
-
-# In[778]:
-
-
-moive_bookingLink=moive_bookingLink.reset_index(0).reset_index(drop=True)
-
-
-# In[779]:
-
-
 moive_bookingLink
 
 
-# In[780]:
+# In[362]:
 
 
-common_moive_bookingLink = pd.DataFrame(columns=['movie_id','name','location_city_link'])
-common_moive_bookingLink
+moive_bookingLink2 = pd.DataFrame(columns=['movie_id','name','location_city_link'])
+moive_bookingLink2
 
 
-# In[781]:
-
+# In[363]:
 
 
 #Get uncommon movies booking link
 for index, row in moive_bookingLink.iterrows():
-    for i in row['location_city_link']:
-        if isinstance(i, list):
-            if "vox" in row['location_city_link'][2]:
-                cinemaName="vox"
-            else:
-                if "amc" in row['location_city_link'][2]:
-                    cinemaName="amc"
-                else:
-                    if "muvi" in row['location_city_link'][2]:
-                        cinemaName="muvi"
-            Movierow = {'movie_id':row['movie_id'],'name':cinemaName,'location_city_link':i}
-            common_moive_bookingLink = common_moive_bookingLink.append(Movierow, ignore_index = True)
+        if "vox" in row['location_city_link'][2]:
+            cinemaName="vox"
         else:
-            if "vox" in row['location_city_link'][2]:
-                cinemaName="vox"
+            if "amc" in row['location_city_link'][2]:
+                cinemaName="amc"
             else:
-                if "amc" in row['location_city_link'][2]:
-                    cinemaName="amc"
-                else:
-                    if "muvi" in row['location_city_link'][2]:
-                        cinemaName="muvi"
-            Movierow = {'movie_id':row['movie_id'],'name':cinemaName,'location_city_link':row['location_city_link']}
-            common_moive_bookingLink = common_moive_bookingLink.append(Movierow, ignore_index = True)
-            
-                
-            
+                if "muvi" in row['location_city_link'][2]:
+                    cinemaName="muvi"
+        Movierow = {'movie_id':row['movie_id'],'name':cinemaName,'location_city_link':row['location_city_link']}
+        moive_bookingLink2 = moive_bookingLink2.append(Movierow, ignore_index = True)
 
 
-# In[786]:
-
-
-common_moive_bookingLink
-
-
-# In[787]:
-
-
-TwoCommonMoviesAsMovie=df[df['title'].isin(titleArray)][27:]
-TwoCommonMoviesAsMovie
-
-
-# In[798]:
-
-
-#Extract two common movies booking list of list to list
-
-
-moive_bookingLink2=TwoCommonMoviesAsMovie[['movie_id','cinema','location&bookingLink']]
-moive_bookingLink2=moive_bookingLink2.dropna()
-
-moive_bookingLinkList2 = moive_bookingLink2.apply(lambda x: pd.Series(x['location&bookingLink']), axis=1).stack().reset_index(level=1, drop=True)
-moive_bookingLinkList2.name = 'location&bookingLink'
-moive_bookingLink2 = moive_bookingLink2.drop('location&bookingLink', axis=1).join(moive_bookingLinkList2)
-moive_bookingLink2['location&bookingLink'] = pd.Series(moive_bookingLink2['location&bookingLink'], dtype=object)
-
-moive_bookingLinkList2 = moive_bookingLink2.apply(lambda x: pd.Series(x['location&bookingLink']), axis=1).stack().reset_index(level=1, drop=True)
-moive_bookingLinkList2.name = 'location&bookingLink'
-moive_bookingLink2 = moive_bookingLink2.drop('location&bookingLink', axis=1).join(moive_bookingLinkList2)
-moive_bookingLink2['location&bookingLink'] = pd.Series(moive_bookingLink2['location&bookingLink'], dtype=object)
-
-moive_bookingLink2=moive_bookingLink2.dropna()
-
-moive_bookingLink2=moive_bookingLink2[moive_bookingLink2['location&bookingLink']!=""]
-moive_bookingLink2=moive_bookingLink2.rename(columns={'location&bookingLink':"location_city_link"})
+# In[364]:
 
 
 moive_bookingLink2
 
 
-# In[813]:
-
-
-Two_common_moive_bookingLink = pd.DataFrame(columns=['movie_id','name','location_city_link'])
-Two_common_moive_bookingLink
-
-
-# In[814]:
-
-
-for index, row in moive_bookingLink2.iterrows():
-    for i in row['location_city_link']:
-        if isinstance(i, list):
-            if "vox" in i[2]:
-                cinemaName="vox"
-            else:
-                if "amc" in i[2]:
-                    cinemaName="amc"
-                else:
-                    if "muvi" in i[2]:
-                        print(row['location_city_link'][2])
-                        cinemaName="muvi"
-            Movierow = {'movie_id':row['movie_id'],'name':cinemaName,'location_city_link':i}
-            Two_common_moive_bookingLink = Two_common_moive_bookingLink.append(Movierow, ignore_index = True)
-        else:
-            if "vox" in row['location_city_link'][2]:
-                cinemaName="vox"
-            else:
-                if "amc" in row['location_city_link'][2]:
-                    cinemaName="amc"
-                else:
-                    if "muvi" in row['location_city_link'][2]:
-                        print(row['location_city_link'][2])
-                        cinemaName="muvi"
-            Movierow = {'movie_id':row['movie_id'],'name':cinemaName,'location_city_link':row['location_city_link']}
-            Two_common_moive_bookingLink = Two_common_moive_bookingLink.append(Movierow, ignore_index = True)
-            
-
-
-# In[818]:
-
-
-Two_common_moive_bookingLink
-
-
-# In[825]:
-
-
-uncommon_moive_bookingLink=df[(~df.movie_id.isin(commonWhatsOnAsMovie.movie_id))]
-uncommon_moive_bookingLink=uncommon_moive_bookingLink[(~uncommon_moive_bookingLink.movie_id.isin(TwoCommonMoviesAsMovie.movie_id))]
-uncommon_moive_bookingLink
-
-
-# In[826]:
-
-
-#Extract uncommon movies booking list of list to list
-
-
-uncommon_moive_bookingLink=uncommon_moive_bookingLink[['movie_id','cinema','location&bookingLink']]
-uncommon_moive_bookingLink=uncommon_moive_bookingLink.dropna()
-
-uncommon_moive_bookingLinkList = uncommon_moive_bookingLink.apply(lambda x: pd.Series(x['location&bookingLink']), axis=1).stack().reset_index(level=1, drop=True)
-uncommon_moive_bookingLinkList.name = 'location&bookingLink'
-uncommon_moive_bookingLink = uncommon_moive_bookingLink.drop('location&bookingLink', axis=1).join(uncommon_moive_bookingLinkList)
-uncommon_moive_bookingLink['location&bookingLink'] = pd.Series(uncommon_moive_bookingLink['location&bookingLink'], dtype=object)
-
-
-uncommon_moive_bookingLink=uncommon_moive_bookingLink.dropna()
-
-uncommon_moive_bookingLinkList = uncommon_moive_bookingLink.apply(lambda x: pd.Series(x['location&bookingLink']), axis=1).stack().reset_index(level=1, drop=True)
-uncommon_moive_bookingLinkList.name = 'location&bookingLink'
-uncommon_moive_bookingLink = uncommon_moive_bookingLink.drop('location&bookingLink', axis=1).join(uncommon_moive_bookingLinkList)
-uncommon_moive_bookingLink['location&bookingLink'] = pd.Series(uncommon_moive_bookingLink['location&bookingLink'], dtype=object)
-
-
-uncommon_moive_bookingLink=uncommon_moive_bookingLink.dropna()
-
-
-uncommon_moive_bookingLink=uncommon_moive_bookingLink[uncommon_moive_bookingLink['location&bookingLink']!=""]
-uncommon_moive_bookingLink=uncommon_moive_bookingLink.rename(columns={'location&bookingLink':"location_city_link"})
-uncommon_moive_bookingLink=uncommon_moive_bookingLink.rename(columns={'cinema':"name"})
-
-
-# In[827]:
-
-
-uncommon_moive_bookingLink
-
-
-# In[828]:
-
-
-moive_bookingLink=uncommon_moive_bookingLink.append(common_moive_bookingLink).append(Two_common_moive_bookingLink)
-moive_bookingLink=moive_bookingLink.reset_index(0).reset_index(drop=True)
-moive_bookingLink.drop(columns='index')
-moive_bookingLink
-
-
-# In[833]:
+# In[368]:
 
 
 #Create cinemadf
 #Divide list to columns
-cinemadf=moive_bookingLink.location_city_link.apply(pd.Series)
-cinemadf['movie_id']=moive_bookingLink['movie_id']
-cinemadf['name']=moive_bookingLink['name']
+cinemadf=moive_bookingLink2.location_city_link.apply(pd.Series)
+cinemadf['movie_id']=moive_bookingLink2['movie_id']
+cinemadf['name']=moive_bookingLink2['name']
 cinemadf=cinemadf.rename(columns={0:'location',1:'city',2:'link'})
 cinemadf=cinemadf[cinemadf['location']!='']
-cinemadf=cinemadf.drop_duplicates()
+cinemadf=cinemadf.dropna()
 cinemadf
 
 
-# In[834]:
+# In[369]:
 
 
 cinemadf=cinemadf.drop_duplicates()
-cinemadf
 
 
-# In[835]:
+# In[370]:
 
 
 cinemadf=cinemadf.drop_duplicates(subset=['location','city','movie_id','name'])
 
 
-# In[836]:
-
-
-cinemadfTable=cinemadf
-cinemadfTable
-
-
-# In[838]:
-
-
-#Get cinema_id from db
-In_CinemaDB=sqlio.read_sql_query('SELECT cinema_id FROM "In_Cinema"',conn)
-In_Cinema_id=list(In_CinemaDB['cinema_id'])
-In_CinemaID=movie_id[-1]+1
-
-
-# In[860]:
+# In[371]:
 
 
 #Create Cinema Table
+cinemadfTable=cinemadf.drop_duplicates()
 cinemadfTable=cinemadfTable.drop_duplicates(subset=['location','city'])
 cinemadfTable=cinemadfTable[['location',"city","name"]]
-cinemadfTable
+# cinemadfTable.drop_duplicates()
 
 
-# In[861]:
+# In[372]:
 
 
 #Get cienmas from db
@@ -2498,34 +2248,35 @@ CinemaDB=sqlio.read_sql_query('SELECT * FROM "Cinema"',conn)
 CinemaDB
 
 
-# In[879]:
+# In[373]:
 
 
 #See if there are new cinemas that do not exist in the db
 AllCinemas=cinemadfTable.merge(CinemaDB,on=['name','city','location'],how='left')
+# AllCinemas
 newCinemas=AllCinemas[np.isnan(AllCinemas['cinema_id'])==True]
 newCinemas
 
 
-# In[884]:
+# In[374]:
 
 
 #Get new ids
-newCinemasId=list(CinemaDB['cinema_id'])[-1]+1
+newCinemasId=max(CinemaDB['cinema_id'])+1
 newCinemasId
 
 
-# In[886]:
+# In[375]:
 
 
 #Insert New Cinema
-for index, row in newCinemas.iterrows():
+for index, row in newCinemas[1:].iterrows():
     cursor.execute('INSERT INTO "Cinema" (cinema_id, name,city,location) VALUES(%s, %s, %s,%s)' ,[newCinemasId,row['name'], row['city'], row['location']] )
     conn.commit()
-    newCinemasId+1
+    newCinemasId=newCinemasId+1
 
 
-# In[887]:
+# In[376]:
 
 
 #Get cinemas from db after adding
@@ -2533,7 +2284,7 @@ CinemaDB=sqlio.read_sql_query('SELECT * FROM "Cinema"',conn)
 CinemaDB
 
 
-# In[889]:
+# In[377]:
 
 
 #Get all cinemas
@@ -2541,20 +2292,27 @@ AllCinemas=cinemadfTable.merge(CinemaDB,on=['name','city','location'],how='left'
 AllCinemas
 
 
-# In[892]:
+# In[388]:
 
 
 #Create In_Cinema Table
 In_Cinemadf=cinemadf.merge(AllCinemas,on=['location','city'])
 In_Cinemadf=In_Cinemadf[['link','movie_id','cinema_id']]
 In_Cinemadf
+In_Cinemadf=In_Cinemadf.dropna()
 
 
-# In[893]:
+# In[390]:
 
 
 #Insert In_Cinema
 for index, row in In_Cinemadf.iterrows():
     cursor.execute('INSERT INTO "In_Cinema" (cinema_id, movie_id,booking_link) VALUES(%s, %s, %s)' ,[int(row['cinema_id']), int(row['movie_id']), row['link']] )
     conn.commit()
+
+
+# In[ ]:
+
+
+
 
