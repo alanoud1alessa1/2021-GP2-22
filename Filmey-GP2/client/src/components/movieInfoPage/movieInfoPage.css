@@ -580,7 +580,6 @@
   }
   .addBookMark,
   .watchList {
-    color: var(--cardinal) !important;
     top: 0;
     left: -7px;
   }
@@ -784,7 +783,7 @@
     min-width: 40px;
   }
   .releaseDateLogo {
-    width: 40%;
+    width: 35%;
   }
   .reviewIcon {
     width: 20px;

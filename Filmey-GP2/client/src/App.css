@@ -162,7 +162,7 @@ a:hover {
 .sortMoviesSelect {
   height: 48px;
   width: 160px;
-  background: "#fcfcfc";
+  background: var(--baby-powder);
   outline: none;
   border: "0px solid black";
   box-shadow: 0px 4px 4px #00000040;
@@ -239,6 +239,16 @@ a:hover {
   .watch-list-box{
     padding-top: 20px;
   }
+  .movieStar {
+    height: 20px !important;
+    width: 20px !important;
+  }
+  .movieName,
+  .movieRating,
+  .movieRating h4 {
+    font-size: 15px !important;
+  }
+
 }
 @media only screen and (max-width: 400px) {
   .section-title,

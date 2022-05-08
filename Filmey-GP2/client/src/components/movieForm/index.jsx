@@ -1391,6 +1391,33 @@ const movieForm = (props) => {
     console.log("Please fill Top Cast correctly");
   }
 
+  const filterWriters = (inputValue) => {
+    return allWriters.filter(i =>
+      i.label.toLowerCase().includes(inputValue.toLowerCase())
+    );
+  };
+
+  const writerOptions = inputValue =>
+  new Promise(resolve => {
+    setTimeout(() => {
+      resolve(filterWriters(inputValue));
+    }, 1);
+  });
+
+  const filterDirectors = (inputValue) => {
+    return allDirectors.filter(i =>
+      i.label.toLowerCase().includes(inputValue.toLowerCase())
+    );
+  };
+
+  const directorOptions = inputValue =>
+  new Promise(resolve => {
+    setTimeout(() => {
+      resolve(filterDirectors(inputValue));
+    }, 1);
+  });
+
+
   return (
     <div>
       {/* header  */}
@@ -1821,6 +1848,7 @@ const movieForm = (props) => {
                 className="addMoviedirector-container"
                 placeholder="Select or write movie directors"
                 defaultOptions={allDirectors}
+                loadOptions={directorOptions}
                 onChange={setDirectorFunction}
                 theme={(theme) => ({
                   ...theme,
@@ -1879,6 +1907,7 @@ const movieForm = (props) => {
                 className="addMoviewriter-container"
                 placeholder="Select or write movie writers"
                 defaultOptions={allWriters}
+                loadOptions={writerOptions}
                 onChange={setWriterFunction}
                 theme={(theme) => ({
                   ...theme,
@@ -2439,28 +2468,24 @@ const movieForm = (props) => {
                 </h3>
                 {/* 1st  */}
                 <div>
-                  <div>
-                    <div>
-                      <input
-                        className="addMovieactor-image"
-                        placeholder="Enter URL of actor image"
-                        name="actorImage"
-                        type="text"
-                        required
-                        value={getActorImagesArrayInHTMLState[0]}
-                        onChange={(e) => {
-                          setActorImage(0, e.target.value);
-                          validateActor1ImageURL(e.target.value);
-                        }}
-                      />
-                      <p className="movie-form-error nunito-normal-river-bed-50px">
-                        <strong>
-                          {actor1ImageURLErrorMessage}{" "}
-                          {movieActorImage_error_message[0]}
-                        </strong>
-                      </p>
-                    </div>
-                  </div>
+                  <input
+                    className="addMovieactor-image1"
+                    placeholder="Enter URL of actor image"
+                    name="actorImage"
+                    type="text"
+                    required
+                    value={getActorImagesArrayInHTMLState[0]}
+                    onChange={(e) => {
+                      setActorImage(0, e.target.value);
+                      validateActor1ImageURL(e.target.value);
+                    }}
+                  />
+                  <p className="movie-form-error nunito-normal-river-bed-50px">
+                    <strong>
+                      {actor1ImageURLErrorMessage}{" "}
+                      {movieActorImage_error_message[0]}
+                    </strong>
+                  </p>
                 </div>
                 {/* 2nd  */}
                 <div>

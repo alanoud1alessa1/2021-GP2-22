@@ -98,6 +98,7 @@ const Home = (props) => {
       {
         breakpoint: 480,
         settings: {
+          slidesToShow: 2,
           slidesToScroll: 1,
         },
       },
@@ -157,6 +158,7 @@ const Home = (props) => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
+          infinite: true,
         },
       },
     ],
