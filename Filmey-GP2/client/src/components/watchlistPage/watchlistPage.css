@@ -17,6 +17,16 @@
   color: red;
 }
 
+.watchlistBookMarkCheck{
+  color: var(--baby-powder);
+  position: absolute;
+  top: 12px;
+  left: 25px;
+  border: none;
+  background: none;
+  z-index: 2;
+}
+
 .emptyWatchList{
   margin-bottom: 200px;
 }
@@ -27,11 +37,10 @@
     width:50px;
     margin-left: 1.5px;
   }
+  .watchlistBookMarkCheck{
+    margin-top: 15px;
+    width:50px;
+    margin-left: -18px;
+  }
 }
 
-@media only screen and (max-width: 400px) {
-}
-
-@media only screen and (max-width: 350px) {
-
-}

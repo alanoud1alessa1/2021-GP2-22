@@ -2,7 +2,11 @@ import Popover from "@mui/material/Popover";
 import jwt_decode from "jwt-decode";
 import React, { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import { BsFillBookmarkCheckFill } from "react-icons/bs";
+import {
+  BsFillBookmarkFill,
+  BsCheckLg,
+} from "react-icons/bs";
+import { TiPlus } from "react-icons/ti";
 import { Link } from "react-router-dom";
 import Cookies from "universal-cookie";
 import Footer from "../Footer";
@@ -212,7 +216,7 @@ const watchlistPage = (props) => {
                   </div>
                 </Popover>
 
-                <button
+                {/* <button
                   className="watch-list"
                   onClick={() => {
                     removeFromWatchlist(x.movie_id);
@@ -223,7 +227,30 @@ const watchlistPage = (props) => {
                   onMouseLeave={removePopoverClose}
                 >
                   <BsFillBookmarkCheckFill size={60} />{" "}
-                </button>
+                </button> */}
+                <div>
+                  <button
+                  className="watchlistBookMarkCheck"
+                  onClick={removeFromWatchlist}
+                  aria-owns={removeIsOpen ? "mouse-over-popover" : undefined}
+                  aria-haspopup="true"
+                  onMouseEnter={removePopoverOpen}
+                  onMouseLeave={removePopoverClose}
+                >
+                  <BsCheckLg size={20}/>{" "}
+                 </button>
+
+                  <button
+                    className="watch-list"
+                    onClick={removeFromWatchlist}
+                    aria-owns={removeIsOpen ? "mouse-over-popover" : undefined}
+                    aria-haspopup="true"
+                    onMouseEnter={removePopoverOpen}
+                    onMouseLeave={removePopoverClose}
+                  >
+                    <BsFillBookmarkFill size={60} color="var(--cardinal)" />{" "}
+                  </button>
+                </div>
               </Col>
             ))
           ) : (

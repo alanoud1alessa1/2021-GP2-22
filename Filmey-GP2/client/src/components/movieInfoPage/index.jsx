@@ -8,9 +8,11 @@ import { Col, Container, Row } from "react-bootstrap";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import {
-  BsFillBookmarkCheckFill,
-  BsFillBookmarkPlusFill,
+  BsFillBookmarkFill,
+  BsCheckLg,
 } from "react-icons/bs";
+import { TiPlus } from "react-icons/ti";
+import { MdOutlineCancel } from "react-icons/md";
 import { FiEdit } from "react-icons/fi";
 import { GiTicket } from "react-icons/gi";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
@@ -484,15 +486,33 @@ const MovieInfo = (props) => {
         customUI: ({ onClose }) => {
           return (
             <div className="customconfirmAlert">
-              <h1>Sorry!</h1>
-              <h5>You have to login</h5>
               <button
-                className="yesButton"
+                className="closeButton"
                 onClick={() => {
                   onClose();
                 }}
               >
-                OK
+                <MdOutlineCancel size={30}/>
+              </button>
+
+              <h5>Please <strong>login</strong>  or <strong>register</strong>  to processed</h5>
+              <button
+                className="yesButton"
+                onClick={() => {
+                  // onClose();
+                  window.location = "/login-page";
+                }}
+              >
+                Login
+              </button>
+              <button
+                className="yesButton"
+                onClick={() => {
+                  // onClose();
+                  window.location = "/registerPage";
+                }}
+              >
+                Register
               </button>
             </div>
           );
@@ -539,15 +559,33 @@ const MovieInfo = (props) => {
         customUI: ({ onClose }) => {
           return (
             <div className="customconfirmAlert">
-              <h1>Sorry!</h1>
-              <h5>You have to login</h5>
               <button
-                className="yesButton"
+                className="closeButton"
                 onClick={() => {
                   onClose();
                 }}
               >
-                OK
+                <MdOutlineCancel size={30}/>
+              </button>
+
+              <h5>Please <strong>login</strong>  or <strong>register</strong>  to processed</h5>
+              <button
+                className="yesButton"
+                onClick={() => {
+                  // onClose();
+                  window.location = "/login-page";
+                }}
+              >
+                Login
+              </button>
+              <button
+                className="yesButton"
+                onClick={() => {
+                  // onClose();
+                  window.location = "/registerPage";
+                }}
+              >
+                Register
               </button>
             </div>
           );
@@ -671,20 +709,41 @@ const MovieInfo = (props) => {
   };
 
   const addRating = (value) => {
+    if(value==undefined){
+      return;
+    }
     if (!registered) {
       confirmAlert({
         customUI: ({ onClose }) => {
           return (
             <div className="customconfirmAlert">
-              <h1>Sorry!</h1>
-              <h5>You have to login</h5>
               <button
-                className="yesButton"
+                className="closeButton"
                 onClick={() => {
                   onClose();
                 }}
               >
-                OK
+                <MdOutlineCancel size={30}/>
+              </button>
+
+              <h5>Please <strong>login</strong>  or <strong>register</strong>  to processed</h5>
+              <button
+                className="yesButton"
+                onClick={() => {
+                  // onClose();
+                  window.location = "/login-page";
+                }}
+              >
+                Login
+              </button>
+              <button
+                className="yesButton"
+                onClick={() => {
+                  // onClose();
+                  window.location = "/registerPage";
+                }}
+              >
+                Register
               </button>
             </div>
           );
@@ -1159,19 +1218,44 @@ const MovieInfo = (props) => {
                 <img className="img-fluid movie-info-poster" src={poster} />
               </div>
               {onWatchList && !isAdmin && (
-                <button
-                  className="watchList"
+                <div>
+                  <button
+                  className="BookMarkCheck"
                   onClick={removeFromWatchlist}
                   aria-owns={removeIsOpen ? "mouse-over-popover" : undefined}
                   aria-haspopup="true"
                   onMouseEnter={removePopoverOpen}
                   onMouseLeave={removePopoverClose}
                 >
-                  <BsFillBookmarkCheckFill size={80} />{" "}
-                </button>
+                  <BsCheckLg size={30}/>{" "}
+                 </button>
+
+                  <button
+                    className="addBookMark"
+                    onClick={removeFromWatchlist}
+                    aria-owns={removeIsOpen ? "mouse-over-popover" : undefined}
+                    aria-haspopup="true"
+                    onMouseEnter={removePopoverOpen}
+                    onMouseLeave={removePopoverClose}
+                  >
+                    <BsFillBookmarkFill size={75} color="var(--cardinal)" />{" "}
+                  </button>
+                </div>
               )}
 
               {!onWatchList && !isAdmin && (
+                <div>
+                <button
+                  className="bookMarkPlus"
+                  onClick={addToWatchlist}
+                  aria-owns={addIsOpen ? "mouse-over-popover" : undefined}
+                  aria-haspopup="true"
+                  onMouseEnter={addPopoverOpen}
+                  onMouseLeave={addPopoverClose}
+                >
+                <TiPlus size={40}/>{" "}
+                </button>
+
                 <button
                   className="addBookMark"
                   onClick={addToWatchlist}
@@ -1180,9 +1264,11 @@ const MovieInfo = (props) => {
                   onMouseEnter={addPopoverOpen}
                   onMouseLeave={addPopoverClose}
                 >
-                  <BsFillBookmarkPlusFill size={80} />{" "}
+                <BsFillBookmarkFill size={75} color="var(--river-bed)"  />{" "}
                 </button>
+              </div>
               )}
+
               <div className="trailerContainer mt-4">
                 <a className="trailer" href={trailer_url} target="_blank">
                   <i className="fa fa-play-circle me-2"> </i>
@@ -1382,7 +1468,7 @@ const MovieInfo = (props) => {
               <div class="rating-css">
                 <div
                   class="star-icon"
-                  onChange={(e) => {
+                  onClick={(e) => {
                     addRating(e.target.value);
                   }}
                 >

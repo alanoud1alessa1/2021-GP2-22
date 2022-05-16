@@ -33,9 +33,9 @@ const cinemasPage = (props) => {
                     <img className="cinema-logo" src={amcLogo} />
                   </a>
                 </div>
-                <div className="cinema-description p-2 my-2">
+                <div className="cinema-description p-3 my-2">
                   <p className="roboto-normal-white-20px">
-                    <strong> AMC Cinemas </strong> is dedicated to innovating
+                  <strong> AMC Cinemas </strong> is dedicated to innovating
                     the way you see movies. Don’t just visit a cinema;
                     experience the AMC difference of premium formats that bring
                     you superior acoustics, richer imagery, and a choice between
@@ -44,8 +44,7 @@ const cinemasPage = (props) => {
                     flavors, wider variety, and superior quality movie snacks.
                     Reserve your seats when you purchase tickets online and on
                     our app and relax into the spacious comforts of our luxe
-                    recliners. Come and enjoy the very best of cutting-edge
-                    entertainment when you choose AMC Cinemas.
+                    recliners. Come and enjoy . . .
                   </p>
                 </div>
                 <div>
@@ -66,7 +65,7 @@ const cinemasPage = (props) => {
                 </div>
                 <div className="cinema-description p-4 my-2">
                   <p className="roboto-normal-white-20px">
-                    <strong> Muvi Cinemas </strong>is the first home-grown cinema
+                  <strong> Muvi Cinemas </strong>is the first home-grown cinema
                     brand and the market leader in terms of screen count in the
                     Kingdom of Saudi Arabia. Established in 2019 with
                     headquarters in Riyadh, it is owned and operated by muvi
@@ -74,7 +73,7 @@ const cinemasPage = (props) => {
                     upcoming years across the kingdom offering state-of-the-art
                     technology, diverse and immersive experiences combined with
                     unlimited options from our delicious menu to give moviegoers
-                    complete and exceptional cinema experience.
+                    complete and exceptional cinema experience . . .
                   </p>
                 </div>
                 <div>
@@ -93,9 +92,9 @@ const cinemasPage = (props) => {
                     <img className="cinema-logo-vox" src={voxwhite} />
                   </a>
                 </div>
-                <div className="cinema-description p-3 my-2">
+                <div className="cinema-description p-4 my-2">
                   <p className="roboto-normal-white-20px">
-                    <strong> VOX Cinemas </strong> the MENA region’s largest
+                  <strong> VOX Cinemas </strong> the MENA region’s largest
                     cinema operator, is honoured to be awarded one of the first
                     licenses to operate cinemas in Saudi Arabia. Its brand-new
                     cinema, which will be the first multiplex in Saudi Arabia
@@ -103,9 +102,7 @@ const cinemasPage = (props) => {
                     delivering on an ambitious plan to bring its world-class
                     cinema entertainment portfolio to Saudi Arabia and support
                     the growth of audio-visual and creative talent across the
-                    Kingdom. VOX Cinemas parent company Majid Al Futtaim, the
-                    leading shopping mall, communities, retail and leisure
-                    pioneer across the Middle East...
+                    Kingdom. VOX Cinemas parent company Majid Al Futtaim . . .
                   </p>
                 </div>
                 <div>

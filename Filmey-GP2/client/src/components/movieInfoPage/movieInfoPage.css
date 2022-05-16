@@ -35,6 +35,15 @@
   font-weight: 500;
 }
 
+.closeButton{
+  margin-left: 98%;
+  top: -15px;
+  position: relative;
+  background: none;
+  color: var(--cardinal);
+  border: none;
+}
+
 .moviePosterBox {
   position: relative;
 }
@@ -43,9 +52,11 @@
   height: 400px;
 }
 
-.addBookMark,
-.watchList {
-  color: var(--baby-powder);
+.watchListHoverText{
+  padding: 2px;
+}
+
+.addBookMark{
   background: none !important;
   position: absolute;
   top: 0;
@@ -53,16 +64,24 @@
   border: none;
 }
 
-.bookMark:hover {
-  color: var(--celeste);
+.BookMarkCheck{
+  color: var(--baby-powder);
+  position: absolute;
+  top: 18px;
+  left: 12px;
+  border: none;
+  background: none;
+  z-index: 2;
 }
 
-.watchList {
-  color: var(--cardinal);
-}
-
-.watchList:hover {
-  color: red;
+.bookMarkPlus{
+  position: absolute;
+  top: 12px;
+  left: 7px;
+  color: var(--baby-powder);
+  border: none;
+  background: none;
+  z-index: 2;
 }
 
 .trailer {
@@ -578,15 +597,9 @@
     font-size: 20px;
     padding: 5px 10px;
   }
-  .addBookMark,
-  .watchList {
+  .addBookMark {
     top: 0;
     left: -7px;
-  }
-  .addBookMark svg,
-  .watchList svg {
-    width: 50px !important;
-    height: 50px !important;
   }
   .userUsername {
     font-size: 16px !important;
@@ -623,20 +636,34 @@
     left: 70px;
     font-size: 20px;
   }
-  .addBookMark,
-  .watchList {
+  .addBookMark{
     top: 0;
     left: -11px !important;
   }
   .movie-info-poster {
     height: 250px !important;
   }
-  .addBookMark svg,
-  .watchList svg {
-    width: 50px !important;
-    height: 50px !important;
-    margin-left: 5px;
+
+  .bookMarkPlus svg{
+    width: 30px !important;
+    height: 30px !important;
   }
+
+  .bookMarkPlus{
+    left: 0px;
+    top: 5px;
+  }
+  
+  .BookMarkCheck svg{
+  width: 25px !important;
+  height: 25px !important;
+}
+
+  .BookMarkCheck{
+    left: 2px !important;
+    top: 7px;
+  }
+
   .trailer {
     margin-left: 2px;
   }
@@ -695,16 +722,29 @@
   .rateItText {
     font-size: 24px;
   }
-  .addBookMark,
-  .watchList {
+  .addBookMark{
     top: 0;
     left: -5px !important;
   }
-  .addBookMark svg,
-  .watchList svg {
-    width: 50px !important;
-    height: 50px !important;
-    margin-left: -1px;
+
+  .bookMarkPlus svg{
+    width: 30px !important;
+    height: 30px !important;
+  }
+
+  .bookMarkPlus{
+    left: 5px;
+    top: 5px;
+  }
+  
+  .BookMarkCheck svg{
+  width: 25px !important;
+  height: 25px !important;
+}
+
+  .BookMarkCheck{
+    left: 8px !important;
+    top: 7px;
   }
   .release-date {
     font-size: 20px !important;
@@ -823,6 +863,12 @@
 
   .reviewItText{
     font-size: 20px;
+  }
+  
+  .closeButton{
+    margin-left: 90%;
+    top: -2px;
+    margin-bottom: 5px; 
   }
 }
 
