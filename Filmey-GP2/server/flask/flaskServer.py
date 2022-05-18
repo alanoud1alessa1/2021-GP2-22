@@ -20,7 +20,6 @@ from sqlalchemy import false
 from functools import reduce 
 from rake_nltk import Rake 
 import re 
-from imdb import IMDb
 
 
 
@@ -387,16 +386,17 @@ def contentBasedPreprocessing():
         for i in range(len(df)):
             print('des',i)
             if df['description'][i]!="":
-                try:
-                    black_panther = ia.get_movie(df['imdbId'][i], info='keywords')
-                    df['description'][i]=black_panther['keywords']
-                except KeyError:
-                    print("error in imdb")
-                    plot = df['description'][i]
-                    r = Rake()
-                    key=r.extract_keywords_from_text(plot)
-                    key_words_dict_scores = r.get_word_degrees()
-                    df['description'][i] = list(key_words_dict_scores.keys())
+                # try:
+                #     # df['description'][i]="":
+                #     black_panther = ia.get_movie(df['imdbId'][i], info='keywords')
+                #     df['description'][i]=black_panther['keywords']
+                # except KeyError:
+                print("error in imdb")
+                plot = df['description'][i]
+                r = Rake()
+                key=r.extract_keywords_from_text(plot)
+                key_words_dict_scores = r.get_word_degrees()
+                df['description'][i] = list(key_words_dict_scores.keys())
 
 
 

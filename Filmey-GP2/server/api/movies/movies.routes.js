@@ -9,6 +9,8 @@ const isAuth = require("../../isAuth");
 const { json } = require("express");
 const axios = require("axios");
 const { removeStopwords} =require('stopword')
+// const flaskAPI = require("../../../client/src/api/flaskAPI")
+
 
 router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
@@ -332,7 +334,7 @@ router.post("/delete", async (req, res, next) => {
 
     //delete movie from contentBased csv file
     const contentBasedPreprocessing = await axios
-      .post("http://localhost:5000/contentBasedPreprocessing", {
+      .post("http://localhost:8080/contentBasedPreprocessing", {
         movieID: movie_id,
         status: "Delete",
       })
@@ -466,7 +468,7 @@ router.post("/addMovie", async (req, res, next) => {
 
     //add movie to contentBased csv file
     const contentBasedPreprocessing = await axios
-      .post("http://localhost:5000/contentBasedPreprocessing", {
+      .post("http://localhost:8080/contentBasedPreprocessing", {
         movieID: movieID,
         status: "Add",
       })
@@ -629,7 +631,7 @@ router.post("/editMovie", async (req, res, next) => {
 
     //edit movie in contentBased csv file
     const contentBasedPreprocessing = await axios
-      .post("http://localhost:5000/contentBasedPreprocessing", {
+      .post("http://localhost:8080/contentBasedPreprocessing", {
         movieID: movieID,
         status: "Edit",
       })

@@ -325,7 +325,7 @@ const Home = (props) => {
               if (additionalStateArray) {
 
                 // re train model UserCB
-                reTrainingAPI.post("/reTrainUserCB", {}).then(
+                reTrainingAPI.get("/reTrainUserCB", {}).then(
                   () => {
                     console.log("ReTrain model");
                   }

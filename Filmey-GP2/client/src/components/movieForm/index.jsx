@@ -175,8 +175,8 @@ const movieForm = (props) => {
 
   //new alanoud
   const validateActor1ImageURL = (value) => {
-    console.log("in validateActor1ImageURL");
-    console.log(value);
+    // console.log("in validateActor1ImageURL");
+    // console.log(value);
 
     if (value == "") {
       setActor1ImageURLErrorMessage("");
@@ -322,7 +322,7 @@ const movieForm = (props) => {
   };
 
   var setGenreFunction = (e) => {
-    console.log(Array.isArray(e) ? e.map((x) => x.label) : []);
+    // console.log(Array.isArray(e) ? e.map((x) => x.label) : []);
     setGenre(Array.isArray(e) ? e.map((x) => x.label) : []);
 
     var newArrayOfGenres = Array.isArray(e) ? e.map((x) => x.label) : [];
@@ -334,7 +334,7 @@ const movieForm = (props) => {
   };
 
   var setLanguageFunction = (e) => {
-    console.log(Array.isArray(e) ? e.map((x) => x.label) : []);
+    // console.log(Array.isArray(e) ? e.map((x) => x.label) : []);
     setLanaguage(Array.isArray(e) ? e.map((x) => x.label) : []);
 
     var newArrayOfLanguages = Array.isArray(e) ? e.map((x) => x.label) : [];
@@ -346,7 +346,7 @@ const movieForm = (props) => {
   };
 
   var setDirectorFunction = (e) => {
-    console.log(Array.isArray(e) ? e.map((x) => x.label) : []);
+    // console.log(Array.isArray(e) ? e.map((x) => x.label) : []);
     setDirector(Array.isArray(e) ? e.map((x) => x.label) : []);
 
     var newArrayOfDirectors = Array.isArray(e) ? e.map((x) => x.label) : [];
@@ -358,7 +358,7 @@ const movieForm = (props) => {
   };
 
   var setWriterFunction = (e) => {
-    console.log(Array.isArray(e) ? e.map((x) => x.label) : []);
+    // console.log(Array.isArray(e) ? e.map((x) => x.label) : []);
     setWriter(Array.isArray(e) ? e.map((x) => x.label) : []);
 
     var newArrayOfWriters = Array.isArray(e) ? e.map((x) => x.label) : [];
@@ -396,7 +396,7 @@ const movieForm = (props) => {
       const getActorImage = api
         .get(`/movies/getActorImage/${actorNameArray[index]}`)
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
 
           if (res.data.NoActorImage) {
             actorImageArray[index] = "";
@@ -429,12 +429,12 @@ const movieForm = (props) => {
         });
     }
     setGetActorImagesArrayInHTMLState(getActorImagesArrayInHTML);
-    console.log(getActorImagesArrayInHTML);
+    // console.log(getActorImagesArrayInHTML);
   };
 
   const setActorRole = (index) => (newValue, actionMeta) => {
     if (id == 0 && newValue == null) {
-      console.log(newValue);
+      // console.log(newValue);
       actorRoleArray[index] = newValue;
       setActorRoleArrayState(actorRoleArray);
       return;
@@ -442,9 +442,9 @@ const movieForm = (props) => {
 
     if (id == 0) {
       actorRoleArray[index] = newValue.label;
-      console.log(actorRoleArray);
+      // console.log(actorRoleArray);
       setActorRoleArrayState(actorRoleArray);
-      console.log(actorRoleArrayState);
+      // console.log(actorRoleArrayState);
     } else {
       getActorRolesArray[index] = newValue;
       setGetActorRoles(getActorRolesArray);
@@ -454,9 +454,9 @@ const movieForm = (props) => {
   const setActorImage = (index, value) => {
     if (id == 0) {
       actorImageArray[index] = value;
-      console.log(actorImageArray);
+      // console.log(actorImageArray);
       setActorImageArrayState(actorImageArray);
-      console.log(actorImageArrayState);
+      // console.log(actorImageArrayState);
     }
     getActorImagesArrayInHTML[index] = value;
     setGetActorImagesArrayInHTMLState(getActorImagesArrayInHTML);
@@ -470,22 +470,22 @@ const movieForm = (props) => {
   var adminID = decoded.userID;
 
   const addMovie = () => {
-    console.log(
-      titleState,
-      genreState,
-      languageState,
-      yearState,
-      length,
-      ageGuideSate,
-      trailerState,
-      posterSate,
-      descriptionState,
-      directorState,
-      writerState,
-      actorNameArray,
-      actorRoleArray,
-      actorImageArray
-    );
+    // console.log(
+    //   titleState,
+    //   genreState,
+    //   languageState,
+    //   yearState,
+    //   length,
+    //   ageGuideSate,
+    //   trailerState,
+    //   posterSate,
+    //   descriptionState,
+    //   directorState,
+    //   writerState,
+    //   actorNameArray,
+    //   actorRoleArray,
+    //   actorImageArray
+    // );
 
     const addMovieRes = api
       .post("/movies/addMovie", {
@@ -507,27 +507,27 @@ const movieForm = (props) => {
       })
       .then((res) => {
         if (res.data.PosterMessage) {
-          console.log(res.data.PosterMessage);
+          // console.log(res.data.PosterMessage);
           setMoviePoster_error_message(res.data.PosterMessage);
         } else {
           setMoviePoster_error_message("");
         }
         if (res.data.DescriptionMessage) {
-          console.log(res.data.DescriptionMessage);
+          // console.log(res.data.DescriptionMessage);
           setMovieDes_error_message(res.data.DescriptionMessage);
         } else {
           setMovieDes_error_message("");
         }
 
         if (res.data.TrailerMessage) {
-          console.log(res.data.TrailerMessage);
+          // console.log(res.data.TrailerMessage);
           setMovieTrailer_error_message(res.data.TrailerMessage);
         } else {
           setMovieTrailer_error_message("");
         }
 
         if (res.data.checkActorImage) {
-          console.log(res.data.checkActorImage);
+          // console.log(res.data.checkActorImage);
           setMovieActorImage_error_message(res.data.checkActorImage);
         } else {
           setMovieActorImage_error_message("");
@@ -551,7 +551,7 @@ const movieForm = (props) => {
     yearsArray[i] = { value: year, label: year };
     year++;
   }
-  console.log(yearsArray);
+  // console.log(yearsArray);
 
   //hoursArray
   var hour = 1;
@@ -607,27 +607,27 @@ const movieForm = (props) => {
     }
 
     if (hoursState) {
-      console.log("minutesState");
-      console.log(minutesState);
+      // console.log("minutesState");
+      // console.log(minutesState);
       if (minutesState) {
         lengthEdited = hoursState + "h " + minutesState + "min";
       } else {
         lengthEdited = hoursState + "h " + getMinutes + "min";
       }
-      console.log(length);
+      // console.log(length);
     } else {
       if (minutesState) {
-        console.log("minutesState");
-        console.log(minutesState);
+        // console.log("minutesState");
+        // console.log(minutesState);
         if (hoursState) {
           lengthEdited = hoursState + "h " + minutesState + "min";
         } else {
           lengthEdited = getHours + "h " + minutesState + "min";
         }
-        console.log(length);
+        // console.log(length);
       } else {
         {
-          console.log(getHours, getMinutes);
+          // console.log(getHours, getMinutes);
           lengthEdited = getHours + "h " + getMinutes + "min";
         }
       }
@@ -674,8 +674,8 @@ const movieForm = (props) => {
       for (let i = 0; i < getActorNames.length; i++) {
         if (getActorNames[i] == null) {
           getActorNames.splice(i, 1);
-          console.log("getActorNames");
-          console.log(getActorNames);
+          // console.log("getActorNames");
+          // console.log(getActorNames);
         }
       }
       actorNamesEdited = getActorNames;
@@ -692,15 +692,15 @@ const movieForm = (props) => {
       for (let i = 0; i < getActorRoles.length; i++) {
         if (getActorRoles[i] == null) {
           getActorRoles.splice(i, 1);
-          console.log("getActorRoles");
-          console.log(getActorRoles);
+          // console.log("getActorRoles");
+          // console.log(getActorRoles);
         }
       }
       actorRolesEdited = getActorRoles;
     }
 
     if (getActorImagesArrayInHTML.length) {
-      console.log("getActorImagesArrayInHTML");
+      // console.log("getActorImagesArrayInHTML");
       for (let i = 0; i < getActorImagesArrayInHTML.length; i++) {
         if (!getActorImagesArrayInHTML[i]) {
           getActorImagesArrayInHTML.splice(i, 1);
@@ -711,8 +711,8 @@ const movieForm = (props) => {
       for (let i = 0; i < getActorImages.length; i++) {
         if (getActorImages[i] == null) {
           getActorImages.splice(i, 1);
-          console.log("getActorImages");
-          console.log(getActorImages);
+          // console.log("getActorImages");
+          // console.log(getActorImages);
         }
       }
       actorImagesEdited = getActorImages;
@@ -740,15 +740,16 @@ const movieForm = (props) => {
       actorNamesEdited.length != actorRolesEdited.length ||
       actorImagesEdited.length != actorRolesEdited.length
     ) {
-      console.log(actorNamesEdited.length);
-      console.log(actorRolesEdited.length);
-      console.log(actorImagesEdited.length);
-      console.log("Please fill Top Cast correctly");
+      // console.log(actorNamesEdited.length);
+      // console.log(actorRolesEdited.length);
+      // console.log(actorImagesEdited.length);
+      // console.log("Please fill Top Cast correctly");
       return;
     }
 
-    const editMovieRes = api
-      .post("/movies/editMovie", {
+
+    const editMovieRes = 
+    api.post("/movies/editMovie", {
         adminID: adminID,
         movie_id: id,
         title: titleEdited,
@@ -788,12 +789,12 @@ const movieForm = (props) => {
   React.useEffect(() => {
     const res = api.get("/movies/allGenres/1").then((response) => {
       const genresArray = [...allGenres];
-      console.log(response.data);
+      // console.log(response.data);
 
       for (var i = 0; i < response.data.length; i++) {
         genresArray[i] = { value: i, label: response.data[i].genre };
       }
-      console.log(genresArray);
+      // console.log(genresArray);
       setAllGenres(genresArray);
     });
 
@@ -805,7 +806,7 @@ const movieForm = (props) => {
           languageArray[i] = { value: i, label: response.data[i].language };
         }
       }
-      console.log(languageArray);
+      // console.log(languageArray);
       setAllLanguages(languageArray);
     });
 
@@ -857,7 +858,7 @@ const movieForm = (props) => {
 
     if (id > 0) {
       const b = api.get(`/movies/getMovieFormData/${id}`).then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         setGetTitle(response.data.movieInfo[0].title);
         setGetTrailer(response.data.movieInfo[0].trailer_url);
         setGetPoster(response.data.movieInfo[0].poster);
@@ -972,33 +973,33 @@ const movieForm = (props) => {
   }
 
   if (id == 0) {
-    console.log(actorNameArrayState);
+    // console.log(actorNameArrayState);
     for (let i = 0; i < actorNameArrayState.length; i++) {
       if (actorNameArrayState[i] == null) {
         actorNameArrayState.splice(i, 1);
-        console.log("actorNameArrayState");
-        console.log(actorNameArrayState);
+        // console.log("actorNameArrayState");
+        // console.log(actorNameArrayState);
       }
     }
 
     for (let i = 0; i < actorRoleArrayState.length; i++) {
       if (actorRoleArrayState[i] == null) {
         actorRoleArrayState.splice(i, 1);
-        console.log("actorRoleArrayState");
-        console.log(actorRoleArrayState);
+        // console.log("actorRoleArrayState");
+        // console.log(actorRoleArrayState);
       }
     }
-    console.log(actorImageArrayState);
+    // console.log(actorImageArrayState);
 
     for (let i = 0; i < actorImageArrayState.length; i++) {
       if (actorImageArrayState[i] == "") {
         actorImageArrayState.splice(i, 1);
-        console.log("actorImageArrayState");
-        console.log(actorImageArrayState);
+        // console.log("actorImageArrayState");
+        // console.log(actorImageArrayState);
       }
     }
   }
-  console.log(actorImageArrayState);
+  // console.log(actorImageArrayState);
 
   //movie title
   //have write another title
@@ -1011,10 +1012,10 @@ const movieForm = (props) => {
   }
 
   if (genreState) {
-    console.log(getGenresArray);
+    // console.log(getGenresArray);
     genreEdited = genreState;
   } else {
-    console.log(getGenresArray);
+    // console.log(getGenresArray);
     genreEdited = getGenresArray;
   }
 
@@ -1031,27 +1032,27 @@ const movieForm = (props) => {
   }
 
   if (hoursState) {
-    console.log("minutesState");
-    console.log(minutesState);
+    // console.log("minutesState");
+    // console.log(minutesState);
     if (minutesState) {
       lengthEdited = hoursState + "h " + minutesState + "min";
     } else {
       lengthEdited = hoursState + "h " + getMinutes + "min";
     }
-    console.log(length);
+    // console.log(length);
   } else {
     if (minutesState) {
-      console.log("minutesState");
-      console.log(minutesState);
+      // console.log("minutesState");
+      // console.log(minutesState);
       if (hoursState) {
         lengthEdited = hoursState + "h " + minutesState + "min";
       } else {
         lengthEdited = getHours + "h " + minutesState + "min";
       }
-      console.log(length);
+      // console.log(length);
     } else {
       {
-        console.log(getHours, getMinutes);
+        // console.log(getHours, getMinutes);
         lengthEdited = getHours + "h " + getMinutes + "min";
       }
     }
@@ -1099,8 +1100,8 @@ const movieForm = (props) => {
     for (let i = 0; i < getActorNames.length; i++) {
       if (getActorNames[i] == null) {
         getActorNames.splice(i, 1);
-        console.log("getActorNames");
-        console.log(getActorNames);
+        // console.log("getActorNames");
+        // console.log(getActorNames);
       }
     }
     actorNamesEdited = getActorNames;
@@ -1117,92 +1118,92 @@ const movieForm = (props) => {
     for (let i = 0; i < getActorRoles.length; i++) {
       if (getActorRoles[i] == null) {
         getActorRoles.splice(i, 1);
-        console.log("getActorRoles");
-        console.log(getActorRoles);
+        // console.log("getActorRoles");
+        // console.log(getActorRoles);
       }
     }
     actorRolesEdited = getActorRoles;
   }
 
   if (getActorImagesArrayInHTML.length) {
-    console.log("in getActorImagesArrayInHTML");
-    console.log(getActorImagesArrayInHTML);
+    // console.log("in getActorImagesArrayInHTML");
+    // console.log(getActorImagesArrayInHTML);
 
     for (let i = 0; i < getActorImagesArrayInHTML.length; i++) {
-      console.log("getActorImagesArrayInHTML[i]");
+      // console.log("getActorImagesArrayInHTML[i]");
 
-      console.log(getActorImagesArrayInHTML[i]);
-      console.log(!getActorImagesArrayInHTML[i]);
+      // console.log(getActorImagesArrayInHTML[i]);
+      // console.log(!getActorImagesArrayInHTML[i]);
 
       if (!getActorImagesArrayInHTML[i]) {
         getActorImagesArrayInHTML.splice(i, 1);
       }
     }
     actorImagesEdited = getActorImagesArrayInHTML;
-    console.log("after loop getActorImagesArrayInHTML");
+    // console.log("after loop getActorImagesArrayInHTML");
 
-    console.log(getActorImagesArrayInHTML);
+    // console.log(getActorImagesArrayInHTML);
   } else {
     for (let i = 0; i < getActorImages.length; i++) {
       if (getActorImages[i] == null) {
         getActorImages.splice(i, 1);
-        console.log("getActorImages");
-        console.log(getActorImages);
+        // console.log("getActorImages");
+        // console.log(getActorImages);
       }
     }
     actorImagesEdited = getActorImages;
   }
 
-  console.log(
-    titleEdited,
-    genreEdited,
-    languageEdited,
-    yearEdited,
-    lengthEdited,
-    ageGuideEdited,
-    trailerEdited,
-    posterEdited,
-    descriptionEdited,
-    directorsEdited,
-    writersEdited,
-    actorNamesEdited,
-    actorRolesEdited,
-    actorImagesEdited
-  );
+  // console.log(
+  //   titleEdited,
+  //   genreEdited,
+  //   languageEdited,
+  //   yearEdited,
+  //   lengthEdited,
+  //   ageGuideEdited,
+  //   trailerEdited,
+  //   posterEdited,
+  //   descriptionEdited,
+  //   directorsEdited,
+  //   writersEdited,
+  //   actorNamesEdited,
+  //   actorRolesEdited,
+  //   actorImagesEdited
+  // );
 
-  console.log(actorNameArrayState);
+  // console.log(actorNameArrayState);
   for (let i = 0; i < actorNamesEdited.length; i++) {
     if (actorNamesEdited[i] == null) {
       actorNamesEdited.splice(i, 1);
-      console.log("actorNamesEdited");
-      console.log(actorNamesEdited);
+      // console.log("actorNamesEdited");
+      // console.log(actorNamesEdited);
     }
   }
 
   for (let i = 0; i < actorRolesEdited.length; i++) {
     if (actorRolesEdited[i] == null) {
       actorRolesEdited.splice(i, 1);
-      console.log("actorRolesEdited");
-      console.log("**********in actorNamesEdited");
+      // console.log("actorRolesEdited");
+      // console.log("**********in actorNamesEdited");
 
-      console.log(actorRolesEdited);
+      // console.log(actorRolesEdited);
     }
   }
-  console.log("before");
+  // console.log("before");
 
-  console.log(actorImagesEdited);
+  // console.log(actorImagesEdited);
 
   for (let i = 0; i < actorImagesEdited.length; i++) {
-    console.log("**********before in if");
-    console.log(actorImagesEdited);
+    // console.log("**********before in if");
+    // console.log(actorImagesEdited);
     if (actorImagesEdited[i] == "") {
       actorImagesEdited.splice(i, 1);
-      console.log("**********in actorNamesEdited");
-      console.log(actorImagesEdited);
+      // console.log("**********in actorNamesEdited");
+      // console.log(actorImagesEdited);
     }
   }
-  console.log("after");
-  console.log(actorImagesEdited);
+  // console.log("after");
+  // console.log(actorImagesEdited);
 
   //edit empty values
   const emptyTitle = () => {
@@ -1218,8 +1219,8 @@ const movieForm = (props) => {
     setGetPoster("");
   };
 
-  console.log("alanoud");
-  console.log(getActorNames);
+  // console.log("alanoud");
+  // console.log(getActorNames);
 
   // repeated actor name
   const repeatedActorName = [];
@@ -1385,10 +1386,10 @@ const movieForm = (props) => {
     actorNamesEdited.length != actorRolesEdited.length ||
     actorImagesEdited.length != actorRolesEdited.length
   ) {
-    console.log(actorNamesEdited.length);
-    console.log(actorRolesEdited.length);
-    console.log(actorImagesEdited.length);
-    console.log("Please fill Top Cast correctly");
+    // console.log(actorNamesEdited.length);
+    // console.log(actorRolesEdited.length);
+    // console.log(actorImagesEdited.length);
+    // console.log("Please fill Top Cast correctly");
   }
 
   const filterWriters = (inputValue) => {
@@ -1575,7 +1576,7 @@ const movieForm = (props) => {
                 <select
                   className="movieYearBox"
                   onChange={(e) => {
-                    console.log(getYear);
+                    // console.log(getYear);
                     setYear(e.target.value);
                   }}
                 >
