@@ -1,8 +1,6 @@
-
 const db = require("../../db/db");
 const auth = require("../../auth");
 const tableNames = require("../../constents/tableNames");
-
 
 module.exports = {
   async get(movie_id) {
@@ -95,7 +93,7 @@ module.exports = {
       .leftJoin("Movie AS M", "MG.movie_id", "M.movie_id")
       .leftJoin("Rating AS R", "MG.movie_id", "R.movie_id")
       .where("M.is_deleted", "=", false)
-      .groupBy("MG.movie_id", "title", "poster","year")
+      .groupBy("MG.movie_id", "title", "poster", "year")
       .orderBy("total_rating", "desc", { nulls: "last" })
       .orderBy("MG.movie_id", "asc")
       .limit(limit);
@@ -114,32 +112,32 @@ module.exports = {
   },
 
   async getAllGenres() {
-    return db("Genre").select("genre").orderBy('genre', 'asc');
+    return db("Genre").select("genre").orderBy("genre", "asc");
   },
 
   async getAllLanguages() {
     // return db("Language").distinct("language").orderBy('language', 'asc');
-    return db("Language").select('language').orderBy('language', 'asc');
+    return db("Language").select("language").orderBy("language", "asc");
   },
 
   async getAllAgeGuide() {
-    return db("Movie").distinct("age_guide").orderBy('age_guide', 'asc');
+    return db("Movie").distinct("age_guide").orderBy("age_guide", "asc");
   },
 
   async getAllDirectors() {
-    return db("Director").distinct("director").orderBy('director', 'asc');
+    return db("Director").distinct("director").orderBy("director", "asc");
   },
 
   async getAllWriters() {
-    return db("Writer").distinct("writer").orderBy('writer', 'asc');
+    return db("Writer").distinct("writer").orderBy("writer", "asc");
   },
 
   async getAllActorss() {
-    return db("Actor").distinct("actor").orderBy('actor', 'asc');
+    return db("Actor").distinct("actor").orderBy("actor", "asc");
   },
 
   async getAllRoles() {
-    return db("Role").distinct("role").orderBy('role', 'asc');
+    return db("Role").distinct("role").orderBy("role", "asc");
   },
 
   async getRating(movie_id) {
@@ -202,7 +200,7 @@ module.exports = {
   async checkTitleForAdd(title) {
     console.log(title);
     let checkTitleForAdd = await db("Movie")
-    .whereRaw( 'LOWER(title) = LOWER(?)', [title])
+      .whereRaw("LOWER(title) = LOWER(?)", [title])
       .first()
       .returning("*");
     console.log(checkTitleForAdd);
@@ -224,13 +222,18 @@ module.exports = {
         .where({
           actor_image_url: actorImages[i],
         })
-        .returning("*")
-        // .pluck("actor");
+        .returning("*");
+      // .pluck("actor");
       console.log(checkActorImage);
       console.log(actorNames[i]);
       if (checkActorImage[0]) {
-        if (actorNames[i] != checkActorImage[0].actor && checkActorImage[0].actor_image_url!="https://m.media-amazon.com/images/S/sash/9FayPGLPcrscMjU.png"
-        && checkActorImage[0].actor_image_url!="https://m.media-amazon.com/images/M/MV5BMTU3NzAwMzE1OF5BMl5BanBnXkFtZTYwMjkzOTY0._V1_UY317_CR13,0,214,317_AL_.jpg") {
+        if (
+          actorNames[i] != checkActorImage[0].actor &&
+          checkActorImage[0].actor_image_url !=
+            "https://m.media-amazon.com/images/S/sash/9FayPGLPcrscMjU.png" &&
+          checkActorImage[0].actor_image_url !=
+            "https://m.media-amazon.com/images/M/MV5BMTU3NzAwMzE1OF5BMl5BanBnXkFtZTYwMjkzOTY0._V1_UY317_CR13,0,214,317_AL_.jpg"
+        ) {
           message[i] = "Image belongs to another actor";
           return message;
         }
@@ -782,42 +785,44 @@ module.exports = {
 
   async checkTitleForEdit(movie_id, title) {
     let movieOfTitle = await db(tableNames.movie)
-    .select('*')
+      .select("*")
       .where({
         title: title,
       })
       .returning("*");
 
-      //get row of given movie_id
-      let movie = await db(tableNames.movie)
-    .select('*')
+    //get row of given movie_id
+    let movie = await db(tableNames.movie)
+      .select("*")
       .where({
         movie_id: movie_id,
       })
       .returning("*");
-      
+
     try {
       if (movieOfTitle[0].movie_id) {
         if (movie_id != movieOfTitle[0].movie_id) {
-          if (movie[0].is_in_cinema==false && movie[0].is_coming_soon==false)
-          {
-            console.log('This movie already exists')
+          if (
+            movie[0].is_in_cinema == false &&
+            movie[0].is_coming_soon == false
+          ) {
+            console.log("This movie already exists");
             var message = "This movie already exists";
             return message;
-
+          } else {
+            if (
+              movieOfTitle[0].is_in_cinema == false &&
+              movieOfTitle[0].is_coming_soon == false
+            ) {
+              console.log("This movie already exists");
+              var message = "This movie already exists";
+              return message;
+            }
           }
-          else{
-            if(movieOfTitle[0].is_in_cinema==false && movieOfTitle[0].is_coming_soon==false)
-          {
-            console.log('This movie already exists')
-            var message = "This movie already exists";
-          return message;
-        }
-      }
         }
       }
     } catch {
-      console.log("catch")
+      console.log("catch");
       return;
     }
   },
@@ -825,16 +830,16 @@ module.exports = {
   async CheckPosterForEdit(movie_id, poster) {
     console.log(poster);
     let movieOfPoster = await db(tableNames.movie)
-    .select('*')
-    .where({
-      poster: poster,
-      // is_coming_soon:true,
-    })
-    .returning("*");
+      .select("*")
+      .where({
+        poster: poster,
+        // is_coming_soon:true,
+      })
+      .returning("*");
 
     //get row of given movie_id
     let movie = await db(tableNames.movie)
-    .select('*')
+      .select("*")
       .where({
         movie_id: movie_id,
       })
@@ -842,37 +847,38 @@ module.exports = {
 
     if (movieOfPoster[0].movie_id) {
       if (movie_id != movieOfPoster[0].movie_id) {
-        if (movie[0].is_in_cinema==false && movie[0].is_coming_soon==false)
-          {
-            console.log('This movie already exists')
-            var message = "This movie already exists";
+        if (
+          movie[0].is_in_cinema == false &&
+          movie[0].is_coming_soon == false
+        ) {
+          console.log("This movie already exists");
+          var message = "This movie already exists";
+          return message;
+        } else {
+          if (
+            movieOfPoster[0].is_in_cinema == false &&
+            movieOfPoster[0].is_coming_soon == false
+          ) {
+            var message = "This poster belongs to another movie";
             return message;
-
           }
-        else
-        {
-        if(movieOfPoster[0].is_in_cinema==false && movieOfPoster[0].is_coming_soon==false)
-        {
-        var message = "This poster belongs to another movie";
-        return message;
         }
-      }
       }
     }
   },
 
   async CheckTrailerForEdit(movie_id, trailer_url) {
-    console.log('inside CheckTrailerForEdit')
+    console.log("inside CheckTrailerForEdit");
     let movieOfTrailer = await db(tableNames.movie)
-      .select('*')
+      .select("*")
       .where({
         trailer_url: trailer_url,
       })
       .returning("*");
 
-      //get row of given movie_id
-      let movie = await db(tableNames.movie)
-    .select('*')
+    //get row of given movie_id
+    let movie = await db(tableNames.movie)
+      .select("*")
       .where({
         movie_id: movie_id,
       })
@@ -880,20 +886,22 @@ module.exports = {
 
     if (movieOfTrailer[0].movie_id) {
       if (movie_id != movieOfTrailer[0].movie_id) {
-        if (movie[0].is_in_cinema==false && movie[0].is_coming_soon==false)
-          {
-            console.log('This movie already exists')
-            var message = "This movie already exists";
+        if (
+          movie[0].is_in_cinema == false &&
+          movie[0].is_coming_soon == false
+        ) {
+          console.log("This movie already exists");
+          var message = "This movie already exists";
+          return message;
+        } else {
+          if (
+            movieOfTrailer[0].is_in_cinema == false &&
+            movieOfTrailer[0].is_coming_soon == false
+          ) {
+            var message = "This trailer belongs to another movie";
             return message;
-
           }
-        else{
-        if(movieOfTrailer[0].is_in_cinema==false && movieOfTrailer[0].is_coming_soon==false)
-        {
-        var message = "This trailer belongs to another movie";
-        return message;
         }
-      }
       }
     }
   },
@@ -901,15 +909,15 @@ module.exports = {
   async CheckDescriptionForEdit(movie_id, description) {
     // print('in CheckDescriptionForEdit')
     let movieOfDescription = await db(tableNames.movie)
-    .select('*')
-    .where({
-      description: description,
-    })
-    .returning("*");
+      .select("*")
+      .where({
+        description: description,
+      })
+      .returning("*");
 
     //get row of given movie_id
     let movie = await db(tableNames.movie)
-    .select('*')
+      .select("*")
       .where({
         movie_id: movie_id,
       })
@@ -917,24 +925,24 @@ module.exports = {
 
     if (movieOfDescription[0].movie_id) {
       if (movie_id != movieOfDescription[0].movie_id) {
-        if (movie[0].is_in_cinema==false && movie[0].is_coming_soon==false)
-          {
-            console.log('This movie already exists')
-            var message = "This movie already exists";
+        if (
+          movie[0].is_in_cinema == false &&
+          movie[0].is_coming_soon == false
+        ) {
+          console.log("This movie already exists");
+          var message = "This movie already exists";
+          return message;
+        } else {
+          if (
+            movieOfDescription[0].is_in_cinema == false &&
+            movieOfDescription[0].is_coming_soon == false
+          ) {
+            var message = "This description belongs to another movie";
             return message;
-
           }
-        else{
-        if(movieOfDescription[0].is_in_cinema==false && movieOfDescription[0].is_coming_soon==false)
-        {
-        var message = "This description belongs to another movie";
-        return message;
         }
       }
-      }
     }
-      
-
 
     // if (movie_idOfDescription.movie_id) {
     //   if (movie_id != movie_idOfDescription.movie_id) {
@@ -1001,7 +1009,7 @@ module.exports = {
       .del()
       .where({ movie_id: movie_id });
 
-     //insert movie id with  genre id
+    //insert movie id with  genre id
     for (const id of arrayofGenreID) {
       let Movie_Genre = await db("Movie_Genre")
         .insert({
@@ -1054,7 +1062,7 @@ module.exports = {
     return;
   },
 
- async editDirector(movie_id, directors) {
+  async editDirector(movie_id, directors) {
     console.log("directors");
     console.log(directors);
     let newID = await db
@@ -1302,203 +1310,184 @@ module.exports = {
       .returning("*")
       .pluck("language_id");
 
-      var arrayofLanguages = new Array();
+    var arrayofLanguages = new Array();
 
-      for (const id of language_ids) {
-        let language = await db(tableNames.language)
-          .select("*")
-          .where({
-            language_id: id,
-          })
-          .returning("*")
-          .pluck("language");
-        arrayofLanguages.push(language[0]);
-      }
-  
-      var actorInfoArray = new Array();
-  
-      let movieRoles = await db(tableNames.role)
+    for (const id of language_ids) {
+      let language = await db(tableNames.language)
+        .select("*")
+        .where({
+          language_id: id,
+        })
+        .returning("*")
+        .pluck("language");
+      arrayofLanguages.push(language[0]);
+    }
+
+    var actorInfoArray = new Array();
+
+    let movieRoles = await db(tableNames.role)
+      .select("*")
+      .where({
+        movie_id: id,
+      })
+      .returning("*");
+
+    for (const role of movieRoles) {
+      let movieActors = await db(tableNames.actor).select("*").where({
+        actor_id: role.actor_id,
+      });
+      let actorRole = await db(tableNames.role)
         .select("*")
         .where({
           movie_id: id,
+          actor_id: movieActors[0].actor_id,
         })
         .returning("*");
-  
-      for (const role of movieRoles) {
-        let movieActors = await db(tableNames.actor).select("*").where({
-          actor_id: role.actor_id,
-        });
-        let actorRole = await db(tableNames.role)
-          .select("*")
-          .where({
-            movie_id: id,
-            actor_id: movieActors[0].actor_id,
-          })
-          .returning("*");
-        movieRole = actorRole[0].role;
-        actorName = movieActors[0].actor;
-        actorImage = movieActors[0].actor_image_url;
-  
-        actorInfoArray.push([{ movieRole, actorName, actorImage }]);
-      }
-      var arrayofDirectors = new Array();
-  
-      let director_ids = await db(tableNames.movie_Director)
-        .select("*")
-        .where({
-          movie_id: id,
-        })
-        .returning("*")
-        .pluck("director_id");
-      console.log("director_ids");
-      console.log(director_ids);
-  
-      for (const id of director_ids) {
-        let movieDirectors = await db(tableNames.director)
-          .select("*")
-          .where({
-            director_id: id,
-          })
-          .returning("*")
-          .pluck("director");
-        arrayofDirectors.push(movieDirectors[0]);
-      }
-      var arrayofWriters = new Array();
+      movieRole = actorRole[0].role;
+      actorName = movieActors[0].actor;
+      actorImage = movieActors[0].actor_image_url;
 
-      let writer_ids = await db(tableNames.movie_Writer)
+      actorInfoArray.push([{ movieRole, actorName, actorImage }]);
+    }
+    var arrayofDirectors = new Array();
+
+    let director_ids = await db(tableNames.movie_Director)
+      .select("*")
+      .where({
+        movie_id: id,
+      })
+      .returning("*")
+      .pluck("director_id");
+    console.log("director_ids");
+    console.log(director_ids);
+
+    for (const id of director_ids) {
+      let movieDirectors = await db(tableNames.director)
         .select("*")
         .where({
-          movie_id: id,
+          director_id: id,
         })
         .returning("*")
-        .pluck("writer_id");
-      console.log(writer_ids);
-  
-      for (const id of writer_ids) {
-        let movieWriter = await db(tableNames.writer)
-          .select("*")
-          .where({
-            writer_id: id,
-          })
-          .returning("*")
-          .pluck("writer");
-        arrayofWriters.push(movieWriter[0]);
-      }
-  
-      console.log(actorInfoArray);
-      console.log(arrayofWriters);
-      console.log(arrayofDirectors);
-  
-      console.log(movieInfo);
-      console.log(arrayofGenres);
-      console.log(arrayofLanguages);
-      return {
-        movieInfo,
-        arrayofGenres,
-        arrayofLanguages,
-        actorInfoArray,
-        arrayofDirectors,
-        arrayofWriters,
-      };
-    },
-  
-    async getRecommendedPosters(recommendationIdsArray) {
-      var arrayOfPosters = new Array();
-  
-      for (var i = 0; i < recommendationIdsArray.length; i++) {
-        let poster = await db("Movie")
-          .select("movie_id", "poster")
-          .where({
-            movie_id: recommendationIdsArray[i],
-          })
-          .returning("*");
-        arrayOfPosters.push(poster[0]);
-      }
-      return arrayOfPosters;
-    },
-  
-    async getMovieStatus(movieId) {
-      return db("Movie AS M")
+        .pluck("director");
+      arrayofDirectors.push(movieDirectors[0]);
+    }
+    var arrayofWriters = new Array();
+
+    let writer_ids = await db(tableNames.movie_Writer)
+      .select("*")
+      .where({
+        movie_id: id,
+      })
+      .returning("*")
+      .pluck("writer_id");
+    console.log(writer_ids);
+
+    for (const id of writer_ids) {
+      let movieWriter = await db(tableNames.writer)
+        .select("*")
+        .where({
+          writer_id: id,
+        })
+        .returning("*")
+        .pluck("writer");
+      arrayofWriters.push(movieWriter[0]);
+    }
+
+    console.log(actorInfoArray);
+    console.log(arrayofWriters);
+    console.log(arrayofDirectors);
+
+    console.log(movieInfo);
+    console.log(arrayofGenres);
+    console.log(arrayofLanguages);
+    return {
+      movieInfo,
+      arrayofGenres,
+      arrayofLanguages,
+      actorInfoArray,
+      arrayofDirectors,
+      arrayofWriters,
+    };
+  },
+
+  async getRecommendedPosters(recommendationIdsArray) {
+    var arrayOfPosters = new Array();
+
+    for (var i = 0; i < recommendationIdsArray.length; i++) {
+      let poster = await db("Movie")
+        .select("movie_id", "poster")
+        .where({
+          movie_id: recommendationIdsArray[i],
+        })
+        .returning("*");
+      arrayOfPosters.push(poster[0]);
+    }
+    return arrayOfPosters;
+  },
+
+  async getMovieStatus(movieId) {
+    return db("Movie AS M")
       .select(
         "M.movie_id",
         "M.is_in_cinema",
         "M.is_coming_soon",
-        "M.is_deleted",
+        "M.is_deleted"
       )
-    .where("M.movie_id", "=", movieId)
-
+      .where("M.movie_id", "=", movieId);
   },
-
 
   async getReleaseDate(movieId) {
-    return db("Coming_soon AS cs")
-    .select(
-      "cs.movie_id",
-      "cs.release_date",
-      "cs.cinema_name",
-    )
-    // .leftJoin("Movie AS M", "M.movie_id", "R.movie_id")
-    .where("cs.movie_id", "=", movieId)
-   
-
+    return (
+      db("Coming_soon AS cs")
+        .select("cs.movie_id", "cs.release_date", "cs.cinema_name")
+        // .leftJoin("Movie AS M", "M.movie_id", "R.movie_id")
+        .where("cs.movie_id", "=", movieId)
+    );
   },
-
-
 
   async getWhatsOnMovies(numberofmovies) {
     return db("Movie AS M")
-    .select(
-      "M.movie_id",
-      "M.title",
-      "M.poster",
-       db.raw("ROUND(AVG(rating),1)::int AS total_rating"),
-      "M.year"
-    )
-    .leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
-    .where("M.is_in_cinema", "=", true)
-    .groupBy("M.movie_id", "poster", "year")
-
+      .select(
+        "M.movie_id",
+        "M.title",
+        "M.poster",
+        db.raw("ROUND(AVG(rating),1)::int AS total_rating"),
+        "M.year"
+      )
+      .leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
+      .where("M.is_in_cinema", "=", true)
+      .groupBy("M.movie_id", "poster", "year");
   },
 
   async getInCinemas(movieId) {
     return db("Cinema AS C")
-    .select(
-      "C.cinema_id",
-      "C.name",
-      "C.city",
-      "C.location",
-      "IC.booking_link",
-
-    )
-    .leftJoin("In_Cinema AS IC", "IC.cinema_id", "C.cinema_id")
-    .where("IC.movie_id", "=", movieId,"M.is_deleted", "=", false)
-    .orderBy('C.name', 'desc')
-
+      .select(
+        "C.cinema_id",
+        "C.name",
+        "C.city",
+        "C.location",
+        "IC.booking_link"
+      )
+      .leftJoin("In_Cinema AS IC", "IC.cinema_id", "C.cinema_id")
+      .where("IC.movie_id", "=", movieId, "M.is_deleted", "=", false)
+      .orderBy("C.name", "desc");
   },
-
 
   async getComingSoonMovies(numberofmovies) {
     return db("Movie AS M")
-    .select(
-      "M.movie_id",
-      "M.title",
-      "M.poster",
-      "M.year",
-      db.raw("ROUND(AVG(rating),1)::int AS total_rating"),
-    )
-    .leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
-    .where("M.is_coming_soon", "=", true,"M.is_deleted", "=", false)
-    .leftJoin("Coming_soon AS CS", "M.movie_id", "CS.movie_id")
-    .groupBy("M.movie_id")
-    .min('CS.release_date')
-   
-
+      .select(
+        "M.movie_id",
+        "M.title",
+        "M.poster",
+        "M.year",
+        db.raw("ROUND(AVG(rating),1)::int AS total_rating")
+      )
+      .leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
+      .where("M.is_coming_soon", "=", true, "M.is_deleted", "=", false)
+      .leftJoin("Coming_soon AS CS", "M.movie_id", "CS.movie_id")
+      .groupBy("M.movie_id")
+      .min("CS.release_date");
   },
-
- 
-
-  
-
 
   async getMovieTitle(movieID) {
     let title = await db("Movie")
@@ -1537,197 +1526,188 @@ module.exports = {
 
   async searchForSmallLengthMovie(searchText) {
     return db("Movie As M")
-    .select(
-      'M.movie_id',
-      'M.title',
-      'M.poster',
-      'M.year',
-    db.raw("ROUND(AVG(rating),1)::int AS total_rating"),
-  )
-  .leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
-  .where("M.is_deleted", "=", false)
-  .whereRaw( 'LOWER(title)= ?' ,[`%${searchText.toLowerCase()}%`])
-  .groupBy("M.movie_id", "M.poster","M.title")
-  .orderBy("M.year", "desc")
-},
+      .select(
+        "M.movie_id",
+        "M.title",
+        "M.poster",
+        "M.year",
+        db.raw("ROUND(AVG(rating),1)::int AS total_rating")
+      )
+      .leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
+      .where("M.is_deleted", "=", false)
+      .whereRaw("LOWER(title)= ?", [`%${searchText.toLowerCase()}%`])
+      .groupBy("M.movie_id", "M.poster", "M.title")
+      .orderBy("M.year", "desc");
+  },
 
   async searchByExactMovieName(searchText) {
-        return db("Movie As M")
-        .select(
-          'M.movie_id',
-          'M.title',
-          'M.poster',
-          'M.year',
-        db.raw("ROUND(AVG(rating),1)::int AS total_rating"),
+    return db("Movie As M")
+      .select(
+        "M.movie_id",
+        "M.title",
+        "M.poster",
+        "M.year",
+        db.raw("ROUND(AVG(rating),1)::int AS total_rating")
       )
       .leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
       .where("M.is_deleted", "=", false)
-      .whereRaw( 'LOWER(title) LIKE LOWER(?)', [`%${searchText}%`])
-      .groupBy("M.movie_id", "M.poster","M.title")
-      .orderBy("M.year", "desc")
+      .whereRaw("LOWER(title) LIKE LOWER(?)", [`%${searchText}%`])
+      .groupBy("M.movie_id", "M.poster", "M.title")
+      .orderBy("M.year", "desc");
   },
   async searchSimilarMovies(searchText) {
-        return db("Movie As M")
-        .select(
-          'M.movie_id',
-          'M.title',
-          'M.poster',
-          'M.year',
-        db.raw("ROUND(AVG(rating),1)::int AS total_rating"),
+    return db("Movie As M")
+      .select(
+        "M.movie_id",
+        "M.title",
+        "M.poster",
+        "M.year",
+        db.raw("ROUND(AVG(rating),1)::int AS total_rating")
       )
       .leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
       .where("M.is_deleted", "=", false)
-      .whereRaw( 'LOWER(title) LIKE LOWER(?)', [`%${searchText}%`])
-      .groupBy("M.movie_id", "M.poster","M.title")
-      .orderBy("M.year", "desc")
-      
+      .whereRaw("LOWER(title) LIKE LOWER(?)", [`%${searchText}%`])
+      .groupBy("M.movie_id", "M.poster", "M.title")
+      .orderBy("M.year", "desc");
   },
 
   async searchByDirector(searchText) {
+    return (
+      db("Movie As M")
+        .select(
+          "M.movie_id",
+          "M.title",
+          "M.poster",
+          "M.year",
+          db.raw("ROUND(AVG(rating),1)::int AS total_rating")
+        )
+        .where("M.is_deleted", "=", false)
+        .leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
+
+        .leftJoin("Movie_Director AS MD", "MD.movie_id", "M.movie_id")
+        .leftJoin("Director AS D", "D.director_id", "MD.director_id")
+        //.where("D.director","=",searchText)
+        .whereRaw("LOWER(director) LIKE LOWER(?)", [`%${searchText}%`])
+        .groupBy("M.movie_id", "M.poster", "M.title")
+        .orderBy("M.year", "desc")
+    );
+  },
+  async searchForSmallLengthDirector(searchText) {
     return db("Movie As M")
-        .select(
-          'M.movie_id',
-          'M.title',
-          'M.poster',
-          'M.year',
-         db.raw("ROUND(AVG(rating),1)::int AS total_rating"),
+      .select(
+        "M.movie_id",
+        "M.title",
+        "M.poster",
+        "M.year",
+        db.raw("ROUND(AVG(rating),1)::int AS total_rating")
       )
       .where("M.is_deleted", "=", false)
-     .leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
-    
-    .leftJoin("Movie_Director AS MD", "MD.movie_id", "M.movie_id")
-    .leftJoin("Director AS D", "D.director_id", "MD.director_id")
-    //.where("D.director","=",searchText)
-     .whereRaw( 'LOWER(director) LIKE LOWER(?)', [`%${searchText}%`])
-     .groupBy("M.movie_id", "M.poster","M.title")
-     .orderBy("M.year", "desc")
-   
-},
-async searchForSmallLengthDirector(searchText) {
-  return db("Movie As M")
+      .leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
+
+      .leftJoin("Movie_Director AS MD", "MD.movie_id", "M.movie_id")
+      .leftJoin("Director AS D", "D.director_id", "MD.director_id")
+      .whereRaw("LOWER(director)= ?", [`%${searchText.toLowerCase()}%`])
+      .groupBy("M.movie_id", "M.poster", "M.title")
+      .orderBy("M.year", "desc");
+  },
+
+  async searchByWriter(searchText) {
+    return (
+      db("Movie As M")
         .select(
-          'M.movie_id',
-          'M.title',
-          'M.poster',
-          'M.year',
-         db.raw("ROUND(AVG(rating),1)::int AS total_rating"),
+          "M.movie_id",
+          "M.title",
+          "M.poster",
+          "M.year",
+          db.raw("ROUND(AVG(rating),1)::int AS total_rating")
+        )
+        .leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
+        .where("M.is_deleted", "=", false)
+        .leftJoin("Movie_Writer AS MW", "MW.movie_id", "M.movie_id")
+        .leftJoin("Writer AS W", "W.writer_id", "MW.writer_id")
+        // .where("W.writer","=",searchText)
+        .whereRaw("LOWER(writer) LIKE LOWER(?)", [`%${searchText}%`])
+        .groupBy("M.movie_id", "M.poster", "M.title")
+        .orderBy("M.year", "desc")
+    );
+  },
+
+  async searchForSmallLengthWriter(searchText) {
+    return db("Movie As M")
+      .select(
+        "M.movie_id",
+        "M.title",
+        "M.poster",
+        "M.year",
+        db.raw("ROUND(AVG(rating),1)::int AS total_rating")
       )
+      .leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
       .where("M.is_deleted", "=", false)
-     .leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
-    
-    .leftJoin("Movie_Director AS MD", "MD.movie_id", "M.movie_id")
-    .leftJoin("Director AS D", "D.director_id", "MD.director_id")
-    .whereRaw( 'LOWER(director)= ?' ,[`%${searchText.toLowerCase()}%`])
-     .groupBy("M.movie_id", "M.poster","M.title")
-     .orderBy("M.year", "desc")
-},
+      .leftJoin("Movie_Writer AS MW", "MW.movie_id", "M.movie_id")
+      .leftJoin("Writer AS W", "W.writer_id", "MW.writer_id")
+      .whereRaw("LOWER(writer)= ?", [`%${searchText.toLowerCase()}%`])
+      .groupBy("M.movie_id", "M.poster", "M.title")
+      .orderBy("M.year", "desc");
+  },
 
-async searchByWriter(searchText) {
-  return db("Movie As M")
-        .select(
-          'M.movie_id',
-          'M.title',
-          'M.poster',
-          'M.year',
-        db.raw("ROUND(AVG(rating),1)::int AS total_rating"),
+  async searchByActor(searchText) {
+    return db("Movie As M")
+      .select(
+        "M.movie_id",
+        "M.title",
+        "M.poster",
+        "M.year",
+        db.raw("ROUND(AVG(rating),1)::int AS total_rating")
       )
-  .leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
-  .where("M.is_deleted", "=", false)
-  .leftJoin("Movie_Writer AS MW", "MW.movie_id", "M.movie_id")
-  .leftJoin("Writer AS W", "W.writer_id", "MW.writer_id")
- // .where("W.writer","=",searchText)
-  .whereRaw( 'LOWER(writer) LIKE LOWER(?)', [`%${searchText}%`])
-  .groupBy("M.movie_id", "M.poster","M.title")
-  .orderBy("M.year", "desc")
-},
+      .leftJoin("Rating AS Rate", "M.movie_id", "Rate.movie_id")
+      .where("M.is_deleted", "=", false)
+      .leftJoin("Role AS R", "M.movie_id", "R.movie_id")
+      .leftJoin("Actor AS A", "A.actor_id", "R.actor_id")
+      .whereRaw("LOWER(actor) LIKE LOWER(?)", [`%${searchText}%`])
+      .groupBy("M.movie_id", "M.poster", "M.title")
+      .orderBy("M.year", "desc");
+  },
 
-async searchForSmallLengthWriter(searchText) {
-  return db("Movie As M")
-  .select(
-    'M.movie_id',
-    'M.title',
-    'M.poster',
-    'M.year',
-  db.raw("ROUND(AVG(rating),1)::int AS total_rating"),
-)
-.leftJoin("Rating AS R", "M.movie_id", "R.movie_id")
-.where("M.is_deleted", "=", false)
-.leftJoin("Movie_Writer AS MW", "MW.movie_id", "M.movie_id")
-.leftJoin("Writer AS W", "W.writer_id", "MW.writer_id")
-.whereRaw( 'LOWER(writer)= ?' ,[`%${searchText.toLowerCase()}%`])
-.groupBy("M.movie_id", "M.poster","M.title")
-.orderBy("M.year", "desc")
+  async searchForSmallLengthActor(searchText) {
+    return db("Movie As M")
+      .select(
+        "M.title",
+        "M.poster",
+        "M.year",
+        db.raw("ROUND(AVG(rating),1)::int AS total_rating")
+      )
+      .leftJoin("Rating AS Rate", "M.movie_id", "Rate.movie_id")
+      .where("M.is_deleted", "=", false)
+      .leftJoin("Role AS R", "M.movie_id", "R.movie_id")
+      .leftJoin("Actor AS A", "A.actor_id", "R.actor_id")
+      .whereRaw("LOWER(actor) =?", [`%${searchText.toLowerCase()}%`])
+      .groupBy("M.movie_id", "M.poster", "M.title")
+      .orderBy("M.year", "desc");
+  },
+  async searchOptions(searchType) {
+    if (searchType == "Movie") {
+      return db("Movie").select("*");
+    }
+    if (searchType == "Actor") {
+      return db("Actor").select("*");
+    }
+    if (searchType == "Director") {
+      return db("Director").select("*");
+    }
 
-},
+    if (searchType == "Writer") {
+      return db("Writer").select("*");
+    }
+  },
 
-async searchByActor(searchText) {
-  return db("Movie As M")
-  .select(
-    'M.title',
-    'M.poster',
-    'M.year',
-  db.raw("ROUND(AVG(rating),1)::int AS total_rating"),
-)
-.leftJoin("Rating AS Rate", "M.movie_id", "Rate.movie_id")
-.where("M.is_deleted", "=", false)
-  .leftJoin("Role AS R", "M.movie_id", "R.movie_id")
-  .leftJoin("Actor AS A", "A.actor_id", "R.actor_id")
-  .whereRaw( 'LOWER(actor) LIKE LOWER(?)', [`%${searchText}%`])
-  .groupBy("M.movie_id", "M.poster","M.title")
-  .orderBy("M.year", "desc")
-},
-
-async searchForSmallLengthActor(searchText) {
-  return db("Movie As M")
-  .select(
-    'M.title',
-    'M.poster',
-    'M.year',
-  db.raw("ROUND(AVG(rating),1)::int AS total_rating"),
-)
-.leftJoin("Rating AS Rate", "M.movie_id", "Rate.movie_id")
-.where("M.is_deleted", "=", false)
-  .leftJoin("Role AS R", "M.movie_id", "R.movie_id")
-  .leftJoin("Actor AS A", "A.actor_id", "R.actor_id")
-  .whereRaw( 'LOWER(actor) =?',[`%${searchText.toLowerCase()}%`])
-  .groupBy("M.movie_id", "M.poster","M.title")
-  .orderBy("M.year", "desc")
-},
-async searchOptions(searchType) {
-  if (searchType=="Movie")
-  {
-    return db("Movie")
-    .select('*')
-  }
-  if (searchType=="Actor")
-  {
-    return db("Actor")
-    .select('*')
-  }
-  if (searchType=="Director")
-  {
-    return db("Director")
-    .select('*')
-  }
-
-  if (searchType=="Writer")
-  {
-    return db("Writer")
-    .select('*')
-  }
-  
-},
-
-async getReviews(movie_id) {
-  return db("Review AS R")
-    .select(["review", "username", "review_id"])
-    .where({
-      movie_id: movie_id,
-      is_deleted: false,
-    })
-    .leftJoin("User AS U", "R.user_id", "U.user_id")
-    .orderBy("created_at", "desc");
-},
-
+  async getReviews(movie_id) {
+    return db("Review AS R")
+      .select(["review", "username", "review_id"])
+      .where({
+        movie_id: movie_id,
+        is_deleted: false,
+      })
+      .leftJoin("User AS U", "R.user_id", "U.user_id")
+      .orderBy("created_at", "desc");
+  },
 };
-
