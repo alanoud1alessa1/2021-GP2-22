@@ -20,6 +20,9 @@ from sqlalchemy import false
 from functools import reduce 
 from rake_nltk import Rake 
 import re 
+import nltk
+nltk.download('punkt')
+
 
 
 

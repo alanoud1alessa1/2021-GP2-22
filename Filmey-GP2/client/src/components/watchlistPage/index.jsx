@@ -228,10 +228,14 @@ const watchlistPage = (props) => {
                 >
                   <BsFillBookmarkCheckFill size={60} />{" "}
                 </button> */}
+                
                 <div>
                   <button
                   className="watchlistBookMarkCheck"
-                  onClick={removeFromWatchlist}
+                  // onClick={ removeFromWatchlist(x.movie_id)}
+                  onClick={() => {
+                    removeFromWatchlist(x.movie_id);
+                  }}
                   aria-owns={removeIsOpen ? "mouse-over-popover" : undefined}
                   aria-haspopup="true"
                   onMouseEnter={removePopoverOpen}
@@ -242,7 +246,10 @@ const watchlistPage = (props) => {
 
                   <button
                     className="watch-list"
-                    onClick={removeFromWatchlist}
+                    onClick={() => {
+                      removeFromWatchlist(x.movie_id);
+                    }}
+                    // onClick={ removeFromWatchlist(x.movie_id)}
                     aria-owns={removeIsOpen ? "mouse-over-popover" : undefined}
                     aria-haspopup="true"
                     onMouseEnter={removePopoverOpen}

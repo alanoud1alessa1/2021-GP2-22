@@ -705,7 +705,7 @@ router.get(
       var results2=''
       if (searchType=="Movie")
       {
-        var string=removeStopwords(searchText.split(' ')).toString().replaceAll(","," ")
+        var string=removeStopwords(searchText.split(' ')).toString().replace(","," ")
         if (searchText.length<3)
         {
           results = await queries.searchForSmallLengthMovie(searchText);
