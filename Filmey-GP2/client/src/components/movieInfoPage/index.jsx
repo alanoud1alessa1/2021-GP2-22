@@ -1859,7 +1859,7 @@ const MovieInfo = (props) => {
             {runCallback(() => {
               const row = [];
 
-              for (var i = 0; i < 21; i++) {
+              for (var i = 0; i < 20; i++) {
                 const id = movieIds[i];
                 const url = `/movieInfoPage/${id}`;
                 const poster = Allposters[i];

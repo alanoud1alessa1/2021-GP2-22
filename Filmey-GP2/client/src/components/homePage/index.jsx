@@ -444,7 +444,7 @@ const Home = (props) => {
               {runCallback(() => {
                 const row = [];
 
-                for (var i = 0; i < 10; i++) {
+                for (var i = 0; i < 20; i++) {
                   const id = recommendedmovieIds[i];
                   const url = `/movieInfoPage/${id}`;
                   const poster = recommendedmoviePosters[i];
