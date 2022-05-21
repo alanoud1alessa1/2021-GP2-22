@@ -147,8 +147,8 @@ def checkThreshold():
     if(numOfUserRatings > 20):
         result[0] = True
 
-    if(numberOrRatingsInModel < 20):
-        result[1] = True
+    # if(numberOrRatingsInModel < 20):
+    #     result[1] = True
 
     return jsonify(result)
 
