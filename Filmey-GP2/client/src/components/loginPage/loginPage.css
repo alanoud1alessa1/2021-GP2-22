@@ -55,6 +55,27 @@
     font-size: 16px;
   }
   .login-box {
-    width: 100% !important;
+    width: 60% !important;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .welcome-back {
+    font-size: 18px;
+  }
+  .register-link {
+    font-size: 20px;
+  }
+  .input-label {
+    font-size: 18px;
+  }
+  .forget-password {
+    font-size: 16px;
+  }
+  .login-box {
+    width: 85% !important;
+  }
+  .login-input::placeholder{
+    font-size: 15px;
   }
 }

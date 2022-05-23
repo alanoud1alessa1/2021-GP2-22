@@ -186,6 +186,14 @@
     font-size: 20px;
   }
 }
+
+@media only screen and (max-width: 480px) {
+  .edit-movie-form-btn {
+    width: 40%;
+  }
+}
+
+
 @media only screen and (max-width: 320px) {
   .movieYearBox,
   .movieAgeGuideBox {

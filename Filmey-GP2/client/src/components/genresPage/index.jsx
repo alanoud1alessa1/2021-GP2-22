@@ -312,7 +312,7 @@ const Genres = () => {
             className="viewMoreBtn neuton-bold-white-30px"
             onClick={refreashPage}
           >
-            View more ..
+            View more..
           </button>
         )}
       </Container>

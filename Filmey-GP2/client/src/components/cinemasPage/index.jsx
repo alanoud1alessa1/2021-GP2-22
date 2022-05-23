@@ -33,7 +33,7 @@ const cinemasPage = (props) => {
                     <img className="cinema-logo" src={amcLogo} />
                   </a>
                 </div>
-                <div className="cinema-description p-3 my-2">
+                <div className="cinema-description p-4 my-2">
                   <p className="roboto-normal-white-20px">
                   <strong> AMC Cinemas </strong> is dedicated to innovating
                     the way you see movies. Don’t just visit a cinema;

@@ -817,6 +817,8 @@ const movieForm = (props) => {
         ageGuideArray[i] = { value: i, label: response.data[i].age_guide };
       }
       setallAgeGuide(ageGuideArray);
+      consloe.log("ageGuideArray",ageGuideArray)
+
     });
 
     const res3 = api.get("/movies/allDirectors/1").then((response) => {
@@ -2529,7 +2531,7 @@ const movieForm = (props) => {
                   <p className="movie-form-error nunito-normal-river-bed-50px">
                     <strong>
                       {repeatedActorImage[2]} {movieActorImage_error_message[2]}{" "}
-                      {actor2ImageURLErrorMessage}
+                      {actor3ImageURLErrorMessage}
                     </strong>
                   </p>
                 </div>
@@ -2552,7 +2554,7 @@ const movieForm = (props) => {
                   <p className="movie-form-error nunito-normal-river-bed-50px">
                     <strong>
                       {repeatedActorImage[3]} {movieActorImage_error_message[3]}{" "}
-                      {actor2ImageURLErrorMessage}
+                      {actor4ImageURLErrorMessage}
                     </strong>
                   </p>
                 </div>
@@ -2575,7 +2577,7 @@ const movieForm = (props) => {
                   <p className="movie-form-error nunito-normal-river-bed-50px">
                     <strong>
                       {repeatedActorImage[4]} {movieActorImage_error_message[4]}{" "}
-                      {actor2ImageURLErrorMessage}
+                      {actor5ImageURLErrorMessage}
                     </strong>
                   </p>
                 </div>
@@ -2604,7 +2606,6 @@ const movieForm = (props) => {
           </div>
         </Container>
       </div>
-      {/* main content  */}
       {/* footer  */}
       <Footer />
     </div>

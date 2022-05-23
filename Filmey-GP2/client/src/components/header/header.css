@@ -255,9 +255,7 @@
     border-radius: 0.25rem;
     transition: box-shadow 0.15s ease-in-out;
   }
-  .searchText{
-    font-size:10px;
-  }
+  
 }
 @media only screen and (max-width: 380px) {
   .headerLogo {

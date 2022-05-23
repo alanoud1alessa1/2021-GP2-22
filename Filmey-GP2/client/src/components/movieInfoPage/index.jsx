@@ -1781,7 +1781,6 @@ const MovieInfo = (props) => {
           </div>
           {/* reviews  */}
           <div className="mt-5">
-            <div className="review-section">
               <Slider {...review}>
                 {reviews.length > 0 ? (
                   reviews.map((x) => (
@@ -1845,7 +1844,6 @@ const MovieInfo = (props) => {
                   </div>
                 )}
               </Slider>
-            </div>
           </div>
         </div>
       </Container>
@@ -1863,7 +1861,6 @@ const MovieInfo = (props) => {
                 const id = movieIds[i];
                 const url = `/movieInfoPage/${id}`;
                 const poster = Allposters[i];
-                //const poster = "/img/moviePoster.jpg";
                 const title = movieTitles[i];
                 var rating = totalRatings[i];
                 if (rating == 0) {
@@ -1901,7 +1898,6 @@ const MovieInfo = (props) => {
           </Slider>
         </div>
       </Container>
-      {/* main content  */}
 
       {/* footer  */}
       <Footer />
