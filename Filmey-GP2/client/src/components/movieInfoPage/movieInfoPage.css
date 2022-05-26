@@ -581,12 +581,34 @@
 
 @media only screen and (max-width: 1440px) {
   .cenima-show-time {
+    left: 60px;
+    font-size: 20px;
+  }
+  .trailer {
+    font-size: 25px;
+    margin-left: 45px;
+  }
+}
+
+@media only screen and (max-width: 1420px) {
+  .cenima-show-time {
     left: 40px;
     font-size: 20px;
   }
   .trailer {
     font-size: 25px;
     margin-left: 40px;
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .cenima-show-time {
+    left: 55px;
+    font-size: 20px;
+  }
+  .trailer {
+    font-size: 20px;
+    margin-left: 15px;
   }
 }
 

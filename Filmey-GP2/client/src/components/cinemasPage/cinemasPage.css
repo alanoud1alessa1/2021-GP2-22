@@ -15,10 +15,10 @@
   margin: auto;
 }
 .cinema-logo {
-  width: 70%;
+  width: 100%;
 }
 .cinema-logo-vox {
-  width: 25%;
+  width: 35%;
 }
 .cinema-description {
   text-align: justify;
@@ -42,12 +42,50 @@
   transform: translate(0,-5px) !important;
 }
 
+
+@media only screen and (min-width: 1024px) {
+  .cinema-logo-box{
+    width: 200px;
+    height: 50px;
+    /* margin-left: 55px; */
+    margin:auto;
+    margin-bottom: 30px;
+    margin-top: 20px;
+    align-items: center;
+    align-self: center;
+    display: flex;
+  }
+  .read-more-btn-box{
+    width: 166px;
+    height: 50px;
+    align-items: center;
+    align-self: center;
+    display: flex;
+    bottom: 0px;
+    margin-top: 10px;
+    align-content: center;
+    margin:auto;
+  }
+  .cinema-description {
+    margin-bottom: 100px;
+    margin-top: 0px;
+    align-items: center;
+    align-self: center;
+  }
+}
+
 @media only screen and (max-width: 768px) {
   .cinema-description {
     min-height: inherit;
   }
   .read-more-btn {
     font-size: 18px;
+  }
+  .cinema-logo {
+    width: 70%;
+  }
+  .cinema-logo-vox {
+    width: 25%;
   }
 }
 

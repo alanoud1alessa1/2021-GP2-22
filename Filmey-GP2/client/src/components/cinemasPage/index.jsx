@@ -28,7 +28,7 @@ const cinemasPage = (props) => {
           <Row className="g-4">
             <Col md={6} lg={4}>
               <div className="cinema-box">
-                <div>
+               <div className="cinema-logo-box">
                   <a href="https://www.amctheatres.com/" target="_blank">
                     <img className="cinema-logo" src={amcLogo} />
                   </a>
@@ -47,7 +47,7 @@ const cinemasPage = (props) => {
                     recliners. Come and enjoy . . .
                   </p>
                 </div>
-                <div>
+                <div className="read-more-btn-box">
                   <Link  to="/cinemaInfoPage/amc">
                     <button className="read-more-btn"> 
                     <strong>Read more..</strong>
@@ -58,7 +58,7 @@ const cinemasPage = (props) => {
             </Col>
             <Col md={6} lg={4}>
               <div className="cinema-box">
-                <div>
+                <div className="cinema-logo-box">
                   <a href="https://www.muvicinemas.com/en" target="_blank">
                     <img className="cinema-logo" src={muviLogo} />
                   </a>
@@ -76,7 +76,7 @@ const cinemasPage = (props) => {
                     complete and exceptional cinema experience . . .
                   </p>
                 </div>
-                <div>
+                <div className="read-more-btn-box">
                   <Link to="/cinemaInfoPage/muvi">
                     <button className="read-more-btn"> 
                     <strong>Read more..</strong>
@@ -87,7 +87,7 @@ const cinemasPage = (props) => {
             </Col>
             <Col md={6} lg={4}>
               <div className="cinema-box">
-                <div>
+                <div className="cinema-logo-box">
                   <a href="https://ksa.voxcinemas.com/" target="_blank">
                     <img className="cinema-logo-vox" src={voxwhite} />
                   </a>
@@ -105,7 +105,7 @@ const cinemasPage = (props) => {
                     Kingdom. VOX Cinemas parent company Majid Al Futtaim . . .
                   </p>
                 </div>
-                <div>
+                <div className="read-more-btn-box">
                   <Link  to="/cinemaInfoPage/vox">
                      <button className="read-more-btn"> 
                      <strong>Read more..</strong>

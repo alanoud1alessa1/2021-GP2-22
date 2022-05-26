@@ -175,7 +175,7 @@ const watchlistPage = (props) => {
                               .default
                           }   
                          />
-                        {x.total_rating != null ? (
+                        {x.total_rating != "0.0" ? (
                           <div className="movieRating neuton-bold-white-30px">
                             {x.total_rating}
                           </div>
@@ -215,24 +215,10 @@ const watchlistPage = (props) => {
                     Remove from watchlist{" "}
                   </div>
                 </Popover>
-
-                {/* <button
-                  className="watch-list"
-                  onClick={() => {
-                    removeFromWatchlist(x.movie_id);
-                  }}
-                  aria-owns={removeIsOpen ? "mouse-over-popover" : undefined}
-                  aria-haspopup="true"
-                  onMouseEnter={removePopoverOpen}
-                  onMouseLeave={removePopoverClose}
-                >
-                  <BsFillBookmarkCheckFill size={60} />{" "}
-                </button> */}
                 
                 <div>
                   <button
                   className="watchlistBookMarkCheck"
-                  // onClick={ removeFromWatchlist(x.movie_id)}
                   onClick={() => {
                     removeFromWatchlist(x.movie_id);
                   }}
@@ -249,7 +235,6 @@ const watchlistPage = (props) => {
                     onClick={() => {
                       removeFromWatchlist(x.movie_id);
                     }}
-                    // onClick={ removeFromWatchlist(x.movie_id)}
                     aria-owns={removeIsOpen ? "mouse-over-popover" : undefined}
                     aria-haspopup="true"
                     onMouseEnter={removePopoverOpen}
