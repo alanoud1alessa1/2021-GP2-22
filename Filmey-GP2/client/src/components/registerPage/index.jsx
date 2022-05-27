@@ -97,10 +97,13 @@ const registerPage = (props) => {
       "Horror",
     ];
 
-    for (var i = 0; i < 10; i++) {
-      genresArray[i] = { value: i, label: allGens[i] };
-    }
-    setAllGenres(genresArray);
+    api.get("movies/allGenres/:id").then((response) => { 
+      for (var i = 0; i < response.data.length; i++) {
+        genresArray[i] = { value: i, label: response.data[i].genre };
+      }
+      setAllGenres(genresArray);
+    })
+
   }, []);
 
   const Register = () => {
