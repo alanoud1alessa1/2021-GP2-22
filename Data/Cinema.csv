@@ -1,0 +1,48 @@
+cinema_id,name,city,location
+1,amc,Al Khobar,AMC Ajdan Walk 9
+2,amc,Riyadh,AMC Riyadh Gallery 9
+3,amc,Riyadh,AMC Al Khair 9
+4,amc,Riyadh,AMC Panorama Mall 10
+5,amc,Riyadh,AMC Azizia Plaza 3
+6,amc,Jeddah,AMC Stars Avenue 9
+7,muvi,Dammam,Nakheel Mall
+8,muvi,Dhahran,Mall of Dhahran
+9,muvi,Hofuf,Al Ahsa Mall
+10,muvi,Jeddah,Mall of Arabia
+11,muvi,Jeddah,Aziz Mall
+12,muvi,Jeddah,Atelier La Vie
+13,muvi,Jeddah,Haifa Mall
+14,muvi,Jeddah,Al-Yasmin Mall
+15,muvi,Jubail,Jubail Mall
+16,muvi,Khamis M,Mujan Park  - Khamis
+17,muvi,Qassim,The Boulevard Unaizah
+18,muvi,Qassim,Nakheel Plaza Buraydah
+19,muvi,Riyadh,Boulevard Riyadh City
+20,muvi,Riyadh,The View
+21,muvi,Riyadh,Salaam Mall
+22,muvi,Riyadh,muvi Boutique - Tala Mall
+23,muvi,Riyadh,Al Hamra Mall
+24,muvi,Riyadh,Nakheel Mall
+25,muvi,Riyadh,U Walk
+26,muvi,Riyadh,Diriyah Biennale
+27,vox,riyadh,al-qasr-mall
+28,vox,riyadh,atyaf-mall
+29,vox,hail,hail-square
+30,vox,jubail,jubail-galleria-mall
+31,vox,riyadh,kingdom-centre
+32,vox,jeddah,red-sea-mall
+33,vox,riyadh,riyadh-front
+34,vox,riyadh,riyadh-park
+35,vox,riyadh,sahara-mall
+36,vox,tabuk,tabuk-park
+37,vox,riyadh,the-esplanade
+38,vox,riyadh,the-roof
+39,vox,riyadh,"the-spot,-sheikh-jaber"
+40,vox,jeddah,town-square
+41,vox,dammam,west-avenue-mall
+42,amc,Riyadh,AMC King Abdullah Financial District 1
+43,amc,AlMajmaah,AMC Karam 5
+44,amc,AlDawadmi,AMC Dawadmi 3
+45,amc,Hafr AlBatin,AMC Hafr Al Batin 8
+46,muvi,Riyadh,Drive-In
+47,muvi,Riyadh,Park Avenue
